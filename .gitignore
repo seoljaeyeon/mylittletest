@@ -25,7 +25,6 @@
 # Sensitive information files
 src/main/resources/application.properties
 src/main/resources/application.yml
-src/main/resources/root-context.xml
 
 # Operating system files
 .DS_Store
