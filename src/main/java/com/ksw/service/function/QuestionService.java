@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ksw.dao.combined.QuestionMapper;
 import com.ksw.dao.object.CategoryRepository;
 import com.ksw.dao.object.FileRepository;
 import com.ksw.dao.object.NoteRepository;
@@ -23,6 +24,7 @@ import com.ksw.object.entity.jpa.Note;
 import com.ksw.object.entity.jpa.User;
 import com.ksw.object.vo.combined.QuestionVO;
 import com.ksw.object.vo.object.FileVO;
+import com.ksw.object.vo.object.ReplyVO;
 import com.ksw.service.forObject.object.CategoryService;
 import com.ksw.service.forObject.object.FileService;
 import com.ksw.service.forObject.object.NoteService;
@@ -51,6 +53,9 @@ public class QuestionService {
 
 	@Autowired
 	private NoteUserMapper noteUserMapper;
+	
+	@Autowired
+	private QuestionMapper questionMapper;
 
 	@Autowired
 	private NoteService noteService;
@@ -64,7 +69,7 @@ public class QuestionService {
 	@Autowired
 	private UserService userService;
 
-	public QuestionVO convertToWriteVO(QuestionDTO questionDTO) {
+	public QuestionVO convertTVO(QuestionDTO questionDTO) {
 		QuestionVO.Builder builder = new QuestionVO.Builder();
 
 		builder.noteVO(noteService.convertToVO(questionDTO.getNoteDTO()))
@@ -122,4 +127,22 @@ public class QuestionService {
 		
 		return questionVO;
 	};
+	
+    @Transactional(readOnly = true)
+    public QuestionVO getQuestionByNoteNo(int noteNo) {
+        UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo);
+        CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
+        NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
+        FileDTO fileDTO = questionMapper.getFileByNoteNo(noteNo);
+        ReplyVO replyVO = questionMapper.getReplyByNoteNo(noteNo);
+
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setUserDTO(userDTO);
+        questionDTO.setCategoryDTO(categoryDTO);
+        questionDTO.setNoteDTO(noteDTO);
+        questionDTO.setFileDTO(fileDTO);
+        questionDTO.setReplyDTO(replyVO);
+
+        return this.convertTVO(questionDTO);
+    }
 }
