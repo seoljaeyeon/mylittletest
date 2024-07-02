@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ksw.dto.forUtil.LoginDTO;
 import com.ksw.object.vo.UserVO;
-import com.ksw.service.UserService;
+import com.ksw.service.object.UserService;
 
 @Controller
 public class LoginController {
@@ -24,16 +24,19 @@ public class LoginController {
 		return "login";
 	}
 	
-	@PostMapping("/login")
-	public String login(@ModelAttribute LoginDTO loginDTO, Model model, HttpSession session) {
-		UserVO userVO = userService.login(loginDTO);
-		
-		if (userVO != null) {
-			session.setAttribute("user", userVO);
-			return "redirect:/index";
-		} else {
-			model.addAttribute("error", "계정정보 불일치");
-			return "login";
-		}
-	};
+	/*
+	 * 로그인 기능은 Spring Security를 통해서 구현했습니다. 
+	 * 
+	 * 모든 Form의 아래에 이 태그를 넣어주세요.
+	 * <sec:csrfInput />
+	 * 
+	 * 예시)
+	 * <form method="post" action="/login">
+	 *     <sec:csrfInput />
+	 *     <input...  />
+	 * </form>
+	 * 
+	 */
+	
+	
 }

@@ -7,7 +7,7 @@ public class AnnouncementDTO {
     private Integer announcementNo;
     private String announcementTitle;
     private String announcementContent;
-    private String schedule;
+    private Timestamp schedule;
     private Boolean isActive;
     private Timestamp createdAt;
     private Timestamp updatedAt;
@@ -40,11 +40,11 @@ public class AnnouncementDTO {
         this.announcementContent = announcementContent;
     }
 
-    public String getSchedule() {
+    public Timestamp getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(String schedule) {
+    public void setSchedule(Timestamp schedule) {
         this.schedule = schedule;
     }
 
@@ -77,7 +77,7 @@ public class AnnouncementDTO {
         private Integer announcementNo;
         private String announcementTitle;
         private String announcementContent;
-        private String schedule;
+        private Timestamp schedule;
         private Boolean isActive;
         private Timestamp createdAt;
         private Timestamp updatedAt;
@@ -97,7 +97,7 @@ public class AnnouncementDTO {
             return this;
         }
 
-        public Builder schedule(String schedule) {
+        public Builder schedule(Timestamp schedule) {
             this.schedule = schedule;
             return this;
         }

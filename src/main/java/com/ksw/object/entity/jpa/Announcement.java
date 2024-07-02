@@ -18,7 +18,7 @@ public class Announcement {
     private String announcementContent;
 
     @Column(nullable = false, length = 50)
-    private String schedule;
+    private Timestamp schedule;
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private Boolean isActive = true;
@@ -41,7 +41,7 @@ public class Announcement {
 		return announcementContent;
 	}
 
-	public String getSchedule() {
+	public Timestamp getSchedule() {
 		return schedule;
 	}
 
@@ -69,7 +69,7 @@ public class Announcement {
 		this.announcementContent = announcementContent;
 	}
 
-	public void setSchedule(String schedule) {
+	public void setSchedule(Timestamp schedule) {
 		this.schedule = schedule;
 	}
 

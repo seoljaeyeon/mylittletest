@@ -6,11 +6,8 @@ import java.util.Objects;
 public final class UserVO {
     private final Integer userNo;
     private final String userId;
-    private final String password;
     private final String nickname;
     private final String email;
-    private final Integer securityQuestion;
-    private final String securityAnswer;
     private final Boolean isActive;
     private final Integer type;
     private final Timestamp createdAt;
@@ -18,11 +15,8 @@ public final class UserVO {
     private UserVO(Builder builder) {
         this.userNo = builder.userNo;
         this.userId = builder.userId;
-        this.password = builder.password;
         this.nickname = builder.nickname;
         this.email = builder.email;
-        this.securityQuestion = builder.securityQuestion;
-        this.securityAnswer = builder.securityAnswer;
         this.isActive = builder.isActive;
         this.type = builder.type;
         this.createdAt = builder.createdAt;
@@ -36,24 +30,12 @@ public final class UserVO {
         return userId;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getNickname() {
         return nickname;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public Integer getSecurityQuestion() {
-        return securityQuestion;
-    }
-
-    public String getSecurityAnswer() {
-        return securityAnswer;
     }
 
     public Boolean getIsActive() {
@@ -75,11 +57,8 @@ public final class UserVO {
         UserVO userVO = (UserVO) o;
         return Objects.equals(userNo, userVO.userNo) &&
                 Objects.equals(userId, userVO.userId) &&
-                Objects.equals(password, userVO.password) &&
                 Objects.equals(nickname, userVO.nickname) &&
                 Objects.equals(email, userVO.email) &&
-                Objects.equals(securityQuestion, userVO.securityQuestion) &&
-                Objects.equals(securityAnswer, userVO.securityAnswer) &&
                 Objects.equals(isActive, userVO.isActive) &&
                 Objects.equals(type, userVO.type) &&
                 Objects.equals(createdAt, userVO.createdAt);
@@ -87,7 +66,7 @@ public final class UserVO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userNo, userId, password, nickname, email, securityQuestion, securityAnswer, isActive, type, createdAt);
+        return Objects.hash(userNo, userId, nickname, email, isActive, type, createdAt);
     }
 
     @Override
@@ -95,11 +74,8 @@ public final class UserVO {
         return "UserVO{" +
                 "userNo=" + userNo +
                 ", userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", email='" + email + '\'' +
-                ", securityQuestion=" + securityQuestion +
-                ", securityAnswer='" + securityAnswer + '\'' +
                 ", isActive=" + isActive +
                 ", type=" + type +
                 ", createdAt=" + createdAt +
@@ -109,11 +85,8 @@ public final class UserVO {
     public static class Builder {
         private Integer userNo;
         private String userId;
-        private String password;
         private String nickname;
         private String email;
-        private Integer securityQuestion;
-        private String securityAnswer;
         private Boolean isActive;
         private Integer type;
         private Timestamp createdAt;
@@ -128,11 +101,6 @@ public final class UserVO {
             return this;
         }
 
-        public Builder password(String password) {
-            this.password = password;
-            return this;
-        }
-
         public Builder nickname(String nickname) {
             this.nickname = nickname;
             return this;
@@ -140,16 +108,6 @@ public final class UserVO {
 
         public Builder email(String email) {
             this.email = email;
-            return this;
-        }
-
-        public Builder securityQuestion(Integer securityQuestion) {
-            this.securityQuestion = securityQuestion;
-            return this;
-        }
-
-        public Builder securityAnswer(String securityAnswer) {
-            this.securityAnswer = securityAnswer;
             return this;
         }
 

@@ -7,6 +7,7 @@ public final class NoteVO {
     private final Integer noteNo;
     private final String noteTitle;
     private final String noteContent;
+    private final String noteCommentary;
     private final String noteHint;
     private final String noteAnswer;
     private final Boolean isActive;
@@ -17,6 +18,7 @@ public final class NoteVO {
         this.noteNo = builder.noteNo;
         this.noteTitle = builder.noteTitle;
         this.noteContent = builder.noteContent;
+        this.noteCommentary = builder.noteCommentary;
         this.noteHint = builder.noteHint;
         this.noteAnswer = builder.noteAnswer;
         this.isActive = builder.isActive;
@@ -35,6 +37,10 @@ public final class NoteVO {
     public String getNoteContent() {
         return noteContent;
     }
+    
+    public String getNoteCommentary() {
+		return noteCommentary;
+	}
 
     public String getNoteHint() {
         return noteHint;
@@ -64,6 +70,7 @@ public final class NoteVO {
         return Objects.equals(noteNo, noteVO.noteNo) &&
                 Objects.equals(noteTitle, noteVO.noteTitle) &&
                 Objects.equals(noteContent, noteVO.noteContent) &&
+                Objects.equals(noteCommentary, noteVO.noteCommentary) &&
                 Objects.equals(noteHint, noteVO.noteHint) &&
                 Objects.equals(noteAnswer, noteVO.noteAnswer) &&
                 Objects.equals(isActive, noteVO.isActive) &&
@@ -73,15 +80,16 @@ public final class NoteVO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteNo, noteTitle, noteContent, noteHint, noteAnswer, isActive, createdAt, updatedAt);
+        return Objects.hash(noteNo, noteTitle, noteContent, noteCommentary, noteHint, noteAnswer, isActive, createdAt, updatedAt);
     }
 
-    @Override
+	@Override
     public String toString() {
         return "NoteVO{" +
                 "noteNo=" + noteNo +
                 ", noteTitle='" + noteTitle + '\'' +
                 ", noteContent='" + noteContent + '\'' +
+                ", noteCommentary='" + noteCommentary + '\'' +
                 ", noteHint='" + noteHint + '\'' +
                 ", noteAnswer='" + noteAnswer + '\'' +
                 ", isActive=" + isActive +
@@ -94,6 +102,7 @@ public final class NoteVO {
         private Integer noteNo;
         private String noteTitle;
         private String noteContent;
+        private String noteCommentary;
         private String noteHint;
         private String noteAnswer;
         private Boolean isActive;
@@ -112,6 +121,11 @@ public final class NoteVO {
 
         public Builder noteContent(String noteContent) {
             this.noteContent = noteContent;
+            return this;
+        }
+        
+        public Builder noteCommentary(String noteCommentary) {
+            this.noteCommentary = noteCommentary;
             return this;
         }
 

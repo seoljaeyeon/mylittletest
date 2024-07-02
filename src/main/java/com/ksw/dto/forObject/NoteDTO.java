@@ -7,7 +7,9 @@ public class NoteDTO {
     private Integer noteNo;
     private String noteTitle;
     private String noteContent;
-    private String noteHint;
+    private String noteCommentary;
+
+	private String noteHint;
     private String noteAnswer;
     private Boolean isActive;
     private Timestamp createdAt;
@@ -80,10 +82,19 @@ public class NoteDTO {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public String getNoteCommentary() {
+		return noteCommentary;
+	}
+
+	public void setNoteCommentary(String noteCommentary) {
+		this.noteCommentary = noteCommentary;
+	}
+    
     public static class Builder {
         private Integer noteNo;
         private String noteTitle;
         private String noteContent;
+        private String noteCommentary;
         private String noteHint;
         private String noteAnswer;
         private Boolean isActive;
@@ -104,6 +115,12 @@ public class NoteDTO {
             this.noteContent = noteContent;
             return this;
         }
+        
+        public Builder noteCommentary(String noteCommentary) {
+            this.noteCommentary = noteCommentary;
+            return this;
+        }
+
 
         public Builder noteHint(String noteHint) {
             this.noteHint = noteHint;
@@ -135,6 +152,7 @@ public class NoteDTO {
             noteDTO.noteNo = this.noteNo;
             noteDTO.noteTitle = this.noteTitle;
             noteDTO.noteContent = this.noteContent;
+            noteDTO.noteCommentary = this.noteCommentary;
             noteDTO.noteHint = this.noteHint;
             noteDTO.noteAnswer = this.noteAnswer;
             noteDTO.isActive = this.isActive;
