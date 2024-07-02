@@ -1,5 +1,7 @@
 package com.ksw.mylittletest;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,11 +55,12 @@ public class QuestionController {
 			@ModelAttribute CategoryDTO categoryDTO,
 			@ModelAttribute UserDTO userDTO,
 			@RequestParam("file") MultipartFile file,
+			HttpSession session,
 			RedirectAttributes redirectAttributes) {
 
             try {
             	QuestionVO questionVO = questionService.noteWrite(noteDTO, file, categoryDTO, userDTO);
-            	redirectAttributes.addFlashAttribute("writeVO", questionVO);
+            	session.setAttribute("questionVO", questionVO);
                 redirectAttributes.addFlashAttribute("message", "Write successful!");
             } catch (Exception e) {
             	redirectAttributes.addFlashAttribute("error", "Write failed");
