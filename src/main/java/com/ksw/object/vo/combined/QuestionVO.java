@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.ksw.object.vo.object.CategoryVO;
 import com.ksw.object.vo.object.FileVO;
 import com.ksw.object.vo.object.NoteVO;
+import com.ksw.object.vo.object.ReplyVO;
 import com.ksw.object.vo.object.UserVO;
 
 public final class QuestionVO {
@@ -12,12 +13,14 @@ public final class QuestionVO {
     private final UserVO userVO;
     private final CategoryVO categoryVO;
     private final FileVO fileVO;
+    private final ReplyVO replyVO;
 
     private QuestionVO(Builder builder) {
         this.noteVO = builder.noteVO;
         this.userVO = builder.userVO;
         this.categoryVO = builder.categoryVO;
         this.fileVO = builder.fileVO;
+        this.replyVO = builder.replyVO;
     }
 
     public NoteVO getNoteVO() {
@@ -67,6 +70,7 @@ public final class QuestionVO {
         private UserVO userVO;
         private CategoryVO categoryVO;
         private FileVO fileVO;
+        private ReplyVO	replyVO;
 
         public Builder noteVO(NoteVO noteVO) {
             this.noteVO = noteVO;
@@ -85,6 +89,11 @@ public final class QuestionVO {
 
         public Builder fileVO(FileVO fileVO) {
             this.fileVO = fileVO;
+            return this;
+        }
+        
+        public Builder replyVO(ReplyVO replyVO) {
+            this.replyVO = replyVO;
             return this;
         }
 

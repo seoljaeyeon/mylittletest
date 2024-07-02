@@ -87,7 +87,6 @@ public class QuestionService {
 		
 			Note note = noteService.convertToEntity(noteDTO);
 			Category category = categoryService.convertToEntity(categoryDTO);
-			User user = userService.convertToEntity(userDTO);
 
 			noteRepository.save(note);
 			categoryRepository.save(category);
@@ -115,4 +114,12 @@ public class QuestionService {
 		
 		return questionVO; 
 	}
+	
+	@Transactional
+	public QuestionVO noteRead(Integer noteNo) {
+		QuestionVO questionVO = null;
+		
+		
+		return questionVO;
+	};
 }

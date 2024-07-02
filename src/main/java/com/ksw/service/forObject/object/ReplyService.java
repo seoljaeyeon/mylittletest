@@ -20,6 +20,17 @@ public class ReplyService {
                 .updatedAt(replyEntity.getUpdatedAt())
                 .build();
     }
+    
+    public Reply convertToEntity(ReplyDTO replyDTO) {
+        Reply replyEntity = new Reply();
+        replyEntity.setReplyNo(replyDTO.getReplyNo());
+        replyEntity.setReplyContent(replyDTO.getReplyContent());
+        replyEntity.setParentReply(replyDTO.getParentReply());
+        replyEntity.setIsActive(replyDTO.getIsActive());
+        replyEntity.setCreatedAt(replyDTO.getCreatedAt());
+        replyEntity.setUpdatedAt(replyDTO.getUpdatedAt());
+        return replyEntity;
+    }
 
     // DTO -> VO 변환 메소드
     public ReplyVO convertToVO(ReplyDTO replyDTO) {

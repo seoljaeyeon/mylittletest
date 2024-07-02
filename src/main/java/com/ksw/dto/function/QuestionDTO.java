@@ -9,6 +9,7 @@ import com.ksw.dto.forObject.object.CategoryDTO;
 import com.ksw.dto.forObject.object.FileDTO;
 import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.object.vo.object.ReplyVO;
 
 public class QuestionDTO {
 
@@ -16,6 +17,15 @@ public class QuestionDTO {
 	private NoteDTO noteDTO;
 	private CategoryDTO categoryDTO;
 	private FileDTO fileDTO;
+	private ReplyVO replyDTO;
+	
+	
+	public ReplyVO getReplyDTO() {
+		return replyDTO;
+	}
+	public void setReplyDTO(ReplyVO replyDTO) {
+		this.replyDTO = replyDTO;
+	}
 	public UserDTO getUserDTO() {
 		return userDTO;
 	}

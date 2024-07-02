@@ -49,6 +49,15 @@ public class QuestionController {
 		return "write";
 	}
 	
+	@GetMapping("/view")
+	public String toViewPage(
+			@RequestParam("noteNo") Integer noteNo) {
+						
+			
+			
+		return "view";
+	}
+	
 	@PostMapping("/write")
 	public String notewrite(
 			@ModelAttribute NoteDTO noteDTO,
