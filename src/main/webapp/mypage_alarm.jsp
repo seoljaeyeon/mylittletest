@@ -10,6 +10,7 @@
         padding: 1.5rem 2rem 2rem 2rem;
         height:750px; 
         gap:50px;
+        border: 1px solid black;
 	}
 	.profile_box{
 		height:fit-content;
@@ -80,6 +81,7 @@
 		margin-left:20px;
 		font-size:30px;
 		font-weight:bold;
+		margin-top:20px;
 	}
 	.alarm_main{
 		margin:20px;
@@ -90,9 +92,9 @@
 		border-bottom: 1px solid #cccccc;
 	}
 	.sub{
-		height:40px;
+		height:25px;
 		margin-top:10px;
-		
+		margin-bottom:8px;
 	}
 </style>
 
@@ -115,8 +117,8 @@
 			<div class="change" style="margin-top:15px; margin-bottom:15px;">계정비활성화</div>
 		</div>
 		<div class="sub_menu">
-			<div class="bookmark_list_btn">즐겨찾기 & 북마크 목록</div>
-			<div class="alarm_list_btn" style="margin-top:50px;">알림 목록</div>
+			<div class="bookmark_list_btn" onclick="location.href='mypage_bookmark.jsp'">즐겨찾기 & 북마크 목록</div>
+			<div class="alarm_list_btn" style="margin-top:50px;" onclick="location.href='mypage_alarm.jsp'">알림 목록</div>
 		</div>	
 	</div>
 	<div class="alarm_container">
@@ -129,56 +131,57 @@
 					<div class="sub" style="width:300px; font-size:20px; font-weight:bold;">시간</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">댓글</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;"">***님이 내문제에 댓글을 남겼습니다. ***님이 내문제에 댓글을 남겼습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">신고</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;"">회원님의 신고가 처리됐습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">댓글</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;"">***님이 내문제에 댓글을 남겼습니다. ***님이 내문제에 댓글을 남겼습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 				<div class="alarm">
-					<div class="sub" style="width:150px;">좋아요</div>
-					<div class="sub" style="width:450px;">***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px;">2024-07-02 10:36:15</div>
+					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
+					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
+					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
 				</div>
 			</div>
+			<div class="page" style="text-align:center;"> ◀ 1  2  3  4  5  6  7  8  9  10  ▶  </div>
 		</div>
 	</div>
 </div>
