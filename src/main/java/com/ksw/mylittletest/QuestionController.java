@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ksw.dto.forObject.CategoryDTO;
-import com.ksw.dto.forObject.FileDTO;
-import com.ksw.dto.forObject.NoteDTO;
-import com.ksw.dto.forObject.UserDTO;
-import com.ksw.object.vo.CategoryVO;
-import com.ksw.object.vo.FileVO;
-import com.ksw.object.vo.NoteVO;
-import com.ksw.object.vo.UserVO;
-import com.ksw.object.vo.QuestionVO;
+import com.ksw.dto.forObject.object.CategoryDTO;
+import com.ksw.dto.forObject.object.FileDTO;
+import com.ksw.dto.forObject.object.NoteDTO;
+import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.object.vo.combined.QuestionVO;
+import com.ksw.object.vo.object.CategoryVO;
+import com.ksw.object.vo.object.FileVO;
+import com.ksw.object.vo.object.NoteVO;
+import com.ksw.object.vo.object.UserVO;
+import com.ksw.service.forObject.object.CategoryService;
+import com.ksw.service.forObject.object.FileService;
+import com.ksw.service.forObject.object.NoteService;
+import com.ksw.service.forObject.object.ReplyService;
+import com.ksw.service.forObject.object.UserService;
 import com.ksw.service.function.QuestionService;
-import com.ksw.service.object.CategoryService;
-import com.ksw.service.object.FileService;
-import com.ksw.service.object.NoteService;
-import com.ksw.service.object.ReplyService;
-import com.ksw.service.object.UserService;
 
 @Controller
 public class QuestionController {

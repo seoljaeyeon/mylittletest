@@ -5,10 +5,10 @@ import java.sql.Timestamp;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ksw.dto.forObject.CategoryDTO;
-import com.ksw.dto.forObject.NoteDTO;
-import com.ksw.dto.forObject.UserDTO;
-import com.ksw.dto.forObject.FileDTO;
+import com.ksw.dto.forObject.object.CategoryDTO;
+import com.ksw.dto.forObject.object.FileDTO;
+import com.ksw.dto.forObject.object.NoteDTO;
+import com.ksw.dto.forObject.object.UserDTO;
 
 public class QuestionDTO {
 
