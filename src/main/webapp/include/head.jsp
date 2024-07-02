@@ -10,6 +10,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+ 		//팝업요소를 가져온다
+        var popup = document.getElementById("popup_login");
+
+        //팝업 오픈버튼을 가져옴
+        var popupOpenButton = document.getElementById("mystudy_btn");
+
+        // 버튼에 클릭이벤트 추가
+        popupOpenButton.addEventListener("click", function() {
+            // 팝업 표시 여부를 전환
+            popup.classList.toggle("show");
+        });
+        // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
+        var popupCloseButton = document.getElementById("logindelete");
+        popupCloseButton.addEventListener("click", function() {
+            popup.classList.remove("show");
+        });
+	});
+</script>
 <body>
     <style>
 
@@ -115,9 +135,63 @@
             min-height:calc(90vh - 8.8rem);
             max-height: calc(90vh - 8.8rem);
         }
+        
+        /* 팝업스타일  */
+        .popup_wrap {
+		    display: none; 
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		 	height: 100%;
+		   	background-color: rgba(0, 0, 0, 0.5); 
+		   	z-index: 1000; 
+		    overflow: auto; 
+		}
+		
+        .login_area {
+			background-color: #ffffff;
+			width: 300px;
+			max-width: 40rem;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			padding: 2rem;
+			border-radius: 1rem;
+			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+		}
+		.login_title {
+			font-size: 18px;
+			margin-bottom: 3rem;
+			text-align:center;
+			color:#000000;
+		}
+		.login_btn,.delete_btn{
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			box-shadow: 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #dedede;
+			background-color: #000000;
+			color: #ffffff;
+			border-radius: 1rem;
+			height: 3rem;
+			width: 100px;
+			padding: auto;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 1rem;
+			text-align:center;
+			margin-left:1rem;
+			font-weight:bold;
+		}	
+		.show {
+			display:block;
+		}	
     </style>
     <div class="titlebar">
-        <div class="logo">
+        <div class="logo" onclick="location.href='index.jsp'">
             <span style="font-size:5rem">🤓</span>
         </div>
         <div class="ad-container">
@@ -140,10 +214,10 @@
     </div>
     <div style="display:flex;flex-direction: row; gap:0.8rem;">
         <aside class="side_container">
-            <div class="side_button">
+            <div class="side_button" onclick="location.href='login.jsp'">
                 로그인
             </div>
-            <div class="side_button">
+            <div class="side_button" id="mystudy_btn">
                 나의 학습
             </div>        
             <div class="side_button">
@@ -160,4 +234,14 @@
                 웹사이트 운영 정책
             </div>
         </aside>
-        <main class="main-content">
+        <!-- 팝업 영역  -->
+        <div class="popup_wrap" id="popup_login">
+			<div class="login_area">
+				<h1 class="login_title">로그인이 필요한 메뉴입니다</h1>
+				<div class="loginbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
+		            <div class="login_btn" id="loginok" onclick="location.href='login.jsp'">로그인</div>
+		            <div class="delete_btn" id="logindelete" style="background-color:#ffffff;color:black; ">취소</div>
+		        </div>
+			</div>
+		</div>
+ 		<main class="main-content">

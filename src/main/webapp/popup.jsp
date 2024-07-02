@@ -190,32 +190,54 @@
 		    background-color:#ffffff;
 		    color:#000000;
 		}
+		.login_area {
+			background-color: #ffffff;
+			width: 300px;
+			max-width: 40rem;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			padding: 2rem;
+			border-radius: 1rem;
+			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+		}
+		.login_title {
+			font-size: 18px;
+			margin-bottom: 3rem;
+			text-align:center;
+			color:#000000;
+		}
+		.login_btn,.delete_btn{
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			box-shadow: 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #dedede;
+			background-color: #000000;
+			color: #ffffff;
+			border-radius: 1rem;
+			height: 3rem;
+			width: 100px;
+			padding: auto;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 1rem;
+			text-align:center;
+			margin-left:1rem;
+			font-weight:bold;
+		}		
 			    
 </style>
 <body>
-	<div class="popup_wrap" id="popup_password">
-		<div class="find_area">
-			<div class="close">
-				<button class="btn_close" type="button" id="btn_close_pw">X</button>
-			</div>
-			<h1 class="find_title">비밀번호 변경</h1>
-			<div class="question_box">
-				<div class="qu_input_area">
-					<div class="qu_input_container" style="justify-content: center; position: relative;">
-						<input class="qu_input" id="id_question" name="" placeholder="기존 비밀번호 입력" autocomplete="off">
-					</div>
-					<div class="qu_input_container" style="justify-content: center; position: relative;">
-						<input class="qu_input" id="id_question" name="" placeholder="새 비밀번호 입력" autocomplete="off">
-					</div>
-					<div class="qu_input_container" style="justify-content: center; position: relative;">
-						<input class="qu_input" id="id_question" name="" placeholder="새 비밀번호 확인 " autocomplete="off">
-					</div>
-				</div>
-				<div style="display:inline-flex; flex-direction:row; gap:2rem;">
-		            <div class="mail_btn" id="pw_complete">변경완료</div>
+	<div class="popup_wrap" id="popup_login">
+			<div class="login_area">
+				<h1 class="login_title">로그인이 필요한 메뉴입니다</h1>
+				<div class="loginbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
+		            <div class="login_btn" id="loginok" onclick="location.href='login.jsp'">로그인</div>
+		            <div class="delete_btn" id="logindelete" style="background-color:#ffffff;color:black; ">취소</div>
 		        </div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>
