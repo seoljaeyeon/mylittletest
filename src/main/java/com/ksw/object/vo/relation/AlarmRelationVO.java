@@ -6,14 +6,34 @@ public final class AlarmRelationVO {
     private final Integer alarmNo;
     private final Integer userNo;
     private final Integer makerNo;
+    private final Integer noteNo;
+    private final Integer replyNo;
+    private final Integer cateogryNo;
 
     private AlarmRelationVO(Builder builder) {
         this.alarmNo = builder.alarmNo;
         this.userNo = builder.userNo;
         this.makerNo = builder.makerNo;
+        this.noteNo = builder.noteNo;
+        this.replyNo = builder.replyNo;
+        this.cateogryNo = builder.cateogryNo;
+
+        
     }
 
-    public Integer getAlarmNo() {
+    public Integer getNoteNo() {
+		return noteNo;
+	}
+
+	public Integer getReplyNo() {
+		return replyNo;
+	}
+
+	public Integer getCateogryNo() {
+		return cateogryNo;
+	}
+
+	public Integer getAlarmNo() {
         return alarmNo;
     }
 
@@ -32,12 +52,15 @@ public final class AlarmRelationVO {
         AlarmRelationVO that = (AlarmRelationVO) o;
         return Objects.equals(alarmNo, that.alarmNo) &&
                 Objects.equals(userNo, that.userNo) &&
-                Objects.equals(makerNo, that.makerNo);
+                Objects.equals(makerNo, that.makerNo) &&
+                Objects.equals(noteNo, that.noteNo) &&
+                Objects.equals(replyNo, that.replyNo) &&
+                Objects.equals(cateogryNo, that.cateogryNo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(alarmNo, userNo, makerNo);
+        return Objects.hash(alarmNo, userNo, makerNo, noteNo, replyNo, cateogryNo);
     }
 
     @Override
@@ -46,6 +69,9 @@ public final class AlarmRelationVO {
                 "alarmNo=" + alarmNo +
                 ", userNo=" + userNo +
                 ", makerNo=" + makerNo +
+                ", noteNo=" + noteNo +
+                ", replyNo=" + replyNo +
+                ", cateogryNo=" +cateogryNo +
                 '}';
     }
 
@@ -53,6 +79,9 @@ public final class AlarmRelationVO {
         private Integer alarmNo;
         private Integer userNo;
         private Integer makerNo;
+        private Integer noteNo;
+        private Integer replyNo;
+        private Integer cateogryNo;
 
         public Builder alarmNo(Integer alarmNo) {
             this.alarmNo = alarmNo;
@@ -68,6 +97,20 @@ public final class AlarmRelationVO {
             this.makerNo = makerNo;
             return this;
         }
+        
+        public Builder noteNo(Integer noteNo) {
+            this.noteNo = noteNo;
+            return this;
+        }
+        public Builder replyNo(Integer replyNo) {
+            this.replyNo = replyNo;
+            return this;
+        }
+        public Builder cateogryNo(Integer cateogryNo) {
+            this.cateogryNo = cateogryNo;
+            return this;
+        }
+        
 
         public AlarmRelationVO build() {
             return new AlarmRelationVO(this);
