@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ksw.dto.forUtil.LoginDTO;
+import com.ksw.dto.function.LoginDTO;
 import com.ksw.object.vo.object.UserVO;
 import com.ksw.service.forObject.object.UserService;
 

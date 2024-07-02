@@ -2,8 +2,8 @@ package com.ksw.service.forObject.object;
 
 import com.ksw.dao.object.UserRepository;
 import com.ksw.dto.forObject.object.UserDTO;
-import com.ksw.dto.forUtil.JoinDTO;
-import com.ksw.dto.forUtil.LoginDTO;
+import com.ksw.dto.function.JoinDTO;
+import com.ksw.dto.function.LoginDTO;
 import com.ksw.object.entity.jpa.User;
 import com.ksw.object.vo.object.UserVO;
 

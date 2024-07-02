@@ -1,4 +1,4 @@
-package com.ksw.dto.forUtil;
+package com.ksw.dto.function;
 
 import java.sql.Timestamp;
 
