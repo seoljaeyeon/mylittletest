@@ -57,7 +57,7 @@
                 togglePopup('popup', 'hide');
                 togglePopup('popup_ID', 'hide');
                 togglePopup('popup_EM', 'hide');
-                togglePopup('popupSEND', 'hide');
+                togglePopup('popupIM', 'hide');
 
                 togglePopup('popup_PW', 'show');
             });
@@ -333,9 +333,7 @@
 		.find_btn:hover { 
 			background-color: #e0e0e0;
 		}
-		.show{
-			display: block;
-		}
+		
 		
 		
 		.findbtn{
@@ -482,7 +480,10 @@
 		font-size: 1rem;
 		text-align:center;
 		margin-left:2rem;
-	}		   		    
+	}		
+	.show{
+			display: block;
+		}   		    
 	</style>
 	<body>
 <!-- 팝업 영역 -->
