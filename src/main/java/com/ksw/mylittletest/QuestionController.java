@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -51,10 +52,20 @@ public class QuestionController {
 	
 	@GetMapping("/view")
 	public String toViewPage(
+			RedirectAttributes redirectAttributes,
+			HttpSession session,
+			@SessionAttribute("questionVO") QuestionVO questionVO, 
 			@RequestParam("noteNo") Integer noteNo) {
-						
-			
-			
+		if (questionVO != null) {
+			return "view"; 
+		} else {
+			try {
+				QuestionVO newQuestionVO = questionService.noteRead(noteNo);
+				session.setAttribute("questionVO", newQuestionVO);
+			} catch (Exception e) {
+				redirectAttributes.addFlashAttribute("error", "조회 실패");
+			}
+		}
 		return "view";
 	}
 	
@@ -70,9 +81,9 @@ public class QuestionController {
             try {
             	QuestionVO questionVO = questionService.noteWrite(noteDTO, file, categoryDTO, userDTO);
             	session.setAttribute("questionVO", questionVO);
-                redirectAttributes.addFlashAttribute("message", "Write successful!");
+                redirectAttributes.addFlashAttribute("message", "쓰기 성공");
             } catch (Exception e) {
-            	redirectAttributes.addFlashAttribute("error", "Write failed");
+            	redirectAttributes.addFlashAttribute("error", "쓰기 실패");
             }	
 		return "redirect:/view";
 	}
