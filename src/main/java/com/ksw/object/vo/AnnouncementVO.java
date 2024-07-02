@@ -7,7 +7,7 @@ public final class AnnouncementVO {
     private final Integer announcementNo;
     private final String announcementTitle;
     private final String announcementContent;
-    private final String schedule;
+    private final Timestamp schedule;
     private final Boolean isActive;
     private final Timestamp createdAt;
     private final Timestamp updatedAt;
@@ -34,7 +34,7 @@ public final class AnnouncementVO {
         return announcementContent;
     }
 
-    public String getSchedule() {
+    public Timestamp getSchedule() {
         return schedule;
     }
 
@@ -86,7 +86,7 @@ public final class AnnouncementVO {
         private Integer announcementNo;
         private String announcementTitle;
         private String announcementContent;
-        private String schedule;
+        private Timestamp schedule;
         private Boolean isActive;
         private Timestamp createdAt;
         private Timestamp updatedAt;
@@ -106,7 +106,7 @@ public final class AnnouncementVO {
             return this;
         }
 
-        public Builder schedule(String schedule) {
+        public Builder schedule(Timestamp schedule) {
             this.schedule = schedule;
             return this;
         }

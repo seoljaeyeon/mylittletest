@@ -16,6 +16,9 @@ public class Note {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String noteContent;
+    
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String noteCommentary;
 
     @Column(nullable = false, length = 255)
     private String noteHint;
@@ -63,6 +66,10 @@ public class Note {
 	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
+	
+	public String getNoteCommentary() {
+		return noteCommentary;
+	}
 
 	public void setNoteNo(Integer noteNo) {
 		this.noteNo = noteNo;
@@ -78,6 +85,10 @@ public class Note {
 
 	public void setNoteHint(String noteHint) {
 		this.noteHint = noteHint;
+	}
+
+	public void setNoteCommentary(String noteCommentary) {
+		this.noteCommentary = noteCommentary;
 	}
 
 	public void setNoteAnswer(String noteAnswer) {
