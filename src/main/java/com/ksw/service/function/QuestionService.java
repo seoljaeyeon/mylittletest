@@ -16,7 +16,7 @@ import com.ksw.dto.forObject.object.CategoryDTO;
 import com.ksw.dto.forObject.object.FileDTO;
 import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.dto.forObject.object.UserDTO;
-import com.ksw.dto.forUtil.QuestionDTO;
+import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.entity.jpa.Category;
 import com.ksw.object.entity.jpa.File;
 import com.ksw.object.entity.jpa.Note;
@@ -87,7 +87,6 @@ public class QuestionService {
 		
 			Note note = noteService.convertToEntity(noteDTO);
 			Category category = categoryService.convertToEntity(categoryDTO);
-			User user = userService.convertToEntity(userDTO);
 
 			noteRepository.save(note);
 			categoryRepository.save(category);
@@ -115,4 +114,12 @@ public class QuestionService {
 		
 		return questionVO; 
 	}
+	
+	@Transactional
+	public QuestionVO noteRead(Integer noteNo) {
+		QuestionVO questionVO = null;
+		
+		
+		return questionVO;
+	};
 }
