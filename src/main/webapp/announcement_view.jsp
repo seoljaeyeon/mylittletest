@@ -12,19 +12,19 @@
 	<div>&nbsp&nbsp<span style="font-size: 20px; font-weight: bolder;">공지사항</span>
 	<br><br>
 	<div style="font-size: 35px; font-weight: bolder;">공지사항 제목입니다.
-		<span style="margin-left: 900px;">
+		<div align="right">
 			<a href="announcement_list.jsp">
 				<button type="button" style="height: 40px; width: 100px; border-radius: 10px;">돌아가기</button>
 			</a>
-		</span>
+		</div>
 	</div>
 	<br>
 	<div style="border: none; outline: none; border-bottom: 1px solid white;">
 	작성자 | 관리자닉네임 &nbsp&nbsp&nbsp2024-06-26 11:30:49
-	<span style="margin-left: 900px;">
+	<div align="right">
 		<a href="announcement_modify.jsp"><button type="button" style="height: 40px; width: 45px; border-radius: 10px;">수정</button></a>
 		<a href="announcement_delete.jsp"><button type="button" style="height: 40px; width: 45px; border-radius: 10px;">삭제</button></a>
-	</span>
+	</div>
 	</div>
 	<div style="margin-top: 30px;">
 	본문의 내용입니다. 본문의 내용입니다. 본문의 내용입니다. 본문의 내용입니다. 본문의 내용입니다. 본문의 내용입니다.<br>

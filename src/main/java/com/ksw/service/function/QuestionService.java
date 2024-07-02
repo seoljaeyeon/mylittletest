@@ -5,28 +5,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ksw.dao.CategoryRepository;
-import com.ksw.dao.FileNoteMapper;
-import com.ksw.dao.FileRepository;
-import com.ksw.dao.NoteCategoryMapper;
-import com.ksw.dao.NoteRepository;
-import com.ksw.dao.NoteUserMapper;
-import com.ksw.dao.UserRepository;
-import com.ksw.dto.forObject.CategoryDTO;
-import com.ksw.dto.forObject.FileDTO;
-import com.ksw.dto.forObject.NoteDTO;
-import com.ksw.dto.forObject.UserDTO;
-import com.ksw.dto.forUtil.QuestionDTO;
+import com.ksw.dao.object.CategoryRepository;
+import com.ksw.dao.object.FileRepository;
+import com.ksw.dao.object.NoteRepository;
+import com.ksw.dao.object.UserRepository;
+import com.ksw.dao.relation.FileNoteMapper;
+import com.ksw.dao.relation.NoteCategoryMapper;
+import com.ksw.dao.relation.NoteUserMapper;
+import com.ksw.dto.forObject.object.CategoryDTO;
+import com.ksw.dto.forObject.object.FileDTO;
+import com.ksw.dto.forObject.object.NoteDTO;
+import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.entity.jpa.Category;
 import com.ksw.object.entity.jpa.File;
 import com.ksw.object.entity.jpa.Note;
 import com.ksw.object.entity.jpa.User;
-import com.ksw.object.vo.FileVO;
-import com.ksw.object.vo.QuestionVO;
-import com.ksw.service.object.NoteService;
-import com.ksw.service.object.UserService;
-import com.ksw.service.object.CategoryService;
-import com.ksw.service.object.FileService;
+import com.ksw.object.vo.combined.QuestionVO;
+import com.ksw.object.vo.object.FileVO;
+import com.ksw.service.forObject.object.CategoryService;
+import com.ksw.service.forObject.object.FileService;
+import com.ksw.service.forObject.object.NoteService;
+import com.ksw.service.forObject.object.UserService;
 
 @Service
 public class QuestionService {
@@ -87,7 +87,6 @@ public class QuestionService {
 		
 			Note note = noteService.convertToEntity(noteDTO);
 			Category category = categoryService.convertToEntity(categoryDTO);
-			User user = userService.convertToEntity(userDTO);
 
 			noteRepository.save(note);
 			categoryRepository.save(category);
@@ -115,4 +114,12 @@ public class QuestionService {
 		
 		return questionVO; 
 	}
+	
+	@Transactional
+	public QuestionVO noteRead(Integer noteNo) {
+		QuestionVO questionVO = null;
+		
+		
+		return questionVO;
+	};
 }

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ksw.dto.forUtil.JoinDTO;
-import com.ksw.dto.forUtil.LoginDTO;
-import com.ksw.object.vo.UserVO;
+import com.ksw.dto.function.JoinDTO;
+import com.ksw.dto.function.LoginDTO;
+import com.ksw.object.vo.object.UserVO;
+import com.ksw.service.forObject.object.UserService;
 import com.ksw.service.function.JoinService;
-import com.ksw.service.object.UserService;
 
 @Controller
 public class JoinController {

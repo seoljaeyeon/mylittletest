@@ -9,7 +9,12 @@
 	.announcement_title {
 	width: 80%;
 	}
-							
+	
+	a { color: #333; }
+	a:visited { color: white; }
+	a:hover { color: white; }
+	a:active { color: white; }	
+	a {text-decoration-line: none;}								
 </style>
 	<div class="a">
 	<div>&nbsp&nbsp<span style="font-size: 30px; font-weight: bolder;">공지사항</span>
@@ -27,43 +32,43 @@
 				<td style="font-weight: bolder;">시간</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>	
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td>공지사항 입니다. 다들 집중하세요.</td>
+				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
