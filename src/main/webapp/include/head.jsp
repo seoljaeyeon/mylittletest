@@ -12,21 +12,35 @@
 </head>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
- 		//팝업요소를 가져온다
-        var popup = document.getElementById("popup_login");
+        
+        function togglePopup(popupId, action) {
+            var popup = document.getElementById(popupId);
+            if (action === 'show') {
+                popup.classList.add('show');
+            } else if (action === 'hide') {
+                popup.classList.remove('show');
+            } else if (action === 'toggle') {
+                popup.classList.toggle('show');
+            }
+        }
 
-        //팝업 오픈버튼을 가져옴
-        var popupOpenButton = document.getElementById("mystudy_btn");
-
-        // 버튼에 클릭이벤트 추가
-        popupOpenButton.addEventListener("click", function() {
-            // 팝업 표시 여부를 전환
-            popup.classList.toggle("show");
+        // 로그인 팝업 열기 버튼에 클릭 이벤트 추가
+        document.getElementById("mystudy_btn").addEventListener("click", function() {
+            togglePopup('popup_login', 'toggle');
         });
-        // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-        var popupCloseButton = document.getElementById("logindelete");
-        popupCloseButton.addEventListener("click", function() {
-            popup.classList.remove("show");
+
+        // 로그인 팝업 닫기 버튼에 클릭 이벤트 추가
+        document.getElementById("logindelete").addEventListener("click", function() {
+            togglePopup('popup_login', 'hide');
+        });
+        
+        document.getElementById("admin_btn").addEventListener("click", function() {
+            togglePopup('popup_admin', 'toggle');
+        });
+
+        // 로그인 팝업 닫기 버튼에 클릭 이벤트 추가
+        document.getElementById("btn_close").addEventListener("click", function() {
+            togglePopup('popup_admin', 'hide');
         });
 	});
 </script>
@@ -149,7 +163,7 @@
 		    overflow: auto; 
 		}
 		
-        .login_area {
+        .loginpopup_area {
 			background-color: #ffffff;
 			width: 300px;
 			max-width: 40rem;
@@ -161,13 +175,13 @@
 			border-radius: 1rem;
 			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
 		}
-		.login_title {
+		.loginpopup_title {
 			font-size: 18px;
 			margin-bottom: 3rem;
 			text-align:center;
 			color:#000000;
 		}
-		.login_btn,.delete_btn{
+		.loginpopup_btn,.deletepopup_btn{
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			appearance: none;
@@ -186,6 +200,16 @@
 			margin-left:1rem;
 			font-weight:bold;
 		}	
+		.btn_close {
+			background: none;
+			border: none;
+			cursor: pointer;
+			position: absolute;
+		    top: 1rem;
+		    right: 1rem;
+			font-size: 1.5rem;
+			color: #000000;
+		}
 		.show {
 			display:block;
 		}	
@@ -220,13 +244,13 @@
             <div class="side_button" id="mystudy_btn">
                 나의 학습
             </div>        
-            <div class="side_button">
+            <div class="side_button" onclick="location.href='questionlist.jsp'">
                 문제 둘러보기
             </div>        
-            <div class="side_button">
+            <div class="side_button" onclick="location.href='announcement_list.jsp'">
                 공지사항
             </div>        
-            <div class="side_button manager_contact_button" >
+            <div class="side_button manager_contact_button" id="admin_btn" >
                 관리자 연락
             </div>
             <hr style="width:100%; opacity:0.6; margin-top:auto">
@@ -236,12 +260,19 @@
         </aside>
         <!-- 팝업 영역  -->
         <div class="popup_wrap" id="popup_login">
-			<div class="login_area">
-				<h1 class="login_title">로그인이 필요한 메뉴입니다</h1>
+			<div class="loginpopup_area">
+				<h1 class="loginpopup_title">로그인이 필요한 메뉴입니다</h1>
 				<div class="loginbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-		            <div class="login_btn" id="loginok" onclick="location.href='login.jsp'">로그인</div>
-		            <div class="delete_btn" id="logindelete" style="background-color:#ffffff;color:black; ">취소</div>
+		            <div class="loginpopup_btn" id="loginok" onclick="location.href='login.jsp'">로그인</div>
+		            <div class="deletepopup_btn" id="logindelete" style="background-color:#ffffff;color:black; ">취소</div>
 		        </div>
+			</div>
+		</div>
+		<!-- 관리자 연락 팝업창  -->
+		<div class="popup_wrap" id="popup_admin">
+			<div class="loginpopup_area">
+				<div class="close"><button class="btn_close" id="btn_close" type="button">X</button></div>
+				<div class="admin_title" style="color:black; font-size:20px; font-weight:bolder; margin-top:24px; margin-bottom:24px; text-align:center;">mailto 활용/<br>관리자메일주소로 이메일</div>
 			</div>
 		</div>
  		<main class="main-content">

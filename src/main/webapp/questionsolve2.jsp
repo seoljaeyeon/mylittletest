@@ -452,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- 팝업영역 -->
 <div class="solve_container">
 	<div class="solve_header">
-		<div class="solve_title"><span>▷JAVA</span></div>
+		<div class="solve_title"><span>▷HTML</span></div>
 		<div class="solve_list">
 			<div class="solve_question" style="margin-top:5px;"><span>내 문제 풀기</span></div>
 			<div class="solve_all" style="margin-top:15px;"><span style="font-size:12px;">문제 전체 보기</span></div>

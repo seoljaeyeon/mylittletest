@@ -32,18 +32,17 @@
 	    	width: 800px;
 	    	flex-direction:column;
 	    	height: calc(90vh - 8.8rem);
-	    	margin-left: 30px;
+	    	margin-left:300px;
 		}
 		.list_container{
 			display:flex;
 		}
 		.search_items {
-			height: 25px;
-			width: 600px;
-			background: white;
+			height: 20px;
+			width: 400px;
+			background: #333333;
 			border-radius: 20px;
 			padding: 10px;
-			border: 1px solid #cccccc;
 		}
 		.search_input{
 			border:none;
@@ -51,7 +50,7 @@
 			outline:none;
 			float:left;
 			padding:0px;
-			color:#797979;
+			color:#ffffff;
 			font-size:16px;
 			width:200px;
 		}
@@ -61,7 +60,7 @@
 			width:40px;
 			height:100%;
 			border-radius: 50%;
-			background: white;
+			background: #333333;
 			border:none;
 			font-size:16px;
 			display:flex;
@@ -69,11 +68,21 @@
 			align-items:center;
 			
 		}
+		.order_box{
+			margin-left:40px;
+		}
 		.order_dropdown{
 			display: inline-flex;
 		    flex-direction: column;
 		    position: relative;
-		    margin-left:1rem;
+		    margin-left:1rme;
+		    margin-right:1rem;
+		}
+		.order_question{
+			display: inline-flex;
+		    flex-direction: column;
+		    position: relative;
+		    margin-left:1rme;
 		    margin-right:2rem;
 		}
 		.order_main{
@@ -95,7 +104,7 @@
 		    overflow:hidden;
 		}
 		.list_items {
-		    height: 4.5rem;
+		    height: 3rem;
 		    margin:0;
 		    padding:0;
 		    display:inline-flex;
@@ -115,8 +124,8 @@
 			overflow: hidden;
 		    white-space: nowrap;
 		    width: max-content;
-			height: auto;
-			font-size: 1.2rem;
+			height: 40px;
+			font-size: 15px;
 			border-radius: 2rem;
 			padding: 0.75rem 2rem;
 			margin: 0.5rem 1rem 0.5rem 0;
@@ -130,8 +139,9 @@
 			margin-top: 10px;
 			display:inline-flex;
 			width:800px;
-			gap: 3rem;
-			flex-wrap:wrap
+			gap: 2rem;
+			flex-wrap:wrap;
+			height:680px;
 		}
 		.question_box{
 			width:45%;
@@ -140,7 +150,7 @@
 		.question_item{
 			margin-top:10px;
 			width:100%;
-	     	height:250px;
+	     	height:230px;
 	     	background-color:#333333;
 	     	color:#ffffff;
             padding: 10px;
@@ -155,7 +165,7 @@
 			margin-right:auto;
 			background-position: center;
 	    	background-size: cover;
-            color: #333;
+            color: #ffffff;
             font-size:25px;
             font-weight: bold;
             width:fit-content;
@@ -209,6 +219,7 @@
 		  	margin-right: auto;
 		   	background-position: center;
     		background-size: cover;
+    		color:#ffffff;
 		  }
 		  .question_answer{
 		  	background-position: center;
@@ -335,21 +346,31 @@
 					<div class="search_area">
 	            		<form class="search_items">
 	               		 	<input class="search_input" type="text" placeholder="Search" spellcheck="false">
-	               		 	<button class="search_button"><img src="./img/search-icon.svg" style="display:flex; width:1rem; justify-content: center; align-items: center;"></button>
+	               		 	<button class="search_button">🔍</button>
 	            		</form>
 	       			</div>
-		       		<div class="order_dropdown">
-		            	<div class="order_main">
-		                	<img src="./img/sort.png" style="opacity: 0.5; width:20px; height:20px;">
-		                	&nbsp;&nbsp;<span>정렬기준</span>
-		            	</div>
-						<div class="list_order">   
-		                	<div class="order_option1">최신순</div>
-		                	<div class="order_option2">인기순</div>
-		                	<div class="order_option3">조회순</div>
-		                	<div class="order_option4">댓글순</div>
-		            	</div>
-		            </div>
+	       			<div class="order_box">
+			       		<div class="order_question">
+			            	<div class="order_main">
+			                	<span>모든 문제</span>
+			            	</div>
+							<div class="list_order">   
+			                	<div class="order_option1">모든문제</div>
+			                	<div class="order_option2">내문제</div>
+			            	</div>
+			            </div>
+			            <div class="order_dropdown">
+			            	<div class="order_main">
+			                	<span>정렬기준</span>
+			            	</div>
+							<div class="list_order">   
+			                	<div class="order_option1">최신순</div>
+			                	<div class="order_option2">인기순</div>
+			                	<div class="order_option3">조회순</div>
+			                	<div class="order_option4">댓글순</div>
+			            	</div>
+			         	</div>
+		         	</div>
 		          </div>
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
@@ -373,18 +394,18 @@
 		                    </li>
 			            </ul>
 			      </div>
-		      </div>
+			  </div>
 		      <div class="question_items">
 		     	<div class="question_box">
 		     		<div class="question_item">
 		      			<div class="bookmark">
-		      				<img src="./img/like.png" style="opacity: 0.5; width:30px; height:30px;display:block;">
+		      				❤
 		      			</div>
-		      			<div class="question_title"><a href="">JAVA</a></div>
+		      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
 	      			</div>
 	      			<div class="question_mini">
 	      				<div class="question_mbox">
-	      					<div class="question_mtitle"><a href="">JAVA</a></div>
+	      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JAVA</div>
 	      					<div class="question_answer">나의 정답률 60%(60/100)</div>
 	      				</div>
 	      			</div>
@@ -401,13 +422,13 @@
 	      		<div class="question_box">
 		     		<div class="question_item">
 		      			<div class="bookmark">
-		      				<img src="./img/like.png" style="opacity: 0.5; width:30px; height:30px;display:block;">
+		      				❤
 		      			</div>
-		      			<div class="question_title"><a href="">HTML</a></div>
+		      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
 	      			</div>
 	      			<div class="question_mini">
 	      				<div class="question_mbox">
-	      					<div class="question_mtitle"><a href="">HTML</a></div>
+	      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">HTML</div>
 	      					<div class="question_answer">나의 정답률 60%(60/100)</div>
 	      				</div>
 	      			</div>
@@ -423,13 +444,13 @@
 	      		<div class="question_box">
 		     		<div class="question_item">
 		      			<div class="bookmark">
-		      				<img src="./img/like.png" style="opacity: 0.5; width:30px; height:30px;display:block;">
+		      				❤
 		      			</div>
-		      			<div class="question_title"><a href="">CSS</a></div>
+		      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
 	      			</div>
 	      			<div class="question_mini">
 	      				<div class="question_mbox">
-	      					<div class="question_mtitle"><a href="">CSS</a></div>
+	      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">CSS</div>
 	      					<div class="question_answer">나의 정답률 60%(60/100)</div>
 	      				</div>
 	      			</div>
@@ -445,13 +466,13 @@
 	      		<div class="question_box">
 		     		<div class="question_item">
 		      			<div class="bookmark">
-		      				<img src="./img/like.png" style="opacity: 0.5; width:30px; height:30px;display:block;">
+		      				❤
 		      			</div>
-		      			<div class="question_title"><a href="">JSP</a></div>
+		      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
 	      			</div>
 	      			<div class="question_mini">
 	      				<div class="question_mbox">
-	      					<div class="question_mtitle"><a href="">JSP</a></div>
+	      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JSP</div>
 	      					<div class="question_answer">나의 정답률 60%(60/100)</div>
 	      				</div>
 	      			</div>

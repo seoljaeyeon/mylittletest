@@ -452,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- 팝업영역 -->
 <div class="solve_container">
 	<div class="solve_header">
-		<div class="solve_title"><span>▷HTML</span></div>
+		<div class="solve_title"><span>▷JAVA</span></div>
 		<div class="solve_list">
 			<div class="solve_question" style="margin-top:5px;"><span>내 문제 풀기</span></div>
 			<div class="solve_all" style="margin-top:15px;"><span style="font-size:12px;">문제 전체 보기</span></div>
@@ -462,7 +462,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<div class="today_count"><span style="font-size:20px;">(15)</span></div>
 		</div>
 		<div class="modify_btn" onclick="location.href='modify.jsp'">수정 </div>
-		<div class="modify_btn">비활성화</div>
+		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
 		<div class="like_btn" id="reportbtn">🚨</div>
 		<div class="like_btn">🤍</div>

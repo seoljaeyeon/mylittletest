@@ -232,11 +232,8 @@
 <body>
 	<div class="popup_wrap" id="popup_login">
 			<div class="login_area">
-				<h1 class="login_title">로그인이 필요한 메뉴입니다</h1>
-				<div class="loginbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-		            <div class="login_btn" id="loginok" onclick="location.href='login.jsp'">로그인</div>
-		            <div class="delete_btn" id="logindelete" style="background-color:#ffffff;color:black; ">취소</div>
-		        </div>
+				<div class="close"><button class="btn_close" id="btn_close" type="button">X</button></div>
+				<div class="admin_title" style="font-size:20px; font-weight:bolder; margin-top:24px; margin-bottom:24px; text-align:center;">mailto 활용/<br>관리자메일주소로 이메일</div>
 			</div>
 		</div>
 </body>

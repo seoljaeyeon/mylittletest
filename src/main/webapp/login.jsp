@@ -744,7 +744,7 @@
 	<!--팝업 영역  -->
 	    <div class="login_area">
 	        <h1 class="login_title" style="color:#F8F8FF;">로그인하기</h1>
-	       <div class="emoji"><img src="./img/studying_11772194.png" style="width:100px; height:100px;"></div>
+	       <div class="emoji" style="font-size:100px; text-align:center;">📖</div>
 	       <div class="id_input_area">
 	              	<div class="id_input_container">
 	                  	<input class="id_input" id="userID" name="userID" placeholder="계정" autocomplete = "off">
