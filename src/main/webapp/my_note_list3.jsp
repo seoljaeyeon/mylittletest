@@ -27,7 +27,7 @@
             <a href="#">조회한 문제</a>
         </div>
         <span style="margin-left: 750px;">
-            <input style="width: 290px; height: 30px;" type="text" placeholder="Search">
+            <input style="width: 290px; height: 30px; background-color: transparent; color: white;" type="text" placeholder="Search">
         </span>
     </div>
     <br><br>
