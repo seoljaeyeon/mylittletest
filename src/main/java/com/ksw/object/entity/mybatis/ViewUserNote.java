@@ -26,7 +26,7 @@ public class ViewUserNote {
         this.noteNo = noteNo;
     }
 
-    public Integer getPostViewNo() {
+    public Integer getNoteViewNo() {
         return noteViewNo;
     }
 

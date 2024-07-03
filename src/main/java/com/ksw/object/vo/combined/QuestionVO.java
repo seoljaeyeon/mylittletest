@@ -1,5 +1,6 @@
 package com.ksw.object.vo.combined;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.ksw.object.vo.object.CategoryVO;
@@ -13,14 +14,18 @@ public final class QuestionVO {
     private final UserVO userVO;
     private final CategoryVO categoryVO;
     private final FileVO fileVO;
-    private final ReplyVO replyVO;
+    private final List<ReplyVO> replies;
+    private final int viewCount;
+    private final int favoriteCount;
 
     private QuestionVO(Builder builder) {
         this.noteVO = builder.noteVO;
         this.userVO = builder.userVO;
         this.categoryVO = builder.categoryVO;
         this.fileVO = builder.fileVO;
-        this.replyVO = builder.replyVO;
+        this.replies = builder.replies;
+        this.viewCount = builder.viewCount;
+        this.favoriteCount = builder.favoriteCount;
     }
 
     public NoteVO getNoteVO() {
@@ -39,7 +44,19 @@ public final class QuestionVO {
         return fileVO;
     }
 
-    @Override
+    public List<ReplyVO> getReplies() {
+		return replies;
+	}
+
+	public int getViewCount() {
+		return viewCount;
+	}
+
+	public int getFavoriteCount() {
+		return favoriteCount;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -47,12 +64,16 @@ public final class QuestionVO {
         return Objects.equals(noteVO, that.noteVO) &&
                 Objects.equals(userVO, that.userVO) &&
                 Objects.equals(categoryVO, that.categoryVO) &&
-                Objects.equals(fileVO, that.fileVO);
+                Objects.equals(fileVO, that.fileVO) &&
+                Objects.equals(replies, that.replies) &&
+        		Objects.equals(viewCount, that.viewCount) &&
+        		Objects.equals(favoriteCount, that.favoriteCount);
+        
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteVO, userVO, categoryVO, fileVO);
+        return Objects.hash(noteVO, userVO, categoryVO, fileVO, replies, viewCount, favoriteCount);
     }
 
     @Override
@@ -62,6 +83,9 @@ public final class QuestionVO {
                 ", userVO=" + userVO +
                 ", categoryVO=" + categoryVO +
                 ", fileVO=" + fileVO +
+                ", replyVO=" + replies +
+                ", viewCount=" + viewCount +
+                ", favoriteCount=" + favoriteCount +
                 '}';
     }
 
@@ -70,7 +94,10 @@ public final class QuestionVO {
         private UserVO userVO;
         private CategoryVO categoryVO;
         private FileVO fileVO;
-        private ReplyVO	replyVO;
+        private List<ReplyVO> replies;
+        private int viewCount;
+        private int favoriteCount;
+        
 
         public Builder noteVO(NoteVO noteVO) {
             this.noteVO = noteVO;
@@ -92,8 +119,18 @@ public final class QuestionVO {
             return this;
         }
         
-        public Builder replyVO(ReplyVO replyVO) {
-            this.replyVO = replyVO;
+        public Builder replies(List<ReplyVO> replies) {
+            this.replies = replies;
+            return this;
+        }
+        
+        public Builder viewCount(int viewCount) {
+            this.viewCount = viewCount;
+            return this;
+        }
+        
+        public Builder favoriteCount(int favoriteCount) {
+            this.favoriteCount = favoriteCount;
             return this;
         }
 

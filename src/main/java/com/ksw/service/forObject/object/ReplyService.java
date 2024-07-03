@@ -4,6 +4,9 @@ import com.ksw.dto.forObject.object.ReplyDTO;
 import com.ksw.object.entity.jpa.Reply;
 import com.ksw.object.vo.object.ReplyVO;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,5 +45,12 @@ public class ReplyService {
                 .createdAt(replyDTO.getCreatedAt())
                 .updatedAt(replyDTO.getUpdatedAt())
                 .build();
+    }
+    
+    // List<ReplyDTO> -> List<ReplyVO> 변환 메소드
+    public List<ReplyVO> convertToVOList(List<ReplyDTO> replyDTOList) {
+        return replyDTOList.stream()
+                .map(this::convertToVO)
+                .collect(Collectors.toList());
     }
 }

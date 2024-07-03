@@ -1,5 +1,7 @@
 package com.ksw.mylittletest;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import com.ksw.dto.forObject.object.FileDTO;
 import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.dto.forObject.object.UserDTO;
 import com.ksw.object.vo.combined.QuestionVO;
+import com.ksw.object.vo.combined.ViewHistoryVO;
 import com.ksw.object.vo.object.CategoryVO;
 import com.ksw.object.vo.object.FileVO;
 import com.ksw.object.vo.object.NoteVO;
@@ -28,6 +31,7 @@ import com.ksw.service.forObject.object.NoteService;
 import com.ksw.service.forObject.object.ReplyService;
 import com.ksw.service.forObject.object.UserService;
 import com.ksw.service.function.QuestionService;
+import com.ksw.service.function.ViewHistoryService;
 
 @Controller
 public class QuestionController {
@@ -35,15 +39,7 @@ public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
 	@Autowired
-	private NoteService noteService;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private CategoryService categoryService;
-	@Autowired
-	private FileService fileService;
-	@Autowired
-	private ReplyService replyService;
+	private ViewHistoryService viewHistoryService;
 	
 	@GetMapping("/write")
 	public String toWritePage() {
@@ -55,13 +51,16 @@ public class QuestionController {
 			RedirectAttributes redirectAttributes,
 			HttpSession session,
 			@SessionAttribute("questionVO") QuestionVO questionVO, 
-			@RequestParam("noteNo") Integer noteNo) {
+			@RequestParam("noteNo") Integer noteNo,
+			@RequestParam("userNo") Integer userNo) {
 		if (questionVO != null) {
 			return "view"; 
 		} else {
 			try {
-				QuestionVO newQuestionVO = questionService.noteRead(noteNo);
+				List<ViewHistoryVO> viewHistoryVO = viewHistoryService.getHistory(userNo);
+				QuestionVO newQuestionVO = questionService.Read(noteNo);
 				session.setAttribute("questionVO", newQuestionVO);
+				session.setAttribute("viewHistoryVO", viewHistoryVO);
 			} catch (Exception e) {
 				redirectAttributes.addFlashAttribute("error", "조회 실패");
 			}
@@ -79,7 +78,7 @@ public class QuestionController {
 			RedirectAttributes redirectAttributes) {
 
             try {
-            	QuestionVO questionVO = questionService.noteWrite(noteDTO, file, categoryDTO, userDTO);
+            	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userDTO);
             	session.setAttribute("questionVO", questionVO);
                 redirectAttributes.addFlashAttribute("message", "쓰기 성공");
             } catch (Exception e) {

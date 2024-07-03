@@ -1,5 +1,7 @@
 package com.ksw.service.function;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import com.ksw.dao.relation.NoteUserMapper;
 import com.ksw.dto.forObject.object.CategoryDTO;
 import com.ksw.dto.forObject.object.FileDTO;
 import com.ksw.dto.forObject.object.NoteDTO;
+import com.ksw.dto.forObject.object.ReplyDTO;
 import com.ksw.dto.forObject.object.UserDTO;
 import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.entity.jpa.Category;
@@ -28,6 +31,7 @@ import com.ksw.object.vo.object.ReplyVO;
 import com.ksw.service.forObject.object.CategoryService;
 import com.ksw.service.forObject.object.FileService;
 import com.ksw.service.forObject.object.NoteService;
+import com.ksw.service.forObject.object.ReplyService;
 import com.ksw.service.forObject.object.UserService;
 
 @Service
@@ -58,6 +62,9 @@ public class QuestionService {
 	private QuestionMapper questionMapper;
 
 	@Autowired
+	private ReplyService replyService;
+	
+	@Autowired
 	private NoteService noteService;
 
 	@Autowired
@@ -74,7 +81,10 @@ public class QuestionService {
 
 		builder.noteVO(noteService.convertToVO(questionDTO.getNoteDTO()))
 				.userVO(userService.convertToVO(questionDTO.getUserDTO()))
-				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()));
+				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()))
+				.fileVO(fileService.convertToVO(questionDTO.getFileDTO()))
+				.replies(replyService.convertToVOList(questionDTO.getReplies()))
+				.viewCount(questionDTO.getViewCount());
 
 		if (questionDTO.getFileDTO() != null) {
 			builder.fileVO(fileService.convertToVO(questionDTO.getFileDTO()));
@@ -83,7 +93,7 @@ public class QuestionService {
 	}
 
 	@Transactional
-	public QuestionVO noteWrite(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO, UserDTO userDTO) {
+	public QuestionVO Write(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO, UserDTO userDTO) {
 
 		QuestionVO questionVO = null;
 		
@@ -119,29 +129,24 @@ public class QuestionService {
 		
 		return questionVO; 
 	}
-	
-	@Transactional
-	public QuestionVO noteRead(Integer noteNo) {
-		QuestionVO questionVO = null;
-		
-		
-		return questionVO;
-	};
-	
     @Transactional(readOnly = true)
-    public QuestionVO getQuestionByNoteNo(int noteNo) {
+    public QuestionVO Read(int noteNo) {
         UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo);
         CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
         NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
         FileDTO fileDTO = questionMapper.getFileByNoteNo(noteNo);
-        ReplyVO replyVO = questionMapper.getReplyByNoteNo(noteNo);
+        List<ReplyDTO> replyList = questionMapper.getRepliesByNoteNo(noteNo);
+        int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
+        int favoriteCount = questionMapper.getfavoriteCountByNoteNo(noteNo);
 
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setUserDTO(userDTO);
         questionDTO.setCategoryDTO(categoryDTO);
         questionDTO.setNoteDTO(noteDTO);
         questionDTO.setFileDTO(fileDTO);
-        questionDTO.setReplyDTO(replyVO);
+        questionDTO.setReplies(replyList);
+        questionDTO.setViewCount(viewCount);
+        questionDTO.setFavoriteCount(favoriteCount);
 
         return this.convertTVO(questionDTO);
     }
