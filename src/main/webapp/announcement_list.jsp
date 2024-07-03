@@ -32,43 +32,43 @@
 				<td style="font-weight: bolder;">시간</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>	
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">
-				<td><a href="">공지사항 입니다. 다들 집중하세요.</a></td>
+				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
 			<tr style="height: 50px">

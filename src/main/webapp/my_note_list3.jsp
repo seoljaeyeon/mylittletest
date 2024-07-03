@@ -16,7 +16,7 @@
     a:visited { color: white; }
     a:hover { color: white; }
     a:active { color: white; }
-    a {text-decoration-line: none;}                                
+    a {text-decoration-line: none;}     
 </style>
 <div class="a">
     <div>

@@ -53,7 +53,16 @@
         document.getElementById("btn_close_pw").addEventListener("click", function() {
             togglePopup('popup_password', 'hide');
         });
-
+        
+        // 전체 선택 
+        const selectAllDiv = document.getElementById('check_all');
+        selectAllDiv.addEventListener('click', function() {
+            const checkboxes = document.querySelectorAll('.checkbox');
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = !allChecked;
+            });
+        });
 });
 </script>
 <style>
@@ -119,41 +128,105 @@
 		display:flex;
 		border-radius:20px;
 	}
-	.alarm_container{
+	.bookmark_container{
 		display:flex;
 		width:1000px;
 		gap:30px;
 	}
-	.alarm_list{
+	.bookmark_list{
 		border:1px solid black;
 		margin:20px;
 		width:950px;
 		margin-top:0px;
 		border-radius:20px;
 	}
-	.alarm_title{
+	.bookmark_header{
+		display:flex;
+		gap:150px;
+	}
+	.bookmark_title{
 		margin-left:20px;
 		font-size:30px;
 		font-weight:bold;
 		margin-top:20px;
 	}
-	.alarm_main{
-		margin:20px;
+	.search_area{
+		margin-top:20px;
+	}
+	.search_items {
+		height: 20px;
+		width: 400px;
+		background: #474747;
+		border-radius: 20px;
+		padding: 10px;
+		border: 1px solid #cccccc;
+	}
+	.search_input{
+		border:none;
+		background:none;
+		outline:none;
+		float:left;
+		padding:0px;
+		color:#white;
+		font-size:16px;
+		width:200px;
+	}
+	.search_button {
+		color:#474747;
+		float:right;
+		width:40px;
+		height:100%;
+		border-radius: 50%;
+		background: #474747;
+		border:none;
+		font-size:16px;
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		
+	}
+	.bookmark_btn{
+		display:flex;
+		gap:10px;
+		height:40px;
+		margin-top:35px;
+		margin-left:20px;
+	}
+	.all_btn,.check_all{
+		appearance: none;
+		background-color: #333333;
+		color: #ffffff;
+		border-radius: 10px;
+		height: 50px;
+		width: 130px;
+		justify-content: center;
+		align-items: center;
+		font-size: 17px;
+		text-align:center;
+		display:flex;
+		cursor:pointer;
+		border: none;	
+		font-weight:bold;
+	}
+	.bookmark_main{
+		margin:30px;
 		width:900px;	
 	}
-	.alarm{
+	.bookmark{
 		display:flex;
 		border-bottom: 1px solid #cccccc;
 	}
-	.sub{
-		height:25px;
+	.bookmark_note{
 		margin-top:10px;
-		margin-bottom:8px;
+		display:flex;
+		border-bottom: 1px solid #cccccc;
+		height:28px;
 	}
 	.change{
 		cursor:pointer;
 	}
-	/********************************* 팝업스타일  *****************************/
+
+/********************************* 팝업스타일  *****************************/
 	
 	.popup_wrap {
 	    display: none; 
@@ -419,10 +492,9 @@
 		.show{
 		display: block;
 		}
-		
+	
 </style>
 <!------------------------- 팝업영역 ----------------------------------->
-
 <!------------------------계정 비활성화 팝업 ----------------------------->
 	<div class="popup_wrap" id="popup_idstop">
 		<div class="idstop_area">
@@ -438,7 +510,7 @@
 					</div>
 				</div>
 				<div style="display:inline-flex; flex-direction:row; gap:2rem;">
-		            <div class="idstop_btn" id="idstop_com" onclick="location.href='mypage_alarm.jsp'">계정 비활성화</div>
+		            <div class="idstop_btn" id="idstop_com" onclick="location.href='mypage_bookmark.jsp'">계정 비활성화</div>
 		        </div>
 			</div>
 		</div>
@@ -458,7 +530,7 @@
 					</div>
 				</div>
 				<div style="display:inline-flex; flex-direction:row; gap:2rem;">
-		            <div class="nickname_btn" id="nickname_com" onclick="location.href='mypage_alarm.jsp'">변경완료</div>
+		            <div class="nickname_btn" id="nickname_com" onclick="location.href='mypage_bookmark.jsp'">변경완료</div>
 		        </div>
 			</div>
 		</div>
@@ -484,7 +556,7 @@
 					</div>
 				</div>
 			<div style="display:inline-flex; flex-direction:row; gap:2rem;">
-	            <div class="mail_btn" id="em_com" onclick="location.href='mypage_alarm.jsp'">인증완료</div>
+	            <div class="mail_btn" id="em_com" onclick="location.href='mypage_bookmark.jsp'">인증완료</div>
 	        </div>
 			</div>
 		</div>
@@ -515,12 +587,13 @@
 		</div>
 	</div>
 <!------------------------- 팝업영역 ----------------------------------->
+
 <div class="mypage_container">
 	<div class="profile_box">
 		<div class="profile">
 			<div class="picture">
 				🤡
-				<div class="change" id="picture_btn">변경하기</div>
+				<div class="change" id="picture_change">변경하기</div>
 			</div>
 			<div class="nickname">
 				USER_NICKNAME
@@ -538,70 +611,104 @@
 			<div class="alarm_list_btn" style="margin-top:50px;" onclick="location.href='mypage_alarm.jsp'">알림 목록</div>
 		</div>	
 	</div>
-	<div class="alarm_container">
-		<div class="alarm_list">
-			<div class="alarm_title">알림 목록</div>
-			<div class="alarm_main">
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:20px; font-weight:bold;">분류</div>
-					<div class="sub" style="width:450px; font-size:20px; font-weight:bold;">알림 내용</div>
-					<div class="sub" style="width:300px; font-size:20px; font-weight:bold;">시간</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">댓글</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;"">***님이 내문제에 댓글을 남겼습니다. ***님이 내문제에 댓글을 남겼습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">신고</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;"">회원님의 신고가 처리됐습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">댓글</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;"">***님이 내문제에 댓글을 남겼습니다. ***님이 내문제에 댓글을 남겼습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
-				<div class="alarm">
-					<div class="sub" style="width:150px; font-size:18px;">좋아요</div>
-					<div class="sub" style="width:450px; overflow:hidden; font-size:18px;">***님이 내문제에 좋아요를 눌렀습니다.***님이 내문제에 좋아요를 눌렀습니다.</div>
-					<div class="sub" style="width:300px; font-size:18px;">2024-07-02 10:36:15</div>
-				</div>
+	<div class="bookmark_container">
+		<div class="bookmark_list">
+			<div class="bookmark_header">
+				<div class="bookmark_title">즐겨찾기 & 북마크목록</div>
+				<div class="search_area">
+            		<form class="search_items">
+               		 	<input class="search_input" type="text" placeholder="Search" spellcheck="false">
+               		 	<button class="search_button" type="button">🔍</button>
+            		</form>
+	       		</div>
 			</div>
-			<div class="page" style="text-align:center;"> ◀ 1  2  3  4  5  6  7  8  9  10  ▶  </div>
+			<div class="bookmark_btn">
+				<div class="check_all" id="check_all" >전체 선택</div>
+				<div class="all_btn">즐겨찾기 해제</div>
+			</div>
+			<div class="bookmark_main">
+				<div class="bookmark">
+						<div class="sub" style="width:50px; font-size:20px; font-weight:bold;">✔</div>
+						<div class="sub" style="width:150px; font-size:20px; font-weight:bold;">유형 분류</div>
+						<div class="sub" style="width:150px; font-size:20px; font-weight:bold;">문제 분류</div>
+						<div class="sub" style="width:350px; font-size:20px; font-weight:bold;">내용</div>
+						<div class="sub" style="width:200px; font-size:20px; font-weight:bold;">시간</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk" ><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">즐겨찾기</div>
+						<div class="sub" style="width:150px; font-size:17px;">JAVA</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden"></div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk" ><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">즐겨찾기</div>
+						<div class="sub" style="width:150px; font-size:17px;">HTML</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden"></div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk"><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">북마크</div>
+						<div class="sub" style="width:150px; font-size:17px;">JSP</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden">JSP에서 ** 과 비슷하게 생긴,JSP에서 ** 과 비슷하게 생긴JSP에서 ** 과 비슷하게 생긴</div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk"><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">북마크</div>
+						<div class="sub" style="width:150px; font-size:17px;">JSTL</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden">JSP에서 ** 과 비슷하게 생긴,JSP에서 ** 과 비슷하게 생긴JSP에서 ** 과 비슷하게 생긴</div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk" ><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">북마크</div>
+						<div class="sub" style="width:150px; font-size:17px;">CSS</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden">JSP에서 ** 과 비슷하게 생긴,JSP에서 ** 과 비슷하게 생긴JSP에서 ** 과 비슷하게 생긴</div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk"><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">즐겨찾기</div>
+						<div class="sub" style="width:150px; font-size:17px;">EL</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden"></div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk"><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">즐겨찾기</div>
+						<div class="sub" style="width:150px; font-size:17px;">Javascript</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden">JSP에서 ** 과 비슷하게 생긴,JSP에서 ** 과 비슷하게 생긴JSP에서 ** 과 비슷하게 생긴</div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk"><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">즐겨찾기</div>
+						<div class="sub" style="width:150px; font-size:17px;">Jquery</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden"></div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk"><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">즐겨찾기</div>
+						<div class="sub" style="width:150px; font-size:17px;">Javascript</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden">JSP에서 ** 과 비슷하게 생긴,JSP에서 ** 과 비슷하게 생긴,JSP에서 ** 과 비슷하게 생긴</div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+					<div class="bookmark_note">
+						<div class="check"style="width:50px;" id="chk"><input type="checkbox" class="checkbox"></div>
+						<div class="sub" style="width:150px; font-size:17px;">즐겨찾기</div>
+						<div class="sub" style="width:150px; font-size:17px;">EL</div>
+						<div class="sub" style="width:350px; font-size:17px; overflow:hidden"></div>
+						<div class="sub" style="width:200px; font-size:17px;">2024-07-02 12:13:45</div>
+					</div>
+				</div>
+				<div class="page" style="text-align:center;"> ◀ 1  2  3  4  5  6  7  8  9  10  ▶  </div>
+			</div>
 		</div>
 	</div>
-</div>
 
 
 <jsp:include page="./include/tail.jsp"></jsp:include>
