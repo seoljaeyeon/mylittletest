@@ -15,24 +15,30 @@ import com.ksw.dao.object.UserRepository;
 import com.ksw.dao.relation.FileNoteMapper;
 import com.ksw.dao.relation.NoteCategoryMapper;
 import com.ksw.dao.relation.NoteUserMapper;
+import com.ksw.dto.forObject.object.AnswerDTO;
 import com.ksw.dto.forObject.object.CategoryDTO;
 import com.ksw.dto.forObject.object.FileDTO;
 import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.dto.forObject.object.ReplyDTO;
 import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.dto.forObject.relation.AnswerHistoryDTO;
 import com.ksw.dto.function.QuestionDTO;
+import com.ksw.object.entity.jpa.Answer;
 import com.ksw.object.entity.jpa.Category;
 import com.ksw.object.entity.jpa.File;
 import com.ksw.object.entity.jpa.Note;
 import com.ksw.object.entity.jpa.User;
 import com.ksw.object.vo.combined.QuestionVO;
+import com.ksw.object.vo.object.AnswerVO;
 import com.ksw.object.vo.object.FileVO;
 import com.ksw.object.vo.object.ReplyVO;
+import com.ksw.service.forObject.object.AnswerService;
 import com.ksw.service.forObject.object.CategoryService;
 import com.ksw.service.forObject.object.FileService;
 import com.ksw.service.forObject.object.NoteService;
 import com.ksw.service.forObject.object.ReplyService;
 import com.ksw.service.forObject.object.UserService;
+import com.ksw.service.forObject.relation.AnswerHistoryService;
 
 @Service
 public class QuestionService {
@@ -72,6 +78,12 @@ public class QuestionService {
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private AnswerHistoryService answerHistoryService;
+	
+	@Autowired
+	private AnswerService answerService;
 
 	@Autowired
 	private UserService userService;
@@ -130,7 +142,7 @@ public class QuestionService {
 		return questionVO; 
 	}
     @Transactional(readOnly = true)
-    public QuestionVO Read(int noteNo) {
+    public QuestionVO Read(Integer noteNo, Integer userNo) {
         UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo);
         CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
         NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
@@ -138,6 +150,10 @@ public class QuestionService {
         List<ReplyDTO> replyList = questionMapper.getRepliesByNoteNo(noteNo);
         int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
         int favoriteCount = questionMapper.getfavoriteCountByNoteNo(noteNo);
+        AnswerHistoryDTO latestAnswer = answerHistoryService.getAnswerHistoryByNoteNoAndUserNo(noteNo, userNo);
+        AnswerDTO answerDTO = answerService.getAnswerByNo(latestAnswer.getAnswerNo());
+        int answerType = answerDTO.getAnswerType();
+        
 
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setUserDTO(userDTO);
@@ -147,6 +163,7 @@ public class QuestionService {
         questionDTO.setReplies(replyList);
         questionDTO.setViewCount(viewCount);
         questionDTO.setFavoriteCount(favoriteCount);
+        questionDTO.setAnswerType(answerType);
 
         return this.convertTVO(questionDTO);
     }

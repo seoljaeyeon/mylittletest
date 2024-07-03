@@ -17,6 +17,7 @@ public final class QuestionVO {
     private final List<ReplyVO> replies;
     private final int viewCount;
     private final int favoriteCount;
+    private final int answerType;
 
     private QuestionVO(Builder builder) {
         this.noteVO = builder.noteVO;
@@ -26,6 +27,7 @@ public final class QuestionVO {
         this.replies = builder.replies;
         this.viewCount = builder.viewCount;
         this.favoriteCount = builder.favoriteCount;
+        this.answerType = builder.answerType;
     }
 
     public NoteVO getNoteVO() {
@@ -55,6 +57,10 @@ public final class QuestionVO {
 	public int getFavoriteCount() {
 		return favoriteCount;
 	}
+	
+	public int getAnswerType() {
+		return answerType;
+	}
 
 	@Override
     public boolean equals(Object o) {
@@ -67,13 +73,14 @@ public final class QuestionVO {
                 Objects.equals(fileVO, that.fileVO) &&
                 Objects.equals(replies, that.replies) &&
         		Objects.equals(viewCount, that.viewCount) &&
-        		Objects.equals(favoriteCount, that.favoriteCount);
+        		Objects.equals(favoriteCount, that.favoriteCount) &&
+        		Objects.equals(answerType, that.answerType);
         
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteVO, userVO, categoryVO, fileVO, replies, viewCount, favoriteCount);
+        return Objects.hash(noteVO, userVO, categoryVO, fileVO, replies, viewCount, favoriteCount, answerType);
     }
 
     @Override
@@ -86,6 +93,7 @@ public final class QuestionVO {
                 ", replyVO=" + replies +
                 ", viewCount=" + viewCount +
                 ", favoriteCount=" + favoriteCount +
+                ", answerType=" + answerType +
                 '}';
     }
 
@@ -97,6 +105,7 @@ public final class QuestionVO {
         private List<ReplyVO> replies;
         private int viewCount;
         private int favoriteCount;
+        private int answerType;
         
 
         public Builder noteVO(NoteVO noteVO) {
@@ -132,6 +141,11 @@ public final class QuestionVO {
         public Builder favoriteCount(int favoriteCount) {
             this.favoriteCount = favoriteCount;
             return this;
+        }
+        
+        public Builder answerType(int answerType) {
+        	this.answerType = answerType;
+        	return this;
         }
 
         public QuestionVO build() {

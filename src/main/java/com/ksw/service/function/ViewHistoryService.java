@@ -37,7 +37,7 @@ public class ViewHistoryService {
     }
 
     @Transactional(readOnly = true)
-    public List<ViewHistoryVO> getHistoryByCategory(int userNo, int categoryNo) {
+    public List<ViewHistoryVO> getHistoryByCategory(Integer userNo, Integer categoryNo) {
         // 특정 카테고리의 모든 노트 ID를 가져옵니다.
         List<Integer> noteNosInCategory = noteCategoryMapper.findNoteNosByCategoryNo(categoryNo);
 

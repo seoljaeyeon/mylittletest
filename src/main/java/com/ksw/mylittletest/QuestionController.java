@@ -55,10 +55,14 @@ public class QuestionController {
             HttpSession session,
             @RequestParam("userNo") Integer userNo,
             @RequestParam("categoryNo") Integer categoryNo) {
+        if (userNo == null || categoryNo == null) {
+            redirectAttributes.addFlashAttribute("error", "로그인 필요");
+            return "redirect:/login"; // 로그인 페이지로 리디렉션
+        }
         try {
             List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(categoryNo, userNo);
             Note randomNote = noteService.getRandomUnviewedNoteByCategory(categoryNo, userNo);
-            QuestionVO newQuestionVO = questionService.Read(randomNote.getNoteNo());
+            QuestionVO newQuestionVO = questionService.Read(randomNote.getNoteNo(), userNo);
             session.setAttribute("questionVO", newQuestionVO); // 문제 정보
             session.setAttribute("viewHistory", viewHistory); // 해당 카테고리 내의 문제 중 사용자가 본 문제 조회이력
         } catch (Exception e) {

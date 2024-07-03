@@ -17,6 +17,7 @@ public class QuestionDTO {
 	private List<ReplyDTO> replies;
 	private int viewCount;
 	private int favoriteCount;
+	private int answerType;
 	
 	public List<ReplyDTO> getReplies() {
 		return replies;
@@ -32,6 +33,12 @@ public class QuestionDTO {
 	}
 	public int getFavoriteCount() {
 		return favoriteCount;
+	}
+	public int getAnswerType() {
+		return answerType;
+	}
+	public void setAnswerType(int answerType) {
+		this.answerType = answerType;
 	}
 	public void setFavoriteCount(int favoriteCount) {
 		this.favoriteCount = favoriteCount;
