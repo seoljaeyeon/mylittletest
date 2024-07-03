@@ -11,6 +11,7 @@ import com.ksw.dto.forObject.object.UserDTO;
 public class QuestionDTO {
 
 	private UserDTO userDTO;
+	private UserDTO writerDTO;
 	private NoteDTO noteDTO;
 	private CategoryDTO categoryDTO;
 	private FileDTO fileDTO;
@@ -18,9 +19,22 @@ public class QuestionDTO {
 	private int viewCount;
 	private int favoriteCount;
 	private int answerType;
+	private Boolean isFavorite;
 	
 	public List<ReplyDTO> getReplies() {
 		return replies;
+	}
+	public UserDTO getWriterDTO() {
+		return writerDTO;
+	}
+	public void setWriterDTO(UserDTO writerDTO) {
+		this.writerDTO = writerDTO;
+	}
+	public Boolean getIsFavorite() {
+		return isFavorite;
+	}
+	public void setIsFavorite(Boolean isFavorite) {
+		this.isFavorite = isFavorite;
 	}
 	public void setReplies(List<ReplyDTO> replies) {
 		this.replies = replies;

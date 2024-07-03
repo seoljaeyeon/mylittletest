@@ -3,6 +3,7 @@ package com.ksw.dao.combined;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.ksw.dto.forObject.object.CategoryDTO;
@@ -11,6 +12,7 @@ import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.dto.forObject.object.ReplyDTO;
 import com.ksw.dto.forObject.object.UserDTO;
 import com.ksw.dto.function.QuestionDTO;
+import com.ksw.object.entity.mybatis.FavoriteNote;
 import com.ksw.object.vo.object.ReplyVO;
 
 @Mapper
@@ -54,6 +56,18 @@ public interface QuestionMapper {
     		+ "ON fv.favorite = fvn favoriteNote "
     		+ "WHERE fvn.noteNo = #{noteNo}")
     int getfavoriteCountByNoteNo(int noteNo);
+
+    @Select("SELECT COUNT(*) > 0 " +
+            "FROM favoriteNote " +
+            "WHERE userNo = #{userNo} AND noteNo = #{noteNo}")
+    Boolean getIsFavoriteByNoteNoAndUserNo(
+    		@Param("noteNo") Integer noteNo, 
+    		@Param("userNo") Integer userNo);
     
+    @Select("SELECT u.* " +
+            "FROM user u " +
+            "JOIN noteUser nu ON u.userNo = nu.userNo " +
+            "WHERE nu.noteNo = #{noteNo}")
+    UserDTO getWriterByNoteNo(@Param("noteNo") Integer noteNo);
     
 }
