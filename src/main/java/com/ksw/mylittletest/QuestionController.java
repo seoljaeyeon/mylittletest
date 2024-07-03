@@ -19,6 +19,7 @@ import com.ksw.dto.forObject.object.CategoryDTO;
 import com.ksw.dto.forObject.object.FileDTO;
 import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.object.entity.jpa.Note;
 import com.ksw.object.vo.combined.QuestionVO;
 import com.ksw.object.vo.combined.ViewHistoryVO;
 import com.ksw.object.vo.object.CategoryVO;
@@ -40,34 +41,32 @@ public class QuestionController {
 	private QuestionService questionService;
 	@Autowired
 	private ViewHistoryService viewHistoryService;
-	
+	@Autowired
+	private NoteService noteService;
+
 	@GetMapping("/write")
 	public String toWritePage() {
 		return "write";
 	}
-	
-	@GetMapping("/view")
-	public String toViewPage(
-			RedirectAttributes redirectAttributes,
-			HttpSession session,
-			@SessionAttribute("questionVO") QuestionVO questionVO, 
-			@RequestParam("noteNo") Integer noteNo,
-			@RequestParam("userNo") Integer userNo) {
-		if (questionVO != null) {
-			return "view"; 
-		} else {
-			try {
-				List<ViewHistoryVO> viewHistoryVO = viewHistoryService.getHistory(userNo);
-				QuestionVO newQuestionVO = questionService.Read(noteNo);
-				session.setAttribute("questionVO", newQuestionVO);
-				session.setAttribute("viewHistoryVO", viewHistoryVO);
-			} catch (Exception e) {
-				redirectAttributes.addFlashAttribute("error", "조회 실패");
-			}
-		}
-		return "view";
-	}
-	
+
+    @GetMapping("/view")
+    public String toViewPage(
+            RedirectAttributes redirectAttributes,
+            HttpSession session,
+            @RequestParam("userNo") Integer userNo,
+            @RequestParam("categoryNo") Integer categoryNo) {
+        try {
+            List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(categoryNo, userNo);
+            Note randomNote = noteService.getRandomUnviewedNoteByCategory(categoryNo, userNo);
+            QuestionVO newQuestionVO = questionService.Read(randomNote.getNoteNo());
+            session.setAttribute("questionVO", newQuestionVO); // 문제 정보
+            session.setAttribute("viewHistory", viewHistory); // 해당 카테고리 내의 문제 중 사용자가 본 문제 조회이력
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "조회 실패");
+        }
+        return "view";
+    }
+    
 	@PostMapping("/write")
 	public String notewrite(
 			@ModelAttribute NoteDTO noteDTO,

@@ -13,4 +13,6 @@ public interface ViewUserNoteMapper {
     @Select("SELECT * FROM viewUserNote WHERE userNo = #{userNo}")
     List<ViewUserNote> findByUserNo(int userNo);
 	
+    @Select("SELECT noteNo FROM viewUserNote WHERE userNo = #{userNo}")
+    List<Integer> findViewedNoteNosByUserNo(int userNo);
 }
