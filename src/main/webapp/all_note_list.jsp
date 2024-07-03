@@ -24,7 +24,9 @@
 	<div class="a">
 	<div><div style="display: inline-block; font-size: 30px; font-weight: bolder; margin-left: 50px;">
 		<a href="javascript:history.back();" style="border: dashed;">JAVA</a>
-		<span style="margin-left: 990px;"><input style="width: 290px; height: 30px;" type="text" placeholder="Search"></span>
+		<span style="margin-left: 990px;">
+			<input style="width: 290px; height: 30px; background-color: transparent; color: white;" type="text" placeholder="Search">
+		</span>
 	</div>
 	</div>
 	<br><br>
@@ -39,71 +41,71 @@
 					<td>💌</td>
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>16</td>
 					<td><input type="checkbox" checked style="accent-color: green;"></td>
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>2</td>
 					<td><input type="checkbox" style="accent-color: green;"></td>			
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>3</td>
 					<td><input type="checkbox" style="accent-color: green;"></td>			
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>4</td>
 					<td><input type="checkbox" checked style="accent-color: green;"></td>
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>5</td>
 					<td><input type="checkbox" style="accent-color: green;"></td>			
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>6</td>
 					<td><input type="checkbox" checked style="accent-color: green;"></td>			
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>71</td>
 					<td><input type="checkbox" style="accent-color: green;"></td>					
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>22</td>
 					<td><input type="checkbox" checked style="accent-color: green;"></td>				
 				</tr>	
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>23</td>
 					<td><input type="checkbox" checked style="accent-color: green;"></td>				
 				</tr>
 				<tr style="height: 50px;">
-					<td><a href="">JAVA</a></td>
-					<td><a href="">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
+					<td><a href="questionlist.jsp">JAVA</a></td>
+					<td><a href="questionsolve.jsp">JSP에서 ** 과 비슷하게 생긴 ..</a></td>
 					<td>2024-06-24 11:39:45</td>
 					<td>23</td>
 					<td><input type="checkbox" style="accent-color: green;"></td>			
