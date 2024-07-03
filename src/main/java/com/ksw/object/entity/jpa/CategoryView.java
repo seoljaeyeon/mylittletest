@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "category_view")
+@Table(name = "categoryView")
 public class CategoryView {
 
     @Id

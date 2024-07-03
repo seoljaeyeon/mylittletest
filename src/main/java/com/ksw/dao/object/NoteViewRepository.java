@@ -1,9 +1,9 @@
 package com.ksw.dao.object;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.ksw.object.entity.jpa.NoteView;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface NoteViewRepository extends JpaRepository<NoteView, Long>{
-
+@Repository
+public interface NoteViewRepository extends JpaRepository<NoteView, Integer> {
 }

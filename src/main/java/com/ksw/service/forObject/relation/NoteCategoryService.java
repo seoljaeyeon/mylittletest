@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NoteCategoryService {
-
+	
     // Entity -> DTO 변환 메소드
     public NoteCategoryDTO convertToDTO(NoteCategory noteCategoryEntity) {
         return new NoteCategoryDTO.Builder()

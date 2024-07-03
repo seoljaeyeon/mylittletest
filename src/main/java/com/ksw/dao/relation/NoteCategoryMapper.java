@@ -1,8 +1,11 @@
 package com.ksw.dao.relation;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface NoteCategoryMapper {
@@ -13,5 +16,9 @@ public interface NoteCategoryMapper {
 			+ "VALUES "
 			+ "(#{categoryNo}, #{userNo})")
 	void insert(@Param("categoryNo") Integer categoryNo, @Param("userNo") Integer userNo);
+	
+    @Select("SELECT noteNo FROM noteCategory "
+    		+ "WHERE categoryNo = #{categoryNo}")
+    List<Integer> findNoteNosByCategoryNo(int categoryNo);
 	
 }

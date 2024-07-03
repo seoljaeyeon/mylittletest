@@ -1,30 +1,61 @@
 package com.ksw.dto.function;
 
-import java.sql.Timestamp;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 import com.ksw.dto.forObject.object.CategoryDTO;
 import com.ksw.dto.forObject.object.FileDTO;
 import com.ksw.dto.forObject.object.NoteDTO;
+import com.ksw.dto.forObject.object.ReplyDTO;
 import com.ksw.dto.forObject.object.UserDTO;
-import com.ksw.object.vo.object.ReplyVO;
 
 public class QuestionDTO {
 
 	private UserDTO userDTO;
+	private UserDTO writerDTO;
 	private NoteDTO noteDTO;
 	private CategoryDTO categoryDTO;
 	private FileDTO fileDTO;
-	private ReplyVO replyDTO;
+	private List<ReplyDTO> replies;
+	private int viewCount;
+	private int favoriteCount;
+	private int answerType;
+	private Boolean isFavorite;
 	
-	
-	public ReplyVO getReplyDTO() {
-		return replyDTO;
+	public List<ReplyDTO> getReplies() {
+		return replies;
 	}
-	public void setReplyDTO(ReplyVO replyDTO) {
-		this.replyDTO = replyDTO;
+	public UserDTO getWriterDTO() {
+		return writerDTO;
+	}
+	public void setWriterDTO(UserDTO writerDTO) {
+		this.writerDTO = writerDTO;
+	}
+	public Boolean getIsFavorite() {
+		return isFavorite;
+	}
+	public void setIsFavorite(Boolean isFavorite) {
+		this.isFavorite = isFavorite;
+	}
+	public void setReplies(List<ReplyDTO> replies) {
+		this.replies = replies;
+	}
+	public int getViewCount() {
+		return viewCount;
+	}
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
+	public int getFavoriteCount() {
+		return favoriteCount;
+	}
+	public int getAnswerType() {
+		return answerType;
+	}
+	public void setAnswerType(int answerType) {
+		this.answerType = answerType;
+	}
+	public void setFavoriteCount(int favoriteCount) {
+		this.favoriteCount = favoriteCount;
 	}
 	public UserDTO getUserDTO() {
 		return userDTO;
