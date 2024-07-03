@@ -11,9 +11,21 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer favoriteNo;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false)
+    private Integer favoriteType = 0; // 기본값 설정
+    
+
+	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
+	public Integer getFavoriteType() {
+		return favoriteType;
+	}
+	
+	public void setFavoriteType(Integer favoriteType) {
+		this.favoriteType = favoriteType;
+	}
+	
 	public Integer getFavoriteNo() {
 		return favoriteNo;
 	}

@@ -5,7 +5,7 @@ public class FavoriteNoteDTO {
     private Integer userNo;
     private Integer noteNo;
     private Integer favoriteNo;
-
+    
     // 기본 생성자
     public FavoriteNoteDTO() {}
 
