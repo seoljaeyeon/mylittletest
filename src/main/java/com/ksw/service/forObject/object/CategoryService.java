@@ -17,7 +17,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 	
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public CategoryDTO convertToDTO(Category category) {
         return new CategoryDTO.Builder()
                 .categoryNo(category.getCategoryNo())
@@ -36,7 +36,7 @@ public class CategoryService {
         return category;
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public CategoryVO convertToVO(CategoryDTO categoryDTO) {
         return new CategoryVO.Builder()
                 .categoryNo(categoryDTO.getCategoryNo())

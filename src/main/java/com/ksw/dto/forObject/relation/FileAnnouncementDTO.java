@@ -5,10 +5,10 @@ public class FileAnnouncementDTO {
     private Integer announcementNo;
     private Integer fileNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FileAnnouncementDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getAnnouncementNo() {
         return announcementNo;
     }
@@ -25,7 +25,7 @@ public class FileAnnouncementDTO {
         this.fileNo = fileNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer announcementNo;
         private Integer fileNo;

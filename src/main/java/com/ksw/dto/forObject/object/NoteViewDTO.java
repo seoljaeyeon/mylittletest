@@ -7,7 +7,7 @@ public class NoteViewDTO {
     private Integer noteViewNo;
     private Timestamp createdAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public NoteViewDTO() {}
 
     // Getters and Setters
@@ -27,7 +27,7 @@ public class NoteViewDTO {
         this.createdAt = createdAt;
     }
     
-    // Builder Å¬·¡½º
+    // Builder í´ë˜ìŠ¤
     public static class Builder {
         private Integer noteViewNo;
         private Timestamp createdAt;

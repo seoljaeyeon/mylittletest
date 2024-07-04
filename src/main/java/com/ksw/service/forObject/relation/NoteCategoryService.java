@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NoteCategoryService {
 	
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public NoteCategoryDTO convertToDTO(NoteCategory noteCategoryEntity) {
         return new NoteCategoryDTO.Builder()
                 .categoryNo(noteCategoryEntity.getCategoryNo())
@@ -17,7 +17,7 @@ public class NoteCategoryService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public NoteCategoryVO convertToVO(NoteCategoryDTO noteCategoryDTO) {
         return new NoteCategoryVO.Builder()
                 .categoryNo(noteCategoryDTO.getCategoryNo())

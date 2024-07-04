@@ -11,7 +11,7 @@ public class ReportDTO {
     private Timestamp createdAt;
     private Timestamp solvedAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ReportDTO() {}
 
     // Getters and Setters
@@ -62,7 +62,7 @@ public class ReportDTO {
     public void setSolvedAt(Timestamp solvedAt) {
         this.solvedAt = solvedAt;
     }
-    // Builder Å¬·¡½º
+    // Builder í´ë˜ìŠ¤
     public static class Builder {
         private Integer reportNo;
         private Integer reportType;

@@ -6,10 +6,10 @@ public class ReportNoteDTO {
     private Integer noteNo;
     private Integer reportNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ReportNoteDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }
@@ -34,7 +34,7 @@ public class ReportNoteDTO {
         this.reportNo = reportNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer userNo;
         private Integer noteNo;

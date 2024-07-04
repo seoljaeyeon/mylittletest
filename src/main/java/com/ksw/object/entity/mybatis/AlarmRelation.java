@@ -6,10 +6,10 @@ public class AlarmRelation {
     private Integer userNo;
     private Integer makerNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public AlarmRelation() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getAlarmNo() {
         return alarmNo;
     }

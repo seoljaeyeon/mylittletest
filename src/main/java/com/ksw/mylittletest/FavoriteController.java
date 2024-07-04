@@ -25,13 +25,13 @@ public class FavoriteController {
 	        RedirectAttributes redirectAttributes) {
 
 	    try {
-	        // favoriteNote Å×ÀÌºí¿¡ µ¥ÀÌÅÍ ±â·Ï
-	    	// favorite Å×ÀÌºí¿¡ µ¥ÀÌÅÍ ±â·Ï
+	        // favoriteNote í…Œì´ë¸”ì— ë°ì´í„° ê¸°ë¡
+	    	// favorite í…Œì´ë¸”ì— ë°ì´í„° ê¸°ë¡
 	        favoriteNoteService.toggleFavorite(userNo, noteNo);
 
-	        redirectAttributes.addFlashAttribute("message", "¼º°ø");
+	        redirectAttributes.addFlashAttribute("message", "ì„±ê³µ");
 	    } catch (Exception e) {
-	        redirectAttributes.addFlashAttribute("error", "½ÇÆĞ");
+	        redirectAttributes.addFlashAttribute("error", "ì‹¤íŒ¨");
 	    }
 	    
 	    return "redirect:/view?" + noteNo;

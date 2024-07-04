@@ -9,7 +9,7 @@ public class CategoryDTO {
     private Boolean isActive;
     private Timestamp createdAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public CategoryDTO() {}
 
     // Getters and Setters
@@ -45,7 +45,7 @@ public class CategoryDTO {
         this.createdAt = createdAt;
     }
 
-    // Builder Å¬·¡½º
+    // Builder í´ë˜ìŠ¤
     public static class Builder {
         private Integer categoryNo;
         private String categoryTitle;

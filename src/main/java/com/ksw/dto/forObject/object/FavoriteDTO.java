@@ -7,7 +7,7 @@ public class FavoriteDTO {
     private Integer favoriteNo;
     private Timestamp createdAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FavoriteDTO() {}
 
     // Getters and Setters
@@ -26,7 +26,7 @@ public class FavoriteDTO {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    // Builder Å¬·¡½º
+    // Builder í´ë˜ìŠ¤
     public static class Builder {
         private Integer favoriteNo;
         private Timestamp createdAt;

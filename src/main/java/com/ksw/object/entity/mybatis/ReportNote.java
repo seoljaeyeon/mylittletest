@@ -6,10 +6,10 @@ public class ReportNote {
     private Integer noteNo;
     private Integer reportNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ReportNote() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }

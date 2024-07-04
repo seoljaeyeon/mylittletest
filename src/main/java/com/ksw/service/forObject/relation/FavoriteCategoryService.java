@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FavoriteCategoryService {
 
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public FavoriteCategoryDTO convertToDTO(FavoriteCategory favoriteCategoryEntity) {
         return new FavoriteCategoryDTO.Builder()
                 .userNo(favoriteCategoryEntity.getUserNo())
@@ -18,7 +18,7 @@ public class FavoriteCategoryService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public FavoriteCategoryVO convertToVO(FavoriteCategoryDTO favoriteCategoryDTO) {
         return new FavoriteCategoryVO.Builder()
                 .userNo(favoriteCategoryDTO.getUserNo())

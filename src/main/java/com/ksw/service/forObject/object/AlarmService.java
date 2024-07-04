@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlarmService {
 
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public AlarmDTO convertToDTO(Alarm alarm) {
         return new AlarmDTO.Builder()
                 .alarmNo(alarm.getAlarmNo())
@@ -20,7 +20,7 @@ public class AlarmService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public AlarmVO convertToVO(AlarmDTO alarmDTO) {
         return new AlarmVO.Builder()
                 .alarmNo(alarmDTO.getAlarmNo())

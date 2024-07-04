@@ -6,10 +6,10 @@ public class ReportManagement {
     private Integer managerNo;
     private Integer solverNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ReportManagement() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }

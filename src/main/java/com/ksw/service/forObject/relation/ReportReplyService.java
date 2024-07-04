@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportReplyService {
 
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public ReportReplyDTO convertToDTO(ReportReply reportReplyEntity) {
         return new ReportReplyDTO.Builder()
                 .userNo(reportReplyEntity.getUserNo())
@@ -18,7 +18,7 @@ public class ReportReplyService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public ReportReplyVO convertToVO(ReportReplyDTO reportReplyDTO) {
         return new ReportReplyVO.Builder()
                 .userNo(reportReplyDTO.getUserNo())

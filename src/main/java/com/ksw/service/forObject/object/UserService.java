@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
 	
-    // DTO -> Entity ��ȯ �޼ҵ�
+    // DTO -> Entity 변환 메소드
     public User convertToEntity(UserDTO userDTO) {
         User userEntity = new User();
         userEntity.setUserNo(userDTO.getUserNo());
@@ -34,7 +34,7 @@ public class UserService {
         return userEntity;
     }
 	
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public UserDTO convertToDTO(User userEntity) {
         return new UserDTO.Builder()
                 .userNo(userEntity.getUserNo())
@@ -50,7 +50,7 @@ public class UserService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public UserVO convertToVO(UserDTO userDTO) {
         return new UserVO.Builder()
                 .userNo(userDTO.getUserNo())

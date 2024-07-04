@@ -6,10 +6,10 @@ public class ViewUserNote {
     private Integer noteNo;
     private Integer noteViewNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ViewUserNote() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }

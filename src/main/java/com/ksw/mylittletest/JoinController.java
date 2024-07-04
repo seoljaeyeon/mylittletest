@@ -36,11 +36,11 @@ public class JoinController {
     public String join(@ModelAttribute JoinDTO joinDTO, RedirectAttributes redirectAttributes) {
         try {
             joinService.join(joinDTO);
-            redirectAttributes.addFlashAttribute("success", "È¸¿ø°¡ÀÔ ¼º°ø");
+            redirectAttributes.addFlashAttribute("success", "íšŒì›ê°€ì… ì„±ê³µ");
             return "redirect:/joincomplete";
         } catch (Exception e){
-            redirectAttributes.addFlashAttribute("error", "È¸¿ø°¡ÀÔ ½ÇÆĞ");
-            System.out.println("È¸¿ø°¡ÀÔ ½ÇÆĞ");
+            redirectAttributes.addFlashAttribute("error", "íšŒì›ê°€ì… ì‹¤íŒ¨");
+            System.out.println("íšŒì›ê°€ì… ì‹¤íŒ¨");
             return "redirect:/join";
         }
     }

@@ -12,7 +12,7 @@ public class AnnouncementDTO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public AnnouncementDTO() {}
 
     // Getters and Setters
@@ -72,7 +72,7 @@ public class AnnouncementDTO {
         this.updatedAt = updatedAt;
     }
     
-    // Builder ÆĞÅÏ
+    // Builder íŒ¨í„´
     public static class Builder {
         private Integer announcementNo;
         private String announcementTitle;

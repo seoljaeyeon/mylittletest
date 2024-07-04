@@ -10,7 +10,7 @@ public class AlarmDTO {
     private Boolean isRead;
     private Timestamp createdAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public AlarmDTO() {}
 
     // Getters and Setters
@@ -54,7 +54,7 @@ public class AlarmDTO {
         this.createdAt = createdAt;
     }
     
-    // Builder ÆĞÅÏ
+    // Builder íŒ¨í„´
     public static class Builder {
         private Integer alarmNo;
         private String alarmNote;

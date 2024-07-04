@@ -5,10 +5,10 @@ public class NoteUser {
     private Integer userNo;
     private Integer noteNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public NoteUser() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }

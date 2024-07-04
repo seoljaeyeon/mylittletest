@@ -31,9 +31,9 @@ public class JoinService {
         user.setEmail(joinDTO.getEmail());
         user.setSecurityQuestion(joinDTO.getSecurityQuestion());
         user.setSecurityAnswer(joinDTO.getSecurityAnswer());
-        user.setIsActive(true);  // ±âº»°ª ¼³Á¤
-        user.setType(1);  // ±âº»°ª ¼³Á¤
-        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));  // ÇöÀç ½Ã°£ ¼³Á¤
+        user.setIsActive(true);  // ê¸°ë³¸ê°’ ì„¤ì •
+        user.setType(1);  // ê¸°ë³¸ê°’ ì„¤ì •
+        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));  // í˜„ìž¬ ì‹œê°„ ì„¤ì •
         
         return userRepository.save(user);
     }

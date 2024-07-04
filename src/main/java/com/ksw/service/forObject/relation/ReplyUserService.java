@@ -27,7 +27,7 @@ public class ReplyUserService {
 		return this.convertToVO(this.convertToDTO(replyUser));
 	}
 	
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public ReplyUserDTO convertToDTO(ReplyUser replyUserEntity) {
         return new ReplyUserDTO.Builder()
                 .userNo(replyUserEntity.getUserNo())
@@ -42,7 +42,7 @@ public class ReplyUserService {
     	return replyUser;
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public ReplyUserVO convertToVO(ReplyUserDTO replyUserDTO) {
         return new ReplyUserVO.Builder()
                 .userNo(replyUserDTO.getUserNo())

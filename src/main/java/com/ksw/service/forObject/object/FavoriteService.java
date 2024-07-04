@@ -26,7 +26,7 @@ public class FavoriteService {
         favoriteRepository.deleteById(favoriteNo);
     }
     
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public FavoriteDTO convertToDTO(Favorite favorite) {
         return new FavoriteDTO.Builder()
                 .favoriteNo(favorite.getFavoriteNo())
@@ -34,7 +34,7 @@ public class FavoriteService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public FavoriteVO convertToVO(FavoriteDTO favoriteDTO) {
         return new FavoriteVO.Builder()
                 .favoriteNo(favoriteDTO.getFavoriteNo())

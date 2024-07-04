@@ -6,10 +6,10 @@ public class ViewUserCategory {
     private Integer categoryNo;
     private Integer categoryViewNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ViewUserCategory() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }

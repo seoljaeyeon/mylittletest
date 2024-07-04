@@ -6,10 +6,10 @@ public class FavoriteCategory {
     private Integer categoryNo;
     private Integer favoriteNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FavoriteCategory() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }
