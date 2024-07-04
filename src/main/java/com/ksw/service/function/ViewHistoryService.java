@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ksw.dao.forObject.object.NoteViewRepository;
+import com.ksw.dao.forObject.entity.NoteViewRepository;
 import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dao.forObject.relation.ViewUserNoteMapper;
 import com.ksw.dto.function.ViewHistoryDTO;

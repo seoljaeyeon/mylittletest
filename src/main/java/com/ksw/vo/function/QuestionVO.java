@@ -3,11 +3,11 @@ package com.ksw.vo.function;
 import java.util.List;
 import java.util.Objects;
 
-import com.ksw.vo.forObject.object.CategoryVO;
-import com.ksw.vo.forObject.object.FileVO;
-import com.ksw.vo.forObject.object.NoteVO;
-import com.ksw.vo.forObject.object.ReplyVO;
-import com.ksw.vo.forObject.object.UserVO;
+import com.ksw.vo.forObject.entity.CategoryVO;
+import com.ksw.vo.forObject.entity.FileVO;
+import com.ksw.vo.forObject.entity.NoteVO;
+import com.ksw.vo.forObject.entity.ReplyVO;
+import com.ksw.vo.forObject.entity.UserVO;
 
 public final class QuestionVO {
     private final NoteVO noteVO;

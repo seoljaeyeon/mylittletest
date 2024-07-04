@@ -12,9 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.dto.function.JoinDTO;
 import com.ksw.dto.function.LoginDTO;
-import com.ksw.service.forObject.object.UserService;
+import com.ksw.service.forObject.entity.UserService;
 import com.ksw.service.function.JoinService;
-import com.ksw.vo.forObject.object.UserVO;
+import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
 public class JoinController {

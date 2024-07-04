@@ -1,6 +1,6 @@
 package com.ksw.service.function;
 
-import com.ksw.dao.forObject.object.UserRepository;
+import com.ksw.dao.forObject.entity.UserRepository;
 import com.ksw.object.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;

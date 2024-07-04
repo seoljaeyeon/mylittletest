@@ -6,14 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.ksw.dto.forObject.object.CategoryDTO;
-import com.ksw.dto.forObject.object.FileDTO;
-import com.ksw.dto.forObject.object.NoteDTO;
-import com.ksw.dto.forObject.object.ReplyDTO;
-import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.relation.FavoriteNote;
-import com.ksw.vo.forObject.object.ReplyVO;
+import com.ksw.vo.forObject.entity.ReplyVO;
 
 @Mapper
 public interface QuestionMapper {

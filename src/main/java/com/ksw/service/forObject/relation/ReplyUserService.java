@@ -1,13 +1,13 @@
 package com.ksw.service.forObject.relation;
 
-import com.ksw.dao.forObject.object.ReplyRepository;
+import com.ksw.dao.forObject.entity.ReplyRepository;
 import com.ksw.dao.forObject.relation.ReplyUserMapper;
-import com.ksw.dto.forObject.object.ReplyDTO;
-import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.object.entity.Reply;
 import com.ksw.object.relation.ReplyUser;
-import com.ksw.vo.forObject.object.ReplyVO;
+import com.ksw.vo.forObject.entity.ReplyVO;
 import com.ksw.vo.forObject.relation.ReplyUserVO;
 
 import org.springframework.beans.factory.annotation.Autowired;

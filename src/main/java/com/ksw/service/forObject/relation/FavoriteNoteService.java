@@ -4,7 +4,7 @@ import com.ksw.dao.forObject.relation.FavoriteNoteMapper;
 import com.ksw.dto.forObject.relation.FavoriteNoteDTO;
 import com.ksw.object.entity.Favorite;
 import com.ksw.object.relation.FavoriteNote;
-import com.ksw.service.forObject.object.FavoriteService;
+import com.ksw.service.forObject.entity.FavoriteService;
 import com.ksw.vo.forObject.relation.FavoriteNoteVO;
 
 import java.util.List;
