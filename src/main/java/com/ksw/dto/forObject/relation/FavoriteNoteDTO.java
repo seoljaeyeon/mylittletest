@@ -6,10 +6,10 @@ public class FavoriteNoteDTO {
     private Integer noteNo;
     private Integer favoriteNo;
     
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FavoriteNoteDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }
@@ -34,7 +34,7 @@ public class FavoriteNoteDTO {
         this.favoriteNo = favoriteNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer userNo;
         private Integer noteNo;

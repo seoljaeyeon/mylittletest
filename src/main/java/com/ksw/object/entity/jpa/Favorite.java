@@ -12,7 +12,7 @@ public class Favorite {
     private Integer favoriteNo;
 
     @Column(nullable = false)
-    private Integer favoriteType = 0; // ±âº»°ª ¼³Á¤
+    private Integer favoriteType = 0; // ê¸°ë³¸ê°’ ì„¤ì •
     
 
 	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

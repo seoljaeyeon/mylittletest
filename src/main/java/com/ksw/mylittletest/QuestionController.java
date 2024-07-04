@@ -57,8 +57,8 @@ public class QuestionController {
 //            @RequestParam("categoryNo") Integer categoryNo,
 //            @RequestParam(value = "noteNo", required = false) Integer noteNo) {
 //        if (userNo == null || categoryNo == null) {
-//            redirectAttributes.addFlashAttribute("error", "·Î±×ÀÎ ÇÊ¿ä");
-//            return "redirect:/login"; // ·Î±×ÀÎ ÆäÀÌÁö·Î ¸®µğ·º¼Ç
+//            redirectAttributes.addFlashAttribute("error", "ë¡œê·¸ì¸ í•„ìš”");
+//            return "redirect:/login"; // ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜
 //        }
 //        try {
 //        	List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(categoryNo, userNo);
@@ -67,10 +67,10 @@ public class QuestionController {
 //        		noteNo = randomNote.getNoteNo();
 //        	}
 //            QuestionVO newQuestionVO = questionService.Read(noteNo, userNo);
-//            session.setAttribute("questionVO", newQuestionVO); // ¹®Á¦ Á¤º¸
-//            session.setAttribute("viewHistory", viewHistory); // ÇØ´ç Ä«Å×°í¸® ³»ÀÇ ¹®Á¦ Áß »ç¿ëÀÚ°¡ º» ¹®Á¦ Á¶È¸ÀÌ·Â
+//            session.setAttribute("questionVO", newQuestionVO); // ë¬¸ì œ ì •ë³´
+//            session.setAttribute("viewHistory", viewHistory); // í•´ë‹¹ ì¹´í…Œê³ ë¦¬ ë‚´ì˜ ë¬¸ì œ ì¤‘ ì‚¬ìš©ìê°€ ë³¸ ë¬¸ì œ ì¡°íšŒì´ë ¥
 //        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("error", "Á¶È¸ ½ÇÆĞ");
+//            redirectAttributes.addFlashAttribute("error", "ì¡°íšŒ ì‹¤íŒ¨");
 //        }
 //        return "view";
 //    }
@@ -87,11 +87,11 @@ public class QuestionController {
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userDTO);
             	session.setAttribute("questionVO", questionVO);
-                redirectAttributes.addFlashAttribute("message", "¾²±â ¼º°ø");
+                redirectAttributes.addFlashAttribute("message", "ì“°ê¸° ì„±ê³µ");
                 NoteVO noteVO = questionVO.getNoteVO();
                 return "redirect:/view?noteNo=" + noteVO.getNoteNo();
             } catch (Exception e) {
-            	redirectAttributes.addFlashAttribute("error", "¾²±â ½ÇÆĞ");
+            	redirectAttributes.addFlashAttribute("error", "ì“°ê¸° ì‹¤íŒ¨");
             	return "write";
             }	
 	}

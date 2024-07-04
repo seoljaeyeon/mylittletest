@@ -32,28 +32,28 @@ public class NoteService {
     
 //    @Transactional(readOnly = true)
 //    public Note getRandomUnviewedNoteByCategory(int categoryNo, int userNo) {
-//        // »ç¿ëÀÚ°¡ Æ¯Á¤ Ä«Å×°í¸®¿¡¼­ º» ³ëÆ® ¸ñ·ÏÀ» °¡Á®¿É´Ï´Ù.
+//        // ì‚¬ìš©ìê°€ íŠ¹ì • ì¹´í…Œê³ ë¦¬ì—ì„œ ë³¸ ë…¸íŠ¸ ëª©ë¡ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //        List<ViewHistoryVO> viewHistoriesByCategory = viewHistoryService.getHistoryByCategory(userNo, categoryNo);
 //        
-//        // »ç¿ëÀÚ°¡ Æ¯Á¤ Ä«Å×°í¸®¿¡¼­ º» ³ëÆ® ¸ñ·ÏÀÇ ¹øÈ£¸¦ »ı¼º.  
+//        // ì‚¬ìš©ìê°€ íŠ¹ì • ì¹´í…Œê³ ë¦¬ì—ì„œ ë³¸ ë…¸íŠ¸ ëª©ë¡ì˜ ë²ˆí˜¸ë¥¼ ìƒì„±.  
 //        List<Integer> viewedNoteNosByCategory = viewHistoriesByCategory.stream()
 //                .map(ViewHistoryVO::getNoteNo)
 //                .collect(Collectors.toList());
 //
-//        // »ç¿ëÀÚ°¡ ½È¾îÇÏ´Â ³ëÆ® ¸ñ·ÏÀ» °¡Á®¿É´Ï´Ù.
+//        // ì‚¬ìš©ìê°€ ì‹«ì–´í•˜ëŠ” ë…¸íŠ¸ ëª©ë¡ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //        List<Integer> dislikedNoteNos = favoriteNoteService.findDislikedNoteNosByUserNo(userNo);
 //
-//        // Æ¯Á¤ Ä«Å×°í¸®¿¡ ¼ÓÇÏ´Â ¸ğµç ³ëÆ® ID¸¦ °¡Á®¿É´Ï´Ù.
+//        // íŠ¹ì • ì¹´í…Œê³ ë¦¬ì— ì†í•˜ëŠ” ëª¨ë“  ë…¸íŠ¸ IDë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
 //        List<Integer> noteNosInCategory = noteRepository.findNoteNosByCategory(categoryNo);
 //        
-//        // ÃÖÁ¾ ³ëÆ® ¹øÈ£¸¦ ¹İÈ¯ÇÒ ÈÄº¸±ºÀ» À§ÇÑ ¸®½ºÆ® »ı¼º 
+//        // ìµœì¢… ë…¸íŠ¸ ë²ˆí˜¸ë¥¼ ë°˜í™˜í•  í›„ë³´êµ°ì„ ìœ„í•œ ë¦¬ìŠ¤íŠ¸ ìƒì„± 
 //        List<Note> notesToChooseFrom;
 //
 //        if (viewedNoteNosByCategory.isEmpty()) {
-//            // »ç¿ëÀÚ°¡ Æ¯Á¤ Ä«Å×°í¸®¿¡¼­ º» ³ëÆ®°¡ ¾øÀ¸¸é, Ä«Å×°í¸®ÀÇ ¸ğµç ³ëÆ®µé Áß¿¡¼­ ¼±ÅÃÇÕ´Ï´Ù.
+//            // ì‚¬ìš©ìê°€ íŠ¹ì • ì¹´í…Œê³ ë¦¬ì—ì„œ ë³¸ ë…¸íŠ¸ê°€ ì—†ìœ¼ë©´, ì¹´í…Œê³ ë¦¬ì˜ ëª¨ë“  ë…¸íŠ¸ë“¤ ì¤‘ì—ì„œ ì„ íƒí•©ë‹ˆë‹¤.
 //            notesToChooseFrom = noteRepository.findNotesByNoteNos(noteNosInCategory);
 //        } else {
-//            // »ç¿ëÀÚ°¡ Æ¯Á¤ Ä«Å×°í¸®¿¡¼­ º» ³ëÆ®°¡ ÀÖÀ¸¸é, ±× ³ëÆ®µé Áß¿¡¼­ ½È¾îÇÏ´Â ³ëÆ®¸¦ Á¦¿ÜÇÑ ¸ñ·Ï¿¡¼­ ¼±ÅÃÇÕ´Ï´Ù.
+//            // ì‚¬ìš©ìê°€ íŠ¹ì • ì¹´í…Œê³ ë¦¬ì—ì„œ ë³¸ ë…¸íŠ¸ê°€ ìˆìœ¼ë©´, ê·¸ ë…¸íŠ¸ë“¤ ì¤‘ì—ì„œ ì‹«ì–´í•˜ëŠ” ë…¸íŠ¸ë¥¼ ì œì™¸í•œ ëª©ë¡ì—ì„œ ì„ íƒí•©ë‹ˆë‹¤.
 //            notesToChooseFrom = noteRepository.findNotesByNoteNos(
 //                    viewedNoteNosByCategory.stream()
 //                            .filter(noteNo -> !dislikedNoteNos.contains(noteNo))
@@ -65,14 +65,14 @@ public class NoteService {
 //            throw new IllegalStateException("No notes available in this category for the user");
 //        }
 //
-//        // ·£´ıÀ¸·Î ³ëÆ®¸¦ ¼±ÅÃÇÕ´Ï´Ù.
+//        // ëœë¤ìœ¼ë¡œ ë…¸íŠ¸ë¥¼ ì„ íƒí•©ë‹ˆë‹¤.
 //        Random random = new Random();
 //        int randomIndex = random.nextInt(notesToChooseFrom.size());
 //        return notesToChooseFrom.get(randomIndex);
 //    }
 	
 
-    // Entity -> DTO º¯È¯ ¸Ş¼Òµå
+    // Entity -> DTO ë³€í™˜ ë©”ì†Œë“œ
     public NoteDTO convertToDTO(Note note) {
         return new NoteDTO.Builder()
                 .noteNo(note.getNoteNo())
@@ -86,7 +86,7 @@ public class NoteService {
                 .build();
     }
 
-    // DTO -> Entity·Î º¯È¯
+    // DTO -> Entityë¡œ ë³€í™˜
     public Note convertToEntity(NoteDTO noteDTO) {
         Note note = new Note();
         note.setNoteNo(noteDTO.getNoteNo());
@@ -101,7 +101,7 @@ public class NoteService {
         return note;
     }
     
-    // DTO -> VO º¯È¯ ¸Ş¼Òµå
+    // DTO -> VO ë³€í™˜ ë©”ì†Œë“œ
     public NoteVO convertToVO(NoteDTO noteDTO) {
         return new NoteVO.Builder()
                 .noteNo(noteDTO.getNoteNo())

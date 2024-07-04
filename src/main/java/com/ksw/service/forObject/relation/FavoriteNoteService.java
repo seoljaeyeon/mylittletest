@@ -36,14 +36,14 @@ public class FavoriteNoteService {
 
     @Transactional
     public void toggleFavorite(Integer userNo, Integer noteNo) {
-        // ÁÁ¾Æ¿ä »óÅÂ È®ÀÎ
+        // ì¢‹ì•„ìš” ìƒíƒœ í™•ì¸
         FavoriteNote favoriteNote = favoriteNoteMapper.findByUserNoAndNoteNo(userNo, noteNo);
 
         if (favoriteNote != null) {
-            // ÁÁ¾Æ¿ä µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ¸é »èÁ¦ ¿äÃ»
+            // ì¢‹ì•„ìš” ë°ì´í„°ê°€ ì¡´ìž¬í•˜ë©´ ì‚­ì œ ìš”ì²­
             scheduleDeleteFavorite(userNo, noteNo, favoriteNote.getFavoriteNo());
         } else {
-            // ÁÁ¾Æ¿ä µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é Ãß°¡ ¿äÃ»
+            // ì¢‹ì•„ìš” ë°ì´í„°ê°€ ì¡´ìž¬í•˜ì§€ ì•Šìœ¼ë©´ ì¶”ê°€ ìš”ì²­
             scheduleAddFavorite(userNo, noteNo);
         }
     }
@@ -51,10 +51,10 @@ public class FavoriteNoteService {
     @Async
     public void scheduleAddFavorite(Integer userNo, Integer noteNo) {
         try {
-            // 10ÃÊ ´ë±â
+            // 10ì´ˆ ëŒ€ê¸°
             TimeUnit.SECONDS.sleep(10);
 
-            // 10ÃÊ ÈÄ ÁÁ¾Æ¿ä Ãß°¡
+            // 10ì´ˆ í›„ ì¢‹ì•„ìš” ì¶”ê°€
             Favorite favorite = favoriteService.saveFavorite();
             FavoriteNote favoriteNote = new FavoriteNote();
             favoriteNote.setUserNo(userNo);
@@ -69,10 +69,10 @@ public class FavoriteNoteService {
     @Async
     public void scheduleDeleteFavorite(Integer userNo, Integer noteNo, Integer favoriteNo) {
         try {
-            // 10ÃÊ ´ë±â
+            // 10ì´ˆ ëŒ€ê¸°
             TimeUnit.SECONDS.sleep(10);
 
-            // 10ÃÊ ÈÄ ÁÁ¾Æ¿ä »èÁ¦
+            // 10ì´ˆ í›„ ì¢‹ì•„ìš” ì‚­ì œ
             favoriteNoteMapper.delete(userNo, noteNo);
             favoriteService.deleteFavorite(favoriteNo);
         } catch (InterruptedException e) {
@@ -81,7 +81,7 @@ public class FavoriteNoteService {
     }
     
 
-    // Entity -> DTO º¯È¯ ¸Þ¼Òµå
+    // Entity -> DTO ë³€í™˜ ë©”ì†Œë“œ
     public FavoriteNoteDTO convertToDTO(FavoriteNote favoriteNoteEntity) {
         return new FavoriteNoteDTO.Builder()
                 .userNo(favoriteNoteEntity.getUserNo())
@@ -90,7 +90,7 @@ public class FavoriteNoteService {
                 .build();
     }
 
-    // DTO -> VO º¯È¯ ¸Þ¼Òµå
+    // DTO -> VO ë³€í™˜ ë©”ì†Œë“œ
     public FavoriteNoteVO convertToVO(FavoriteNoteDTO favoriteNoteDTO) {
         return new FavoriteNoteVO.Builder()
                 .userNo(favoriteNoteDTO.getUserNo())

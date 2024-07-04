@@ -25,12 +25,12 @@ public class LoginController {
 	}
 	
 	/*
-	 * ·Î±×ÀÎ ±â´ÉÀº Spring Security¸¦ ÅëÇØ¼­ ±¸ÇöÇß½À´Ï´Ù. 
+	 * ë¡œê·¸ì¸ ê¸°ëŠ¥ì€ Spring Securityë¥¼ í†µí•´ì„œ êµ¬í˜„í–ˆìŠµë‹ˆë‹¤. 
 	 * 
-	 * ¸ðµç FormÀÇ ¾Æ·¡¿¡ ÀÌ ÅÂ±×¸¦ ³Ö¾îÁÖ¼¼¿ä.
+	 * ëª¨ë“  Formì˜ ì•„ëž˜ì— ì´ íƒœê·¸ë¥¼ ë„£ì–´ì£¼ì„¸ìš”.
 	 * <sec:csrfInput />
 	 * 
-	 * ¿¹½Ã)
+	 * ì˜ˆì‹œ)
 	 * <form method="post" action="/login">
 	 *     <sec:csrfInput />
 	 *     <input...  />

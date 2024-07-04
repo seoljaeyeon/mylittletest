@@ -5,10 +5,10 @@ public class NoteCategory {
     private Integer categoryNo;
     private Integer noteNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public NoteCategory() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getCategoryNo() {
         return categoryNo;
     }

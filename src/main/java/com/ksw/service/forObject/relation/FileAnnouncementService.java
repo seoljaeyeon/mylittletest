@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileAnnouncementService {
 
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public FileAnnouncementDTO convertToDTO(FileAnnouncement fileAnnouncementEntity) {
         return new FileAnnouncementDTO.Builder()
                 .announcementNo(fileAnnouncementEntity.getAnnouncementNo())
@@ -17,7 +17,7 @@ public class FileAnnouncementService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public FileAnnouncementVO convertToVO(FileAnnouncementDTO fileAnnouncementDTO) {
         return new FileAnnouncementVO.Builder()
                 .announcementNo(fileAnnouncementDTO.getAnnouncementNo())

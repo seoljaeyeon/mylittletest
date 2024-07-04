@@ -15,7 +15,7 @@ public class UserDTO {
     private Integer type;
     private Timestamp createdAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public UserDTO() {}
 
     // Getters and Setters
@@ -98,7 +98,7 @@ public class UserDTO {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer userNo;
         private String userId;

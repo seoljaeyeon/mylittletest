@@ -9,7 +9,7 @@ public class JoinDTO {
     private Integer securityQuestion;
     private String securityAnswer;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public JoinDTO() {}
 
     // Getters and Setters

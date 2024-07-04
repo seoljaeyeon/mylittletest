@@ -7,7 +7,7 @@ public class CategoryViewDTO {
     private Integer categoryViewNo;
     private Timestamp createdAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public CategoryViewDTO() {}
 
     // Getters and Setters
@@ -26,7 +26,7 @@ public class CategoryViewDTO {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    // Builder Å¬·¡½º
+    // Builder í´ë˜ìŠ¤
     public static class Builder {
         private Integer categoryViewNo;
         private Timestamp createdAt;

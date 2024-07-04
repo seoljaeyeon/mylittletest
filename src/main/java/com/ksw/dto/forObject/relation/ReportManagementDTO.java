@@ -6,10 +6,10 @@ public class ReportManagementDTO {
     private Integer managerNo;
     private Integer solverNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ReportManagementDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }
@@ -34,7 +34,7 @@ public class ReportManagementDTO {
         this.solverNo = solverNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer userNo;
         private Integer managerNo;

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ViewUserNoteService {
 	
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public ViewUserNoteDTO convertToDTO(ViewUserNote viewUserNoteEntity) {
         return new ViewUserNoteDTO.Builder()
                 .userNo(viewUserNoteEntity.getUserNo())
@@ -20,7 +20,7 @@ public class ViewUserNoteService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public ViewUserNoteVO convertToVO(ViewUserNoteDTO viewUserNoteDTO) {
         return new ViewUserNoteVO.Builder()
                 .userNo(viewUserNoteDTO.getUserNo())

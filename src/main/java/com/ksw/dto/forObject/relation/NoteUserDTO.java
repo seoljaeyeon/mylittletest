@@ -5,10 +5,10 @@ public class NoteUserDTO {
     private Integer userNo;
     private Integer noteNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public NoteUserDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getUserNo() {
         return userNo;
     }
@@ -25,7 +25,7 @@ public class NoteUserDTO {
         this.noteNo = noteNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer userNo;
         private Integer noteNo;

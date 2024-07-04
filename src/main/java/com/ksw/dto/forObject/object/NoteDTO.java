@@ -15,7 +15,7 @@ public class NoteDTO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public NoteDTO() {}
 
     // Getters and Setters

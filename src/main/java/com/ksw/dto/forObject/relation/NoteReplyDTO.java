@@ -5,10 +5,10 @@ public class NoteReplyDTO {
     private Integer noteNo;
     private Integer replyNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public NoteReplyDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getNoteNo() {
         return noteNo;
     }
@@ -25,7 +25,7 @@ public class NoteReplyDTO {
         this.replyNo = replyNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer noteNo;
         private Integer replyNo;

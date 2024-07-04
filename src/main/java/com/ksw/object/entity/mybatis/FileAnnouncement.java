@@ -5,10 +5,10 @@ public class FileAnnouncement {
     private Integer announcementNo;
     private Integer fileNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FileAnnouncement() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getAnnouncementNo() {
         return announcementNo;
     }

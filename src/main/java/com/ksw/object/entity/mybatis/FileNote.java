@@ -5,10 +5,10 @@ public class FileNote {
     private Integer noteNo;
     private Integer fileNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FileNote() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getNoteNo() {
         return noteNo;
     }

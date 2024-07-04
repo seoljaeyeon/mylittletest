@@ -9,7 +9,7 @@ public class FileDTO {
     private String uploadName;
     private Timestamp createdAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FileDTO() {}
 
     // Getters and Setters
@@ -44,7 +44,7 @@ public class FileDTO {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    // Builder Å¬·¡½º
+    // Builder í´ë˜ìŠ¤
     public static class Builder {
         private Integer fileNo;
         private String savedName;

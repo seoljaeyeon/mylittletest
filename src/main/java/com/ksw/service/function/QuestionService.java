@@ -121,10 +121,10 @@ public class QuestionService {
 			if (fileDTO != null) {
 				File file = fileService.convertToEntity(fileDTO);
 				fileRepository.save(file);
-				//°ü°èÇü Å×ÀÌºí µ¥ÀÌÅÍ »ğÀÔ
+				//ê´€ê³„í˜• í…Œì´ë¸” ë°ì´í„° ì‚½ì…
 				fileNoteMapper.insert(file.getFileNo(), note.getNoteNo());
 			}
-			//°ü°èÇü Å×ÀÌºí µ¥ÀÌÅÍ »ğÀÔ
+			//ê´€ê³„í˜• í…Œì´ë¸” ë°ì´í„° ì‚½ì…
 			noteCategoryMapper.insert(note.getNoteNo(), category.getCategoryNo());
 			noteUserMapper.insert(note.getNoteNo(), userDTO.getUserNo());
 
@@ -143,8 +143,8 @@ public class QuestionService {
 	}
     @Transactional(readOnly = true)
     public QuestionVO Read(Integer noteNo, Integer userNo) {
-        UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo); // ÀĞ´Â »ç¶÷ Á¤º¸
-        UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo); // ±Û¾´ÀÌ Á¤º¸
+        UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo); // ì½ëŠ” ì‚¬ëŒ ì •ë³´
+        UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo); // ê¸€ì“´ì´ ì •ë³´
         CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
         NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
         

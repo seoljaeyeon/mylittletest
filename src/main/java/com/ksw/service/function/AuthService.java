@@ -20,7 +20,7 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findByUserId(username);
         if (user == null) {
             System.out.println("User not found: " + username);
-            throw new UsernameNotFoundException("»ç¿ëÀÚ¾øÀ½");
+            throw new UsernameNotFoundException("ì‚¬ìš©ìì—†ìŒ");
         }
         System.out.println("User found: " + user);
         return new AuthTranslationService(user);

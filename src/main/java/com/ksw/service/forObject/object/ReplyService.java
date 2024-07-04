@@ -24,14 +24,14 @@ public class ReplyService {
 		return this.convertToVO(this.convertToDTO(reply));
 	}
 	
-	// List<ReplyDTO> -> List<ReplyVO> ��ȯ �޼ҵ�
+	// List<ReplyDTO> -> List<ReplyVO> 변환 메소드
 	public List<ReplyVO> convertToVOList(List<ReplyDTO> replyDTOList) {
 		return replyDTOList.stream()
 				.map(this::convertToVO)
 				.collect(Collectors.toList());
 	}
 	
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public ReplyDTO convertToDTO(Reply replyEntity) {
         return new ReplyDTO.Builder()
                 .replyNo(replyEntity.getReplyNo())
@@ -54,7 +54,7 @@ public class ReplyService {
         return replyEntity;
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public ReplyVO convertToVO(ReplyDTO replyDTO) {
         return new ReplyVO.Builder()
                 .replyNo(replyDTO.getReplyNo())

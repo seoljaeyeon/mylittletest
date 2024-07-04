@@ -5,10 +5,10 @@ public class AnnouncementUser {
     private Integer announcementNo;
     private Integer userNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public AnnouncementUser() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getAnnouncementNo() {
         return announcementNo;
     }

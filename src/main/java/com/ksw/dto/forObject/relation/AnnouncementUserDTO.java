@@ -5,10 +5,10 @@ public class AnnouncementUserDTO {
     private Integer announcementNo;
     private Integer userNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public AnnouncementUserDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getAnnouncementNo() {
         return announcementNo;
     }
@@ -25,7 +25,7 @@ public class AnnouncementUserDTO {
         this.userNo = userNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer announcementNo;
         private Integer userNo;

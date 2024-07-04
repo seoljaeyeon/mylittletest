@@ -9,10 +9,10 @@ public class AlarmRelationDTO {
     private Integer replyNo;
     private Integer cateogryNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public AlarmRelationDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getAlarmNo() {
         return alarmNo;
     }
@@ -64,7 +64,7 @@ public class AlarmRelationDTO {
 
 
 
-	// ºô´õ ÆĞÅÏ ±¸Çö
+	// ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer alarmNo;
         private Integer userNo;

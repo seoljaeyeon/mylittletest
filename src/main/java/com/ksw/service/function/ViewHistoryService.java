@@ -38,13 +38,13 @@ public class ViewHistoryService {
 
     @Transactional(readOnly = true)
     public List<ViewHistoryVO> getHistoryByCategory(Integer userNo, Integer categoryNo) {
-        // Æ¯Á¤ Ä«Å×°í¸®ÀÇ ¸ğµç ³ëÆ® ID¸¦ °¡Á®¿É´Ï´Ù.
+        // íŠ¹ì • ì¹´í…Œê³ ë¦¬ì˜ ëª¨ë“  ë…¸íŠ¸ IDë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
         List<Integer> noteNosInCategory = noteCategoryMapper.findNoteNosByCategoryNo(categoryNo);
 
-        // »ç¿ëÀÚ°¡ ÀÌ¹Ì º» ³ëÆ® ID¸¦ °¡Á®¿É´Ï´Ù.
+        // ì‚¬ìš©ìê°€ ì´ë¯¸ ë³¸ ë…¸íŠ¸ IDë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
         List<ViewUserNote> viewUserNotes = viewUserNoteMapper.findByUserNo(userNo);
 
-        // Ä«Å×°í¸® ³»¿¡¼­ »ç¿ëÀÚ°¡ º» ³ëÆ®µé¸¸ ÇÊÅÍ¸µÇÕ´Ï´Ù.
+        // ì¹´í…Œê³ ë¦¬ ë‚´ì—ì„œ ì‚¬ìš©ìê°€ ë³¸ ë…¸íŠ¸ë“¤ë§Œ í•„í„°ë§í•©ë‹ˆë‹¤.
         List<ViewUserNote> filteredViewUserNotes = viewUserNotes.stream()
                 .filter(viewUserNote -> noteNosInCategory.contains(viewUserNote.getNoteNo()))
                 .collect(Collectors.toList());

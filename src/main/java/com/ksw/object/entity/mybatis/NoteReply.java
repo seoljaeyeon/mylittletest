@@ -5,10 +5,10 @@ public class NoteReply {
     private Integer noteNo;
     private Integer replyNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public NoteReply() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getNoteNo() {
         return noteNo;
     }

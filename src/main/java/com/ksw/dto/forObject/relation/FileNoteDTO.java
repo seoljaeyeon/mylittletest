@@ -5,10 +5,10 @@ public class FileNoteDTO {
     private Integer noteNo;
     private Integer fileNo;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public FileNoteDTO() {}
 
-    // Getter ¹× Setter
+    // Getter ë° Setter
     public Integer getNoteNo() {
         return noteNo;
     }
@@ -25,7 +25,7 @@ public class FileNoteDTO {
         this.fileNo = fileNo;
     }
 
-    // ºô´õ ÆĞÅÏ ±¸Çö
+    // ë¹Œë” íŒ¨í„´ êµ¬í˜„
     public static class Builder {
         private Integer noteNo;
         private Integer fileNo;

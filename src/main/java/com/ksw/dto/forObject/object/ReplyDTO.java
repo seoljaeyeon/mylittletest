@@ -11,7 +11,7 @@ public class ReplyDTO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    // ±âº» »ı¼ºÀÚ
+    // ê¸°ë³¸ ìƒì„±ì
     public ReplyDTO() {}
 
     // Getters and Setters
@@ -62,7 +62,7 @@ public class ReplyDTO {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
-    // Builder Å¬·¡½º
+    // Builder í´ë˜ìŠ¤
     public static class Builder {
         private Integer replyNo;
         private String replyContent;

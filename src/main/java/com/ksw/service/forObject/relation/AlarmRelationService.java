@@ -8,7 +8,7 @@ import com.ksw.object.vo.relation.AlarmRelationVO;
 
 @Service
 public class AlarmRelationService {
-    // Entity -> DTO ��ȯ �޼ҵ�
+    // Entity -> DTO 변환 메소드
     public AlarmRelationDTO convertToDTO(AlarmRelation alarmRelation) {
         return new AlarmRelationDTO.Builder()
                 .alarmNo(alarmRelation.getAlarmNo())
@@ -17,7 +17,7 @@ public class AlarmRelationService {
                 .build();
     }
 
-    // DTO -> VO ��ȯ �޼ҵ�
+    // DTO -> VO 변환 메소드
     public AlarmRelationVO convertToVO(AlarmRelationDTO alarmRelationDTO) {
         return new AlarmRelationVO.Builder()
                 .alarmNo(alarmRelationDTO.getAlarmNo())
