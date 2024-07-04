@@ -1,14 +1,14 @@
 package com.ksw.service.forObject.object;
 
-import com.ksw.dao.object.NoteRepository;
-import com.ksw.dao.relation.NoteCategoryMapper;
-import com.ksw.dao.relation.ViewUserNoteMapper;
+import com.ksw.dao.forObject.object.NoteRepository;
+import com.ksw.dao.forObject.relation.NoteCategoryMapper;
+import com.ksw.dao.forObject.relation.ViewUserNoteMapper;
 import com.ksw.dto.forObject.object.NoteDTO;
-import com.ksw.object.entity.jpa.Note;
-import com.ksw.object.vo.function.ViewHistoryVO;
-import com.ksw.object.vo.object.NoteVO;
+import com.ksw.object.entity.Note;
 import com.ksw.service.forObject.relation.FavoriteNoteService;
 import com.ksw.service.function.ViewHistoryService;
+import com.ksw.vo.forObject.object.NoteVO;
+import com.ksw.vo.function.ViewHistoryVO;
 
 import java.util.List;
 import java.util.Random;

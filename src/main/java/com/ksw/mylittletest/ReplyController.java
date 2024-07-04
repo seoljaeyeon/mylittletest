@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.ksw.dto.forObject.object.ReplyDTO;
 import com.ksw.dto.forObject.object.UserDTO;
 import com.ksw.dto.function.QuestionDTO;
-import com.ksw.object.entity.jpa.Reply;
+import com.ksw.object.entity.Reply;
 import com.ksw.service.forObject.object.ReplyService;
 import com.ksw.service.forObject.relation.NoteReplyService;
 import com.ksw.service.forObject.relation.ReplyUserService;

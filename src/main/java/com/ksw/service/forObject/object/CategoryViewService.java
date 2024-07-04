@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.object;
 
 import com.ksw.dto.forObject.object.CategoryViewDTO;
-import com.ksw.object.entity.jpa.CategoryView;
-import com.ksw.object.vo.object.CategoryViewVO;
+import com.ksw.object.entity.CategoryView;
+import com.ksw.vo.forObject.object.CategoryViewVO;
 
 import org.springframework.stereotype.Service;
 

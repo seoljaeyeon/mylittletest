@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import com.ksw.object.entity.mybatis.ViewUserNote;
+import com.ksw.object.relation.ViewUserNote;
 
 @Mapper
 public interface ViewHistoryMapper {

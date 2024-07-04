@@ -1,9 +1,9 @@
 package com.ksw.service.forObject.object;
 
-import com.ksw.dao.object.ReplyRepository;
+import com.ksw.dao.forObject.object.ReplyRepository;
 import com.ksw.dto.forObject.object.ReplyDTO;
-import com.ksw.object.entity.jpa.Reply;
-import com.ksw.object.vo.object.ReplyVO;
+import com.ksw.object.entity.Reply;
+import com.ksw.vo.forObject.object.ReplyVO;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.ReportCategoryDTO;
-import com.ksw.object.entity.mybatis.ReportCategory;
-import com.ksw.object.vo.relation.ReportCategoryVO;
+import com.ksw.object.relation.ReportCategory;
+import com.ksw.vo.forObject.relation.ReportCategoryVO;
 
 import org.springframework.stereotype.Service;
 

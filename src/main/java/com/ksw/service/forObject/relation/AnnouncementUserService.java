@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.AnnouncementUserDTO;
-import com.ksw.object.entity.mybatis.AnnouncementUser;
-import com.ksw.object.vo.relation.AnnouncementUserVO;
+import com.ksw.object.relation.AnnouncementUser;
+import com.ksw.vo.forObject.relation.AnnouncementUserVO;
 
 import org.springframework.stereotype.Service;
 

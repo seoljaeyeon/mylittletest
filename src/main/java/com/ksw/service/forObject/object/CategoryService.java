@@ -1,10 +1,10 @@
 package com.ksw.service.forObject.object;
 
-import com.ksw.dao.object.CategoryRepository;
+import com.ksw.dao.forObject.object.CategoryRepository;
 import com.ksw.dto.forObject.object.CategoryDTO;
-import com.ksw.object.entity.jpa.Category;
-import com.ksw.object.entity.jpa.Note;
-import com.ksw.object.vo.object.CategoryVO;
+import com.ksw.object.entity.Category;
+import com.ksw.object.entity.Note;
+import com.ksw.vo.forObject.object.CategoryVO;
 
 import java.util.List;
 

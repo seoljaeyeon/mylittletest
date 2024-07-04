@@ -1,11 +1,11 @@
 package com.ksw.service.forObject.object;
 
-import com.ksw.dao.object.UserRepository;
+import com.ksw.dao.forObject.object.UserRepository;
 import com.ksw.dto.forObject.object.UserDTO;
 import com.ksw.dto.function.JoinDTO;
 import com.ksw.dto.function.LoginDTO;
-import com.ksw.object.entity.jpa.User;
-import com.ksw.object.vo.object.UserVO;
+import com.ksw.object.entity.User;
+import com.ksw.vo.forObject.object.UserVO;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

@@ -12,8 +12,8 @@ import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.dto.forObject.object.ReplyDTO;
 import com.ksw.dto.forObject.object.UserDTO;
 import com.ksw.dto.function.QuestionDTO;
-import com.ksw.object.entity.mybatis.FavoriteNote;
-import com.ksw.object.vo.object.ReplyVO;
+import com.ksw.object.relation.FavoriteNote;
+import com.ksw.vo.forObject.object.ReplyVO;
 
 @Mapper
 public interface QuestionMapper {

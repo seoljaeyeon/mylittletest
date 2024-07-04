@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.object;
 
 import com.ksw.dto.forObject.object.NoteViewDTO;
-import com.ksw.object.entity.jpa.NoteView;
-import com.ksw.object.vo.object.NoteViewVO;
+import com.ksw.object.entity.NoteView;
+import com.ksw.vo.forObject.object.NoteViewVO;
 
 import org.springframework.stereotype.Service;
 

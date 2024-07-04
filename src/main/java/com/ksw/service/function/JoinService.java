@@ -7,9 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ksw.dao.object.UserRepository;
+import com.ksw.dao.forObject.object.UserRepository;
 import com.ksw.dto.function.JoinDTO;
-import com.ksw.object.entity.jpa.User;
+import com.ksw.object.entity.User;
 
 @Service
 public class JoinService {

@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.object;
 
 import com.ksw.dto.forObject.object.FileDTO;
-import com.ksw.object.entity.jpa.File;
-import com.ksw.object.vo.object.FileVO;
+import com.ksw.object.entity.File;
+import com.ksw.vo.forObject.object.FileVO;
 
 import java.io.IOException;
 import java.nio.file.Files;

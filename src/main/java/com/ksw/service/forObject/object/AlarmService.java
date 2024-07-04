@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.object;
 
 import com.ksw.dto.forObject.object.AlarmDTO;
-import com.ksw.object.entity.jpa.Alarm;
-import com.ksw.object.vo.object.AlarmVO;
+import com.ksw.object.entity.Alarm;
+import com.ksw.vo.forObject.object.AlarmVO;
 
 import org.springframework.stereotype.Service;
 

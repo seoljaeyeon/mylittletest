@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.object;
 
 import com.ksw.dto.forObject.object.ReportDTO;
-import com.ksw.object.entity.jpa.Report;
-import com.ksw.object.vo.object.ReportVO;
+import com.ksw.object.entity.Report;
+import com.ksw.vo.forObject.object.ReportVO;
 
 import org.springframework.stereotype.Service;
 

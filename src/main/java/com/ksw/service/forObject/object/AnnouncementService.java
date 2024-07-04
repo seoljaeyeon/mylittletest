@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.object;
 
 import com.ksw.dto.forObject.object.AnnouncementDTO;
-import com.ksw.object.entity.jpa.Announcement;
-import com.ksw.object.vo.object.AnnouncementVO;
+import com.ksw.object.entity.Announcement;
+import com.ksw.vo.forObject.object.AnnouncementVO;
 
 import org.springframework.stereotype.Service;
 

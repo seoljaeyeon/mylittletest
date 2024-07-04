@@ -1,9 +1,9 @@
 package com.ksw.service.forObject.object;
 
-import com.ksw.dao.object.FavoriteRepository;
+import com.ksw.dao.forObject.object.FavoriteRepository;
 import com.ksw.dto.forObject.object.FavoriteDTO;
-import com.ksw.object.entity.jpa.Favorite;
-import com.ksw.object.vo.object.FavoriteVO;
+import com.ksw.object.entity.Favorite;
+import com.ksw.vo.forObject.object.FavoriteVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

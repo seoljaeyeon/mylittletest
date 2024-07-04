@@ -1,9 +1,10 @@
 package com.ksw.service.forObject.object;
 
+import com.ksw.dao.forObject.object.AnswerRepository;
 import com.ksw.dto.forObject.object.*;
-import com.ksw.object.entity.jpa.Answer;
-import com.ksw.object.vo.object.AnswerVO;
-import com.ksw.dao.object.AnswerRepository;
+import com.ksw.object.entity.Answer;
+import com.ksw.vo.forObject.object.AnswerVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
