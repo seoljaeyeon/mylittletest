@@ -31,11 +31,9 @@ public class ReplyController {
 	@Autowired 
 	private ReplyUserService replyUserService;
 	
-	@Autowired
-	
 	@PostMapping("/replyWrite")
 	public String replyWrite(
-			@RequestParam("noteNo") Integer noteNo,
+			@RequestParam(name = "noteNo", defaultValue = "1", required = false) Integer noteNo,
 			@ModelAttribute ReplyDTO replyDTO,
 			@ModelAttribute UserDTO userDTO) {
 		
@@ -44,7 +42,5 @@ public class ReplyController {
 		
 		return "redirect:/view?noteNo=" + noteNo;
 	}
-	
-	
 	
 }
