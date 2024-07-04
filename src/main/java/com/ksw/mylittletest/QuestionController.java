@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ksw.dto.forObject.object.CategoryDTO;
-import com.ksw.dto.forObject.object.FileDTO;
-import com.ksw.dto.forObject.object.NoteDTO;
-import com.ksw.dto.forObject.object.UserDTO;
-import com.ksw.object.entity.jpa.Note;
-import com.ksw.object.vo.combined.QuestionVO;
-import com.ksw.object.vo.combined.ViewHistoryVO;
-import com.ksw.object.vo.object.CategoryVO;
-import com.ksw.object.vo.object.FileVO;
-import com.ksw.object.vo.object.NoteVO;
-import com.ksw.object.vo.object.UserVO;
-import com.ksw.service.forObject.object.CategoryService;
-import com.ksw.service.forObject.object.FileService;
-import com.ksw.service.forObject.object.NoteService;
-import com.ksw.service.forObject.object.ReplyService;
-import com.ksw.service.forObject.object.UserService;
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.object.entity.Note;
+import com.ksw.service.forObject.entity.CategoryService;
+import com.ksw.service.forObject.entity.FileService;
+import com.ksw.service.forObject.entity.NoteService;
+import com.ksw.service.forObject.entity.ReplyService;
+import com.ksw.service.forObject.entity.UserService;
 import com.ksw.service.function.QuestionService;
 import com.ksw.service.function.ViewHistoryService;
+import com.ksw.vo.forObject.entity.CategoryVO;
+import com.ksw.vo.forObject.entity.FileVO;
+import com.ksw.vo.forObject.entity.NoteVO;
+import com.ksw.vo.forObject.entity.UserVO;
+import com.ksw.vo.function.QuestionVO;
+import com.ksw.vo.function.ViewHistoryVO;
 
 @Controller
 public class QuestionController {

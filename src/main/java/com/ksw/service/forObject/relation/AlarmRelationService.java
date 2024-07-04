@@ -3,8 +3,8 @@ package com.ksw.service.forObject.relation;
 import org.springframework.stereotype.Service;
 
 import com.ksw.dto.forObject.relation.AlarmRelationDTO;
-import com.ksw.object.entity.mybatis.AlarmRelation;
-import com.ksw.object.vo.relation.AlarmRelationVO;
+import com.ksw.object.relation.AlarmRelation;
+import com.ksw.vo.forObject.relation.AlarmRelationVO;
 
 @Service
 public class AlarmRelationService {

@@ -1,7 +1,8 @@
 package com.ksw.service.function;
 
-import com.ksw.dao.object.UserRepository;
-import com.ksw.object.entity.jpa.User;
+import com.ksw.dao.forObject.entity.UserRepository;
+import com.ksw.object.entity.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

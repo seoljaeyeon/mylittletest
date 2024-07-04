@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.FileNoteDTO;
-import com.ksw.object.entity.mybatis.FileNote;
-import com.ksw.object.vo.relation.FileNoteVO;
+import com.ksw.object.relation.FileNote;
+import com.ksw.vo.forObject.relation.FileNoteVO;
 
 import org.springframework.stereotype.Service;
 

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ksw.object.entity.jpa.Favorite;
-import com.ksw.service.forObject.object.FavoriteService;
+import com.ksw.object.entity.Favorite;
+import com.ksw.service.forObject.entity.FavoriteService;
 import com.ksw.service.forObject.relation.FavoriteNoteService;
 
 @Controller

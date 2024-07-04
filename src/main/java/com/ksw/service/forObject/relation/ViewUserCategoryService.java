@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.ViewUserCategoryDTO;
-import com.ksw.object.entity.mybatis.ViewUserCategory;
-import com.ksw.object.vo.relation.ViewUserCategoryVO;
+import com.ksw.object.relation.ViewUserCategory;
+import com.ksw.vo.forObject.relation.ViewUserCategoryVO;
 
 import org.springframework.stereotype.Service;
 

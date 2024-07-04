@@ -2,11 +2,11 @@ package com.ksw.dto.function;
 
 import java.util.List;
 
-import com.ksw.dto.forObject.object.CategoryDTO;
-import com.ksw.dto.forObject.object.FileDTO;
-import com.ksw.dto.forObject.object.NoteDTO;
-import com.ksw.dto.forObject.object.ReplyDTO;
-import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
 
 public class QuestionDTO {
 

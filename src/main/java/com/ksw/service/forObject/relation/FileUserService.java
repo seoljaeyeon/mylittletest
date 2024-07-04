@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.FileUserDTO;
-import com.ksw.object.entity.mybatis.FileUser;
-import com.ksw.object.vo.relation.FileUserVO;
+import com.ksw.object.relation.FileUser;
+import com.ksw.vo.forObject.relation.FileUserVO;
 
 import org.springframework.stereotype.Service;
 

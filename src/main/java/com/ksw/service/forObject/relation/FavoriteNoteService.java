@@ -1,11 +1,11 @@
 package com.ksw.service.forObject.relation;
 
-import com.ksw.dao.relation.FavoriteNoteMapper;
+import com.ksw.dao.forObject.relation.FavoriteNoteMapper;
 import com.ksw.dto.forObject.relation.FavoriteNoteDTO;
-import com.ksw.object.entity.jpa.Favorite;
-import com.ksw.object.entity.mybatis.FavoriteNote;
-import com.ksw.object.vo.relation.FavoriteNoteVO;
-import com.ksw.service.forObject.object.FavoriteService;
+import com.ksw.object.entity.Favorite;
+import com.ksw.object.relation.FavoriteNote;
+import com.ksw.service.forObject.entity.FavoriteService;
+import com.ksw.vo.forObject.relation.FavoriteNoteVO;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

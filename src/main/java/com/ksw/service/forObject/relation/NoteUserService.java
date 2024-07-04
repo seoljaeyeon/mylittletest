@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.NoteUserDTO;
-import com.ksw.object.entity.mybatis.NoteUser;
-import com.ksw.object.vo.relation.NoteUserVO;
+import com.ksw.object.relation.NoteUser;
+import com.ksw.vo.forObject.relation.NoteUserVO;
 
 import org.springframework.stereotype.Service;
 
