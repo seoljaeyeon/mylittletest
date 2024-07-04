@@ -141,16 +141,16 @@
 		</div>
 	</div>
 	<div class="list_box">
-		<div class="list_set" onclick="location.href=''">⏳문제 목록 관리</div>
-		<div class="list_set" onclick="location.href=''">⏳오늘 본 문제 목록</div>
+		<div class="list_set" onclick="location.href='questionlist.jsp'">⏳문제 목록 관리</div>
+		<div class="list_set" onclick="location.href='questionlist.jsp'">⏳오늘 본 문제 목록</div>
 	</div>
 	<div class="sub_box">
-		<div class="sub_menu" onclick="location.href=''">🤓문제 쓰기</div>
-		<div class="sub_menu" onclick="location.href=''">📚내 문제 풀기</div>
-		<div class="sub_menu" onclick="location.href=''">📘맞춘 문제 복습</div>
-		<div class="sub_menu" onclick="location.href=''">📕틀린 문제 복습</div>
-		<div class="sub_menu" onclick="location.href=''">📖오늘 본 문제 복습</div>
-		<div class="sub_menu" onclick="location.href=''">❤북마크 문제 복습</div>
+		<div class="sub_menu" onclick="location.href='write.jsp'">🤓문제 쓰기</div>
+		<div class="sub_menu" onclick="location.href='questionsolve.jsp'">📚내 문제 풀기</div>
+		<div class="sub_menu" onclick="location.href='questionsolve.jsp'">📘맞춘 문제 복습</div>
+		<div class="sub_menu" onclick="location.href='questionsolve.jsp'">📕틀린 문제 복습</div>
+		<div class="sub_menu" onclick="location.href='questionsolve.jsp'">📖오늘 본 문제 복습</div>
+		<div class="sub_menu" onclick="location.href='questionsolve.jsp'">❤북마크 문제 복습</div>
 	</div>
 </div>
 

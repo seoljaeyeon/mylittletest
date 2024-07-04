@@ -48,33 +48,33 @@ public class QuestionController {
 	public String toWritePage() {
 		return "write";
 	}
-//
-//    @GetMapping("/view")
-//    public String RandomViewPage(
-//            RedirectAttributes redirectAttributes,
-//            HttpSession session,
-//            @RequestParam("userNo") Integer userNo,
-//            @RequestParam("categoryNo") Integer categoryNo,
-//            @RequestParam(value = "noteNo", required = false) Integer noteNo) {
-//        if (userNo == null || categoryNo == null) {
-//            redirectAttributes.addFlashAttribute("error", "로그인 필요");
-//            return "redirect:/login"; // 로그인 페이지로 리디렉션
-//        }
-//        try {
-//        	List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(categoryNo, userNo);
-//        	if(noteNo == null) {
-//        		Note randomNote = noteService.getRandomUnviewedNoteByCategory(categoryNo, userNo);
-//        		noteNo = randomNote.getNoteNo();
-//        	}
-//            QuestionVO newQuestionVO = questionService.Read(noteNo, userNo);
-//            session.setAttribute("questionVO", newQuestionVO); // 문제 정보
-//            session.setAttribute("viewHistory", viewHistory); // 해당 카테고리 내의 문제 중 사용자가 본 문제 조회이력
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("error", "조회 실패");
-//        }
-//        return "view";
-//    }
-//    
+
+    @GetMapping("/view")
+    public String RandomViewPage(
+            RedirectAttributes redirectAttributes,
+            HttpSession session,
+            @RequestParam("userNo") Integer userNo,
+            @RequestParam("categoryNo") Integer categoryNo,
+            @RequestParam(value = "noteNo", required = false) Integer noteNo) {
+        if (userNo == null || categoryNo == null) {
+            redirectAttributes.addFlashAttribute("error", "로그인 필요");
+            return "redirect:/login"; // 로그인 페이지로 리디렉션
+        }
+        try {
+        	List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(categoryNo, userNo);
+        	if(noteNo == null) {
+        		Note randomNote = noteService.getRandomUnviewedNoteByCategory(categoryNo, userNo);
+        		noteNo = randomNote.getNoteNo();
+        	}
+            QuestionVO newQuestionVO = questionService.Read(noteNo, userNo);
+            session.setAttribute("questionVO", newQuestionVO); // 문제 정보
+            session.setAttribute("viewHistory", viewHistory); // 해당 카테고리 내의 문제 중 사용자가 본 문제 조회이력
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "조회 실패");
+        }
+        return "view";
+    }
+    
 	@PostMapping("/write")
 	public String notewrite(
 			@ModelAttribute NoteDTO noteDTO,
