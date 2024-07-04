@@ -1,4 +1,4 @@
-package com.ksw.dao.combined;
+package com.ksw.dao.function;
 
 import java.util.List;
 

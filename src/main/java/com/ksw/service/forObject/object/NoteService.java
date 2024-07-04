@@ -5,7 +5,7 @@ import com.ksw.dao.relation.NoteCategoryMapper;
 import com.ksw.dao.relation.ViewUserNoteMapper;
 import com.ksw.dto.forObject.object.NoteDTO;
 import com.ksw.object.entity.jpa.Note;
-import com.ksw.object.vo.combined.ViewHistoryVO;
+import com.ksw.object.vo.function.ViewHistoryVO;
 import com.ksw.object.vo.object.NoteVO;
 import com.ksw.service.forObject.relation.FavoriteNoteService;
 import com.ksw.service.function.ViewHistoryService;

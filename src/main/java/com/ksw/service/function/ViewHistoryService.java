@@ -13,7 +13,7 @@ import com.ksw.dao.relation.ViewUserNoteMapper;
 import com.ksw.dto.function.ViewHistoryDTO;
 import com.ksw.object.entity.jpa.NoteView;
 import com.ksw.object.entity.mybatis.ViewUserNote;
-import com.ksw.object.vo.combined.ViewHistoryVO;
+import com.ksw.object.vo.function.ViewHistoryVO;
 
 @Service
 public class ViewHistoryService {

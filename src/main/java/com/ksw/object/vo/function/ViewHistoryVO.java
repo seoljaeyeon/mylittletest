@@ -1,4 +1,4 @@
-package com.ksw.object.vo.combined;
+package com.ksw.object.vo.function;
 
 import java.sql.Timestamp;
 import java.util.Objects;

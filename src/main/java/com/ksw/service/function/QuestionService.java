@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ksw.dao.combined.QuestionMapper;
+import com.ksw.dao.function.QuestionMapper;
 import com.ksw.dao.object.CategoryRepository;
 import com.ksw.dao.object.FileRepository;
 import com.ksw.dao.object.NoteRepository;
@@ -28,7 +28,7 @@ import com.ksw.object.entity.jpa.Category;
 import com.ksw.object.entity.jpa.File;
 import com.ksw.object.entity.jpa.Note;
 import com.ksw.object.entity.jpa.User;
-import com.ksw.object.vo.combined.QuestionVO;
+import com.ksw.object.vo.function.QuestionVO;
 import com.ksw.object.vo.object.AnswerVO;
 import com.ksw.object.vo.object.FileVO;
 import com.ksw.object.vo.object.ReplyVO;
