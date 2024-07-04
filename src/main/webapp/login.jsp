@@ -757,7 +757,7 @@
 	              <div class="find_id" id="popup_open">계정을 잃어버렸으면?</div>
 	        </div>
 	        <div style="display:inline-flex; flex-direction:row; gap:2rem;">
-	            <div class="login_btn" onclick="location.href='index.jsp'">로그인 하기</div>
+	            <div class="login_btn" onclick="location.href='index_login.jsp'">로그인 하기</div>
 	        </div>
 	         <div class="join_btn" onclick="location.href='join.jsp'">회원가입 하기</div>
 	    </div>
