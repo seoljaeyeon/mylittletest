@@ -20,18 +20,18 @@
 </style>
 
 <script>
-let allChecked = false;
-
-function toggleCheck() {
-    if (allChecked) {
-        $("input[type='checkbox']").prop("checked", false);
-        $("#toggleButton").val("전체 선택");
-    } else {
-        $("input[type='checkbox']").prop("checked", true);
-        $("#toggleButton").val("전체 해제");
-    }
-    allChecked = !allChecked;
-}
+	let allChecked = false;
+	
+	function toggleCheck() {
+	    if (allChecked) {
+	        $("input[type='checkbox']").prop("checked", false);
+	        $("#toggleButton").val("전체 선택");
+	    } else {
+	        $("input[type='checkbox']").prop("checked", true);
+	        $("#toggleButton").val("전체 해제");
+	    }
+	    allChecked = !allChecked;
+	}
 </script>
 
 	<div class="a">
@@ -42,7 +42,9 @@ function toggleCheck() {
 			<button type="button" style="height: 35px; border-radius: 10px; background-color: transparent; color: white;">돌아가기</button>
 		</a>
 	</span>
-	<span style="margin-left: 30px;"><input style="width: 600px; height: 30px; background-color: transparent; color: white;" type="text" placeholder="Search"></span>
+	<span style="margin-left: 30px;">
+		<input style="width: 600px; height: 30px; background-color: transparent; color: white;" type="text" placeholder="Search">
+	</span>
 	</div>
 	<div style="margin-top: 20px; display: inline-block;">
 		<input id="toggleButton" style="width: 110px; height: 35px; border-radius: 10px; background-color: transparent; color: white;" type="button" onclick="toggleCheck()" value="전체 선택">

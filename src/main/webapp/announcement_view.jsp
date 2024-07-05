@@ -11,7 +11,7 @@
 	<div class="a">
 	<div>&nbsp&nbsp<span style="font-size: 20px; font-weight: bolder;">공지사항</span>
 	<br><br>
-	<div style="font-size: 35px; font-weight: bolder;">공지사항 제목입니다.
+	<div style="font-size: 35px; font-weight: bolder;">공지사항 입니다. 다들 집중하세요.
 		<div align="right">
 			<a href="announcement_list.jsp">
 				<button type="button" style="height: 40px; width: 100px; border-radius: 10px; background-color: transparent; color: white;">돌아가기</button>
@@ -22,8 +22,12 @@
 	<div style="border: none; outline: none; border-bottom: 1px solid white;">
 	작성자 | 관리자닉네임 &nbsp&nbsp&nbsp2024-06-26 11:30:49
 	<div align="right">
-		<a href="announcement_modify.jsp"><input type="button" value="수정" style="height: 40px; width: 45px; border-radius: 10px; background-color: transparent; color: white;"></a>
-		<a href=""><input type="button" value="삭제" style="height: 40px; width: 45px; border-radius: 10px; background-color: transparent; color: white;"></a>
+		<a href="announcement_modify.jsp">
+			<input type="button" value="수정" style="height: 40px; width: 45px; border-radius: 10px; background-color: transparent; color: white;">
+		</a>
+		<a href="">
+			<input type="button" value="삭제" style="height: 40px; width: 45px; border-radius: 10px; background-color: transparent; color: white;">
+		</a>
 	</div>
 	</div>
 	<div style="margin-top: 30px;">

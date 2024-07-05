@@ -54,7 +54,7 @@ public class QuestionController {
 			@ModelAttribute UserDTO userDTO,
 			@RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
-
+		
             try {
             	QuestionVO questionVO = questionService.noteWrite(noteDTO, file, categoryDTO, userDTO);
             	redirectAttributes.addFlashAttribute("writeVO", questionVO);

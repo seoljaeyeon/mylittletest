@@ -7,6 +7,7 @@
 	display: inline-block;
 	}						
 </style>
+
 	<form id="writeFrm" name="writeFrm" action="announcement_writeok.jsp">	
 		<div class="a">
 		<div>&nbsp&nbsp<span style="font-size: 20px; font-weight: bolder;">공지사항</span>
@@ -35,7 +36,7 @@
 		<br><br>
 		<div><input type="file" id="file" name="file" style="height: 40px; width: 200px;"></div>
 		<div align="right">
-			<input required="required" value="지금 작성" style="width: 200px; height: 25px; border-radius: 50px; text-align: center; margin-right: 50px; background-color: transparent; color: white;">
+			<input required value="지금 작성" style="width: 200px; height: 25px; border-radius: 50px; text-align: center; margin-right: 50px; background-color: transparent; color: white;">
 			<input type="submit" id="write_btn" name="write_btn" value="작성완료" style="height: 40px; width: 100px; border-radius: 10px; background-color: transparent; color: white;">
 		</div>
 		</div>
