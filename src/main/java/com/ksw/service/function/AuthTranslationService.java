@@ -6,7 +6,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.object.entity.User;
+import com.ksw.service.forObject.entity.UserService;
+import com.ksw.vo.forObject.entity.UserVO;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +17,9 @@ import java.util.List;
 
 public class AuthTranslationService implements UserDetails {
 
+	@Autowired
+	private UserService userService;
+	
     private User user;
 
     public AuthTranslationService(User user) {
@@ -34,6 +40,11 @@ public class AuthTranslationService implements UserDetails {
         return authorities;
     }
 
+    public UserVO getUserVO() {
+        UserDTO userDTO = userService.convertToDTO(this.user);
+        return userService.convertToVO(userDTO);
+    }
+    
     @Override
     public String getPassword() {
         return user.getPassword();
