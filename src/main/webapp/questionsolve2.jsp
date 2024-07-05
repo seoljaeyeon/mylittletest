@@ -36,6 +36,15 @@ document.addEventListener("DOMContentLoaded", function() {
     popupCloseButton_reply.addEventListener("click", function() {
     	popup_reply.classList.remove("show");
     });
+    
+    // 좋아요 버튼 애니메이션
+    var likes = document.querySelectorAll('.likebtn');
+
+    likes.forEach(function(likebtn) {
+    	likes.addEventListener('click', function() {
+    		likes.classList.toggle('liked');
+        });
+    });
 });
 
 </script>
@@ -102,12 +111,18 @@ document.addEventListener("DOMContentLoaded", function() {
 		border: none;
 		margin-top:5px;
 	}
-	.like_btn{
+	.likebtn,.like_btn{
 		font-size:30px;
 		margin-left:10px;
 		margin-top:5px;
 		cursor:pointer;
+        font-size: 24px;
+        transition: transform 0.3s, color 0.3s;
 	}
+	 .like_btn.liked {
+            color: red;
+            transform: scale(1.5);
+        }
 	.solve_main{
 		display:inline-flex;
 		gap:15px;
@@ -465,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="modify_btn">비활성화</div>
 		<div class="modify_btn">덜보기</div>
 		<div class="like_btn" id="reportbtn">🚨</div>
-		<div class="like_btn">🤍</div>
+		<div class="likebtn">🤍</div>
 	</div>
 	<div class="solve_main">
 		<div class="question">

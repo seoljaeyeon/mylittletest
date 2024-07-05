@@ -3,35 +3,56 @@
 <jsp:include page="./include/head_login.jsp"></jsp:include>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
- 		//팝업요소를 가져온다
-        var popup = document.getElementById("popup_report");
+		// 팝업요소를 가져온다
+	    var popup = document.getElementById("popup_report");
 
-        //팝업 오픈버튼을 가져옴
-        var popupOpenButton = document.getElementById("report_btn");
+	    // 버튼들을 가져온다
+	    var reportButtons = document.querySelectorAll(".question_report");
 
-        // 버튼에 클릭이벤트 추가
-        popupOpenButton.addEventListener("click", function() {
-            // 팝업 표시 여부를 전환
-            popup.classList.toggle("show");
-        });
-        // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-        var popupCloseButton = document.getElementById("reportdelete");
-        popupCloseButton.addEventListener("click", function() {
-            popup.classList.remove("show");
-        });
+	    // 모든 버튼에 클릭 이벤트 추가
+	    reportButtons.forEach(function(button) {
+	        button.addEventListener("click", function() {
+	            // 팝업 표시 여부를 전환
+	            popup.classList.toggle("show");
+	        });
+	    });
+
+	    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
+	    var popupCloseButton = document.getElementById("reportdelete");
+	    popupCloseButton.addEventListener("click", function() {
+	        popup.classList.remove("show");
+	    });
         
         // 모든 문제 드롭다운 기능
         var questionDropdown = document.querySelector('.order_question .order_main');
         var questionList = document.querySelector('.order_question .list_order');
+        var questionDisplay = document.getElementById('questionDisplay');
+
         questionDropdown.addEventListener('click', function() {
             questionList.classList.toggle('show');
+        });
+
+        questionList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('order_option')) {
+                questionDisplay.textContent = event.target.textContent;
+                questionList.classList.remove('show');
+            }
         });
 
         // 정렬 기준 드롭다운 기능
         var orderDropdown = document.querySelector('.order_dropdown .order_main');
         var orderList = document.querySelector('.order_dropdown .list_order');
+        var orderDisplay = document.getElementById('orderDisplay');
+
         orderDropdown.addEventListener('click', function() {
             orderList.classList.toggle('show');
+        });
+
+        orderList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('order_option')) {
+                orderDisplay.textContent = event.target.textContent;
+                orderList.classList.remove('show');
+            }
         });
         
         // 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
@@ -68,6 +89,14 @@
         // 문서가 로드되면 슬라이더 기능 설정
         setupListSlider();
         
+        // 좋아요 버튼 애니메이션
+        var bookmarks = document.querySelectorAll('.bookmark');
+
+        bookmarks.forEach(function(bookmark) {
+            bookmark.addEventListener('click', function() {
+                bookmark.classList.toggle('liked');
+            });
+        });
 	});
 </script>
 <style>
@@ -152,7 +181,7 @@
 		    text-align:center;
 		}
 		.list_order.show {
-        display:flex;
+        display:block;
 	    }
 	    .order_option {
 	        color: #ffffff;
@@ -229,8 +258,8 @@
 		.question_box{
 			width:45%;
 			height:fit-content;
+			}
 			
-		}
 		.question_item{
 			margin-top:10px;
 			width:100%;
@@ -242,6 +271,7 @@
             border: none;
 			box-shadow: 0.2rem 0.2rem 0.4rem #696969,  -0.2rem -0.2rem 0.4rem #696969;
 			position: relative;
+			
 			
 		}
 		
@@ -266,8 +296,16 @@
 	    	height:fit-content;
 	    	margin-left:5px;
 	    	float:right;
+	    	cursor: pointer;
+            font-size: 24px;
+            transition: transform 0.3s, color 0.3s;
 	   
 		}
+		 .bookmark.liked {
+            color: red;
+            transform: scale(1.5);
+        }
+		
 		.square{
 			margin-top: 5px;
 			background-position: center;
@@ -284,7 +322,7 @@
 		 .item {
 		 	margin-right:auto;
             margin-top: 10px;
-            font-size: 1em;
+            font-size: 1rdem;
             color: #666;
             flex:1 1 45%;
             display:flex;
@@ -439,7 +477,7 @@
 	       			<div class="order_box">
 			       		<div class="order_question">
 			            	<div class="order_main">
-			                	<span style="font-weight:bold">모든 문제</span>
+			                	<span style="font-weight:bold" id="questionDisplay">모든 문제</span>
 			            	</div>
 							<div class="list_order">   
 			                	<div class="order_option">모든문제</div>
@@ -448,7 +486,7 @@
 			            </div>
 			            <div class="order_dropdown">
 			            	<div class="order_main">
-			                	<span style="font-weight:bold">정렬기준</span>
+			                	<span style="font-weight:bold" id="orderDisplay">정렬기준</span>
 			            	</div>
 							<div class="list_order">   
 			                	<div class="order_option">최신순</div>
@@ -462,31 +500,31 @@
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
 			                <li class="list1">
-			                    <div class="list"><a href="">JAVA</a></div>
+			                    <div class="list"><a href="all_note_list.jsp">JAVA</a></div>
 			                </li>
 			                <li class="list2">
-			                    <div class="list"><a href="">HTML</a></div>
+			                    <div class="list"><a href="all_note_list.jsp">HTML</a></div>
 			                </li>
 			              	<li class="list3">
-		                        <div class="list"><a href="">CSS</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">CSS</a></div>
 		                    </li>
 		                    <li class="list4">
-		                        <div class="list"><a href="">Javascript</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">Javascript</a></div>
 		                    </li>
 			                <li class="list5">
-		                        <div class="list"><a href="">Spring</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">Spring</a></div>
 		                    </li>
 		                    <li class="list6">
-		                        <div class="list"><a href="">JSP</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">JSP</a></div>
 		                    </li>
 		                    <li class="list7">
-		                        <div class="list"><a href="">EL</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">EL</a></div>
 		                    </li>
 		                    <li class="list8">
-		                        <div class="list"><a href="">AWS</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">AWS</a></div>
 		                    </li>
 		                    <li class="list9">
-		                        <div class="list"><a href="">CLOUD</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">CLOUD</a></div>
 		                    </li>
 			            </ul>
 			      </div>

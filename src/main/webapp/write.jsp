@@ -371,11 +371,11 @@ document.addEventListener("DOMContentLoaded", function() {
         background-color: rgba(0, 0, 0, 0.1);
     }
       .custom-placeholder {
-        color: white;
         font-style: italic;
         font-weight:bolder;
+        font-color:#ffffff;
     }
-	
+
 	
 
 </style>
