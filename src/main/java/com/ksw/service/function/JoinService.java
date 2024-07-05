@@ -24,6 +24,8 @@ public class JoinService {
     public User join(JoinDTO joinDTO) {
         String encodedPassword = passwordEncoder.encode(joinDTO.getPassword());
         
+        // 메일 인증 유효성 검증 메소드 추가
+        
         User user = new User();
         user.setUserId(joinDTO.getUserId());
         user.setPassword(encodedPassword);
@@ -36,5 +38,12 @@ public class JoinService {
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));  // 현재 시간 설정
         
         return userRepository.save(user);
+    }
+    
+    
+    // 메일 인증 유효성 체크 메소드
+    public Boolean mailValidityCheck() {
+    	
+    	return true;
     }
 }
