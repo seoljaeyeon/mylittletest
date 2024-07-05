@@ -33,14 +33,11 @@ public class ReplyController {
 	
 	@PostMapping("/replyWrite")
 	public String replyWrite(
-			@RequestParam(name = "noteNo", defaultValue = "1", required = false) Integer noteNo,
+			@RequestParam(name = "noteNo", required = false) Integer noteNo,
 			@ModelAttribute ReplyDTO replyDTO,
 			@ModelAttribute UserDTO userDTO) {
-		
 		replyService.writeReply(replyDTO);
 		replyUserService.writeReplyRelation(replyDTO, userDTO);
-		
 		return "redirect:/view?noteNo=" + noteNo;
 	}
-	
 }
