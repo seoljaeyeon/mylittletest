@@ -7,12 +7,63 @@
 <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-blot-formatter@1.0.0/dist/quill-blot-formatter.min.js"></script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-	
-	  // 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
-	  const titleInput = document.getElementById('title_input');
-	  const titleUnderline = document.getElementById('title_underline');
+    // 밑줄의 너비를 조정하는 함수
+    function adjustUnderlineWidth(input, underline) {
+        // 입력된 텍스트의 너비를 가져오는 getTextWidth라는 보조 함수를 사용합니다.
+        const textWidth = getTextWidth(input.value, window.getComputedStyle(input).font);
+        // 밑줄의 너비를 텍스트의 너비에 맞게 설정합니다.
+        underline.style.width = textWidth + 'px';
+    }
+
+    // 텍스트의 너비를 계산하여 반환하는 함수
+    function getTextWidth(text, font) {
+    	// 캔버스 엘리먼트를 가져오거나 새로 생성합니다. getTextWidth.canvas가 존재하지 않으면 새로운 캔버스 엘리먼트를 생성하고,
+    	// getTextWidth.canvas에 할당합니다.
+        const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+     	// 캔버스에서 2D 그래픽 컨텍스트를 가져옵니다.
+    	const context = canvas.getContext("2d");
+    	// 그래픽 컨텍스트에 폰트 스타일을 설정합니다.
+        context.font = font;
+    	// 지정된 텍스트의 너비를 측정하여 metrics 객체에 저장합니다.
+        const metrics = context.measureText(text);
+     	// 측정된 텍스트의 너비를 반환합니다.
+        return metrics.width;
+    }
+
+    // Quill Editor 초기화
+    var editor = new Quill('#editor', {
+        theme: 'snow',  // snow 테마 사용 (기본)
+        placeholder:'내용을 입력해주세요. (이미지는 드래그해서 넣어주세요.)',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline'],
+                ['link', 'image', 'video'],
+                ['clean']
+            ],
+            imageResize: {
+                // 이미지 리사이즈 옵션 설정 (필요에 따라 설정 가능)
+                modules: ['Resize', 'DisplaySize', 'Toolbar']
+            }
+        }
+    });
+
+    var commentaryEditor = new Quill('#commentary_editor', {
+        theme: 'snow',  // snow 테마 사용 (기본)
+    	placeholder:'해설을 입력해주세요',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline'],
+                ['link', 'image', 'video'],
+                ['clean']
+            ],
+            imageResize: {
+                // 이미지 리사이즈 옵션 설정 (필요에 따라 설정 가능)
+                modules: ['Resize', 'DisplaySize', 'Toolbar']
+            }
+        }
+    });
 
 	  // 사용자가 입력할 때마다 밑줄의 너비를 조정합니다.
 	  titleInput.addEventListener('input', function() {
@@ -195,7 +246,7 @@
         left: 0;
         bottom: 0;
         width: 0;
-        height: 3px;
+        height: 5px;
         background-color: #cccccc;
         transition: width 0.3s ease-in-out;
     }
@@ -319,13 +370,22 @@
         text-align: center;
         margin-left: 2rem;
     }
-   .ql-toolbar.ql-snow {
-   		width:550px;
-   		background-color:#696969;
-   		border:none;
-   		border-radius:1rem
-   }
-   
+    .ql-toolbar.ql-snow {
+    	background-color:#696969;
+    	width:400px;
+    	border-radius:20px;
+    	margin-top:5px;
+    }
+    .dragover {
+        border: 2px dashed #aaa; /* 드래그앤 드랍 시 보여질 스타일 */
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+      .custom-placeholder {
+        color: white;
+        font-style: italic;
+        font-weight:bolder;
+    }
+	
 </style>
 <div class="container">
     <form id="writeFrm" class="writeFrm" name="writeFrm" action="writeok.jsp">
