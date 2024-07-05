@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.ksw.dto.forObject.object.ReplyDTO;
-import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.function.QuestionDTO;
-import com.ksw.object.entity.jpa.Reply;
-import com.ksw.service.forObject.object.ReplyService;
+import com.ksw.object.entity.Reply;
+import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.relation.NoteReplyService;
 import com.ksw.service.forObject.relation.ReplyUserService;
 
@@ -33,14 +33,11 @@ public class ReplyController {
 	
 	@PostMapping("/replyWrite")
 	public String replyWrite(
-			@RequestParam(name = "noteNo", defaultValue = "1", required = false) Integer noteNo,
+			@RequestParam(name = "noteNo", required = false) Integer noteNo,
 			@ModelAttribute ReplyDTO replyDTO,
 			@ModelAttribute UserDTO userDTO) {
-		
 		replyService.writeReply(replyDTO);
 		replyUserService.writeReplyRelation(replyDTO, userDTO);
-		
 		return "redirect:/view?noteNo=" + noteNo;
 	}
-	
 }

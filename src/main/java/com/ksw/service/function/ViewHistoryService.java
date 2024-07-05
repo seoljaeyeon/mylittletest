@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ksw.dao.object.NoteViewRepository;
-import com.ksw.dao.relation.NoteCategoryMapper;
-import com.ksw.dao.relation.ViewUserNoteMapper;
+import com.ksw.dao.forObject.entity.NoteViewRepository;
+import com.ksw.dao.forObject.relation.NoteCategoryMapper;
+import com.ksw.dao.forObject.relation.ViewUserNoteMapper;
 import com.ksw.dto.function.ViewHistoryDTO;
-import com.ksw.object.entity.jpa.NoteView;
-import com.ksw.object.entity.mybatis.ViewUserNote;
-import com.ksw.object.vo.combined.ViewHistoryVO;
+import com.ksw.object.entity.NoteView;
+import com.ksw.object.relation.ViewUserNote;
+import com.ksw.vo.function.ViewHistoryVO;
 
 @Service
 public class ViewHistoryService {

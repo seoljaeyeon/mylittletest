@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.FavoriteCategoryDTO;
-import com.ksw.object.entity.mybatis.FavoriteCategory;
-import com.ksw.object.vo.relation.FavoriteCategoryVO;
+import com.ksw.object.relation.FavoriteCategory;
+import com.ksw.vo.forObject.relation.FavoriteCategoryVO;
 
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,11 @@
 package com.ksw.service.forObject.relation;
 
-import com.ksw.dto.forObject.object.AnswerDTO;
+import com.ksw.dao.forObject.relation.AnswerHistoryMapper;
+import com.ksw.dto.forObject.entity.AnswerDTO;
 import com.ksw.dto.forObject.relation.AnswerHistoryDTO;
-import com.ksw.dao.relation.AnswerHistoryMapper;
-import com.ksw.object.entity.mybatis.AnswerHistory;
-import com.ksw.object.vo.relation.AnswerHistoryVO;
-import com.ksw.service.forObject.object.AnswerService;
+import com.ksw.object.relation.AnswerHistory;
+import com.ksw.service.forObject.entity.AnswerService;
+import com.ksw.vo.forObject.relation.AnswerHistoryVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
