@@ -57,7 +57,7 @@
                 togglePopup('popup', 'hide');
                 togglePopup('popup_ID', 'hide');
                 togglePopup('popup_EM', 'hide');
-                togglePopup('popupSEND', 'hide');
+                togglePopup('popupIM', 'hide');
 
                 togglePopup('popup_PW', 'show');
             });
@@ -333,9 +333,7 @@
 		.find_btn:hover { 
 			background-color: #e0e0e0;
 		}
-		.show{
-			display: block;
-		}
+		
 		
 		
 		.findbtn{
@@ -482,7 +480,10 @@
 		font-size: 1rem;
 		text-align:center;
 		margin-left:2rem;
-	}		   		    
+	}		
+	.show{
+			display: block;
+		}   		    
 	</style>
 	<body>
 <!-- 팝업 영역 -->
@@ -743,7 +744,7 @@
 	<!--팝업 영역  -->
 	    <div class="login_area">
 	        <h1 class="login_title" style="color:#F8F8FF;">로그인하기</h1>
-	       <div class="emoji"><img src="./img/studying_11772194.png" style="width:100px; height:100px;"></div>
+	       <div class="emoji" style="font-size:100px; text-align:center;">📖</div>
 	       <div class="id_input_area">
 	              	<div class="id_input_container">
 	                  	<input class="id_input" id="userID" name="userID" placeholder="계정" autocomplete = "off">
@@ -756,7 +757,7 @@
 	              <div class="find_id" id="popup_open">계정을 잃어버렸으면?</div>
 	        </div>
 	        <div style="display:inline-flex; flex-direction:row; gap:2rem;">
-	            <div class="login_btn" onclick="location.href='index.jsp'">로그인 하기</div>
+	            <div class="login_btn" onclick="location.href='index_login.jsp'">로그인 하기</div>
 	        </div>
 	         <div class="join_btn" onclick="location.href='join.jsp'">회원가입 하기</div>
 	    </div>
