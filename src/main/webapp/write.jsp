@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Quill Editor 초기화
     var editor = new Quill('#editor', {
         theme: 'snow',  // snow 테마 사용 (기본)
-        placeholder:'내용을 입력해주세요',
+        placeholder:'내용을 입력해주세요. (이미지는 드래그해서 넣어주세요.)',
         modules: {
             toolbar: [
                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function() {
         bottom: 0;
         width: 0;
         height: 5px;
-        background-color: yellow;
+        background-color: #cccccc;
         transition: width 0.3s ease-in-out;
     }
     .editor {
@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function() {
         background-color: rgba(0, 0, 0, 0.1);
     }
       .custom-placeholder {
-        color: #ffffff;
+        color: white;
         font-style: italic;
         font-weight:bolder;
     }
