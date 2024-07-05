@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class HomeController {
 	AuthService	authService;
 	
     @GetMapping("/")
-	public String home(Model model) {
+	public String home(HttpSession session) {
 	 
         // 현재 인증된 사용자의 이름을 통해 VO 가져옵니다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,7 +38,7 @@ public class HomeController {
         UserVO userVO = authTranslationService.getUserVO();
 
         // 모델에 사용자 정보를 추가합니다.
-        model.addAttribute("user", userVO);
+        session.setAttribute("user", userVO);
 
         return "index";
     }
