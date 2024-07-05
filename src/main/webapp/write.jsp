@@ -6,7 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.0/dist/purify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-blot-formatter@1.0.0/dist/quill-blot-formatter.min.js"></script>
-
+<script>
     // 밑줄의 너비를 조정하는 함수
     function adjustUnderlineWidth(input, underline) {
         // 입력된 텍스트의 너비를 가져오는 getTextWidth라는 보조 함수를 사용합니다.
