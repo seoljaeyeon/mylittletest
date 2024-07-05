@@ -174,6 +174,7 @@
         overflow: hidden;
         padding-bottom: 20px;
         width:770px;
+        list-style-type:none;
         }
 
 	   .list_item {
@@ -223,9 +224,11 @@
 			flex-wrap:wrap;
 			height:680px;
 			
+			
 		}
 		.question_box{
 			width:45%;
+			height:fit-content;
 			
 		}
 		.question_item{
@@ -254,6 +257,7 @@
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
+			cursor:pointer;
 		}
 		.bookmark{
 			margin-top: 5px;
@@ -316,6 +320,7 @@
 		  }
 		  .question_report{
 		  	float:right;
+		  	cursor:pointer;
 		  }
 		  .count_box{
 		 	 display:flex;
@@ -378,6 +383,7 @@
 			text-align:center;
 			margin-left:1rem;
 			font-weight:bold;
+			cursor:pointer;
 		}		
 		#reportnote{
 			width:220px;
@@ -433,7 +439,7 @@
 	       			<div class="order_box">
 			       		<div class="order_question">
 			            	<div class="order_main">
-			                	<span>모든 문제</span>
+			                	<span style="font-weight:bold">모든 문제</span>
 			            	</div>
 							<div class="list_order">   
 			                	<div class="order_option">모든문제</div>
@@ -442,7 +448,7 @@
 			            </div>
 			            <div class="order_dropdown">
 			            	<div class="order_main">
-			                	<span>정렬기준</span>
+			                	<span style="font-weight:bold">정렬기준</span>
 			            	</div>
 							<div class="list_order">   
 			                	<div class="order_option">최신순</div>
@@ -456,31 +462,31 @@
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
 			                <li class="list1">
-			                    <div class="list">JAVA</div>
+			                    <div class="list"><a href="">JAVA</a></div>
 			                </li>
 			                <li class="list2">
-			                    <div class="list">HTML</div>
+			                    <div class="list"><a href="">HTML</a></div>
 			                </li>
 			              	<li class="list3">
-		                        <div class="list">CSS</div>
+		                        <div class="list"><a href="">CSS</a></div>
 		                    </li>
 		                    <li class="list4">
-		                        <div class="list">Javascript</div>
+		                        <div class="list"><a href="">Javascript</a></div>
 		                    </li>
 			                <li class="list5">
-		                        <div class="list">Spring</div>
+		                        <div class="list"><a href="">Spring</a></div>
 		                    </li>
 		                    <li class="list6">
-		                        <div class="list">JSP</div>
+		                        <div class="list"><a href="">JSP</a></div>
 		                    </li>
 		                    <li class="list7">
-		                        <div class="list">EL</div>
+		                        <div class="list"><a href="">EL</a></div>
 		                    </li>
 		                    <li class="list8">
-		                        <div class="list">AWS</div>
+		                        <div class="list"><a href="">AWS</a></div>
 		                    </li>
 		                    <li class="list9">
-		                        <div class="list">CLOUD</div>
+		                        <div class="list"><a href="">CLOUD</a></div>
 		                    </li>
 			            </ul>
 			      </div>
@@ -575,8 +581,8 @@
 			      					<div class="question_report" id="report_btn">🚨</div>
 			      			</div>
 			      		</div>
-	      	 </div>
-		  </div>
+			      	 </div>
+				  </div>
 <!-- 컨텐츠 영역  -->
 
 <jsp:include page="./include/tail.jsp"></jsp:include>
