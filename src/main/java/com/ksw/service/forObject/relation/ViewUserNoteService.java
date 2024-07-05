@@ -1,9 +1,9 @@
 package com.ksw.service.forObject.relation;
 
-import com.ksw.dao.relation.ViewUserNoteMapper;
+import com.ksw.dao.forObject.relation.ViewUserNoteMapper;
 import com.ksw.dto.forObject.relation.ViewUserNoteDTO;
-import com.ksw.object.entity.mybatis.ViewUserNote;
-import com.ksw.object.vo.relation.ViewUserNoteVO;
+import com.ksw.object.relation.ViewUserNote;
+import com.ksw.vo.forObject.relation.ViewUserNoteVO;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,12 +1,12 @@
 package com.ksw.service.function;
 
-import com.ksw.object.entity.jpa.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.ksw.object.entity.User;
 
 import java.util.ArrayList;
 import java.util.Collection;

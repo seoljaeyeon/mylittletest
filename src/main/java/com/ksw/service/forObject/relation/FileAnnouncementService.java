@@ -1,8 +1,8 @@
 package com.ksw.service.forObject.relation;
 
 import com.ksw.dto.forObject.relation.FileAnnouncementDTO;
-import com.ksw.object.entity.mybatis.FileAnnouncement;
-import com.ksw.object.vo.relation.FileAnnouncementVO;
+import com.ksw.object.relation.FileAnnouncement;
+import com.ksw.vo.forObject.relation.FileAnnouncementVO;
 
 import org.springframework.stereotype.Service;
 
