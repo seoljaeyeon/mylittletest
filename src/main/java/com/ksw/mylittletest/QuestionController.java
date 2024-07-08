@@ -75,6 +75,33 @@ public class QuestionController {
         return "view";
     }
     
+    /*
+     *  사용하는 form 아래    	
+     *  <sec:csrfInput/>
+     *  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+     *  을 항상 둘 것,
+     *  
+     *   head에
+     *   <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+     *   <!-- CSRF 메타 태그 추가 -->
+     *   <meta name="_csrf" content="${_csrf.token}" />
+     *   <meta name="_csrf_header" content="${_csrf.headerName}" />
+     *   <script>
+     *       var csrfToken = $("meta[name='_csrf']").attr("content");
+     *       var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+     *       $(document).ajaxSend(function(e, xhr, options) {
+     *       xhr.setRequestHeader(csrfHeader, csrfToken);
+     *       });
+     *   </script>
+     *   
+     *   넣어둘 것
+     *   
+     * 
+     *      
+     *      
+     */
+    
+    
 	@PostMapping("/write")
 	public String notewrite(
 			@ModelAttribute NoteDTO noteDTO,
@@ -83,14 +110,17 @@ public class QuestionController {
 			@RequestParam("file") MultipartFile file,
 			HttpSession session,
 			RedirectAttributes redirectAttributes) {
-
+			System.out.println("1");
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userDTO);
+            	System.out.println("2");
             	session.setAttribute("questionVO", questionVO);
+            	System.out.println("성공했니");
                 redirectAttributes.addFlashAttribute("message", "쓰기 성공");
                 NoteVO noteVO = questionVO.getNoteVO();
                 return "redirect:/view?noteNo=" + noteVO.getNoteNo();
             } catch (Exception e) {
+            	System.out.println("실패했니	");
             	redirectAttributes.addFlashAttribute("error", "쓰기 실패");
             	return "write";
             }	

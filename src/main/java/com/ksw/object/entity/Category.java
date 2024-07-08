@@ -2,6 +2,7 @@ package com.ksw.object.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "category")
@@ -39,6 +40,11 @@ public class Category {
 	public void setCategoryNo(Integer categoryNo) {
 		this.categoryNo = categoryNo;
 	}
+	
+    @PrePersist
+    protected void onCreate() {
+        createdAt = Timestamp.valueOf(LocalDateTime.now());
+    }
 
 	public void setCategoryTitle(String categoryTitle) {
 		this.categoryTitle = categoryTitle;
