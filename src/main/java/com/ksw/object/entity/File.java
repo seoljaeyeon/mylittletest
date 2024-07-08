@@ -2,6 +2,7 @@ package com.ksw.object.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "file")
@@ -36,6 +37,11 @@ public class File {
 		return createdAt;
 	}
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = Timestamp.valueOf(LocalDateTime.now());
+    }
+	
 	public void setFileNo(Integer fileNo) {
 		this.fileNo = fileNo;
 	}

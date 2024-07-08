@@ -115,6 +115,9 @@ public class QuestionService {
 			Note note = noteService.convertToEntity(noteDTO);
 			Category category = categoryService.convertToEntity(categoryDTO);
 
+			System.out.println(note.getNoteAnswer());
+			System.out.println(note.getNoteContent());
+			
 			noteRepository.save(note);
 			categoryRepository.save(category);
 

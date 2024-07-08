@@ -47,10 +47,7 @@ public class FileService {
     }
 	
 	public FileDTO uploadFile(MultipartFile file) throws IOException {
-	    if (file == null || file.isEmpty()) {
-	        throw new IllegalArgumentException("File must not be null or empty");
-	    }
-
+		
 	    String originalFileName = file.getOriginalFilename();
 	    String extension = getFileExtension(originalFileName);
 	    String savedFileName = UUID.randomUUID().toString() + extension;
@@ -68,6 +65,9 @@ public class FileService {
 
 
     private String getFileExtension(String fileName) {
+    	if (fileName == null || fileName.isEmpty()) {
+    		return "";
+    	}
         return fileName.substring(fileName.lastIndexOf("."));
     }
 	

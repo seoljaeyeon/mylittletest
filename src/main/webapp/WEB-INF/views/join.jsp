@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
 <style>
 .join_area {
@@ -164,6 +162,8 @@ a {
 	<form class="input_area" name="join" id="join" method="post"
 		action="${pageContext.request.contextPath}/join">
 		<sec:csrfInput />
+		    	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		
 		<div class="id_input_area">
 			<div class="id_input_container">
 				<input class="id_input" id="userId" name="userId" placeholder="계정"
