@@ -73,4 +73,6 @@
 	<beans:bean id="authenticationService"
 		class="com.ksw.service.function.AuthService" />
 
+    <beans:bean id="customAuthenticationSuccessHandler" class="com.ksw.service.function.CustomAuthenticationSuccessHandler"/>
+
 </beans:beans>
