@@ -8,13 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ksw.dto.forUtil.JoinDTO;
-import com.ksw.dto.forUtil.LoginDTO;
-import com.ksw.object.vo.UserVO;
+import com.ksw.dto.function.JoinDTO;
+import com.ksw.dto.function.LoginDTO;
+import com.ksw.service.forObject.entity.UserService;
 import com.ksw.service.function.JoinService;
-import com.ksw.service.object.UserService;
+import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
 public class JoinController {
@@ -36,13 +38,24 @@ public class JoinController {
     public String join(@ModelAttribute JoinDTO joinDTO, RedirectAttributes redirectAttributes) {
         try {
             joinService.join(joinDTO);
-            redirectAttributes.addFlashAttribute("success", "È¸¿ø°¡ÀÔ ¼º°ø");
+            redirectAttributes.addFlashAttribute("success", "íšŒì›ê°€ì… ì„±ê³µ");
             return "redirect:/joincomplete";
         } catch (Exception e){
-            redirectAttributes.addFlashAttribute("error", "È¸¿ø°¡ÀÔ ½ÇÆĞ");
-            System.out.println("È¸¿ø°¡ÀÔ ½ÇÆĞ");
+            redirectAttributes.addFlashAttribute("error", "íšŒì›ê°€ì… ì‹¤íŒ¨");
+            System.out.println("íšŒì›ê°€ì… ì‹¤íŒ¨");
             return "redirect:/join";
         }
     }
+    
+    
+    // ë©”ì¼ ì „ì†¡ êµ¬í˜„ í‹€
+    @PostMapping("/sendMail")
+    @ResponseBody
+    public String sendMail(
+    		@RequestParam("email") String email) {
+    	
+    	return "success"; 
+    }
+    
 	
 }

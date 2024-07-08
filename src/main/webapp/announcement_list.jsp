@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="./include/head.jsp"></jsp:include>
+<jsp:include page="./include/head_login.jsp"></jsp:include>
 <style>
 	.a {	
 	width: 100%;
@@ -40,43 +40,43 @@
 				<td class="announcement_title" style="font-weight: bolder;">제목</td>
 				<td style="font-weight: bolder;">시간</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>	
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>
-			<tr style="height: 50px;">
+			<tr style="height: 50px">
 				<td><a href="announcement_view.jsp">공지사항 입니다. 다들 집중하세요.</a></td>
 				<td>2024-06-24 11:39:45</td>
 			</tr>

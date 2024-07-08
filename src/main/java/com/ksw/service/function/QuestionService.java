@@ -1,32 +1,44 @@
 package com.ksw.service.function;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ksw.dao.CategoryRepository;
-import com.ksw.dao.FileNoteMapper;
-import com.ksw.dao.FileRepository;
-import com.ksw.dao.NoteCategoryMapper;
-import com.ksw.dao.NoteRepository;
-import com.ksw.dao.NoteUserMapper;
-import com.ksw.dao.UserRepository;
-import com.ksw.dto.forObject.CategoryDTO;
-import com.ksw.dto.forObject.FileDTO;
-import com.ksw.dto.forObject.NoteDTO;
-import com.ksw.dto.forObject.UserDTO;
-import com.ksw.dto.forUtil.QuestionDTO;
-import com.ksw.object.entity.jpa.Category;
-import com.ksw.object.entity.jpa.File;
-import com.ksw.object.entity.jpa.Note;
-import com.ksw.object.entity.jpa.User;
-import com.ksw.object.vo.FileVO;
-import com.ksw.object.vo.QuestionVO;
-import com.ksw.service.object.NoteService;
-import com.ksw.service.object.UserService;
-import com.ksw.service.object.CategoryService;
-import com.ksw.service.object.FileService;
+import com.ksw.dao.forObject.entity.CategoryRepository;
+import com.ksw.dao.forObject.entity.FileRepository;
+import com.ksw.dao.forObject.entity.NoteRepository;
+import com.ksw.dao.forObject.entity.UserRepository;
+import com.ksw.dao.forObject.relation.FileNoteMapper;
+import com.ksw.dao.forObject.relation.NoteCategoryMapper;
+import com.ksw.dao.forObject.relation.NoteUserMapper;
+import com.ksw.dao.function.QuestionMapper;
+import com.ksw.dto.forObject.entity.AnswerDTO;
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.dto.forObject.relation.AnswerHistoryDTO;
+import com.ksw.dto.function.QuestionDTO;
+import com.ksw.object.entity.Answer;
+import com.ksw.object.entity.Category;
+import com.ksw.object.entity.File;
+import com.ksw.object.entity.Note;
+import com.ksw.object.entity.User;
+import com.ksw.service.forObject.entity.AnswerService;
+import com.ksw.service.forObject.entity.CategoryService;
+import com.ksw.service.forObject.entity.FileService;
+import com.ksw.service.forObject.entity.NoteService;
+import com.ksw.service.forObject.entity.ReplyService;
+import com.ksw.service.forObject.entity.UserService;
+import com.ksw.service.forObject.relation.AnswerHistoryService;
+import com.ksw.vo.forObject.entity.AnswerVO;
+import com.ksw.vo.forObject.entity.FileVO;
+import com.ksw.vo.forObject.entity.ReplyVO;
+import com.ksw.vo.function.QuestionVO;
 
 @Service
 public class QuestionService {
@@ -51,7 +63,13 @@ public class QuestionService {
 
 	@Autowired
 	private NoteUserMapper noteUserMapper;
+	
+	@Autowired
+	private QuestionMapper questionMapper;
 
+	@Autowired
+	private ReplyService replyService;
+	
 	@Autowired
 	private NoteService noteService;
 
@@ -60,16 +78,25 @@ public class QuestionService {
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private AnswerHistoryService answerHistoryService;
+	
+	@Autowired
+	private AnswerService answerService;
 
 	@Autowired
 	private UserService userService;
 
-	public QuestionVO convertToWriteVO(QuestionDTO questionDTO) {
+	public QuestionVO convertTVO(QuestionDTO questionDTO) {
 		QuestionVO.Builder builder = new QuestionVO.Builder();
 
 		builder.noteVO(noteService.convertToVO(questionDTO.getNoteDTO()))
 				.userVO(userService.convertToVO(questionDTO.getUserDTO()))
-				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()));
+				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()))
+				.fileVO(fileService.convertToVO(questionDTO.getFileDTO()))
+				.replies(replyService.convertToVOList(questionDTO.getReplies()))
+				.viewCount(questionDTO.getViewCount());
 
 		if (questionDTO.getFileDTO() != null) {
 			builder.fileVO(fileService.convertToVO(questionDTO.getFileDTO()));
@@ -78,7 +105,7 @@ public class QuestionService {
 	}
 
 	@Transactional
-	public QuestionVO noteWrite(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO, UserDTO userDTO) {
+	public QuestionVO Write(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO, UserDTO userDTO) {
 
 		QuestionVO questionVO = null;
 		
@@ -87,7 +114,6 @@ public class QuestionService {
 		
 			Note note = noteService.convertToEntity(noteDTO);
 			Category category = categoryService.convertToEntity(categoryDTO);
-			User user = userService.convertToEntity(userDTO);
 
 			noteRepository.save(note);
 			categoryRepository.save(category);
@@ -95,10 +121,10 @@ public class QuestionService {
 			if (fileDTO != null) {
 				File file = fileService.convertToEntity(fileDTO);
 				fileRepository.save(file);
-				//∞¸∞Ë«¸ ≈◊¿Ã∫Ì µ•¿Ã≈Õ ª¿‘
+				//Í¥ÄÍ≥ÑÌòï ÌÖåÏù¥Î∏î Îç∞Ïù¥ÌÑ∞ ÏÇΩÏûÖ
 				fileNoteMapper.insert(file.getFileNo(), note.getNoteNo());
 			}
-			//∞¸∞Ë«¸ ≈◊¿Ã∫Ì µ•¿Ã≈Õ ª¿‘
+			//Í¥ÄÍ≥ÑÌòï ÌÖåÏù¥Î∏î Îç∞Ïù¥ÌÑ∞ ÏÇΩÏûÖ
 			noteCategoryMapper.insert(note.getNoteNo(), category.getCategoryNo());
 			noteUserMapper.insert(note.getNoteNo(), userDTO.getUserNo());
 
@@ -115,4 +141,35 @@ public class QuestionService {
 		
 		return questionVO; 
 	}
+    @Transactional(readOnly = true)
+    public QuestionVO Read(Integer noteNo, Integer userNo) {
+        UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo); // ÏùΩÎäî ÏÇ¨Îûå Ï†ïÎ≥¥
+        UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo); // Í∏ÄÏì¥Ïù¥ Ï†ïÎ≥¥
+        CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
+        NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
+        
+        FileDTO fileDTO = questionMapper.getFileByNoteNo(noteNo);
+        List<ReplyDTO> replyList = questionMapper.getRepliesByNoteNo(noteNo);
+        int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
+        int favoriteCount = questionMapper.getfavoriteCountByNoteNo(noteNo);
+        Boolean isFavorite = questionMapper.getIsFavoriteByNoteNoAndUserNo(noteNo, userNo);
+        
+        AnswerHistoryDTO latestAnswer = answerHistoryService.getAnswerHistoryByNoteNoAndUserNo(noteNo, userNo);
+        AnswerDTO answerDTO = answerService.getAnswerByNo(latestAnswer.getAnswerNo());
+        int answerType = answerDTO.getAnswerType();
+
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setUserDTO(userDTO);
+        questionDTO.setWriterDTO(writerDTO);
+        questionDTO.setCategoryDTO(categoryDTO);
+        questionDTO.setNoteDTO(noteDTO);
+        questionDTO.setFileDTO(fileDTO);
+        questionDTO.setReplies(replyList);
+        questionDTO.setViewCount(viewCount);
+        questionDTO.setFavoriteCount(favoriteCount);
+        questionDTO.setAnswerType(answerType);
+        questionDTO.setIsFavorite(isFavorite);
+
+        return this.convertTVO(questionDTO);
+    }
 }

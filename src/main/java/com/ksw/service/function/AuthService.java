@@ -1,7 +1,8 @@
 package com.ksw.service.function;
 
-import com.ksw.dao.UserRepository;
-import com.ksw.object.entity.jpa.User;
+import com.ksw.dao.forObject.entity.UserRepository;
+import com.ksw.object.entity.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,7 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findByUserId(username);
         if (user == null) {
             System.out.println("User not found: " + username);
-            throw new UsernameNotFoundException("»ç¿ëÀÚ¾øÀ½");
+            throw new UsernameNotFoundException("ì‚¬ìš©ìì—†ìŒ");
         }
         System.out.println("User found: " + user);
         return new AuthTranslationService(user);

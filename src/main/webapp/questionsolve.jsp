@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="./include/head.jsp"></jsp:include>
+<jsp:include page="./include/head_login.jsp"></jsp:include>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 		//팝업요소를 가져온다
@@ -462,7 +462,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<div class="today_count"><span style="font-size:20px;">(15)</span></div>
 		</div>
 		<div class="modify_btn" onclick="location.href='modify.jsp'">수정 </div>
-		<div class="modify_btn">비활성화</div>
+		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
 		<div class="like_btn" id="reportbtn">🚨</div>
 		<div class="like_btn">🤍</div>
@@ -489,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<div class="sub">
 				<div class="tip">💡팁 보기</div>
 				<div class="next_box">
-					<div class="next">▷다음문제</div>
+					<div class="next" onclick="location.href='questionsolve2.jsp'">▷다음문제</div>
 					<div class="mini_box">
 						<div class="like">❤ 380</div>
 						<div class="share">📤공유하기</div>

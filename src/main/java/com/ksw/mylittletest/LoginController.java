@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ksw.dto.forUtil.LoginDTO;
-import com.ksw.object.vo.UserVO;
-import com.ksw.service.object.UserService;
+import com.ksw.dto.function.LoginDTO;
+import com.ksw.service.forObject.entity.UserService;
+import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
 public class LoginController {
@@ -25,18 +25,17 @@ public class LoginController {
 	}
 	
 	/*
-	 * ·Î±×ÀÎ ±â´ÉÀº Spring Security¸¦ ÅëÇØ¼­ ±¸ÇöÇß½À´Ï´Ù. 
+	 * ë¡œê·¸ì¸ ê¸°ëŠ¥ì€ Spring Securityë¥¼ í†µí•´ì„œ êµ¬í˜„í–ˆìŠµë‹ˆë‹¤. 
 	 * 
-	 * ¸ğµç FormÀÇ ¾Æ·¡¿¡ ÀÌ ÅÂ±×¸¦ ³Ö¾îÁÖ¼¼¿ä.
+	 * ëª¨ë“  Formì˜ ì•„ë˜ì— ì´ íƒœê·¸ë¥¼ ë„£ì–´ì£¼ì„¸ìš”.
 	 * <sec:csrfInput />
 	 * 
-	 * ¿¹½Ã)
+	 * ì˜ˆì‹œ)
 	 * <form method="post" action="/login">
 	 *     <sec:csrfInput />
 	 *     <input...  />
 	 * </form>
 	 * 
 	 */
-	
 	
 }
