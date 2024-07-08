@@ -8,8 +8,17 @@ public class JoinDTO {
     private String email;
     private Integer securityQuestion;
     private String securityAnswer;
+    private String code;
 
-    // 기본 생성자
+    public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	// 기본 생성자
     public JoinDTO() {}
 
     // Getters and Setters

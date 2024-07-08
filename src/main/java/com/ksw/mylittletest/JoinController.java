@@ -36,15 +36,9 @@ public class JoinController {
 	
     @PostMapping("/join")
     public String join(@ModelAttribute JoinDTO joinDTO, RedirectAttributes redirectAttributes) {
-        try {
-            joinService.join(joinDTO);
-            redirectAttributes.addFlashAttribute("success", "회원가입 성공");
-            return "redirect:/joincomplete";
-        } catch (Exception e){
-            redirectAttributes.addFlashAttribute("error", "회원가입 실패");
-            System.out.println("회원가입 실패");
-            return "redirect:/join";
-        }
+    	String result = "";
+        result = joinService.join(joinDTO);
+        return "redirect:/joincomplete";
     }
     
     
@@ -53,7 +47,6 @@ public class JoinController {
     @ResponseBody
     public String sendMail(
     		@RequestParam("email") String email) {
-    	
     	return "success"; 
     }
     

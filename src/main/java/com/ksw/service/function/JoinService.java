@@ -1,6 +1,9 @@
 package com.ksw.service.function;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,14 +20,22 @@ public class JoinService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private MailService mailService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private HttpSession session;
     
     @Transactional
-    public User join(JoinDTO joinDTO) {
+    public String join(JoinDTO joinDTO) {
+    	
+    	// 메일 인증 유효성 검증 메소드 추가
+    	if (!mailService.mailValidityCheck(joinDTO.getCode())) {
+    		return "invalid-code";
+    	}
+    	
         String encodedPassword = passwordEncoder.encode(joinDTO.getPassword());
-        
-        // 메일 인증 유효성 검증 메소드 추가
         
         User user = new User();
         user.setUserId(joinDTO.getUserId());
@@ -36,14 +47,8 @@ public class JoinService {
         user.setIsActive(true);  // 기본값 설정
         user.setType(1);  // 기본값 설정
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));  // 현재 시간 설정
-        
-        return userRepository.save(user);
-    }
-    
-    
-    // 메일 인증 유효성 체크 메소드
-    public Boolean mailValidityCheck() {
-    	
-    	return true;
+
+        userRepository.save(user);
+        return "success";
     }
 }

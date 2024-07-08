@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 </head>
 <body>
     <style>
@@ -116,6 +118,10 @@
             max-height: calc(90vh - 8.8rem);
         }
     </style>
+    <!-- CSRF 메타 태그 추가 -->
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
+
     <div class="titlebar">
         <div class="logo">
             <span style="font-size:5rem">🤓</span>

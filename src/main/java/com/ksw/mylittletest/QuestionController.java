@@ -75,6 +75,7 @@ public class QuestionController {
         return "view";
     }
     
+    
 	@PostMapping("/write")
 	public String notewrite(
 			@ModelAttribute NoteDTO noteDTO,
