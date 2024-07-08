@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="./include/head.jsp"></jsp:include>
 <style>
 .join_area {
 	width: 30rem;
 	height: fit-content;
 	border-radius: 5rem;
-	background-color:#474747;
+	background-color: #474747;
 	margin: 0 auto;
 	display: flex;
 	padding: 0.5rem;
@@ -15,8 +14,8 @@
 	flex-direction: column;
 	align-items: center;
 	padding-bottom: 0.5rem;
-	border:none;
-	box-shadow : 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #cccccc;
+	border: none;
+	box-shadow: 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #cccccc;
 }
 
 .join_title {
@@ -124,20 +123,20 @@
 }
 
 .join_btn {
-  	box-shadow : 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
-    background-color: #696969;
-    color: #ffffff;
-    border-radius: 5rem;
-    height: 3rem;
-    width: 10rem;
-    padding: auto;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Pretendard-Regular';
-    border: none;
-    font-size: 1rem;
-    cursor:pointer;
+	box-shadow: 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
+	background-color: #696969;
+	color: #ffffff;
+	border-radius: 5rem;
+	height: 3rem;
+	width: 10rem;
+	padding: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Pretendard-Regular';
+	border: none;
+	font-size: 1rem;
+	cursor: pointer;
 }
 
 a {
@@ -145,87 +144,152 @@ a {
 	font-size: 12px;
 }
 </style>
-	<div class="join_area">
-		<h1 class="join_title">환영합니다!</h1>
-		<div class="emoji">
-			<img src="./img/free-icon-swot-5026764.png"
-				style="width: 100px; height: 100px;">
-		</div>
-		<form class="input_area" name="join" id="join" method="post"
-			action="${pageContext.request.contextPath}/join">
-			<sec:csrfInput />
-			<div class="id_input_area">
-				<div class="id_input_container">
-					<input class="id_input" id="userId" name="userId" placeholder="계정"
-						autocomplete="off">
-				</div>
-			</div>
-			<div class="pw_input_area">
-				<div class="pw_input_container">
-					<input class="pw_input" type="password" id="password" name="password"
-						placeholder="비밀번호">
-					<text id="PwBtn" class="show_password_btn" autocomplete="off">👁️</text>
-				</div>
-			</div>
-			<div class="pw_input_area" id="pw_check">
-				<div class="pw_input_container">
-					<input class="pw_input" type="password" id="Pwc" name="Pwc"
-						placeholder="비밀번호 확인">
-					<text id="PwcBtn" class="show_password_btn" autocomplete="off">👁️</text>
-				</div>
-			</div>
-			<div class="id_input_area">
-				<div class="id_input_container">
-					<input class="id_input" id="nickname" name="nickname"
-						placeholder="닉네임" autocomplete="off">
-				</div>
-			</div>
-			<div class="pw_input_area" id="email_input">
-				<div class="pw_input_container">
-					<input class="pw_input" id="email" name="email"
-						placeholder="이메일" style="margin-right: 1rem;" autocomplete="off">
-				</div>
-				<div class="send_email_btn">전송</div>
-			</div>
-			<div class="id_input_area">
-				<div class="id_input_container"
-					style="margin-bottom: 2rem; justify-content: center; position: relative;">
-					<input class="id_input" id="code" name="code"
-						placeholder="이메일 확인 코드" autocomplete="off">
-					<p
-						style="opacity: 0.3; position: absolute; top: 110%; left: 0; margin: 0;">💡
-						발송된 코드는 5분간 유효합니다.</p>
-				</div>
-			</div>
-			<div class="id_find_area">
-				<div class="id_find_container"
-					style="margin-bottom: 2rem; justify-content: center; position: relative;">
-					<div class="idquestion">계정정보찾기 질문</div>
-					<div class="idfind_box">
-						<select id="securityQuestion" name="securityQuestion"class="idfind">
-							<option value="1">나의 출신고향은?</option>
-							<option value="2">나의 출신 초등학교는?</option>
-							<option value="3">가장 좋아하는 색깔은?</option>
-							<option value="4">가장 좋아하는 음식은?</option>
-							<option value="5">다시 태어나면 되고싶은것은></option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="id_input_area">
-				<div class="id_input_container"
-					style="margin-bottom: 2rem; justify-content: center; position: relative;">
-					<input class="id_input" id="securityAnswer" name="securityAnswer"
-						placeholder="질문 답변 입력" autocomplete="off">
-				</div>
-			</div>
-			<button class="join_btn" type="submit">회원가입</button>
-			<br>
-			<div class="login_box" style="margin-left:10px;">
-				<a href="index.jsp">돌아가기</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="login.jsp">기존
-					계정 로그인하기</a>
-			</div>
-		</form>
+<div class="join_area">
+	<h1 class="join_title">환영합니다!</h1>
+	<div class="emoji">
+		<img src="./img/free-icon-swot-5026764.png"
+			style="width: 100px; height: 100px;">
 	</div>
+	<script>
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(csrfHeader, csrfToken);
+    });
+	
+	</script>
+	<form class="input_area" name="join" id="join" method="post"
+		action="${pageContext.request.contextPath}/join">
+		<sec:csrfInput />
+		    	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		
+		<div class="id_input_area">
+			<div class="id_input_container">
+				<input class="id_input" id="userId" name="userId" placeholder="계정"
+					autocomplete="off">
+			</div>
+		</div>
+		<div class="pw_input_area">
+			<div class="pw_input_container">
+				<input class="pw_input" type="password" id="password"
+					name="password" placeholder="비밀번호">
+				<text id="PwBtn" class="show_password_btn" autocomplete="off">👁️</text>
+			</div>
+		</div>
+		<div class="pw_input_area" id="pw_check">
+			<div class="pw_input_container">
+				<input class="pw_input" type="password" id="Pwc" name="Pwc"
+					placeholder="비밀번호 확인">
+				<text id="PwcBtn" class="show_password_btn" autocomplete="off">👁️</text>
+			</div>
+		</div>
+		<div class="id_input_area">
+			<div class="id_input_container">
+				<input class="id_input" id="nickname" name="nickname"
+					placeholder="닉네임" autocomplete="off">
+			</div>
+		</div>
+		<div class="pw_input_area" id="email_input">
+			<div class="pw_input_container">
+				<input class="pw_input" id="email" name="email" placeholder="이메일"
+					style="margin-right: 1rem;" autocomplete="off">
+			</div>
+			<div class="send_email_btn">전송</div>
+			<script>
+				$(".send_email_btn").on("click", sendEmail);
+				function sendEmail() {
+					var email = $("#email").val();
+					$.ajax({
+						url : "/mylittletest/JoinCodeSend",
+						type : "GET",
+						data : {
+							email : email
+						},
+						success : function(response) {
+							response.trim();
+							if (response == "success") {
+								alert("메일 전송에 성공했습니다");
+								return;
+							} else {
+								alert("메일 전송에 실패했습니다. 다시 시도해주세요.");
+								return;
+							}
+						},
+						error : function(xhr, status, error) {
+							alert("이메일 전송 중 오류가 발생했습니다: " + xhr.responseText);
+						}
+					});
+				}
+			</script>
+		</div>
+		<div class="id_input_area">
+			<div class="id_input_container"
+				style="margin-bottom: 2rem; justify-content: center; position: relative;">
+				<input class="id_input" id="code" name="code"
+					placeholder="이메일 확인 코드" autocomplete="off">
+				<p
+					style="opacity: 0.3; position: absolute; top: 110%; left: 0; margin: 0;">💡
+					발송된 코드는 5분간 유효합니다.</p>
+
+			</div>
+		</div>
+		<div class="id_find_area">
+			<div class="id_find_container"
+				style="margin-bottom: 2rem; justify-content: center; position: relative;">
+				<div class="idquestion">계정정보찾기 질문</div>
+				<div class="idfind_box">
+					<select id="securityQuestion" name="securityQuestion"
+						class="idfind">
+						<option value="1">나의 출신고향은?</option>
+						<option value="2">나의 출신 초등학교는?</option>
+						<option value="3">가장 좋아하는 색깔은?</option>
+						<option value="4">가장 좋아하는 음식은?</option>
+						<option value="5">다시 태어나면 되고싶은것은></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="id_input_area">
+			<div class="id_input_container"
+				style="margin-bottom: 2rem; justify-content: center; position: relative;">
+				<input class="id_input" id="securityAnswer" name="securityAnswer"
+					placeholder="질문 답변 입력" autocomplete="off">
+			</div>
+		</div>
+		<button class="join_btn" type="button">회원가입</button>
+		<script>
+			$(".join_btn").on("click", checkValidity);
+			function checkValidity() {
+	            var authCode = $("#code").val();
+
+	            $.ajax({
+	                url: "/mylittletest/CheckCode",
+	                type: "POST",
+	                data: {
+	                    code: authCode
+	                },
+	                success: function(response) {
+	                    response = response.trim();
+	                    if (response === "valid") {
+	                        alert("인증에 성공했습니다");
+	                        $("#join").submit();
+	                    } else {
+	                        alert("인증 코드가 유효하지 않습니다.");
+	                    }
+	                },
+	                error: function(xhr, status, error) {
+	                    alert("인증 중 오류가 발생했습니다: " + xhr.responseText);
+	                }
+	            });
+	        }
+		</script>
+		<br>
+		<div class="login_box" style="margin-left: 10px;">
+			<a href="index.jsp">돌아가기</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+				href="login.jsp">기존 계정 로그인하기</a>
+		</div>
+	</form>
+</div>
 
 <jsp:include page="./include/tail.jsp"></jsp:include>
