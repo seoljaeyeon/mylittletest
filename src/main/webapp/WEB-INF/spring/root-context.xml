@@ -38,7 +38,7 @@
                 <prop key="mail.smtp.starttls.required">${spring.mail.properties.mail.smtp.starttls.required}</prop>
             </props>
         </property>
-    </bean>
+    </bean> 
 
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
