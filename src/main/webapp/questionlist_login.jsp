@@ -368,7 +368,7 @@
 	   
 		}
 		 .bookmark.liked {
-            color: red;
+            color: yellow;
             transform: scale(1.5);
         }
 		
@@ -605,7 +605,7 @@
 					     	<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
 				      			</div>
@@ -628,7 +628,7 @@
 				      		<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
 				      			</div>
@@ -650,7 +650,7 @@
 				      		<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
 				      			</div>
@@ -672,7 +672,7 @@
 				      		<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
 				      			</div>
@@ -696,7 +696,7 @@
 					     	<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
 				      			</div>
@@ -719,7 +719,7 @@
 				      		<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
 				      			</div>
@@ -741,7 +741,7 @@
 				      		<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
 				      			</div>
@@ -763,7 +763,7 @@
 				      		<div class="question_box">
 					     		<div class="question_item">
 					      			<div class="bookmark">
-					      				❤
+					      				★
 					      			</div>
 					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
 				      			</div>

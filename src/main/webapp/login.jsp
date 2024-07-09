@@ -20,7 +20,7 @@
             });
 
             // 계정찾기 팝업 닫기 버튼에 클릭 이벤트 추가
-            document.getElementById("btn_close").addEventListener("click", function() {
+            document.getElementById("btnclose").addEventListener("click", function() {
                 togglePopup('popup', 'hide');
             });
 
@@ -489,7 +489,7 @@
 <!-- 팝업 영역 -->
 	<div class="popup_wrap" id="popup">
 		<div class="find_area">
-			<div class="close"><button class="btn_close" id="btn_close" type="button">X</button></div>
+			<div class="close"><button class="btn_close" id="btnclose" type="button">X</button></div>
 			<h1 class="find_title"> 계정정보찾기</h1>
 			<div class="findbtn" style="display:inline-flex; flex-direction:row; gap:2rem; margin-left:20px;">
 	            <div class="find_btn" id="findid">ID 찾기</div>

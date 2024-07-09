@@ -20,24 +20,67 @@ document.addEventListener("DOMContentLoaded", function() {
         popup.classList.remove("show");
     });
     
-	//댓글 팝업요소를 가져온다
-    var popup_reply = document.getElementById("popup_reply");
+    // 댓글 신고 팝업요소를 가져온다
+    var popupReply = document.getElementById("popup_reply");
 
-    //팝업 오픈버튼을 가져옴
-    var popupOpenButton_reply = document.getElementById("reply_report");
+    // 댓글 신고 팝업 오픈버튼을 가져옴
+    var popupOpenButtonsReply = document.querySelectorAll(".reply_date");
 
-    // 버튼에 클릭이벤트 추가
-    popupOpenButton_reply.addEventListener("click", function() {
-        // 팝업 표시 여부를 전환
-        popup_reply.classList.toggle("show");
+    // 모든 버튼에 클릭 이벤트 추가
+    popupOpenButtonsReply.forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            // 팝업 표시 여부를 전환
+            popupReply.classList.toggle("show");
+        });
     });
+
     // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-    var popupCloseButton_reply = document.getElementById("reply_delete");
-    popupCloseButton_reply.addEventListener("click", function() {
-    	popup_reply.classList.remove("show");
+    var popupCloseButtonReply = document.getElementById("reply_delete");
+    popupCloseButtonReply.addEventListener("click", function() {
+        popupReply.classList.remove("show");
     });
-});
+    
+	 // 북마크 버튼 애니메이션
+    const likeBtns = document.querySelectorAll('.like_btn');
 
+    likeBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            this.classList.toggle('liked');
+        });
+    });
+    // 공유하기 버튼 기능 추가
+    const shareBtn = document.getElementById('sharebtn');
+    shareBtn.addEventListener('click', function() {
+        if (navigator.share) {
+            navigator.share({
+                title: document.title,
+                text: '이 페이지를 공유합니다:',
+                url: window.location.href
+            }).then(() => {
+                console.log('공유 성공');
+            }).catch((error) => {
+                console.error('공유 실패', error);
+            });
+        } else {
+            // Web Share API를 지원하지 않는 브라우저에서는 다른 공유 방법을 제안할 수 있습니다.
+            alert('이 브라우저는 공유 기능을 지원하지 않습니다.');
+        }
+    });
+    // 팁박스보기
+   document.getElementById("tip").addEventListener("click", function() {
+		    this.style.opacity = "0"; // tip 클릭 시 opacity 0으로 변환
+		    setTimeout(() => {
+		        document.getElementById("showtip").style.opacity = "1"; // 0.5초 후 showtip이 나타나도록 변환
+		    }, 500);
+		});
+    //정답박스보기
+    document.getElementById("answer").addEventListener("click", function() {
+	        this.classList.add("clicked"); // answer 클릭 시 opacity 0으로 변환
+	        setTimeout(() => {
+	            document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
+	        }, 500);
+	    });
+  });
 </script>
 <style>
 	.solve_container{
@@ -102,12 +145,17 @@ document.addEventListener("DOMContentLoaded", function() {
 		border: none;
 		margin-top:5px;
 	}
-	.like_btn{
+	.like_btn,.reportbtn{
 		font-size:30px;
 		margin-left:10px;
 		margin-top:5px;
 		cursor:pointer;
+		transition: transform 0.3s, color 0.3s;
 	}
+	 .like_btn.liked {
+            color: red;
+            transform: scale(1.5);
+        }
 	.solve_main{
 		display:inline-flex;
 		gap:15px;
@@ -136,24 +184,47 @@ document.addEventListener("DOMContentLoaded", function() {
 		display:inline-flex;
 		gap:15px;
 	}
-	.tip{
-    	-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
-		background-color: #333333;
-		color: #ffffff;
-		border-radius: 10px;
-		height: 83px;
+	.tip_box{
 		width: 495px;
-		padding: auto;
-		justify-content: center;
-		align-items: center;
-		font-size: 25px;
-		text-align:center;
-		display:flex;
-		cursor:pointer;
-		border: none;
-		
+	    height: 83px;
+	    position: relative;
+	    margin: 0 auto;
+	}
+	 .tip,.showtip {
+        background-color: #333333;
+	    color: #ffffff;
+	    border-radius: 10px;
+	    width: 495px;
+	    height: 83px;
+	    font-size: 25px;
+	    text-align: center;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    cursor: pointer;
+	    border: none;
+	    z-index: 1;
+	    transition: opacity 0.5s ease; /* opacity 속성에 대한 transition 효과 추가 */
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    transition: opacity 0.5s ease;
+    }
+	.tip {
+	    z-index: 1;
+	}
+	
+	.showtip {
+	    z-index: 0;
+	    opacity: 0;
+	}
+	
+	.tip.clicked {
+	    opacity: 0;
+	}
+	
+	.showtip.clicked {
+	    opacity: 1;
 	}
 	.next_box{
 		display:flex;
@@ -190,6 +261,21 @@ document.addEventListener("DOMContentLoaded", function() {
 	.like{
 		margin-bottom:10px;
 	}
+	.like.likes{
+		margin-bottom:10px;
+		color: red;
+        transform: scale(1.5);
+	}
+	.share {
+	    cursor: pointer;
+	    transition: transform 0.3s, color 0.3s;
+	    margin-top: 10px;
+	}
+	
+	.share:hover {
+	    color: #007bff;
+	    transform: scale(1.2);
+	}
 	.check{
 		display:flex;
 		gap:10px;
@@ -215,23 +301,48 @@ document.addEventListener("DOMContentLoaded", function() {
 		border: none;	
 	}
 	
-	.show_answer{
-    	-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
-		background-color: #333333;
-		color: #ffffff;
-		border-radius: 10px;
-		height: 175px;
-		width: 542px;
-		padding: auto;
-		justify-content: center;
-		align-items: center;
-		font-size: 25px;
-		text-align:center;
-		display:flex;
-		cursor:pointer;
-		border: none;
+	.answer-container {
+    position: relative;
+    width: 542px;
+    height: 175px;
+    margin: 0 auto;
+	}
+	
+	.answer, .showanswer {
+	    background-color: #333333;
+	    color: #ffffff;
+	    border-radius: 10px;
+	    height: 175px;
+	    width: 542px;
+	    padding: auto;
+	    justify-content: center;
+	    align-items: center;
+	    font-size: 25px;
+	    text-align: center;
+	    display: flex;
+	    cursor: pointer;
+	    border: none;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    transition: opacity 0.5s ease;
+	}
+	
+	.answer {
+	    z-index: 1;
+	}
+	
+	.showanswer {
+	    z-index: 0;
+	    opacity: 0;
+	}
+	
+	.answer.clicked {
+	    opacity: 0;
+	}
+	
+	.showanswer.clicked {
+	    opacity: 1;
 	}
 	.reply_container{
 		display: inline-flex;
@@ -464,8 +575,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="modify_btn" onclick="location.href='modify.jsp'">수정 </div>
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
-		<div class="like_btn" id="reportbtn">🚨</div>
-		<div class="like_btn">🤍</div>
+		<div class="reportbtn" id="reportbtn">🚨</div>
+		<div class="like_btn">❤</div>
 	</div>
 	<div class="solve_main">
 		<div class="question">
@@ -487,12 +598,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 		<div class="question_sub">
 			<div class="sub">
-				<div class="tip">💡팁 보기</div>
+			<div class="tip_box">
+				<div class="tip" id="tip">💡팁 보기</div><div class="showtip" id="showtip">💡팁 입니다</div>
+			</div>
 				<div class="next_box">
-					<div class="next" onclick="location.href='questionsolve2.jsp'">▷다음문제</div>
+					<div class="next" onclick="location.href='questionsolve.jsp'">▷다음문제</div>
 					<div class="mini_box">
 						<div class="like">❤ 380</div>
-						<div class="share">📤공유하기</div>
+						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
 					<div class="check">
 						<div class="success_btn">O</div>
@@ -500,8 +613,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					</div>
 				</div>	
 			</div>
-			<div class="show_answer">
-				🔒정답 & 해설보기
+			<div class="answer-container">
+				<div class="answer" id="answer">🔒정답 & 해설보기</div><div class="showanswer" id="showanswer">🔓정답</div>
 			</div>
 		</div>
 	</div>
@@ -529,7 +642,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				<div class="reply_profiles" style="font-size:30px;">😃</div>
 				<div class="replynote">
 					댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.
-					<div class="reply_date">🚨신고 <span>2024-07-01</span></div>
+					<div class="reply_date" id="reply_report">🚨신고 <span>2024-07-01</span></div>
 				</div>
 				<div class="replycheck">
 					<div class="reply_modify_btn">수정</div>
@@ -540,7 +653,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				<div class="reply_profiles" style="font-size:30px;">😃</div>
 				<div class="replynote">
 					댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.
-					<div class="reply_date">🚨신고 <span>2024-07-01</span></div>
+					<div class="reply_date" id="reply_report">🚨신고 <span>2024-07-01</span></div>
 				</div>
 				<div class="replycheck">
 					<div class="reply_modify_btn">수정</div>
