@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // 기존에 드롭다운 메뉴에 있던 내용을 초기화합니다.
         dropdownMenu.innerHTML = '';
 
-        // 만약 입력된 값이 비어있다면 드롭다운을 숨깁니다.
+        // 만약 입력된 값이 비어있다면 드롭다운
+        을 숨깁니다.
         if (inputValue === '') {
             dropdownMenu.style.display = 'none';
             return;
