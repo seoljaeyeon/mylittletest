@@ -4,8 +4,30 @@
 <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    var pwBtn = document.getElementById('PwBtn');
+    var pwcBtn = document.getElementById('PwcBtn');
+    var pwInput = document.getElementById('userPw');
+    var pwcInput = document.getElementById('Pwc');
 
-	
+    pwBtn.addEventListener('click', function() {
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            pwBtn.innerHTML = '🙈';
+        } else {
+            pwInput.type = 'password';
+            pwBtn.innerHTML = '👁️';
+        }
+    });
+
+    pwcBtn.addEventListener('click', function() {
+        if (pwcInput.type === 'password') {
+            pwcInput.type = 'text';
+            pwcBtn.innerHTML = '🙈';
+        } else {
+            pwcInput.type = 'password';
+            pwcBtn.innerHTML = '👁️';
+        }
+    });
 });
 </script>
 <style>

@@ -35,7 +35,6 @@
 		<br><br>
 		<div><input type="file" id="file" name="file" style="height: 40px; width: 200px;"></div>
 		<div align="right">
-			<input required="required" value="기존의 예약 시간 표기" style="width: 200px; height:25px; border-radius: 50px; text-align: center; margin-right: 50px; background-color: transparent; color: white;">
 			<input type="submit" id="write_btn" name="write_btn" value="수정완료" style="height: 40px; width: 100px; border-radius: 10px; background-color: transparent; color: white;">
 		</div>
 		</div>
