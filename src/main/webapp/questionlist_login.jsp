@@ -1,37 +1,60 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="./include/head_login.jsp"></jsp:include>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
- 		//팝업요소를 가져온다
-        var popup = document.getElementById("popup_report");
+		// 팝업요소를 가져온다
+	    var popup = document.getElementById("popup_report");
 
-        //팝업 오픈버튼을 가져옴
-        var popupOpenButton = document.getElementById("report_btn");
+	    // 버튼들을 가져온다
+	    var reportButtons = document.querySelectorAll(".question_report");
 
-        // 버튼에 클릭이벤트 추가
-        popupOpenButton.addEventListener("click", function() {
-            // 팝업 표시 여부를 전환
-            popup.classList.toggle("show");
-        });
-        // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-        var popupCloseButton = document.getElementById("reportdelete");
-        popupCloseButton.addEventListener("click", function() {
-            popup.classList.remove("show");
-        });
+	    // 모든 버튼에 클릭 이벤트 추가
+	    reportButtons.forEach(function(button) {
+	        button.addEventListener("click", function() {
+	            // 팝업 표시 여부를 전환
+	            popup.classList.toggle("show");
+	        });
+	    });
+
+	    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
+	    var popupCloseButton = document.getElementById("reportdelete");
+	    popupCloseButton.addEventListener("click", function() {
+	        popup.classList.remove("show");
+	    });
         
         // 모든 문제 드롭다운 기능
         var questionDropdown = document.querySelector('.order_question .order_main');
         var questionList = document.querySelector('.order_question .list_order');
+        var questionDisplay = document.getElementById('questionDisplay');
+
         questionDropdown.addEventListener('click', function() {
             questionList.classList.toggle('show');
+        });
+
+        questionList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('order_option')) {
+                questionDisplay.textContent = event.target.textContent;
+                questionList.classList.remove('show');
+            }
         });
 
         // 정렬 기준 드롭다운 기능
         var orderDropdown = document.querySelector('.order_dropdown .order_main');
         var orderList = document.querySelector('.order_dropdown .list_order');
+        var orderDisplay = document.getElementById('orderDisplay');
+
         orderDropdown.addEventListener('click', function() {
             orderList.classList.toggle('show');
+        });
+
+        orderList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('order_option')) {
+                orderDisplay.textContent = event.target.textContent;
+                orderList.classList.remove('show');
+            }
         });
         
         // 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
@@ -68,6 +91,33 @@
         // 문서가 로드되면 슬라이더 기능 설정
         setupListSlider();
         
+        // 좋아요 버튼 애니메이션
+        var bookmarks = document.querySelectorAll('.bookmark');
+
+        bookmarks.forEach(function(bookmark) {
+            bookmark.addEventListener('click', function() {
+                bookmark.classList.toggle('liked');
+            });
+        });
+        // 화살표 슬라이더
+        var swiper = new Swiper(".swiper-container", {
+		      slidesPerView: 1,
+		      spaceBetween: 0, // 슬라이드 간의 간격 설정
+		      centeredSlides: true,
+		      loop: true, // 무한 루프 설정
+		      observer: true, // 변경된 슬라이드 감지
+		      observeParents: true, // 변경된 슬라이드 감지
+		      pagination: {
+		        el: ".swiper-pagination",
+		        clickable: true,
+		      },
+		      navigation: {
+		        nextEl: ".swiper-button-next",
+		        prevEl: ".swiper-button-prev",
+		      },
+		    });
+		swiper.slideNext();
+    
 	});
 </script>
 <style>
@@ -78,13 +128,16 @@
 		}
 		.container{
 			display: inline-flex;
-	    	width: 800px;
+	    	width: 850px;
 	    	flex-direction:column;
 	    	height: calc(90vh - 8.8rem);
-	    	margin-left:300px;
+	    	margin-left:350px;
 		}
 		.list_container{
 			display:flex;
+		}
+		.search_box{
+			margin-left: 32px;
 		}
 		.search_items {
 			height: 20px;
@@ -152,7 +205,7 @@
 		    text-align:center;
 		}
 		.list_order.show {
-        display:flex;
+        display:block;
 	    }
 	    .order_option {
 	        color: #ffffff;
@@ -216,25 +269,66 @@
 	    .list_items .list:active {
 	        cursor: grabbing;
 	    }
-		.question_items{
-			margin-top: 10px;
-			display:inline-flex;
-			width:800px;
-			gap: 2rem;
-			flex-wrap:wrap;
-			height:680px;
-			
-			
+	    .swiper-container{
+	    	width:800px;
+	    	height:680px;
+	    	display:inline-flex;
+	    	overflow:hidden;
+	    	align-items: center;
+		    justify-content: center;
+	    }
+	    .swiper-wrapper{
+	    	margin-left:10px;
+	    }
+		.swiper-slide{
+			margin-top: 5px;
+			margin-left: 15px;
+		    display: inline-flex;
+		    gap: 0.5rem;
+		    flex-wrap: wrap;
+		    height: 600px;
 		}
+		/* 화살표 위치 변경 */
+		.swiper-button-next, .swiper-button-prev {
+		    position: absolute;
+		    top: 46%;
+		    bottom:50%;
+		    margin-top: -22px;
+		    z-index: 10;
+		    cursor: pointer;
+		}
+
+		/* 화살표 바깥쪽으로 배치 */
+		.swiper-button-next {
+		    right: 0px; /* 화살표를 오른쪽 바깥쪽으로 이동 */
+		}
+		
+		.swiper-button-prev {
+		    left: 0px; /* 화살표를 왼쪽 바깥쪽으로 이동 */
+		}
+		
+		/* 화살표 색상 및 크기 변경 */
+		.swiper-button-next::after, .swiper-button-prev::after {
+		    font-size: 20px; /* 화살표 크기 */
+		}
+		
+		/* 화살표 배경색 및 크기 변경 */
+		.swiper-button-next, .swiper-button-prev {
+		    width: 36px; /* 화살표 크기 */
+		    height: 17px; /* 화살표 크기 */
+		    color:black;
+		}
+		
 		.question_box{
-			width:45%;
+            width:45%;
 			height:fit-content;
+            
+			}
 			
-		}
 		.question_item{
 			margin-top:10px;
-			width:100%;
-	     	height:230px;
+			width:300px;
+	     	height:200px;
 	     	background-color:#333333;
 	     	color:#ffffff;
             padding: 10px;
@@ -242,6 +336,8 @@
             border: none;
 			box-shadow: 0.2rem 0.2rem 0.4rem #696969,  -0.2rem -0.2rem 0.4rem #696969;
 			position: relative;
+			
+			
 			
 		}
 		
@@ -266,8 +362,16 @@
 	    	height:fit-content;
 	    	margin-left:5px;
 	    	float:right;
+	    	cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.3s, color 0.3s;
 	   
 		}
+		 .bookmark.liked {
+            color: red;
+            transform: scale(1.5);
+        }
+		
 		.square{
 			margin-top: 5px;
 			background-position: center;
@@ -284,7 +388,7 @@
 		 .item {
 		 	margin-right:auto;
             margin-top: 10px;
-            font-size: 1em;
+            font-size: 1rdem;
             color: #666;
             flex:1 1 45%;
             display:flex;
@@ -298,13 +402,15 @@
 		  .question_mbox{
 		  	display:flex;
 		  	justify-content: flex-start;
-		  	width:100%;
+		  	width:310px;
 		  }
 		  .question_mtitle{
 		  	margin-right: auto;
 		   	background-position: center;
     		background-size: cover;
     		color:#ffffff;
+    		cursor: pointer;
+            font-size: 14px;
 		  }
 		  .question_answer{
 		  	background-position: center;
@@ -313,7 +419,7 @@
     		font-size:12px;
 		  }
 		  .question_count{
-		  	width:100%;
+		  	width:310px;
 		  	margin-top:0.5rem;
 		  	display:inline-flex;
 		  	gap:10px;
@@ -325,9 +431,10 @@
 		  .count_box{
 		 	 display:flex;
 		 	 justify-content: flex-start;
-		  	width:100%;
-		  	gap:5px;
+			 width:100%;
+			 gap:5px;
 		  }
+		 
 		  /* 팝업 창 스타일  */
 		 .popup_wrap {
 		    display: none; 
@@ -439,7 +546,7 @@
 	       			<div class="order_box">
 			       		<div class="order_question">
 			            	<div class="order_main">
-			                	<span style="font-weight:bold">모든 문제</span>
+			                	<span style="font-weight:bold" id="questionDisplay">모든 문제</span>
 			            	</div>
 							<div class="list_order">   
 			                	<div class="order_option">모든문제</div>
@@ -448,7 +555,7 @@
 			            </div>
 			            <div class="order_dropdown">
 			            	<div class="order_main">
-			                	<span style="font-weight:bold">정렬기준</span>
+			                	<span style="font-weight:bold" id="orderDisplay">정렬기준</span>
 			            	</div>
 							<div class="list_order">   
 			                	<div class="order_option">최신순</div>
@@ -462,127 +569,230 @@
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
 			                <li class="list1">
-			                    <div class="list"><a href="">JAVA</a></div>
+			                    <div class="list"><a href="all_note_list.jsp">JAVA</a></div>
 			                </li>
 			                <li class="list2">
-			                    <div class="list"><a href="">HTML</a></div>
+			                    <div class="list"><a href="all_note_list.jsp">HTML</a></div>
 			                </li>
 			              	<li class="list3">
-		                        <div class="list"><a href="">CSS</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">CSS</a></div>
 		                    </li>
 		                    <li class="list4">
-		                        <div class="list"><a href="">Javascript</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">Javascript</a></div>
 		                    </li>
 			                <li class="list5">
-		                        <div class="list"><a href="">Spring</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">Spring</a></div>
 		                    </li>
 		                    <li class="list6">
-		                        <div class="list"><a href="">JSP</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">JSP</a></div>
 		                    </li>
 		                    <li class="list7">
-		                        <div class="list"><a href="">EL</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">EL</a></div>
 		                    </li>
 		                    <li class="list8">
-		                        <div class="list"><a href="">AWS</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">AWS</a></div>
 		                    </li>
 		                    <li class="list9">
-		                        <div class="list"><a href="">CLOUD</a></div>
+		                        <div class="list"><a href="all_note_list.jsp">CLOUD</a></div>
 		                    </li>
 			            </ul>
 			      </div>
 			  </div>
-		      <div class="question_items">
-				     	<div class="question_box">
-				     		<div class="question_item">
-				      			<div class="bookmark">
-				      				❤
+			  <!-- 슬라이드 할 요소 -->
+			 <div class="swiper-container"> 
+			  <div class="swiper-wrapper">
+				<div class="swiper-slide">
+					     	<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
 				      			</div>
-				      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
-			      			</div>
-			      			<div class="question_mini">
-			      				<div class="question_mbox">
-			      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JAVA</div>
-			      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-			      				</div>
-			      			</div>
-			      			<div class="question_count">
-			      				<div class="count_box">
-			      					<div class="question_like">🤍 13</div>
-			      					<div class="question_question">📚 21문제</div>
-			      					<div class="question_person">🧑 12출제자</div>
-			      				</div>	
-			      					<div class="question_report" id="report_btn">🚨</div>
-			      			</div>
-			      			
-			      		</div>	
-			      		<div class="question_box">
-				     		<div class="question_item">
-				      			<div class="bookmark">
-				      				❤
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JAVA</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
 				      			</div>
-				      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
-			      			</div>
-			      			<div class="question_mini">
-			      				<div class="question_mbox">
-			      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">HTML</div>
-			      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-			      				</div>
-			      			</div>
-			      			<div class="question_count">
-			      				<div class="count_box">
-			      					<div class="question_like">🤍 13</div>
-			      					<div class="question_question">📚 21문제</div>
-			      					<div class="question_person">🧑 12출제자</div>
-			      				</div>	
-			      					<div class="question_report" id="report_btn" >🚨</div>
-			      			</div>
-			      		</div>
-			      		<div class="question_box">
-				     		<div class="question_item">
-				      			<div class="bookmark">
-				      				❤
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn">🚨</div>
 				      			</div>
-				      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
-			      			</div>
-			      			<div class="question_mini">
-			      				<div class="question_mbox">
-			      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">CSS</div>
-			      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-			      				</div>
-			      			</div>
-			      			<div class="question_count">
-			      				<div class="count_box">
-			      					<div class="question_like">🤍 13</div>
-			      					<div class="question_question">📚 21문제</div>
-			      					<div class="question_person">🧑 12출제자</div>
-			      				</div>	
-			      					<div class="question_report" id="report_btn">🚨</div>
-			      			</div>
-			      		</div>
-			      		<div class="question_box">
-				     		<div class="question_item">
-				      			<div class="bookmark">
-				      				❤
+				      			
+				      		</div>	
+				      		<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
 				      			</div>
-				      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
-			      			</div>
-			      			<div class="question_mini">
-			      				<div class="question_mbox">
-			      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JSP</div>
-			      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-			      				</div>
-			      			</div>
-			      			<div class="question_count">
-			      				<div class="count_box">
-			      					<div class="question_like">🤍 13</div>
-			      					<div class="question_question">📚 21문제</div>
-			      					<div class="question_person">🧑 12출제자</div>
-			      				</div>	
-			      					<div class="question_report" id="report_btn">🚨</div>
-			      			</div>
-			      		</div>
-			      	 </div>
-				  </div>
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">HTML</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
+				      			</div>
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn" >🚨</div>
+				      			</div>
+				      		</div>
+				      		<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
+				      			</div>
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">CSS</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
+				      			</div>
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn">🚨</div>
+				      			</div>
+				      		</div>
+				      		<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
+				      			</div>
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JSP</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
+				      			</div>
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn">🚨</div>
+				      			</div>
+				      		</div>
+				      	 </div>
+				      	 <div class="swiper-slide">
+					     	<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
+				      			</div>
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JAVA</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
+				      			</div>
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn">🚨</div>
+				      			</div>
+				      			
+				      		</div>	
+				      		<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
+				      			</div>
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">HTML</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
+				      			</div>
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn" >🚨</div>
+				      			</div>
+				      		</div>
+				      		<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
+				      			</div>
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">CSS</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
+				      			</div>
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn">🚨</div>
+				      			</div>
+				      		</div>
+				      		<div class="question_box">
+					     		<div class="question_item">
+					      			<div class="bookmark">
+					      				❤
+					      			</div>
+					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
+				      			</div>
+				      			<div class="question_mini">
+				      				<div class="question_mbox">
+				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JSP</div>
+				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
+				      				</div>
+				      			</div>
+				      			<div class="question_count">
+				      				<div class="count_box">
+				      					<div class="question_like">🤍 13</div>
+				      					<div class="question_question">📚 21문제</div>
+				      					<div class="question_person">🧑 12출제자</div>
+				      				</div>	
+				      					<div class="question_report" id="report_btn">🚨</div>
+				      			</div>
+				      		</div>
+				      	 </div>
+				      	<!--슬라이더 추가  -->
+			      	</div>
+			      	 <!-- 네비게이션 버튼 -->
+					<div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+					<div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+				
+					<!-- 페이징 -->
+					<div class="swiper-pagination"></div>
+			      </div>
+				</div>
+				
 <!-- 컨텐츠 영역  -->
-
 <jsp:include page="./include/tail.jsp"></jsp:include>

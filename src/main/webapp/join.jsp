@@ -1,6 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
+<link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var pwBtn = document.getElementById('PwBtn');
+    var pwcBtn = document.getElementById('PwcBtn');
+    var pwInput = document.getElementById('userPw');
+    var pwcInput = document.getElementById('Pwc');
+
+    pwBtn.addEventListener('click', function() {
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            pwBtn.innerHTML = '🙈';
+        } else {
+            pwInput.type = 'password';
+            pwBtn.innerHTML = '👁️';
+        }
+    });
+
+    pwcBtn.addEventListener('click', function() {
+        if (pwcInput.type === 'password') {
+            pwcInput.type = 'text';
+            pwcBtn.innerHTML = '🙈';
+        } else {
+            pwcInput.type = 'password';
+            pwcBtn.innerHTML = '👁️';
+        }
+    });
+});
+</script>
 <style>
 .join_area {
 	width: 30rem;
@@ -82,6 +111,13 @@
 .show_password_btn {
 	opacity: 0.5;
 	transition: all 0.2s ease-out;
+}
+.show_password_btn:active {
+    opacity:1;
+}
+
+.show_password_btn:hover {
+    opacity:1;
 }
 
 .send_email_btn {

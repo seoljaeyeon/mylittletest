@@ -6,7 +6,62 @@
  <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
+	const inputField = document.getElementById('subject');
+    const dropdownMenu = document.createElement('div');
+    dropdownMenu.classList.add('dropdown-menu');
+    inputField.parentNode.appendChild(dropdownMenu);
+
+    // 입력 필드의 입력 이벤트 처리
+    inputField.addEventListener('input', function() {
+        const inputValue = inputField.value.trim().toLowerCase(); // 입력된 값 (소문자로 변환하여 공백 제거)
+        
+        // 기존에 드롭다운 메뉴에 있던 내용을 초기화합니다.
+        dropdownMenu.innerHTML = '';
+
+        // 만약 입력된 값이 비어있다면 드롭다운을 숨깁니다.
+        if (inputValue === '') {
+            dropdownMenu.style.display = 'none';
+            return;
+        }
+
+        // 여기서는 간단한 예시로 고정된 데이터를 사용하겠습니다. 실제로는 서버에서 데이터를 가져오거나 기존 데이터에서 필터링할 수 있습니다.
+        const existingData = ['JAVA', 'Javascript', 'JSP', 'Spring', 'JPA', 'CSS','Mybatis','EL'];
+        
+        // 입력된 값이 포함된 데이터를 찾아서 드롭다운으로 보여줍니다.
+        const matchingData = existingData.filter(item => item.toLowerCase().includes(inputValue));
+
+        // 매칭된 항목들을 드롭다운 메뉴에 추가합니다.
+        matchingData.forEach(item => {
+            const option = document.createElement('div');
+            option.textContent = item;
+            option.classList.add('dropdown-item'); // 선택적으로 클래스 추가
+
+            // 드롭다운 항목을 클릭하면 해당 값을 입력 필드에 설정하고 드롭다운을 닫습니다.
+            option.addEventListener('mousedown', function() { // 'click' 대신 'mousedown' 이벤트 사용
+                inputField.value = item;
+                dropdownMenu.style.display = 'none'; // 클릭 후 드롭다운 숨기기
+            });
+
+            dropdownMenu.appendChild(option);
+        });
+
+        // 입력된 값이 있을 때 드롭다운을 보여줍니다.
+        if (matchingData.length > 0) {
+            dropdownMenu.style.display = 'block';
+        } else {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+
+    // 입력 필드가 포커스를 잃을 때 드롭다운을 숨깁니다.
+    inputField.addEventListener('blur', function() {
+        setTimeout(() => {
+            dropdownMenu.style.display = 'none';
+        }, 100); // 입력 필드가 포커스를 잃을 때 약간의 딜레이를 줍니다.
+    });
+	    
+	
+	// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
     const titleInput = document.getElementById('title_input');
     const titleUnderline = document.getElementById('title_underline');
 
@@ -198,7 +253,6 @@ document.addEventListener("DOMContentLoaded", function() {
     .subject_input {
         display: block;
         background-color: #333333;
-        font-family: 'Pretendard-Regular';
         font-size: 1rem;
         padding: 0.33rem 0.66rem;
         width: 5rem;
@@ -211,6 +265,28 @@ document.addEventListener("DOMContentLoaded", function() {
         box-shadow: 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
         color: #ffffff;
     }
+    .subject_input::placeholder {
+	    color:#b6b6b6;
+	    text-align: center;
+	}
+	.subject_input:hover {
+	    animation: tangle 0.25s ease-in-out;
+	}
+    .subject-hidden-input {
+		    visibility:hidden;
+		    font-size: 1rem;
+		    min-width: 50px;
+		    border-radius: 1rem;
+		    padding: 0.33rem 0.66rem;
+		    width: fit-content;
+		    text-align: center;
+		    position: absolute;
+		    top:0;
+		    left:0;
+		    white-space: pre; /* 공백 문자를 그대로 유지 */
+		    height: 0; /* 높이를 0으로 설정하여 공간 차지 안 함 */
+		    overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+		}
     .subject-input-container {
         display: flex;
         flex-direction: row;
@@ -221,6 +297,29 @@ document.addEventListener("DOMContentLoaded", function() {
         height: 3rem;
         position: relative;
     }
+		.dropdown-menu {
+		      display: none;
+		    position: absolute;
+		    top: 100%;
+		    left: 0;
+		    z-index: 1000;
+		    background-color: #474747;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+		    max-height: 10rem; /* 최대 높이 설정 */
+		    overflow-y: auto;
+		}
+		
+		.dropdown-item {
+		    padding: 0.5rem;
+		    cursor: pointer;
+		    color: #ffffff;
+		}
+		
+		.dropdown-item:hover {
+		    background-color: #444444;
+		}
     .title_input {
         font-size: 25px;
         color: #ffffff;
@@ -371,11 +470,11 @@ document.addEventListener("DOMContentLoaded", function() {
         background-color: rgba(0, 0, 0, 0.1);
     }
       .custom-placeholder {
-        color: white;
         font-style: italic;
         font-weight:bolder;
+        font-color:#ffffff;
     }
-	
+
 	
 
 </style>
@@ -383,17 +482,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="container">
     <form id="writeFrm" class="writeFrm" name="writeFrm" action="writeok.jsp">
         <div class="subject-input-container">
-            <div class="subject-input-shadow">
-                <div class="subject-container">
-                    <input class="subject_input" type="text" id="subject" name="subject" placeholder="과목 입력" spellcheck="false" maxlength="20" autocomplete="off">
-                </div>
-            </div>
-            <span class="subject-hidden-input"></span>
-            <div id="overlay-container" class="overlay-container">
-                <div class="dropdown-menu">
-                </div>
-            </div>
-        </div>
+    		<div class="subject-input-shadow">
+        		<div class="subject-container">
+            		<input class="subject_input" type="text" id="subject" name="subject" placeholder="과목 입력" spellcheck="false" maxlength="20" autocomplete="off">
+       			</div>
+    		</div>
+	    	<span class="subject-hidden-input"></span>
+	    	<div id="overlay-container" class="overlay-container">
+	       	 	<div class="dropdown-menu"></div>
+	    	</div>
+		</div>
         <div class="title_container">
             <input class="title_input" type="text" id="title_input" name="title" placeholder="제목을 입력해주세요"
                 spellcheck="false" autocomplete="off">
