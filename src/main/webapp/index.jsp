@@ -1,6 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
+<script>
+	function increase() {
+	    let numberInput = document.getElementById('number');
+	    numberInput.value = parseInt(numberInput.value) + 1;
+	}
+	
+	function decrease() {
+	    let numberInput = document.getElementById('number');
+	    if (parseInt(numberInput.value) > 0) {
+	        numberInput.value = parseInt(numberInput.value) - 1;
+	    }
+	}
+	
+	function saveSetting() {
+	    let numberInput = document.getElementById('number').value;
+	    alert(`설정 완료: ${numberInput}`);
+	}
+</script>
 <style>
 	.main_container{
 		display: inline-flex;
@@ -36,15 +54,29 @@
 		margin-top:1rem;
 		justify-content: flex-end;
 		margin-right:2rem;
+		cursor:pointer;
 	}
+	input[type="number"] {
+        width: 50px;
+        font-size: 28px;
+        text-align: center;
+        -moz-appearance: textfield; /* Firefox */
+        background-color:#474747;
+        border:none;
+        outline:none;
+        color:#ffffff;
+        margin-top:10px;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0; /* Chrome, Safari, Edge, Opera */
+    }
 	.goal_btn{
 		margin-left:2rem; 	 
 		margin-right: 65px;
 		background-position: center;
     	background-size: cover;
-    	-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
 		border-radius: 10px;
@@ -65,6 +97,8 @@
 		float:right;
 		font-size:30px;
 		min-width:65px;
+		width:130px;
+		display:flex;
 	}
 	.goal_achieve{
 		 float: right;
@@ -115,8 +149,15 @@
 		<div class="goal_box">
 			<div class="goal_title">😀 오늘의 목표</div>
 			<div class="setting" style="margin-top:30px">		
-				<div class="goal_btn">설정 완료</div>
-				<div class="goal_set"><span style="font-size:16px;">▲▼</span> 90개</div>
+				<div class="goal_btn" onclick="saveSetting()">설정 완료</div>
+				<div class="goal_set">
+					<div style="width:20px; height:48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+						<span class="arrow_btn" style="font-size:20px;" onclick="increase()">&#x25B2;</span>
+						<span class="arrow_btn" style="font-size:20px;" onclick="decrease()">&#x25BC;</span>
+					</div>
+					<input type="number" id="number" value="100" min="0">
+					<span style="font-size:13px; margin-top:25px; height:fit-content;">(문제)</span>
+				</div>
 			</div>
 		</div>
 		<div class="goal_box">
