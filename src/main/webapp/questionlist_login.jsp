@@ -121,11 +121,6 @@
 	});
 </script>
 <style>
-		a{
-			text-decoration-line: none;
-			color:#ffffff;
-			font-weight:bold;
-		}
 		.container{
 			display: inline-flex;
 	    	width: 850px;
@@ -265,7 +260,16 @@
 	        position: relative;
 	        cursor: grab;
 	    }
-	
+		.list:hover{
+			background-color:white;
+			 color: black;
+            transform: scale(1.0);
+		}
+		.list:clicked{
+			background-color:white;
+			 color: black;
+            transform: scale(1.1);
+		}
 	    .list_items .list:active {
 	        cursor: grabbing;
 	    }
@@ -569,31 +573,31 @@
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
 			                <li class="list1">
-			                    <div class="list"><a href="all_note_list.jsp">JAVA</a></div>
+			                    <div class="list">JAVA</div>
 			                </li>
 			                <li class="list2">
-			                    <div class="list"><a href="all_note_list.jsp">HTML</a></div>
+			                    <div class="list">HTML</div>
 			                </li>
 			              	<li class="list3">
-		                        <div class="list"><a href="all_note_list.jsp">CSS</a></div>
+		                        <div class="list">CSS</div>
 		                    </li>
 		                    <li class="list4">
-		                        <div class="list"><a href="all_note_list.jsp">Javascript</a></div>
+		                        <div class="list">Javascript</div>
 		                    </li>
 			                <li class="list5">
-		                        <div class="list"><a href="all_note_list.jsp">Spring</a></div>
+		                        <div class="list">Spring</div>
 		                    </li>
 		                    <li class="list6">
-		                        <div class="list"><a href="all_note_list.jsp">JSP</a></div>
+		                        <div class="list">JSP</div>
 		                    </li>
 		                    <li class="list7">
-		                        <div class="list"><a href="all_note_list.jsp">EL</a></div>
+		                        <div class="list">EL</div>
 		                    </li>
 		                    <li class="list8">
-		                        <div class="list"><a href="all_note_list.jsp">AWS</a></div>
+		                        <div class="list">AWS</div>
 		                    </li>
 		                    <li class="list9">
-		                        <div class="list"><a href="all_note_list.jsp">CLOUD</a></div>
+		                        <div class="list">CLOUD</div>
 		                    </li>
 			            </ul>
 			      </div>
