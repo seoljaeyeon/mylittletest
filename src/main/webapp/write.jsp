@@ -3,7 +3,7 @@
 <jsp:include page="./include/head_login.jsp"></jsp:include>
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 	const inputField = document.getElementById('subject');
@@ -18,8 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // 기존에 드롭다운 메뉴에 있던 내용을 초기화합니다.
         dropdownMenu.innerHTML = '';
 
-        // 만약 입력된 값이 비어있다면 드롭다운
-        을 숨깁니다.
+        // 만약 입력된 값이 비어있다면 드롭다운을 숨깁니다.
         if (inputValue === '') {
             dropdownMenu.style.display = 'none';
             return;
@@ -54,8 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // 입력 필드가 포커스를 잃을 때 드롭다운을 숨깁니다.
-    inputField.addEventListener('blur', function() {
+	    inputField.addEventListener('blur', function() {
         setTimeout(() => {
             dropdownMenu.style.display = 'none';
         }, 100); // 입력 필드가 포커스를 잃을 때 약간의 딜레이를 줍니다.
