@@ -41,10 +41,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
 	 // 북마크 버튼 애니메이션
-    const likeBtns = document.querySelectorAll('.like_btn');
+    const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
 
-    likeBtns.forEach(function(btn) {
+    bookmarkBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
+            this.classList.toggle('bookmarked');
+        });
+    });
+    // 좋아요 버튼 애니메이션
+    const likeBtns = document.querySelectorAll('.like');
+
+    likeBtns.forEach(function(Btn) {
+    	Btn.addEventListener('click', function() {
             this.classList.toggle('liked');
         });
     });
@@ -80,6 +88,17 @@ document.addEventListener("DOMContentLoaded", function() {
 	            document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
 	        }, 500);
 	    });
+    //정답 오답체크
+    const btnO = document.getElementById("btnO");
+    const btnX = document.getElementById("btnX");
+
+    btnO.addEventListener("click", () => {
+        btnO.classList.toggle("clicked");
+    });
+
+    btnX.addEventListener("click", () => {
+        btnX.classList.toggle("clicked2");
+    });
   });
 </script>
 <style>
@@ -145,16 +164,20 @@ document.addEventListener("DOMContentLoaded", function() {
 		border: none;
 		margin-top:5px;
 	}
-	.like_btn,.reportbtn{
+	.bookmark_btn,.reportbtn{
 		font-size:30px;
 		margin-left:10px;
 		margin-top:5px;
 		cursor:pointer;
 		transition: transform 0.3s, color 0.3s;
 	}
-	 .like_btn.liked {
-            color: red;
+	 .bookmark_btn.bookmarked {
+            color: yellow;
             transform: scale(1.5);
+        }
+        .bookmark_btn:hover{
+        	color:yellow;
+        	transform: scale(1.5);
         }
 	.solve_main{
 		display:inline-flex;
@@ -251,6 +274,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		cursor:pointer;
 		border: none;
 	}
+	.next:hover {
+	    color: #007bff;
+	    transform: scale(1.1);
+	}
+	
 	.mini_box{
 		height: 58px;
 		width: 170px;
@@ -258,18 +286,24 @@ document.addEventListener("DOMContentLoaded", function() {
 		margin-top: 15px;
 		font-size:20px;
 	}
+	.like_box{
+		display:flex;
+	}
 	.like{
 		margin-bottom:10px;
+		cursor:pointer;
 	}
-	.like.likes{
-		margin-bottom:10px;
-		color: red;
-        transform: scale(1.5);
+	.like.liked{
+		 color: red;
+         transform: scale(1.1);
 	}
+    .like:hover{
+         color:red;
+         transform: scale(1.1);
+    }
 	.share {
 	    cursor: pointer;
 	    transition: transform 0.3s, color 0.3s;
-	    margin-top: 10px;
 	}
 	
 	.share:hover {
@@ -299,8 +333,22 @@ document.addEventListener("DOMContentLoaded", function() {
 		display:flex;
 		cursor:pointer;
 		border: none;	
+		transition: background-color 0.3s ease, transform 0.3s ease;
+	}
+	.success_btn:hover{
+		color: #007bff;
+	    transform: scale(1.1);
+	}
+		.success_btn.clicked {
+	    background-color: #2E64FE; 
+	    transform: scale(1.1);
 	}
 	
+	.success_btn.clicked2 {
+	    background-color: #f44336; 
+	    transform: scale(1.1);
+	}
+		
 	.answer-container {
     position: relative;
     width: 542px;
@@ -576,7 +624,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
 		<div class="reportbtn" id="reportbtn">🚨</div>
-		<div class="like_btn">❤</div>
+		<div class="bookmark_btn">★</div>
 	</div>
 	<div class="solve_main">
 		<div class="question">
@@ -594,27 +642,30 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 		<div class="answer_box">
 			<div class="question_title"><span style="font-weight:bold;">정답입력</span></div>
-			<div class="answer_input" style="margin-top:10px;"><textarea style="background-color:#474747; color:#ffffff; width:536px; height:165px;">정답입력 해주세요</textarea></div>
+			<div class="answer_input" style="margin-top:10px;"><textarea style="background-color:#474747; color:#ffffff; width:536px; height:165px;"></textarea></div>
 		</div>
 		<div class="question_sub">
 			<div class="sub">
 			<div class="tip_box">
-				<div class="tip" id="tip">💡팁 보기</div><div class="showtip" id="showtip">💡팁 입니다</div>
+				<div class="tip" id="tip">💡팁 보기<br><span style="font-size:15px;">(클릭하여 보세요)</span></div><div class="showtip" id="showtip">💡팁 입니다</div>
 			</div>
 				<div class="next_box">
 					<div class="next" onclick="location.href='questionsolve.jsp'">▷다음문제</div>
 					<div class="mini_box">
-						<div class="like">❤ 380</div>
+						<div class="like_box">
+							<div class="like">❤</div>
+							<div class="like_count" style="margin-left:10px; height:fit-content;"><span>380</span></div>
+						</div>
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
 					<div class="check">
-						<div class="success_btn">O</div>
-						<div class="success_btn">X</div>
+						<div class="success_btn" id="btnO">O</div>
+						<div class="success_btn" id="btnX">X</div>
 					</div>
 				</div>	
 			</div>
 			<div class="answer-container">
-				<div class="answer" id="answer">🔒정답 & 해설보기</div><div class="showanswer" id="showanswer">🔓정답</div>
+				<div class="answer" id="answer">🔒정답 & 해설보기<span style="font-size:15px;">(클릭하여 보세요)</span></div><div class="showanswer" id="showanswer">🔓정답</div>
 			</div>
 		</div>
 	</div>

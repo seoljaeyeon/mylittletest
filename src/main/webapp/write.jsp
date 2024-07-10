@@ -4,6 +4,7 @@
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 	const inputField = document.getElementById('subject');
@@ -122,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var commentaryEditor = new Quill('#commentary_editor', {
         theme: 'snow',  // snow 테마 사용 (기본)
-    	placeholder:'해설을 입력해주세요',
+    	placeholder:'해설을 입력해주세요. (이미지는 드래그해서 넣어주세요.)',
         modules: {
             toolbar: [
                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
