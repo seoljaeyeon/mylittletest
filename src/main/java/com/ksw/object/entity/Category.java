@@ -41,11 +41,13 @@ public class Category {
 		this.categoryNo = categoryNo;
 	}
 	
+
     @PrePersist
     protected void onCreate() {
-        createdAt = Timestamp.valueOf(LocalDateTime.now());
+        Timestamp currentTimestamp = Timestamp.valueOf(LocalDateTime.now());
+        createdAt = currentTimestamp;
     }
-
+    
 	public void setCategoryTitle(String categoryTitle) {
 		this.categoryTitle = categoryTitle;
 	}

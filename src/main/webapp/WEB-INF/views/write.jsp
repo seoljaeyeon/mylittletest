@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
+<!-- CSRF 메타 태그 추가 -->
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
 	rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
@@ -11,8 +16,25 @@
 			.addEventListener(
 					"DOMContentLoaded",
 					function() {
+					    var csrfToken = $("meta[name='_csrf']").attr("content");
+					    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+					    console.log("CSRF Token:", csrfToken);
+					    console.log("CSRF Header:", csrfHeader);
+
+					    // AJAX 요청 시 CSRF 토큰 설정
 					    $(document).ajaxSend(function(e, xhr, options) {
 					        xhr.setRequestHeader(csrfHeader, csrfToken);
+					    });
+
+					    // 폼 제출 시 CSRF 토큰을 폼 데이터에 추가
+					    $('#writeFrm').submit(function(event) {
+					        console.log("폼 제출");
+					        $('<input>').attr({
+					            type: 'hidden',
+					            name: '_csrf',
+					            value: csrfToken
+					        }).appendTo(this);
 					    });
 						
 						// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
@@ -476,12 +498,11 @@ textarea::placeholder {
 <div class="container">
 	<form id="writeFrm" class="writeFrm" name="writeFrm"
 		action="/mylittletest/write" method="post" enctype="multipart/form-data">
-    	<sec:csrfInput />
-    	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    	<sec:csrfInput/>
  
 		<div class="subject-input-container">
 			<div class="subject-input-shadow">
-				<input type="hidden" name="${session.userVO.getUserNo()}">
+				<input type="hidden" name="userNo" id="userNo" value="${sessionScope.userVO.userNo}">
 				<div class="subject-container">
 					<input class="subject_input" type="text" id="categoryTitle"
 						name="categoryTitle" placeholder="과목 입력" spellcheck="false"

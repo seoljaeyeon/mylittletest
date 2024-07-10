@@ -3,6 +3,7 @@ package com.ksw.service.function;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.csrf.CsrfToken;
 
 import com.ksw.object.entity.User;
 
@@ -26,7 +27,6 @@ public class AuthTranslationService implements UserDetails {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         } else if (user.getType() == 2) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-
         }
         System.out.println("Authorities for user " + user.getUserId() + ": " + authorities);
         return authorities;

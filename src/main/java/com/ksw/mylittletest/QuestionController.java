@@ -2,9 +2,11 @@ package com.ksw.mylittletest;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,12 +111,11 @@ public class QuestionController {
 			@ModelAttribute UserDTO userDTO,
 			@RequestParam("file") MultipartFile file,
 			HttpSession session,
-			RedirectAttributes redirectAttributes) {
-<<<<<<< HEAD
-		
-=======
+			RedirectAttributes redirectAttributes,
+	        HttpServletRequest request) {
 			System.out.println("1");
->>>>>>> refs/remotes/origin/develop
+			System.out.println(userDTO.getUserNo());
+
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userDTO);
             	System.out.println("2");

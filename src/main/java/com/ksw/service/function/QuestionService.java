@@ -128,7 +128,7 @@ public class QuestionService {
 				fileNoteMapper.insert(file.getFileNo(), note.getNoteNo());
 			}
 			//관계형 테이블 데이터 삽입
-			noteCategoryMapper.insert(note.getNoteNo(), category.getCategoryNo());
+			noteCategoryMapper.insert(category.getCategoryNo(), note.getNoteNo());
 			noteUserMapper.insert(note.getNoteNo(), userDTO.getUserNo());
 
 	        questionVO = new QuestionVO.Builder()
@@ -137,13 +137,12 @@ public class QuestionService {
 	                .categoryVO(categoryService.convertToVO(categoryDTO))
 	                .fileVO(fileDTO != null ? fileService.convertToVO(fileDTO) : null)
 	                .build();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return questionVO; 
 	}
+	
     @Transactional(readOnly = true)
     public QuestionVO Read(Integer noteNo, Integer userNo) {
         UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo); // 읽는 사람 정보

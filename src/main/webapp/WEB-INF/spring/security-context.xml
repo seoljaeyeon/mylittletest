@@ -49,8 +49,11 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 
+<beans:bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>
+
 
 	<security:http>
+    <security:csrf token-repository-ref="csrfTokenRepository"/>
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
 		<security:intercept-url pattern="/join"
@@ -61,16 +64,20 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/**"
 			access="permitAll" />
-		<security:intercept-url pattern="/write" access="permitAll" />	
-		<security:logout logout-success-url="/login?logout" />
-		<security:form-login login-page="/login"
-			default-target-url="/index" username-parameter="userId"
+		<security:intercept-url pattern="/write" 
+			access="permitAll" />
+		<security:intercept-url pattern="/view"
+			access="permitAll" />
+		<security:logout 
+			logout-success-url="/login?logout" />
+		<security:form-login 
+			login-page="/login"
+			default-target-url="/index" 
+			username-parameter="userId"
 			password-parameter="password" />
-		<security:csrf disabled="true"/>
 	</security:http>
 
 	<beans:bean id="authenticationService"
 		class="com.ksw.service.function.AuthService" />
-    <beans:bean id="customAuthenticationSuccessHandler" class="com.ksw.service.function.CustomAuthenticationSuccessHandler"/>
 
 </beans:beans>
