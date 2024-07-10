@@ -24,9 +24,12 @@
 	<div class="a">
 	<div><div style="display: inline-block; font-size: 30px; font-weight: bolder; margin-left: 50px;">
 		<a href="javascript:history.back();" style="border: dashed;">JAVA</a>
-		<span style="margin-left: 990px;">
-			<input style="width: 290px; height: 30px; background-color: transparent; color: white;" type="text" placeholder="Search">
-		</span>
+	</div>	
+	<div align="right" style="display: inline-block;">
+		<form style="width: 565px; background: #333333; padding: 10px; display: block; border-radius: 17px; margin-left: 710px;">
+			<input type="text" style="width: 510px; height: 25px; font-size:16px; background-color: #333333; border: none; outline: none; border-radius: 17px; color: white;" type="text" placeholder="Search" spellcheck="false">
+			<button style="align-items: center; border: none; background: #333333; border-radius: 17px; font-size:16px;">🔍</button>
+		</form>			
 	</div>
 	</div>
 	<br><br>

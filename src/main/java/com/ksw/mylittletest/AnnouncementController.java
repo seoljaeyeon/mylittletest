@@ -1,52 +1,47 @@
 package com.ksw.mylittletest;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ksw.service.forObject.entity.AnnouncementService;
-import com.ksw.vo.forObject.entity.AnnouncementVO;
 
 
 @Controller
-public class AnnouncementController {
+public class AnnouncementController 
+{
 
+	private final AnnouncementService announcementService;
+	
 	@Autowired
-	private AnnouncementService announcementService;
+	public AnnouncementController(AnnouncementService announcementService)
+	{
+		this.announcementService = announcementService;
+	}
 
-	/*
 	// 공지사항 목록으로 이동
 	@GetMapping("/noticelist")
-	public String toNoticeListPage() {
+	public String toNoticeListPage() 
+	{
 		return "announcement_list";
 	}
 	
-	@GetMapping("/noticewrite")
-	public String write() {
+	// 글쓰기 화면
+	@RequestMapping(value = "/noticewrite")
+	public String Write(HttpServletRequest request) 
+	{
+		if(request.getSession().getAttribute("login") == null)
+		{
+			//로그인 하지 않은 경우
+			return "redirect:index.jsp";
+		}
 		return "announcement_write";
 	}
+
 	
-	
-	@PostMapping("/noticeview")
-	public String insert(@ModelAttribute AnnouncementVO vo) throws Exception{
-		announcementService.create(vo);
-		return "redirect:noticelist";
-	} 
-	
-	@PostMapping
-	public String update(@ModelAttribute AnnouncementVO vo) throws Exception{
-		announcementService.update(vo);
-		return "redirect:noticelist";
-	}
-	
-	@PostMapping
-	public String delete(@RequestParam int announcementNo) throws Exception{
-		announcementService.delete(announcementNo);
-		return "redirect:noticelist";
-	}
-	*/
 }
  
