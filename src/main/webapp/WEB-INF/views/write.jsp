@@ -22,19 +22,30 @@
 					    console.log("CSRF Token:", csrfToken);
 					    console.log("CSRF Header:", csrfHeader);
 
-					    // AJAX 요청 시 CSRF 토큰 설정
-					    $(document).ajaxSend(function(e, xhr, options) {
-					        xhr.setRequestHeader(csrfHeader, csrfToken);
-					    });
+					    $("#writeFrm").submit(function(event) {
+					        var form = $(this)[0];
+					        var data = new FormData(form);
 
-					    // 폼 제출 시 CSRF 토큰을 폼 데이터에 추가
-					    $('#writeFrm').submit(function(event) {
-					        console.log("폼 제출");
-					        $('<input>').attr({
-					            type: 'hidden',
-					            name: '_csrf',
-					            value: csrfToken
-					        }).appendTo(this);
+					        $.ajax({
+					            type: "POST",
+					            enctype: 'multipart/form-data',
+					            url: "/mylittletest/write",
+					            data: data,
+					            processData: false,
+					            contentType: false,
+					            cache: false,
+					            timeout: 600000,
+					            beforeSend: function(xhr) {
+				                    xhr.setRequestHeader(csrfHeader, csrfToken);
+					            },
+					            success: function(data) {
+					                console.log("SUCCESS : ", data);
+					            },
+					            error: function(e) {
+					                console.log("ERROR : ", e);
+					            }
+					        });
+					        event.preventDefault();
 					    });
 						
 						// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
@@ -499,10 +510,9 @@ textarea::placeholder {
 	<form id="writeFrm" class="writeFrm" name="writeFrm"
 		action="/mylittletest/write" method="post" enctype="multipart/form-data">
     	<sec:csrfInput/>
- 
 		<div class="subject-input-container">
 			<div class="subject-input-shadow">
-				<input type="hidden" name="userNo" id="userNo" value="${sessionScope.userVO.userNo}">
+				<input type="hidden" name="userNo" id="userNo" value="${userVO.userNo}">
 				<div class="subject-container">
 					<input class="subject_input" type="text" id="categoryTitle"
 						name="categoryTitle" placeholder="과목 입력" spellcheck="false"

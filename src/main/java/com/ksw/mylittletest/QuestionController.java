@@ -27,6 +27,7 @@ import com.ksw.service.forObject.entity.FileService;
 import com.ksw.service.forObject.entity.NoteService;
 import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.entity.UserService;
+import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
 import com.ksw.service.function.ViewHistoryService;
 import com.ksw.vo.forObject.entity.CategoryVO;
@@ -45,88 +46,116 @@ public class QuestionController {
 	private ViewHistoryService viewHistoryService;
 	@Autowired
 	private NoteService noteService;
+	@Autowired
+	private AuthService authService;
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/write")
-	public String toWritePage() {
+	public String toWritePage(
+			Model model) {
+		UserVO userVO = authService.getUserVO();
+		model.addAttribute("userVO", userVO);
+		
+		if (userVO == null) {
+			return "login";
+		}
+		
 		return "write";
 	}
 
-    @GetMapping("/view")
-    public String RandomViewPage(
-            RedirectAttributes redirectAttributes,
-            HttpSession session,
-            @RequestParam("userNo") Integer userNo,
-            @RequestParam("categoryNo") Integer categoryNo,
-            @RequestParam(value = "noteNo", required = false) Integer noteNo) {
-        if (userNo == null || categoryNo == null) {
-            redirectAttributes.addFlashAttribute("error", "로그인 필요");
-            return "redirect:/login"; // 로그인 페이지로 리디렉션
-        }
-        try {
-        	List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(categoryNo, userNo);
-        	if(noteNo == null) {
-        		Note randomNote = noteService.getRandomUnviewedNoteByCategory(categoryNo, userNo);
-        		noteNo = randomNote.getNoteNo();
-        	}
-            QuestionVO newQuestionVO = questionService.Read(noteNo, userNo);
-            session.setAttribute("questionVO", newQuestionVO); // 문제 정보
-            session.setAttribute("viewHistory", viewHistory); // 해당 카테고리 내의 문제 중 사용자가 본 문제 조회이력
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "조회 실패");
-        }
-        return "view";
-    }
-    
-    /*
-     *  사용하는 form 아래    	
-     *  <sec:csrfInput/>
-     *  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-     *  을 항상 둘 것,
-     *  
-     *   head에
-     *   <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-     *   <!-- CSRF 메타 태그 추가 -->
-     *   <meta name="_csrf" content="${_csrf.token}" />
-     *   <meta name="_csrf_header" content="${_csrf.headerName}" />
-     *   <script>
-     *       var csrfToken = $("meta[name='_csrf']").attr("content");
-     *       var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-     *       $(document).ajaxSend(function(e, xhr, options) {
-     *       xhr.setRequestHeader(csrfHeader, csrfToken);
-     *       });
-     *   </script>
-     *   
-     *   넣어둘 것
-     *   
-     * 
-     *      
-     *      
-     */
-    
+	@GetMapping("/view")
+	public String viewPage(
+			@RequestParam("no") Integer no,
+			Model model
+			) {
+		UserVO certifiedReader = authService.getUserVO();
+		
+		if (certifiedReader == null) {
+			return "/login";
+		}
+		
+		// DB에서 문제 정보 가져오기
+		QuestionVO questionVO = questionService.Read(no, certifiedReader.getUserNo());
+		
+		// 사용자가 해당 카테고리에서 본 문제 목록 가져오기 
+		List<ViewHistoryVO> userHistory = viewHistoryService.getHistoryByCategory(certifiedReader.getUserNo(), questionVO.getCategoryVO().getCategoryNo());
+		
+		model.addAttribute("userVO", certifiedReader);
+		model.addAttribute("questionVO", questionVO);
+		model.addAttribute("viewHistory", userHistory);
+		return "questionsolve";
+	}
+	
+//    @GetMapping("/randomView")
+//    public String RandomViewPage(
+//            RedirectAttributes redirectAttributes,
+//            Model model,
+//            HttpSession session) {
+//    	// questionVO를 model에서 가져옴
+//    	UserVO userVO = authService.getUserVO();
+//    	
+//    	// userVO가 null일 경우 -> 로그인 X
+//        if (userVO == null) {
+//            redirectAttributes.addFlashAttribute("error", "로그인 필요");
+//            return "redirect:/login"; // 로그인 페이지로 리디렉션
+//        }
+//        
+//        // questionVO가 null일 경우 -> 랜덤진입
+//        if (questionVO == null) {
+//        	// 
+//			Note randomNote = noteService.getRandomUnviewedNoteByCategory(
+//					questionVO.getCategoryVO().getCategoryNo(), 
+//					userVO.getUserNo());
+//			
+//			noteNo = randomNote.getNoteNo();
+//			
+//			questionVO = questionService.Read(noteNo, userVO.getUserNo());
+//			
+//			session.setAttribute("questionVO", questionVO);
+//			
+//			List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(
+//					questionVO.getCategoryVO().getCategoryNo(), 
+//					userVO.getUserNo());
+//        }
+//        
+//        if (questionVO != null) {
+//
+//        		if(' == null) {
+//        		}
+//        		QuestionVO newQuestionVO = questionService.Read(noteNo, userNo);
+//        		session.setAttribute("questionVO", newQuestionVO); // 문제 정보
+//        		session.setAttribute("viewHistory", viewHistory); // 해당 카테고리 내의 문제 중 사용자가 본 문제 조회이력
+//
+//        	return "view";
+//        } else {
+//        	
+//        }
+//    }
     
 	@PostMapping("/write")
 	public String notewrite(
 			@ModelAttribute NoteDTO noteDTO,
 			@ModelAttribute CategoryDTO categoryDTO,
-			@ModelAttribute UserDTO userDTO,
 			@RequestParam("file") MultipartFile file,
 			HttpSession session,
 			RedirectAttributes redirectAttributes,
-	        HttpServletRequest request) {
+	        HttpServletRequest request,
+	        Model model) {
+		
+			UserVO userVO = authService.getUserVO();
+			model.addAttribute("userVO", userVO);
+			UserDTO userDTO = userService.convertVOToDTO(userVO);
+		
 			System.out.println("1");
 			System.out.println(userDTO.getUserNo());
-
             try {
-            	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userDTO);
+            	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO,userDTO);
             	System.out.println("2");
-            	session.setAttribute("questionVO", questionVO);
             	System.out.println("성공했니");
-                redirectAttributes.addFlashAttribute("message", "쓰기 성공");
-                NoteVO noteVO = questionVO.getNoteVO();
-                return "redirect:/view?noteNo=" + noteVO.getNoteNo();
+                return "redirect:/view?no="+questionVO.getNoteVO().getNoteNo();
             } catch (Exception e) {
-            	System.out.println("실패했니	");
-            	redirectAttributes.addFlashAttribute("error", "쓰기 실패");
+            	System.out.println("실패했니");
             	return "write";
             }	
 	}

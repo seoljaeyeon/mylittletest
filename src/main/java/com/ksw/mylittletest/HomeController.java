@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.ksw.object.entity.User;
 import com.ksw.service.function.AuthService;
-import com.ksw.service.function.AuthTranslationService;
+import com.ksw.service.function.CertifiedUserDetails;
+import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
 public class HomeController {
@@ -35,14 +36,6 @@ public class HomeController {
 	    } else {
 	        System.out.println("CSRF Token not found in request");
 	    }
-	    
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        AuthTranslationService userDetails = (AuthTranslationService) authentication.getPrincipal();
-        User user = userDetails.getUser();
-
-        session.setAttribute("userVO", user);
-        model.addAttribute("username", user.getUserId());
-    	
         return "index";
     }
 }

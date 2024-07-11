@@ -26,7 +26,8 @@ public class ViewHistoryService {
 	
     @Autowired
     private NoteCategoryMapper noteCategoryMapper;
-    
+
+    // 사용자 전체 본 문제 리스트 로딩
     @Transactional(readOnly = true)
     public List<ViewHistoryVO> getHistory(int userNo) {
         List<ViewUserNote> viewUserNotes = viewUserNoteMapper.findByUserNo(userNo);
@@ -36,6 +37,7 @@ public class ViewHistoryService {
                 .collect(Collectors.toList());
     }
 
+    // 사용자가 특정 카테고리에서 본 문제 리스트 로딩
     @Transactional(readOnly = true)
     public List<ViewHistoryVO> getHistoryByCategory(Integer userNo, Integer categoryNo) {
         // 특정 카테고리의 모든 노트 ID를 가져옵니다.

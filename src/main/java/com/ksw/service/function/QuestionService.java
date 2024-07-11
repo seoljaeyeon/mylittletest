@@ -108,6 +108,7 @@ public class QuestionService {
 	public QuestionVO Write(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO, UserDTO userDTO) {
 
 		QuestionVO questionVO = null;
+		File file = null;
 		
 		try {
 			FileDTO fileDTO = fileService.uploadFile(notefile);
@@ -119,11 +120,15 @@ public class QuestionService {
 			System.out.println(note.getNoteContent());
 			
 			noteRepository.save(note);
+            noteRepository.flush();  // 엔티티 매니저를 플러시하여 데이터베이스와 즉시 동기화
+
 			categoryRepository.save(category);
+			categoryRepository.flush();
 
 			if (fileDTO != null) {
-				File file = fileService.convertToEntity(fileDTO);
+				file = fileService.convertToEntity(fileDTO);
 				fileRepository.save(file);
+				fileRepository.flush();
 				//관계형 테이블 데이터 삽입
 				fileNoteMapper.insert(file.getFileNo(), note.getNoteNo());
 			}
@@ -132,11 +137,16 @@ public class QuestionService {
 			noteUserMapper.insert(note.getNoteNo(), userDTO.getUserNo());
 
 	        questionVO = new QuestionVO.Builder()
-	                .noteVO(noteService.convertToVO(noteDTO))
+	                .noteVO(noteService.convertToVO(noteService.convertToDTO(note)))
 	                .userVO(userService.convertToVO(userDTO))
-	                .categoryVO(categoryService.convertToVO(categoryDTO))
-	                .fileVO(fileDTO != null ? fileService.convertToVO(fileDTO) : null)
+	                .categoryVO(categoryService.convertToVO(categoryService.convertToDTO(category)))
+	                .fileVO(fileDTO != null ? fileService.convertToVO(fileService.convertToDTO(file)) : null)
 	                .build();
+	        
+	        System.out.println("questionVO created: " + questionVO);
+	        System.out.println("NoteVO: " + questionVO.getNoteVO());
+	        System.out.println("NoteNo: " + questionVO.getNoteVO().getNoteNo());
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

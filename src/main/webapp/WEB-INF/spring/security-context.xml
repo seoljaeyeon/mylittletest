@@ -51,7 +51,6 @@
 
 <beans:bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>
 
-
 	<security:http>
     <security:csrf token-repository-ref="csrfTokenRepository"/>
 		<security:intercept-url pattern="/login"
