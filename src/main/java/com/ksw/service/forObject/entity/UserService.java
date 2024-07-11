@@ -1,19 +1,10 @@
 package com.ksw.service.forObject.entity;
 
-import com.ksw.dao.forObject.entity.UserRepository;
+import org.springframework.stereotype.Service;
+
 import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.function.JoinDTO;
-import com.ksw.dto.function.LoginDTO;
 import com.ksw.object.entity.User;
 import com.ksw.vo.forObject.entity.UserVO;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.sql.Timestamp;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {

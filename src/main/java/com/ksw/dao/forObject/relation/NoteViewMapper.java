@@ -13,12 +13,14 @@ public interface NoteViewMapper {
 
     @Insert("INSERT INTO noteView (viewNo, noteNo) VALUES (#{viewNo}, #{noteNo})")
     void insertNoteView(NoteView noteView);
-
-    @Select("SELECT * FROM noteView WHERE viewNo = #{viewNo}")
-    @ResultMap("NoteViewResultMap")
-    NoteView getNoteViewByViewNo(@Param("viewNo") int viewNo);
-
-    @Select("SELECT * FROM noteView")
-    @ResultMap("NoteViewResultMap")
-    List<NoteView> getAllNoteViews();
+    
+    @Select("SELECT n.*, v.* " +
+            "FROM note n " +
+            "JOIN noteCategory nc ON n.noteNo = nc.noteNo " +
+            "JOIN noteView nv ON n.noteNo = nv.noteNo " +
+            "JOIN view v ON nv.viewNo = v.viewNo " +
+            "WHERE nc.categoryNo = #{categoryNo} AND nc.noteNo = #{noteNo} AND nv.userNo = #{userNo}")
+    List<NoteView> getHistory(@Param("categoryNo") Integer categoryNo,
+                              @Param("noteNo") Integer noteNo,
+                              @Param("userNo") Integer userNo);
 }

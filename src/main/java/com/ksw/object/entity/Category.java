@@ -40,7 +40,6 @@ public class Category {
 	public void setCategoryNo(Integer categoryNo) {
 		this.categoryNo = categoryNo;
 	}
-	
 
     @PrePersist
     protected void onCreate() {

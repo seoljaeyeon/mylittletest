@@ -1,5 +1,8 @@
 package com.ksw.service.forObject.relation;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +64,16 @@ public class ReplyUserService {
                 .userVO(userService.convertToVO(replyUserDTO.getUserDTO()))
                 .replyVO(replyService.convertToVO(replyUserDTO.getReplyDTO()))
                 .build();
+    }
+    
+    // List<ReplyUserDTO> -> List<ReplyUserVO> 변환 메소드
+    public List<ReplyUserVO> convertToVOList(List<ReplyUserDTO> replyUserDTOs) {
+    	// replyUserDTOs의 각 요소들을 순환하면
+        return replyUserDTOs.stream()
+        		// 각 요소들에 대해 convertToVO 메소드를 사용한다.
+                .map(this::convertToVO)
+                // 결과들을 Collectors 클래스를 활용해 하나로 모아서 반환한다.
+                .collect(Collectors.toList());
     }
 }
 

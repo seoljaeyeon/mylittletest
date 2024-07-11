@@ -3,12 +3,14 @@ package com.ksw.service.forObject.relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dto.forObject.relation.NoteCategoryDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.Note;
 import com.ksw.object.relation.NoteCategory;
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.entity.NoteService;
+import com.ksw.vo.forObject.entity.CategoryVO;
 import com.ksw.vo.forObject.relation.NoteCategoryVO;
 
 @Service
@@ -18,6 +20,13 @@ public class NoteCategoryService {
 	private CategoryService categoryService;
 	@Autowired
 	private NoteService noteService;
+	@Autowired
+	private NoteCategoryMapper noteCategoryMapper;
+	
+	// noteNo로 categoryVO 반환 메소드
+	public CategoryVO getCategoryVObynoteNo(Integer noteNO) {
+		return categoryService.convertToVO(categoryService.convertToDTO(noteCategoryMapper.getNoteCategorybynoteNo(noteNO).getCategory()));
+	}
 	
     // Entity -> DTO 변환 메소드
     public NoteCategoryDTO convertToDTO(NoteCategory noteCategoryEntity) {

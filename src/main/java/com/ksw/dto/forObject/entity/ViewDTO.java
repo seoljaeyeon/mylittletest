@@ -9,6 +9,13 @@ public class ViewDTO {
 
     // 기본 생성자
     public ViewDTO() {}
+    
+    // 기본 생성자
+    public ViewDTO(Integer viewNo, Timestamp createdAt) {
+    	super();
+    	this.viewNo = viewNo;
+    	this.createdAt = createdAt;
+    }
 
     // Getter 및 Setter
     public Integer getViewNo() {
