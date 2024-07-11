@@ -10,6 +10,12 @@ public class NoteUserDTO {
 
     // 기본 생성자
     public NoteUserDTO() {}
+    
+    public NoteUserDTO(NoteDTO noteDTO, UserDTO userDTO) {
+    	super();
+    	this.noteDTO = noteDTO;
+    	this.userDTO = userDTO;
+    }
 
     public UserDTO getUserDTO() {
 		return userDTO;

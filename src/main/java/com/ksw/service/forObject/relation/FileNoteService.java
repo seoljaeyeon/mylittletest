@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ksw.dto.forObject.relation.FileNoteDTO;
+import com.ksw.object.entity.File;
+import com.ksw.object.entity.Note;
 import com.ksw.object.relation.FileNote;
 import com.ksw.service.forObject.entity.FileService;
 import com.ksw.service.forObject.entity.NoteService;
@@ -27,6 +29,18 @@ public class FileNoteService {
         return dto;
     }
 
+    public FileNote convertToEntity(FileNoteDTO fileNoteDTO) {
+        FileNote fileNoteEntity = new FileNote();
+
+        File fileEntity = fileService.convertToEntity(fileNoteDTO.getFileDTO());
+        Note noteEntity = noteService.convertToEntity(fileNoteDTO.getNoteDTO());
+
+        fileNoteEntity.setFile(fileEntity);
+        fileNoteEntity.setNote(noteEntity);
+
+        return fileNoteEntity;
+    }
+    
     // DTO -> VO 변환 메소드
     public FileNoteVO convertToVO(FileNoteDTO fileNoteDTO) {
         return new FileNoteVO.Builder()

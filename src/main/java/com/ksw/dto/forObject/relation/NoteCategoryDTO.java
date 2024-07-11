@@ -10,6 +10,12 @@ public class NoteCategoryDTO {
 
     // 기본 생성자
     public NoteCategoryDTO() {}
+    
+    public NoteCategoryDTO(NoteDTO noteDTO, CategoryDTO categoryDTO) {
+    	super();
+    	this.categoryDTO = categoryDTO;
+    	this.noteDTO = noteDTO;
+    }
 
 	public CategoryDTO getCategoryDTO() {
 		return categoryDTO;
@@ -26,5 +32,4 @@ public class NoteCategoryDTO {
 	public void setNoteDTO(NoteDTO noteDTO) {
 		this.noteDTO = noteDTO;
 	}
-
 }

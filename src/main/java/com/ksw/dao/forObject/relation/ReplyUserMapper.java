@@ -15,8 +15,8 @@ import com.ksw.object.relation.ReplyUser;
 public interface ReplyUserMapper {
 
 
-    @Insert("INSERT INTO replyUser (userNo, replyNo) VALUES (#{userNo}, #{replyNo})")
-    ReplyUser insert(Integer userNo, Integer replyNo);
+    @Insert("INSERT INTO replyUser (userNo, replyNo) VALUES (#{user.userNo}, #{reply.replyNo})")
+    ReplyUser insert(ReplyUser replyUser);
 
     @Select("SELECT * FROM replyUser WHERE replyNo = #{replyNo}")
     ReplyUser findByReplyNo(@Param("replyNo") Integer replyNo);

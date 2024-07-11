@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FileDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
-import com.ksw.dto.forObject.entity.ReplyDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.function.QuestionDTO;
-import com.ksw.object.relation.FavoriteNote;
-import com.ksw.vo.forObject.entity.ReplyVO;
+import com.ksw.dto.forObject.relation.ReplyUserDTO;
 
 @Mapper
 public interface QuestionMapper {
@@ -37,15 +36,41 @@ public interface QuestionMapper {
     		+ "WHERE fn.noteNo = #{noteNo}")
     FileDTO getFileByNoteNo(int noteNo);
 
-    @Select("SELECT r.replyNo, r.createdAt, r.isActive, "
-    		+ "r.parentReply, r.replyContent, r.updatedAt, "
-    		+ "u.userNo, u.userName " +
-            "FROM noteReply nr " +
-            "JOIN reply r ON nr.replyNo = r.replyNo " +
-            "JOIN replyUser ru ON r.replyNo = ru.replyNo " +
-            "JOIN user u ON ru.userNo = u.userNo " +
-            "WHERE nr.noteNo = #{noteNo}")
-    List<ReplyDTO> getRepliesByNoteNo(int noteNo);
+    @Select("SELECT "
+    		+ "r.replyNo, "
+    		+ "r.createdAt, "
+    		+ "r.isActive, "
+    		+ "r.parentReply, "
+    		+ "r.replyContent, "
+    		+ "r.updatedAt, " 
+    		+ "u.userNo, "
+    		+ "u.userId, "
+    		+ "u.nickname, "
+    		+ "u.email, "
+    		+ "u.isActive as userIsActive, "
+    		+ "u.type as userType, "
+    		+ "u.createdAt as userCreatedAt " 
+    		+ "FROM noteReply nr " 
+    		+ "JOIN reply r ON nr.replyNo = r.replyNo " 
+    		+ "JOIN replyUser ru ON r.replyNo = ru.replyNo " 
+    		+ "JOIN user u ON ru.userNo = u.userNo " 
+    		+ "WHERE nr.noteNo = #{noteNo}")
+    @Results({
+        @Result(property = "replyDTO.replyNo", column = "replyNo"),
+        @Result(property = "replyDTO.createdAt", column = "createdAt"),
+        @Result(property = "replyDTO.isActive", column = "isActive"),
+        @Result(property = "replyDTO.parentReply", column = "parentReply"),
+        @Result(property = "replyDTO.replyContent", column = "replyContent"),
+        @Result(property = "replyDTO.updatedAt", column = "updatedAt"),
+        @Result(property = "userDTO.userNo", column = "userNo"),
+        @Result(property = "userDTO.userId", column = "userId"),
+        @Result(property = "userDTO.nickname", column = "nickname"),
+        @Result(property = "userDTO.email", column = "email"),
+        @Result(property = "userDTO.isActive", column = "userIsActive"),
+        @Result(property = "userDTO.type", column = "userType"),
+        @Result(property = "userDTO.createdAt", column = "userCreatedAt")
+    })
+    List<ReplyUserDTO> getRepliesByNoteNo(int noteNo);
     
     @Select("SELECT COUNT(*) FROM noteView nv JOIN viewUserNote vun "
     		+ "ON nv.noteViewNo = vun.noteViewNo "
@@ -69,5 +94,4 @@ public interface QuestionMapper {
             "JOIN noteUser nu ON u.userNo = nu.userNo " +
             "WHERE nu.noteNo = #{noteNo}")
     UserDTO getWriterByNoteNo(@Param("noteNo") Integer noteNo);
-    
 }

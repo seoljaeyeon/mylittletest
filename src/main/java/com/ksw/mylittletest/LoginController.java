@@ -3,6 +3,7 @@ package com.ksw.mylittletest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,10 @@ public class LoginController {
 	
 	/*
 	 * 로그인 기능은 Spring Security를 통해서 구현했습니다. 
+	 * 
+	 * 파라미터에 @AuthenticationPrincipal CertifiedUserDetails userinfo 이걸 넣고, userinfo.getUserVO()하면 userVO를 꺼낼 수 있습니다.
+	 * 
+	 * 모든 form이 csrf 기능이 활성화 되어있기 때문에 csrf 태그를 각 폼에 추가해야 합니다.
 	 * 
 	 * 모든 Form의 아래에 이 태그를 넣어주세요.
 	 * <sec:csrfInput />
