@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ksw.dto.function.LoginDTO;
 import com.ksw.service.forObject.entity.UserService;
-import com.ksw.service.function.AuthTranslationService;
+import com.ksw.service.function.CertifiedUserDetails;
 import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller

@@ -3,91 +3,68 @@ package com.ksw.vo.forObject.relation;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public final class AnswerHistoryVO {
-    private final Integer noteNo;
-    private final Integer answerNo;
-    private final Integer userNo;
+import com.ksw.vo.forObject.entity.AnswerVO;
+import com.ksw.vo.forObject.entity.NoteVO;
+import com.ksw.vo.forObject.entity.UserVO;
+
+public class AnswerHistoryVO {
+
+    private final NoteVO noteVO;
+    private final AnswerVO answerVO;
+    private final UserVO userVO;
     private final Timestamp createdAt;
     private final Timestamp updatedAt;
 
-    private AnswerHistoryVO(Builder builder) {
-        this.noteNo = builder.noteNo;
-        this.answerNo = builder.answerNo;
-        this.userNo = builder.userNo;
-        this.createdAt = builder.createdAt;
-        this.updatedAt = builder.updatedAt;
-
+    // 생성자
+    public AnswerHistoryVO(NoteVO noteVO, AnswerVO answerVO, UserVO userVO, Timestamp createdAt, Timestamp updatedAt) {
+        this.noteVO = noteVO;
+        this.answerVO = answerVO;
+        this.userVO = userVO;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-
-    public Integer getNoteNo() {
-        return noteNo;
+    // Getters
+    public NoteVO getNoteVO() {
+        return noteVO;
     }
 
-    public Integer getAnswerNo() {
-        return answerNo;
+    public AnswerVO getAnswerVO() {
+        return answerVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
+    public UserVO getUserVO() {
+        return userVO;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
-    
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AnswerHistoryVO that = (AnswerHistoryVO) o;
-        return 	Objects.equals(noteNo, that.noteNo) &&
-                Objects.equals(answerNo, that.answerNo) &&
-                Objects.equals(userNo, that.userNo) &&
-                Objects.equals(createdAt, that.createdAt) &&
-                Objects.equals(updatedAt, that.updatedAt);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(noteNo, answerNo, userNo, createdAt, updatedAt);
-    }
-
-    @Override
-    public String toString() {
-        return "AnswerHistoryVO{" +
-                "noteNo=" + noteNo +
-                ", answerNo=" + answerNo +
-                ", userNo=" + userNo +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
-
+    // 빌더 패턴 구현
     public static class Builder {
-        private Integer noteNo;
-        private Integer answerNo;
-        private Integer userNo;
+        private NoteVO noteVO;
+        private AnswerVO answerVO;
+        private UserVO userVO;
         private Timestamp createdAt;
         private Timestamp updatedAt;
 
-
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
+        public Builder noteVO(NoteVO noteVO) {
+            this.noteVO = noteVO;
             return this;
         }
 
-        public Builder answerNo(Integer answerNo) {
-            this.answerNo = answerNo;
+        public Builder answerVO(AnswerVO answerVO) {
+            this.answerVO = answerVO;
             return this;
         }
 
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
 
@@ -102,7 +79,38 @@ public final class AnswerHistoryVO {
         }
 
         public AnswerHistoryVO build() {
-            return new AnswerHistoryVO(this);
+            return new AnswerHistoryVO(noteVO, answerVO, userVO, createdAt, updatedAt);
         }
+    }
+
+    // toString 메소드
+    @Override
+    public String toString() {
+        return "AnswerHistoryVO{" +
+                "noteVO=" + noteVO +
+                ", answerVO=" + answerVO +
+                ", userVO=" + userVO +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
+    // equals 메소드
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnswerHistoryVO that = (AnswerHistoryVO) o;
+        return Objects.equals(noteVO, that.noteVO) &&
+                Objects.equals(answerVO, that.answerVO) &&
+                Objects.equals(userVO, that.userVO) &&
+                Objects.equals(createdAt, that.createdAt) &&
+                Objects.equals(updatedAt, that.updatedAt);
+    }
+
+    // hashCode 메소드
+    @Override
+    public int hashCode() {
+        return Objects.hash(noteVO, answerVO, userVO, createdAt, updatedAt);
     }
 }

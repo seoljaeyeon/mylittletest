@@ -12,10 +12,10 @@ public interface NoteCategoryMapper {
 
 	@Insert(""
 			+ "INSERT INTO noteCategory "
-			+ "(categoryNo, userNo) "
+			+ "(categoryNo, noteNo) "
 			+ "VALUES "
-			+ "(#{categoryNo}, #{userNo})")
-	void insert(@Param("categoryNo") Integer categoryNo, @Param("userNo") Integer userNo);
+			+ "(#{categoryNo}, #{noteNo})")
+	void insert(@Param("categoryNo") Integer categoryNo, @Param("noteNo") Integer noteNo);
 	
     @Select("SELECT noteNo FROM noteCategory "
     		+ "WHERE categoryNo = #{categoryNo}")

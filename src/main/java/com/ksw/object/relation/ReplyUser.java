@@ -1,27 +1,30 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Reply;
+import com.ksw.object.entity.User;
+
 public class ReplyUser {
 
-    private Integer userNo;
-    private Integer replyNo;
+    private User user;
+    private Reply reply;
 
     // 기본 생성자
     public ReplyUser() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public Integer getReplyNo() {
-        return replyNo;
-    }
+	public Reply getReply() {
+		return reply;
+	}
 
-    public void setReplyNo(Integer replyNo) {
-        this.replyNo = replyNo;
-    }
+	public void setReply(Reply reply) {
+		this.reply = reply;
+	}
+
 }

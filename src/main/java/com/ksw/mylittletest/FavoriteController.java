@@ -18,22 +18,20 @@ public class FavoriteController {
 	@Autowired
 	private FavoriteNoteService favoriteNoteService;
 	
-	@PostMapping("/favorite")
-	public String favorite(
-	        @RequestParam("userNo") Integer userNo,
-	        @RequestParam("noteNo") Integer noteNo,
-	        RedirectAttributes redirectAttributes) {
-
-	    try {
-	        // favoriteNote 테이블에 데이터 기록
-	    	// favorite 테이블에 데이터 기록
-	        favoriteNoteService.toggleFavorite(userNo, noteNo);
-
-	        redirectAttributes.addFlashAttribute("message", "성공");
-	    } catch (Exception e) {
-	        redirectAttributes.addFlashAttribute("error", "실패");
-	    }
-	    
-	    return "redirect:/view?" + noteNo;
-	}
+	/*
+	 * @PostMapping("/favorite") public String favorite(
+	 * 
+	 * @RequestParam("userNo") Integer userNo,
+	 * 
+	 * @RequestParam("noteNo") Integer noteNo, RedirectAttributes
+	 * redirectAttributes) {
+	 * 
+	 * try { // favoriteNote 테이블에 데이터 기록 // favorite 테이블에 데이터 기록
+	 * favoriteNoteService.toggleFavorite(userNo, noteNo);
+	 * 
+	 * redirectAttributes.addFlashAttribute("message", "성공"); } catch (Exception e)
+	 * { redirectAttributes.addFlashAttribute("error", "실패"); }
+	 * 
+	 * return "redirect:/view?" + noteNo; }
+	 */
 }

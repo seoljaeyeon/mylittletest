@@ -1,29 +1,40 @@
 package com.ksw.service.forObject.relation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ksw.dto.forObject.relation.ReportCategoryDTO;
 import com.ksw.object.relation.ReportCategory;
+import com.ksw.service.forObject.entity.CategoryService;
+import com.ksw.service.forObject.entity.ReportService;
+import com.ksw.service.forObject.entity.UserService;
 import com.ksw.vo.forObject.relation.ReportCategoryVO;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class ReportCategoryService {
 
+	@Autowired
+	private CategoryService categoryService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private ReportService ReportService;
+	
     // Entity -> DTO 변환 메소드
     public ReportCategoryDTO convertToDTO(ReportCategory reportCategoryEntity) {
-        return new ReportCategoryDTO.Builder()
-                .userNo(reportCategoryEntity.getUserNo())
-                .categoryNo(reportCategoryEntity.getCategoryNo())
-                .reportNo(reportCategoryEntity.getReportNo())
-                .build();
+    	ReportCategoryDTO dto = new ReportCategoryDTO();
+    	dto.setCategoryDTO(categoryService.convertToDTO(reportCategoryEntity.getCategory()));
+    	dto.setReportDTO(ReportService.convertToDTO(reportCategoryEntity.getReport()));
+    	dto.setUserDTO(userService.convertToDTO(reportCategoryEntity.getUser()));
+        return dto;
     }
 
     // DTO -> VO 변환 메소드
     public ReportCategoryVO convertToVO(ReportCategoryDTO reportCategoryDTO) {
         return new ReportCategoryVO.Builder()
-                .userNo(reportCategoryDTO.getUserNo())
-                .categoryNo(reportCategoryDTO.getCategoryNo())
-                .reportNo(reportCategoryDTO.getReportNo())
+                .userVO(userService.convertToVO(reportCategoryDTO.getUserDTO()))
+                .categoryVO(categoryService.convertToVO(reportCategoryDTO.getCategoryDTO()))
+                .reportVO(ReportService.convertToVO(reportCategoryDTO.getReportDTO()))
                 .build();
     }
 }

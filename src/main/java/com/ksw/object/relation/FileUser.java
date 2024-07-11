@@ -1,27 +1,29 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.File;
+import com.ksw.object.entity.User;
+
 public class FileUser {
 
-    private Integer userNo;
-    private Integer fileNo;
+    private User user;
+    private File file;
 
     // 기본 생성자
     public FileUser() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public Integer getFileNo() {
-        return fileNo;
-    }
+	public File getFile() {
+		return file;
+	}
 
-    public void setFileNo(Integer fileNo) {
-        this.fileNo = fileNo;
-    }
+	public void setFile(File file) {
+		this.file = file;
+	}
 }

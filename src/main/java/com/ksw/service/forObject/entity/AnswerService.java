@@ -31,7 +31,7 @@ public class AnswerService {
         return answer != null ? convertToDTO(answer) : null;
     }
 
-    private Answer convertToEntity(AnswerDTO answerDTO) {
+    public Answer convertToEntity(AnswerDTO answerDTO) {
         Answer answer = new Answer();
         answer.setAnswerNo(answerDTO.getAnswerNo());
         answer.setAnswerType(answerDTO.getAnswerType());
@@ -39,7 +39,7 @@ public class AnswerService {
         return answer;
     }
 
-    private AnswerDTO convertToDTO(Answer answer) {
+    public AnswerDTO convertToDTO(Answer answer) {
         AnswerDTO answerDTO = new AnswerDTO();
         answerDTO.setAnswerNo(answer.getAnswerNo());
         answerDTO.setAnswerType(answer.getAnswerType());
@@ -47,7 +47,7 @@ public class AnswerService {
         return answerDTO;
     }
 
-    private AnswerVO convertToVO(AnswerDTO answerDTO) {
+    public AnswerVO convertToVO(AnswerDTO answerDTO) {
         return new AnswerVO.Builder()
                 .answerNo(answerDTO.getAnswerNo())
                 .answerType(answerDTO.getAnswerType())

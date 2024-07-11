@@ -31,13 +31,15 @@ public class ReplyController {
 	@Autowired 
 	private ReplyUserService replyUserService;
 	
-	@PostMapping("/replyWrite")
-	public String replyWrite(
-			@RequestParam(name = "noteNo", required = false) Integer noteNo,
-			@ModelAttribute ReplyDTO replyDTO,
-			@ModelAttribute UserDTO userDTO) {
-		replyService.writeReply(replyDTO);
-		replyUserService.writeReplyRelation(replyDTO, userDTO);
-		return "redirect:/view?noteNo=" + noteNo;
-	}
+	/*
+	 * @PostMapping("/replyWrite") public String replyWrite(
+	 * 
+	 * @RequestParam(name = "noteNo", required = false) Integer noteNo,
+	 * 
+	 * @ModelAttribute ReplyDTO replyDTO,
+	 * 
+	 * @ModelAttribute UserDTO userDTO) { replyService.writeReply(replyDTO);
+	 * replyUserService.writeReplyRelation(replyDTO, userDTO); return
+	 * "redirect:/view?noteNo=" + noteNo; }
+	 */
 }

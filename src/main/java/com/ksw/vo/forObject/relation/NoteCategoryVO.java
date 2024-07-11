@@ -2,56 +2,69 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.CategoryVO;
+import com.ksw.vo.forObject.entity.NoteVO;
+
 public final class NoteCategoryVO {
-    private final Integer categoryNo;
-    private final Integer noteNo;
+    private final CategoryVO categoryVO;
+    private final NoteVO noteVO;
 
     private NoteCategoryVO(Builder builder) {
-        this.categoryNo = builder.categoryNo;
-        this.noteNo = builder.noteNo;
+        this.categoryVO = builder.categoryVO;
+        this.noteVO = builder.noteVO;
     }
 
-    public Integer getCategoryNo() {
-        return categoryNo;
-    }
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+    public NoteCategoryVO(CategoryVO categoryVO, NoteVO noteVO) {
+		super();
+		this.categoryVO = categoryVO;
+		this.noteVO = noteVO;
+	}
 
-    @Override
+
+	public CategoryVO getCategoryVO() {
+		return categoryVO;
+	}
+
+
+	public NoteVO getNoteVO() {
+		return noteVO;
+	}
+
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NoteCategoryVO that = (NoteCategoryVO) o;
-        return Objects.equals(categoryNo, that.categoryNo) &&
-                Objects.equals(noteNo, that.noteNo);
+        return Objects.equals(categoryVO, that.categoryVO) &&
+                Objects.equals(noteVO, that.noteVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryNo, noteNo);
+        return Objects.hash(categoryVO, noteVO);
     }
 
     @Override
     public String toString() {
         return "NoteCategoryVO{" +
-                "categoryNo=" + categoryNo +
-                ", noteNo=" + noteNo +
+                "categoryVO=" + categoryVO +
+                ", noteVO=" + noteVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer categoryNo;
-        private Integer noteNo;
+        private CategoryVO categoryVO;
+        private NoteVO noteVO;
 
-        public Builder categoryNo(Integer categoryNo) {
-            this.categoryNo = categoryNo;
+        public Builder categoryVO(CategoryVO categoryVO) {
+            this.categoryVO = categoryVO;
             return this;
         }
 
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
+        public Builder noteVO(NoteVO noteVO) {
+            this.noteVO = noteVO;
             return this;
         }
 

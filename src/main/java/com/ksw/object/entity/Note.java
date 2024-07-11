@@ -35,17 +35,20 @@ public class Note {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = Timestamp.valueOf(LocalDateTime.now());
+        Timestamp currentTimestamp = Timestamp.valueOf(LocalDateTime.now());
+        createdAt = currentTimestamp;
+        updatedAt = currentTimestamp;
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+    	updatedAt = Timestamp.valueOf(LocalDateTime.now());
     }
     
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp updatedAt;
     
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = Timestamp.valueOf(LocalDateTime.now());
-    }
-
+    
 	public Integer getNoteNo() {
 		return noteNo;
 	}

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
+<!-- CSRF 메타 태그 추가 -->
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
 	rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
@@ -11,8 +16,36 @@
 			.addEventListener(
 					"DOMContentLoaded",
 					function() {
-					    $(document).ajaxSend(function(e, xhr, options) {
-					        xhr.setRequestHeader(csrfHeader, csrfToken);
+					    var csrfToken = $("meta[name='_csrf']").attr("content");
+					    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+					    console.log("CSRF Token:", csrfToken);
+					    console.log("CSRF Header:", csrfHeader);
+
+					    $("#writeFrm").submit(function(event) {
+					        var form = $(this)[0];
+					        var data = new FormData(form);
+
+					        $.ajax({
+					            type: "POST",
+					            enctype: 'multipart/form-data',
+					            url: "/mylittletest/write",
+					            data: data,
+					            processData: false,
+					            contentType: false,
+					            cache: false,
+					            timeout: 600000,
+					            beforeSend: function(xhr) {
+				                    xhr.setRequestHeader(csrfHeader, csrfToken);
+					            },
+					            success: function(data) {
+					                console.log("SUCCESS : ", data);
+					            },
+					            error: function(e) {
+					                console.log("ERROR : ", e);
+					            }
+					        });
+					        event.preventDefault();
 					    });
 						
 						// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
@@ -476,12 +509,10 @@ textarea::placeholder {
 <div class="container">
 	<form id="writeFrm" class="writeFrm" name="writeFrm"
 		action="/mylittletest/write" method="post" enctype="multipart/form-data">
-    	<sec:csrfInput />
-    	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
- 
+    	<sec:csrfInput/>
 		<div class="subject-input-container">
 			<div class="subject-input-shadow">
-				<input type="hidden" name="${session.userVO.getUserNo()}">
+				<input type="hidden" name="userNo" id="userNo" value="${userVO.userNo}">
 				<div class="subject-container">
 					<input class="subject_input" type="text" id="categoryTitle"
 						name="categoryTitle" placeholder="과목 입력" spellcheck="false"

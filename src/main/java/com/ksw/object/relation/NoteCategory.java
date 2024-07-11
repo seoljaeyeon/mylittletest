@@ -1,27 +1,30 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Category;
+import com.ksw.object.entity.Note;
+
 public class NoteCategory {
 
-    private Integer categoryNo;
-    private Integer noteNo;
+    private Category category;
+    private Note note;
 
     // 기본 생성자
     public NoteCategory() {}
 
-    // Getter 및 Setter
-    public Integer getCategoryNo() {
-        return categoryNo;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public void setCategoryNo(Integer categoryNo) {
-        this.categoryNo = categoryNo;
-    }
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public Note getNote() {
+		return note;
+	}
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
 }

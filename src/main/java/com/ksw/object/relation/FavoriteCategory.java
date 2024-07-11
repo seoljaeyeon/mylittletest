@@ -1,36 +1,41 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Category;
+import com.ksw.object.entity.Favorite;
+import com.ksw.object.entity.User;
+
 public class FavoriteCategory {
 
-    private Integer userNo;
-    private Integer categoryNo;
-    private Integer favoriteNo;
+    private User user;
+    private Category category;
+    private Favorite favorite;
 
     // 기본 생성자
     public FavoriteCategory() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public Integer getCategoryNo() {
-        return categoryNo;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public void setCategoryNo(Integer categoryNo) {
-        this.categoryNo = categoryNo;
-    }
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
-    public Integer getFavoriteNo() {
-        return favoriteNo;
-    }
+	public Favorite getFavorite() {
+		return favorite;
+	}
 
-    public void setFavoriteNo(Integer favoriteNo) {
-        this.favoriteNo = favoriteNo;
-    }
+	public void setFavorite(Favorite favorite) {
+		this.favorite = favorite;
+	}
+
+    
 }

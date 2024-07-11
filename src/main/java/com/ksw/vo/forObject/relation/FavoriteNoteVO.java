@@ -2,70 +2,74 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.FavoriteVO;
+import com.ksw.vo.forObject.entity.NoteVO;
+import com.ksw.vo.forObject.entity.UserVO;
+
 public final class FavoriteNoteVO {
-    private final Integer userNo;
-    private final Integer noteNo;
-    private final Integer favoriteNo;
+    private final UserVO userVO;
+    private final NoteVO noteVO;
+    private final FavoriteVO favoriteVO;
 
     private FavoriteNoteVO(Builder builder) {
-        this.userNo = builder.userNo;
-        this.noteNo = builder.noteNo;
-        this.favoriteNo = builder.favoriteNo;
+        this.userVO = builder.userVO;
+        this.noteVO = builder.noteVO;
+        this.favoriteVO = builder.favoriteVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
-    }
+    public UserVO getUserVO() {
+		return userVO;
+	}
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public NoteVO getNoteVO() {
+		return noteVO;
+	}
 
-    public Integer getFavoriteNo() {
-        return favoriteNo;
-    }
+	public FavoriteVO getFavoriteVO() {
+		return favoriteVO;
+	}
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FavoriteNoteVO that = (FavoriteNoteVO) o;
-        return Objects.equals(userNo, that.userNo) &&
-                Objects.equals(noteNo, that.noteNo) &&
-                Objects.equals(favoriteNo, that.favoriteNo);
+        return Objects.equals(userVO, that.userVO) &&
+                Objects.equals(noteVO, that.noteVO) &&
+                Objects.equals(favoriteVO, that.favoriteVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userNo, noteNo, favoriteNo);
+        return Objects.hash(userVO, noteVO, favoriteVO);
     }
 
     @Override
     public String toString() {
         return "FavoriteNoteVO{" +
-                "userNo=" + userNo +
-                ", noteNo=" + noteNo +
-                ", favoriteNo=" + favoriteNo +
+                "userVO=" + userVO +
+                ", noteVO=" + noteVO +
+                ", favoriteVO=" + favoriteVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer userNo;
-        private Integer noteNo;
-        private Integer favoriteNo;
+        private UserVO userVO;
+        private NoteVO noteVO;
+        private FavoriteVO favoriteVO;
 
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
 
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
+        public Builder noteVO(NoteVO noteVO) {
+            this.noteVO = noteVO;
             return this;
         }
 
-        public Builder favoriteNo(Integer favoriteNo) {
-            this.favoriteNo = favoriteNo;
+        public Builder favoriteVO(FavoriteVO favoriteVO) {
+            this.favoriteVO = favoriteVO;
             return this;
         }
 

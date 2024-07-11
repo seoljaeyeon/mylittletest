@@ -108,6 +108,7 @@ public class QuestionService {
 	public QuestionVO Write(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO, UserDTO userDTO) {
 
 		QuestionVO questionVO = null;
+		File file = null;
 		
 		try {
 			FileDTO fileDTO = fileService.uploadFile(notefile);
@@ -119,60 +120,65 @@ public class QuestionService {
 			System.out.println(note.getNoteContent());
 			
 			noteRepository.save(note);
+            noteRepository.flush();  // 엔티티 매니저를 플러시하여 데이터베이스와 즉시 동기화
+
 			categoryRepository.save(category);
+			categoryRepository.flush();
 
 			if (fileDTO != null) {
-				File file = fileService.convertToEntity(fileDTO);
+				file = fileService.convertToEntity(fileDTO);
 				fileRepository.save(file);
+				fileRepository.flush();
 				//관계형 테이블 데이터 삽입
 				fileNoteMapper.insert(file.getFileNo(), note.getNoteNo());
 			}
 			//관계형 테이블 데이터 삽입
-			noteCategoryMapper.insert(note.getNoteNo(), category.getCategoryNo());
+			noteCategoryMapper.insert(category.getCategoryNo(), note.getNoteNo());
 			noteUserMapper.insert(note.getNoteNo(), userDTO.getUserNo());
 
 	        questionVO = new QuestionVO.Builder()
-	                .noteVO(noteService.convertToVO(noteDTO))
+	                .noteVO(noteService.convertToVO(noteService.convertToDTO(note)))
 	                .userVO(userService.convertToVO(userDTO))
-	                .categoryVO(categoryService.convertToVO(categoryDTO))
-	                .fileVO(fileDTO != null ? fileService.convertToVO(fileDTO) : null)
+	                .categoryVO(categoryService.convertToVO(categoryService.convertToDTO(category)))
+	                .fileVO(fileDTO != null ? fileService.convertToVO(fileService.convertToDTO(file)) : null)
 	                .build();
-			
+	        
+	        System.out.println("questionVO created: " + questionVO);
+	        System.out.println("NoteVO: " + questionVO.getNoteVO());
+	        System.out.println("NoteNo: " + questionVO.getNoteVO().getNoteNo());
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return questionVO; 
 	}
-    @Transactional(readOnly = true)
-    public QuestionVO Read(Integer noteNo, Integer userNo) {
-        UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo); // 읽는 사람 정보
-        UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo); // 글쓴이 정보
-        CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
-        NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
-        
-        FileDTO fileDTO = questionMapper.getFileByNoteNo(noteNo);
-        List<ReplyDTO> replyList = questionMapper.getRepliesByNoteNo(noteNo);
-        int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
-        int favoriteCount = questionMapper.getfavoriteCountByNoteNo(noteNo);
-        Boolean isFavorite = questionMapper.getIsFavoriteByNoteNoAndUserNo(noteNo, userNo);
-        
-        AnswerHistoryDTO latestAnswer = answerHistoryService.getAnswerHistoryByNoteNoAndUserNo(noteNo, userNo);
-        AnswerDTO answerDTO = answerService.getAnswerByNo(latestAnswer.getAnswerNo());
-        int answerType = answerDTO.getAnswerType();
-
-        QuestionDTO questionDTO = new QuestionDTO();
-        questionDTO.setUserDTO(userDTO);
-        questionDTO.setWriterDTO(writerDTO);
-        questionDTO.setCategoryDTO(categoryDTO);
-        questionDTO.setNoteDTO(noteDTO);
-        questionDTO.setFileDTO(fileDTO);
-        questionDTO.setReplies(replyList);
-        questionDTO.setViewCount(viewCount);
-        questionDTO.setFavoriteCount(favoriteCount);
-        questionDTO.setAnswerType(answerType);
-        questionDTO.setIsFavorite(isFavorite);
-
-        return this.convertTVO(questionDTO);
-    }
+	
+	/*
+	 * @Transactional(readOnly = true) public QuestionVO Read(Integer noteNo,
+	 * Integer userNo) { UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo);
+	 * // 읽는 사람 정보 UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo); //
+	 * 글쓴이 정보 CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
+	 * NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
+	 * 
+	 * FileDTO fileDTO = questionMapper.getFileByNoteNo(noteNo); List<ReplyDTO>
+	 * replyList = questionMapper.getRepliesByNoteNo(noteNo); int viewCount =
+	 * questionMapper.getViewCountByNoteNo(noteNo); int favoriteCount =
+	 * questionMapper.getfavoriteCountByNoteNo(noteNo); Boolean isFavorite =
+	 * questionMapper.getIsFavoriteByNoteNoAndUserNo(noteNo, userNo);
+	 * 
+	 * AnswerHistoryDTO latestAnswer =
+	 * answerHistoryService.getAnswerHistoryByNoteNoAndUserNo(noteNo, userNo);
+	 * AnswerDTO answerDTO =
+	 * answerService.getAnswerByNo(latestAnswer.getAnswerNo()); int answerType =
+	 * answerDTO.getAnswerType();
+	 * 
+	 * QuestionDTO questionDTO = new QuestionDTO(); questionDTO.setUserDTO(userDTO);
+	 * questionDTO.setWriterDTO(writerDTO); questionDTO.setCategoryDTO(categoryDTO);
+	 * questionDTO.setNoteDTO(noteDTO); questionDTO.setFileDTO(fileDTO);
+	 * questionDTO.setReplies(replyList); questionDTO.setViewCount(viewCount);
+	 * questionDTO.setFavoriteCount(favoriteCount);
+	 * questionDTO.setAnswerType(answerType); questionDTO.setIsFavorite(isFavorite);
+	 * 
+	 * return this.convertTVO(questionDTO); }
+	 */
 }

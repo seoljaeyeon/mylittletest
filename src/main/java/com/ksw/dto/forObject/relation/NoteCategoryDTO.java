@@ -1,50 +1,30 @@
 package com.ksw.dto.forObject.relation;
 
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+
 public class NoteCategoryDTO {
 
-    private Integer categoryNo;
-    private Integer noteNo;
+    private CategoryDTO categoryDTO;
+    private NoteDTO noteDTO;
 
     // 기본 생성자
     public NoteCategoryDTO() {}
 
-    // Getter 및 Setter
-    public Integer getCategoryNo() {
-        return categoryNo;
-    }
+	public CategoryDTO getCategoryDTO() {
+		return categoryDTO;
+	}
 
-    public void setCategoryNo(Integer categoryNo) {
-        this.categoryNo = categoryNo;
-    }
+	public void setCategoryDTO(CategoryDTO categoryDTO) {
+		this.categoryDTO = categoryDTO;
+	}
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer categoryNo;
-        private Integer noteNo;
-
-        public Builder categoryNo(Integer categoryNo) {
-            this.categoryNo = categoryNo;
-            return this;
-        }
-
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
-            return this;
-        }
-
-        public NoteCategoryDTO build() {
-            NoteCategoryDTO noteCategoryDTO = new NoteCategoryDTO();
-            noteCategoryDTO.categoryNo = this.categoryNo;
-            noteCategoryDTO.noteNo = this.noteNo;
-            return noteCategoryDTO;
-        }
-    }
 }

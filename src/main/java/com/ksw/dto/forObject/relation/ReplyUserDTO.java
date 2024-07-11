@@ -1,50 +1,30 @@
 package com.ksw.dto.forObject.relation;
 
+import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+
 public class ReplyUserDTO {
 
-    private Integer userNo;
-    private Integer replyNo;
+    private UserDTO userDTO;
+    private ReplyDTO replyDTO;
 
     // 기본 생성자
     public ReplyUserDTO() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 
-    public Integer getReplyNo() {
-        return replyNo;
-    }
+	public ReplyDTO getReplyDTO() {
+		return replyDTO;
+	}
 
-    public void setReplyNo(Integer replyNo) {
-        this.replyNo = replyNo;
-    }
+	public void setReplyDTO(ReplyDTO replyDTO) {
+		this.replyDTO = replyDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private Integer replyNo;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
-            return this;
-        }
-
-        public ReplyUserDTO build() {
-            ReplyUserDTO replyUserDTO = new ReplyUserDTO();
-            replyUserDTO.userNo = this.userNo;
-            replyUserDTO.replyNo = this.replyNo;
-            return replyUserDTO;
-        }
-    }
 }
