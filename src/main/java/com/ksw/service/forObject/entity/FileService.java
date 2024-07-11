@@ -51,6 +51,9 @@ public class FileService {
 	    String originalFileName = file.getOriginalFilename();
 	    String extension = getFileExtension(originalFileName);
 	    String savedFileName = UUID.randomUUID().toString() + extension;
+	    if (file == null) {
+	    	savedFileName = "";
+	    }
 	    
         Path filePath = fileStorageLocation.resolve(savedFileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);

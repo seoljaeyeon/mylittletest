@@ -19,6 +19,4 @@ public class NoteView {
 	public void setNote(Note note) {
 		this.note = note;
 	}
-
-
 }

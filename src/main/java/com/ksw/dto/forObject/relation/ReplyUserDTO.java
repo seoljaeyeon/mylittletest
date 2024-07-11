@@ -11,6 +11,14 @@ public class ReplyUserDTO {
     // 기본 생성자
     public ReplyUserDTO() {}
 
+    // 기본 생성자
+    public ReplyUserDTO(ReplyDTO replyDTO, UserDTO userDTO) {
+    	super();
+    	this.replyDTO = replyDTO;
+    	this.userDTO = userDTO;
+    }
+
+    
 	public UserDTO getUserDTO() {
 		return userDTO;
 	}

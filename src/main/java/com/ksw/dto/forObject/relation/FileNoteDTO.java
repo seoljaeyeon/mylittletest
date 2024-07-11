@@ -10,6 +10,13 @@ public class FileNoteDTO {
 
     // 기본 생성자
     public FileNoteDTO() {}
+    
+    // 기본 생성자
+    public FileNoteDTO(NoteDTO noteDTO, FileDTO fileDTO) {
+    	super();
+    	this.noteDTO = noteDTO;
+    	this.fileDTO = fileDTO;
+    }
 
 	public NoteDTO getNoteDTO() {
 		return noteDTO;

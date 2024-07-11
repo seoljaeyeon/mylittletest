@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ksw.dto.forObject.relation.NoteUserDTO;
+import com.ksw.object.entity.Note;
+import com.ksw.object.entity.User;
 import com.ksw.object.relation.NoteUser;
 import com.ksw.service.forObject.entity.NoteService;
 import com.ksw.service.forObject.entity.UserService;
@@ -25,6 +27,17 @@ public class NoteUserService {
         return dto;
     }
 
+    public NoteUser convertToEntity(NoteUserDTO noteUserDTO) {
+    	NoteUser noteUser = new NoteUser();
+    	
+    	Note note = noteService.convertToEntity(noteUserDTO.getNoteDTO());
+    	User user = userService.convertToEntity(noteUserDTO.getUserDTO());
+    	
+    	noteUser.setNote(note);
+    	noteUser.setUser(user);
+    	return noteUser;
+    }
+    
     // DTO -> VO 변환 메소드
     public NoteUserVO convertToVO(NoteUserDTO noteUserDTO) {
         return new NoteUserVO.Builder()
