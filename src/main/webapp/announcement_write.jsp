@@ -32,7 +32,7 @@
     }							
 </style>
 
-	<form id="writeFrm" name="writeFrm" action="announcement_writeok.jsp">	
+	<form id="writeFrm" name="writeFrm" method="post" action="announcement_writeok.jsp">	
 		<div class="a">
 		<div>&nbsp&nbsp<span style="font-size: 20px; font-weight: bolder;">공지사항</span>
 		<br><br>

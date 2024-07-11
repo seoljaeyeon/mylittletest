@@ -110,11 +110,7 @@ public class QuestionController {
 			@RequestParam("file") MultipartFile file,
 			HttpSession session,
 			RedirectAttributes redirectAttributes) {
-<<<<<<< HEAD
-		
-=======
 			System.out.println("1");
->>>>>>> refs/remotes/origin/develop
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userDTO);
             	System.out.println("2");
