@@ -35,7 +35,6 @@ import com.ksw.vo.forObject.entity.FileVO;
 import com.ksw.vo.forObject.entity.NoteVO;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
-import com.ksw.vo.function.ViewHistoryVO;
 
 @Controller
 public class QuestionController {
@@ -64,28 +63,25 @@ public class QuestionController {
 		return "write";
 	}
 
-	@GetMapping("/view")
-	public String viewPage(
-			@RequestParam("no") Integer no,
-			Model model
-			) {
-		UserVO certifiedReader = authService.getUserVO();
-		
-		if (certifiedReader == null) {
-			return "/login";
-		}
-		
-		// DB에서 문제 정보 가져오기
-		QuestionVO questionVO = questionService.Read(no, certifiedReader.getUserNo());
-		
-		// 사용자가 해당 카테고리에서 본 문제 목록 가져오기 
-		List<ViewHistoryVO> userHistory = viewHistoryService.getHistoryByCategory(certifiedReader.getUserNo(), questionVO.getCategoryVO().getCategoryNo());
-		
-		model.addAttribute("userVO", certifiedReader);
-		model.addAttribute("questionVO", questionVO);
-		model.addAttribute("viewHistory", userHistory);
-		return "questionsolve";
-	}
+	/*
+	 * @GetMapping("/view") public String viewPage(
+	 * 
+	 * @RequestParam("no") Integer no, Model model ) { UserVO certifiedReader =
+	 * authService.getUserVO();
+	 * 
+	 * if (certifiedReader == null) { return "/login"; }
+	 * 
+	 * // DB에서 문제 정보 가져오기 QuestionVO questionVO = questionService.Read(no,
+	 * certifiedReader.getUserNo());
+	 * 
+	 * // 사용자가 해당 카테고리에서 본 문제 목록 가져오기 List<ViewHistoryVO> userHistory =
+	 * viewHistoryService.getHistoryByCategory(certifiedReader.getUserNo(),
+	 * questionVO.getCategoryVO().getCategoryNo());
+	 * 
+	 * model.addAttribute("userVO", certifiedReader);
+	 * model.addAttribute("questionVO", questionVO);
+	 * model.addAttribute("viewHistory", userHistory); return "questionsolve"; }
+	 */
 	
 //    @GetMapping("/randomView")
 //    public String RandomViewPage(

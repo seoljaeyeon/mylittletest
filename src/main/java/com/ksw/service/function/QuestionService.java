@@ -153,35 +153,32 @@ public class QuestionService {
 		return questionVO; 
 	}
 	
-    @Transactional(readOnly = true)
-    public QuestionVO Read(Integer noteNo, Integer userNo) {
-        UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo); // 읽는 사람 정보
-        UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo); // 글쓴이 정보
-        CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
-        NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
-        
-        FileDTO fileDTO = questionMapper.getFileByNoteNo(noteNo);
-        List<ReplyDTO> replyList = questionMapper.getRepliesByNoteNo(noteNo);
-        int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
-        int favoriteCount = questionMapper.getfavoriteCountByNoteNo(noteNo);
-        Boolean isFavorite = questionMapper.getIsFavoriteByNoteNoAndUserNo(noteNo, userNo);
-        
-        AnswerHistoryDTO latestAnswer = answerHistoryService.getAnswerHistoryByNoteNoAndUserNo(noteNo, userNo);
-        AnswerDTO answerDTO = answerService.getAnswerByNo(latestAnswer.getAnswerNo());
-        int answerType = answerDTO.getAnswerType();
-
-        QuestionDTO questionDTO = new QuestionDTO();
-        questionDTO.setUserDTO(userDTO);
-        questionDTO.setWriterDTO(writerDTO);
-        questionDTO.setCategoryDTO(categoryDTO);
-        questionDTO.setNoteDTO(noteDTO);
-        questionDTO.setFileDTO(fileDTO);
-        questionDTO.setReplies(replyList);
-        questionDTO.setViewCount(viewCount);
-        questionDTO.setFavoriteCount(favoriteCount);
-        questionDTO.setAnswerType(answerType);
-        questionDTO.setIsFavorite(isFavorite);
-
-        return this.convertTVO(questionDTO);
-    }
+	/*
+	 * @Transactional(readOnly = true) public QuestionVO Read(Integer noteNo,
+	 * Integer userNo) { UserDTO userDTO = questionMapper.getUserByNoteNo(noteNo);
+	 * // 읽는 사람 정보 UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo); //
+	 * 글쓴이 정보 CategoryDTO categoryDTO = questionMapper.getCategoryByNoteNo(noteNo);
+	 * NoteDTO noteDTO = questionMapper.getNoteByNoteNo(noteNo);
+	 * 
+	 * FileDTO fileDTO = questionMapper.getFileByNoteNo(noteNo); List<ReplyDTO>
+	 * replyList = questionMapper.getRepliesByNoteNo(noteNo); int viewCount =
+	 * questionMapper.getViewCountByNoteNo(noteNo); int favoriteCount =
+	 * questionMapper.getfavoriteCountByNoteNo(noteNo); Boolean isFavorite =
+	 * questionMapper.getIsFavoriteByNoteNoAndUserNo(noteNo, userNo);
+	 * 
+	 * AnswerHistoryDTO latestAnswer =
+	 * answerHistoryService.getAnswerHistoryByNoteNoAndUserNo(noteNo, userNo);
+	 * AnswerDTO answerDTO =
+	 * answerService.getAnswerByNo(latestAnswer.getAnswerNo()); int answerType =
+	 * answerDTO.getAnswerType();
+	 * 
+	 * QuestionDTO questionDTO = new QuestionDTO(); questionDTO.setUserDTO(userDTO);
+	 * questionDTO.setWriterDTO(writerDTO); questionDTO.setCategoryDTO(categoryDTO);
+	 * questionDTO.setNoteDTO(noteDTO); questionDTO.setFileDTO(fileDTO);
+	 * questionDTO.setReplies(replyList); questionDTO.setViewCount(viewCount);
+	 * questionDTO.setFavoriteCount(favoriteCount);
+	 * questionDTO.setAnswerType(answerType); questionDTO.setIsFavorite(isFavorite);
+	 * 
+	 * return this.convertTVO(questionDTO); }
+	 */
 }
