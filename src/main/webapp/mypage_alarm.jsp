@@ -154,6 +154,10 @@
 		display:flex;
 		border-radius:20px;
 	}
+	.bookmark_list_btn:hover,.alarm_list_btn:hover{
+		background-color:#ffffff;
+		color:#000000;
+	}
 	.alarm_container{
 		display:flex;
 		width:1000px;

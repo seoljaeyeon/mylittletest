@@ -83,6 +83,11 @@
             height:3rem;
             font-weight: 600;
             box-shadow: 0.25rem 0.25rem 0.5rem 0rem rgba(0,0,0,0.2);
+            cursor:pointer
+        }
+        .side_button:hover{
+        	background-color:#ffffff;
+        	color:#000000;
         }
 
         .logo {

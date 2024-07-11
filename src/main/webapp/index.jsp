@@ -5,12 +5,20 @@
 	function increase() {
 	    let numberInput = document.getElementById('number');
 	    numberInput.value = parseInt(numberInput.value) + 1;
+	    document.querySelector('.arrow_btn:nth-child(1)').classList.add('active');
+	    setTimeout(() => {
+	        document.querySelector('.arrow_btn:nth-child(1)').classList.remove('active');
+	    }, 500);
 	}
 	
 	function decrease() {
 	    let numberInput = document.getElementById('number');
 	    if (parseInt(numberInput.value) > 0) {
 	        numberInput.value = parseInt(numberInput.value) - 1;
+	        document.querySelector('.arrow_btn:nth-child(2)').classList.add('active');
+	        setTimeout(() => {
+	            document.querySelector('.arrow_btn:nth-child(2)').classList.remove('active');
+	        }, 500);
 	    }
 	}
 	
@@ -41,8 +49,7 @@
 		border-right:1px solid black;
 		height:140px;
 		width:368px;
-		min-width:368px;
-		
+		min-width:368px;	
 	}
 	.goal_title{
 		font-size:40px;
@@ -117,6 +124,7 @@
 		justify-content: flex-end;
 		margin-top:30px;
 		gap:5px;
+		cursor:pointer;
 	}
 	.list_set{
 		display:flex;
@@ -142,6 +150,19 @@
 		display:flex;
 		background-color:#333333;
 		border-radius:10px;
+		cursor:pointer;
+	}
+	.sub_menu:hover{
+		background-color:#ffffff;
+		color:#000000;
+	}
+	.arrow_btn {
+    transition: transform 0.2s ease; /* transform 속성에 대해 0.2초간의 ease 애니메이션 적용 */
+	}
+	
+	.arrow_btn.active {
+	    transform: scale(1.3); /* 활성화 상태일 때 크기를 좀 더 크게 스케일링 */
+	    color:#000000;
 	}
 </style>
 <div class="main_container">

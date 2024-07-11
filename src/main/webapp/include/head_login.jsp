@@ -74,6 +74,10 @@
             font-weight: 600;
             box-shadow: 0.25rem 0.25rem 0.5rem 0rem rgba(0,0,0,0.2);
         }
+         .side_button:hover{
+        	background-color:#ffffff;
+        	color:#000000;
+        }
 
         .logo {
             min-width: 10rem;
@@ -234,7 +238,7 @@
             <div class="side_button" id="mystudy_btn" onclick="location.href='index_login.jsp'">
                 나의 학습
             </div>        
-            <div class="side_button" onclick="location.href='questionlist_login.jsp'">
+            <div class="side_button" onclick="location.href='questionlist.jsp'">
                 문제 둘러보기
             </div>        
             <div class="side_button" onclick="location.href='announcement_list.jsp'">

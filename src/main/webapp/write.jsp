@@ -469,11 +469,7 @@ document.addEventListener("DOMContentLoaded", function() {
         border: 2px dashed #aaa; /* 드래그앤 드랍 시 보여질 스타일 */
         background-color: rgba(0, 0, 0, 0.1);
     }
-      .custom-placeholder {
-        font-style: italic;
-        font-weight:bolder;
-        font-color:#ffffff;
-    }
+    
 
 	
 
