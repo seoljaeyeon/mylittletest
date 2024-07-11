@@ -62,4 +62,17 @@ public class UserService {
                 .createdAt(userDTO.getCreatedAt())
                 .build();
     }
+    
+    // VO -> DTO 변환 메소드
+    public UserDTO convertVOToDTO(UserVO userVO) {
+        return new UserDTO.Builder()
+                .userNo(userVO.getUserNo())
+                .userId(userVO.getUserId())
+                .nickname(userVO.getNickname())
+                .email(userVO.getEmail())
+                .isActive(userVO.getIsActive())
+                .type(userVO.getType())
+                .createdAt(userVO.getCreatedAt())
+                .build();
+    }
 }

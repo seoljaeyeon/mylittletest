@@ -1,66 +1,40 @@
 package com.ksw.dto.forObject.relation;
 
+import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.ReportDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+
 public class ReportReplyDTO {
 
-    private Integer userNo;
-    private Integer replyNo;
-    private Integer reportNo;
+    private UserDTO userDTO;
+    private ReplyDTO replyDTO;
+    
+    public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+	public ReplyDTO getReplyDTO() {
+		return replyDTO;
+	}
+
+	public void setReplyDTO(ReplyDTO replyDTO) {
+		this.replyDTO = replyDTO;
+	}
+
+	public ReportDTO getReportDTO() {
+		return reportDTO;
+	}
+
+	public void setReportDTO(ReportDTO reportDTO) {
+		this.reportDTO = reportDTO;
+	}
+
+	private ReportDTO reportDTO;
 
     // 기본 생성자
     public ReportReplyDTO() {}
-
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    public Integer getReplyNo() {
-        return replyNo;
-    }
-
-    public void setReplyNo(Integer replyNo) {
-        this.replyNo = replyNo;
-    }
-
-    public Integer getReportNo() {
-        return reportNo;
-    }
-
-    public void setReportNo(Integer reportNo) {
-        this.reportNo = reportNo;
-    }
-
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private Integer replyNo;
-        private Integer reportNo;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
-            return this;
-        }
-
-        public Builder reportNo(Integer reportNo) {
-            this.reportNo = reportNo;
-            return this;
-        }
-
-        public ReportReplyDTO build() {
-            ReportReplyDTO replyReportVO = new ReportReplyDTO();
-            replyReportVO.userNo = this.userNo;
-            replyReportVO.replyNo = this.replyNo;
-            replyReportVO.reportNo = this.reportNo;
-            return replyReportVO;
-        }
-    }
 }

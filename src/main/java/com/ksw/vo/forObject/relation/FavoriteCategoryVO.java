@@ -2,70 +2,74 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.CategoryVO;
+import com.ksw.vo.forObject.entity.FavoriteVO;
+import com.ksw.vo.forObject.entity.UserVO;
+
 public final class FavoriteCategoryVO {
-    private final Integer userNo;
-    private final Integer categoryNo;
-    private final Integer favoriteNo;
+    private final UserVO userVO;
+    private final CategoryVO categoryVO;
+    private final FavoriteVO favoriteVO;
 
     private FavoriteCategoryVO(Builder builder) {
-        this.userNo = builder.userNo;
-        this.categoryNo = builder.categoryNo;
-        this.favoriteNo = builder.favoriteNo;
+        this.userVO = builder.userVO;
+        this.categoryVO = builder.categoryVO;
+        this.favoriteVO = builder.favoriteVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
-    }
+    public UserVO getUserVO() {
+		return userVO;
+	}
 
-    public Integer getCategoryNo() {
-        return categoryNo;
-    }
+	public CategoryVO getCategoryVO() {
+		return categoryVO;
+	}
 
-    public Integer getFavoriteNo() {
-        return favoriteNo;
-    }
+	public FavoriteVO getFavoriteVO() {
+		return favoriteVO;
+	}
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FavoriteCategoryVO that = (FavoriteCategoryVO) o;
-        return Objects.equals(userNo, that.userNo) &&
-                Objects.equals(categoryNo, that.categoryNo) &&
-                Objects.equals(favoriteNo, that.favoriteNo);
+        return Objects.equals(userVO, that.userVO) &&
+                Objects.equals(categoryVO, that.categoryVO) &&
+                Objects.equals(favoriteVO, that.favoriteVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userNo, categoryNo, favoriteNo);
+        return Objects.hash(userVO, categoryVO, favoriteVO);
     }
 
     @Override
     public String toString() {
         return "FavoriteCategoryVO{" +
-                "userNo=" + userNo +
-                ", categoryNo=" + categoryNo +
-                ", favoriteNo=" + favoriteNo +
+                "userVO=" + userVO +
+                ", categoryVO=" + categoryVO +
+                ", favoriteVO=" + favoriteVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer userNo;
-        private Integer categoryNo;
-        private Integer favoriteNo;
+        private UserVO userVO;
+        private CategoryVO categoryVO;
+        private FavoriteVO favoriteVO;
 
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
 
-        public Builder categoryNo(Integer categoryNo) {
-            this.categoryNo = categoryNo;
+        public Builder categoryVO(CategoryVO categoryVO) {
+            this.categoryVO = categoryVO;
             return this;
         }
 
-        public Builder favoriteNo(Integer favoriteNo) {
-            this.favoriteNo = favoriteNo;
+        public Builder favoriteVO(FavoriteVO favoriteVO) {
+            this.favoriteVO = favoriteVO;
             return this;
         }
 

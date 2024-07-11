@@ -2,70 +2,70 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.ReplyVO;
+import com.ksw.vo.forObject.entity.ReportVO;
+import com.ksw.vo.forObject.entity.UserVO;
+
 public final class ReportReplyVO {
-    private final Integer userNo;
-    private final Integer replyNo;
-    private final Integer reportNo;
+    private final UserVO userVO;
+    private final ReplyVO replyVO;
+    private final ReportVO reportVO;
 
     private ReportReplyVO(Builder builder) {
-        this.userNo = builder.userNo;
-        this.replyNo = builder.replyNo;
-        this.reportNo = builder.reportNo;
+        this.userVO = builder.userVO;
+        this.replyVO = builder.replyVO;
+        this.reportVO = builder.reportVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public Integer getReplyNo() {
-        return replyNo;
-    }
-
-    public Integer getReportNo() {
-        return reportNo;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReportReplyVO that = (ReportReplyVO) o;
-        return Objects.equals(userNo, that.userNo) &&
-                Objects.equals(replyNo, that.replyNo) &&
-                Objects.equals(reportNo, that.reportNo);
+        return Objects.equals(userVO, that.userVO) &&
+                Objects.equals(replyVO, that.replyVO) &&
+                Objects.equals(reportVO, that.reportVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userNo, replyNo, reportNo);
+        return Objects.hash(userVO, replyVO, reportVO);
     }
 
     @Override
     public String toString() {
         return "ReportReplyVO{" +
-                "userNo=" + userNo +
-                ", replyNo=" + replyNo +
-                ", reportNo=" + reportNo +
+                "userVO=" + userVO +
+                ", replyVO=" + replyVO +
+                ", reportVO=" + reportVO +
                 '}';
     }
 
-    public static class Builder {
-        private Integer userNo;
-        private Integer replyNo;
-        private Integer reportNo;
+    public ReportReplyVO(UserVO userVO, ReplyVO replyVO, ReportVO reportVO) {
+		super();
+		this.userVO = userVO;
+		this.replyVO = replyVO;
+		this.reportVO = reportVO;
+	}
 
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
+	public static class Builder {
+        private UserVO userVO;
+        private ReplyVO replyVO;
+        private ReportVO reportVO;
+
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
 
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
+        public Builder replyVO(ReplyVO replyVO) {
+            this.replyVO = replyVO;
             return this;
         }
 
-        public Builder reportNo(Integer reportNo) {
-            this.reportNo = reportNo;
+        public Builder reportVO(ReportVO reportVO) {
+            this.reportVO = reportVO;
             return this;
         }
 

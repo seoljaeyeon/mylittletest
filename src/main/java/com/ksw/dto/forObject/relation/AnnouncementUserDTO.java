@@ -1,50 +1,29 @@
 package com.ksw.dto.forObject.relation;
 
+import com.ksw.dto.forObject.entity.AnnouncementDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+
 public class AnnouncementUserDTO {
 
-    private Integer announcementNo;
-    private Integer userNo;
+    private AnnouncementDTO announcementDTO;
+    private UserDTO userDTO;
 
     // 기본 생성자
     public AnnouncementUserDTO() {}
 
-    // Getter 및 Setter
-    public Integer getAnnouncementNo() {
-        return announcementNo;
-    }
+	public AnnouncementDTO getAnnouncementDTO() {
+		return announcementDTO;
+	}
 
-    public void setAnnouncementNo(Integer announcementNo) {
-        this.announcementNo = announcementNo;
-    }
+	public void setAnnouncementDTO(AnnouncementDTO announcementDTO) {
+		this.announcementDTO = announcementDTO;
+	}
 
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer announcementNo;
-        private Integer userNo;
-
-        public Builder announcementNo(Integer announcementNo) {
-            this.announcementNo = announcementNo;
-            return this;
-        }
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public AnnouncementUserDTO build() {
-            AnnouncementUserDTO announcementUserDTO = new AnnouncementUserDTO();
-            announcementUserDTO.announcementNo = this.announcementNo;
-            announcementUserDTO.userNo = this.userNo;
-            return announcementUserDTO;
-        }
-    }
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 }

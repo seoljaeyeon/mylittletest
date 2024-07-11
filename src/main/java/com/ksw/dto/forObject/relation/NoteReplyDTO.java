@@ -1,50 +1,30 @@
 package com.ksw.dto.forObject.relation;
 
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.ReplyDTO;
+
 public class NoteReplyDTO {
 
-    private Integer noteNo;
-    private Integer replyNo;
+    private NoteDTO noteDTO;
+    private ReplyDTO replyDTO;
 
     // 기본 생성자
     public NoteReplyDTO() {}
 
-    // Getter 및 Setter
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
 
-    public Integer getReplyNo() {
-        return replyNo;
-    }
+	public ReplyDTO getReplyDTO() {
+		return replyDTO;
+	}
 
-    public void setReplyNo(Integer replyNo) {
-        this.replyNo = replyNo;
-    }
+	public void setReplyDTO(ReplyDTO replyDTO) {
+		this.replyDTO = replyDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer noteNo;
-        private Integer replyNo;
-
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
-            return this;
-        }
-
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
-            return this;
-        }
-
-        public NoteReplyDTO build() {
-            NoteReplyDTO noteReplyDTO = new NoteReplyDTO();
-            noteReplyDTO.noteNo = this.noteNo;
-            noteReplyDTO.replyNo = this.replyNo;
-            return noteReplyDTO;
-        }
-    }
 }

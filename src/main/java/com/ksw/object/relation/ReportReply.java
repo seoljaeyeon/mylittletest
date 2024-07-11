@@ -1,36 +1,40 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Reply;
+import com.ksw.object.entity.Report;
+import com.ksw.object.entity.User;
+
 public class ReportReply {
 
-    private Integer userNo;
-    private Integer replyNo;
-    private Integer reportNo;
+    private User user;
+    private Reply reply;
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Reply getReply() {
+		return reply;
+	}
+
+	public void setReply(Reply reply) {
+		this.reply = reply;
+	}
+
+	public Report getReport() {
+		return report;
+	}
+
+	public void setReport(Report report) {
+		this.report = report;
+	}
+
+	private Report report;
 
     // 기본 생성자
     public ReportReply() {}
-
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    public Integer getReplyNo() {
-        return replyNo;
-    }
-
-    public void setReplyNo(Integer replyNo) {
-        this.replyNo = replyNo;
-    }
-
-    public Integer getReportNo() {
-        return reportNo;
-    }
-
-    public void setReportNo(Integer reportNo) {
-        this.reportNo = reportNo;
-    }
 }

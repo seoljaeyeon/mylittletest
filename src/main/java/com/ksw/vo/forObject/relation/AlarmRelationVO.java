@@ -2,118 +2,85 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
-public final class AlarmRelationVO {
-    private final Integer alarmNo;
-    private final Integer userNo;
-    private final Integer makerNo;
-    private final Integer noteNo;
-    private final Integer replyNo;
-    private final Integer cateogryNo;
+import com.ksw.vo.forObject.entity.AlarmVO;
+import com.ksw.vo.forObject.entity.UserVO;
 
-    private AlarmRelationVO(Builder builder) {
-        this.alarmNo = builder.alarmNo;
-        this.userNo = builder.userNo;
-        this.makerNo = builder.makerNo;
-        this.noteNo = builder.noteNo;
-        this.replyNo = builder.replyNo;
-        this.cateogryNo = builder.cateogryNo;
+public class AlarmRelationVO {
 
-        
+    private final AlarmVO alarmVO;
+    private final UserVO receiverVO;
+    private final UserVO makerVO;
+
+    // 생성자
+    public AlarmRelationVO(AlarmVO alarmVO, UserVO receiverVO, UserVO makerVO) {
+        this.alarmVO = alarmVO;
+        this.receiverVO = receiverVO;
+        this.makerVO = makerVO;
     }
 
-    public Integer getNoteNo() {
-		return noteNo;
-	}
-
-	public Integer getReplyNo() {
-		return replyNo;
-	}
-
-	public Integer getCateogryNo() {
-		return cateogryNo;
-	}
-
-	public Integer getAlarmNo() {
-        return alarmNo;
+    // Getters
+    public AlarmVO getAlarmVO() {
+        return alarmVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
+    public UserVO getReceiverVO() {
+        return receiverVO;
     }
 
-    public Integer getMakerNo() {
-        return makerNo;
+    public UserVO getMakerVO() {
+        return makerVO;
     }
 
+    // 빌더 패턴 구현
+    public static class Builder {
+        private AlarmVO alarmVO;
+        private UserVO receiverVO;
+        private UserVO makerVO;
+
+        public Builder alarmVO(AlarmVO alarmVO) {
+            this.alarmVO = alarmVO;
+            return this;
+        }
+
+        public Builder receiverVO(UserVO receiverVO) {
+            this.receiverVO = receiverVO;
+            return this;
+        }
+
+        public Builder makerVO(UserVO makerVO) {
+            this.makerVO = makerVO;
+            return this;
+        }
+
+        public AlarmRelationVO build() {
+            return new AlarmRelationVO(alarmVO, receiverVO, makerVO);
+        }
+    }
+
+    // toString 메소드
+    @Override
+    public String toString() {
+        return "AlarmRelationVO{" +
+                "alarmVO=" + alarmVO +
+                ", receiverVO=" + receiverVO +
+                ", makerVO=" + makerVO +
+                '}';
+    }
+
+    // equals 메소드
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AlarmRelationVO that = (AlarmRelationVO) o;
-        return Objects.equals(alarmNo, that.alarmNo) &&
-                Objects.equals(userNo, that.userNo) &&
-                Objects.equals(makerNo, that.makerNo) &&
-                Objects.equals(noteNo, that.noteNo) &&
-                Objects.equals(replyNo, that.replyNo) &&
-                Objects.equals(cateogryNo, that.cateogryNo);
+        return Objects.equals(alarmVO, that.alarmVO) &&
+                Objects.equals(receiverVO, that.receiverVO) &&
+                Objects.equals(makerVO, that.makerVO);
     }
 
+    // hashCode 메소드
     @Override
     public int hashCode() {
-        return Objects.hash(alarmNo, userNo, makerNo, noteNo, replyNo, cateogryNo);
-    }
-
-    @Override
-    public String toString() {
-        return "AlarmRelationVO{" +
-                "alarmNo=" + alarmNo +
-                ", userNo=" + userNo +
-                ", makerNo=" + makerNo +
-                ", noteNo=" + noteNo +
-                ", replyNo=" + replyNo +
-                ", cateogryNo=" +cateogryNo +
-                '}';
-    }
-
-    public static class Builder {
-        private Integer alarmNo;
-        private Integer userNo;
-        private Integer makerNo;
-        private Integer noteNo;
-        private Integer replyNo;
-        private Integer cateogryNo;
-
-        public Builder alarmNo(Integer alarmNo) {
-            this.alarmNo = alarmNo;
-            return this;
-        }
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder makerNo(Integer makerNo) {
-            this.makerNo = makerNo;
-            return this;
-        }
-        
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
-            return this;
-        }
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
-            return this;
-        }
-        public Builder cateogryNo(Integer cateogryNo) {
-            this.cateogryNo = cateogryNo;
-            return this;
-        }
-        
-
-        public AlarmRelationVO build() {
-            return new AlarmRelationVO(this);
-        }
+        return Objects.hash(alarmVO, receiverVO, makerVO);
     }
 }

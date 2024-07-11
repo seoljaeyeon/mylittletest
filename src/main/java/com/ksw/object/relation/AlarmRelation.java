@@ -1,36 +1,38 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Alarm;
+import com.ksw.object.entity.User;
+
 public class AlarmRelation {
 
-    private Integer alarmNo;
-    private Integer userNo;
-    private Integer makerNo;
+    private Alarm alarm;
+    private User receiver;
+    private User maker;
 
     // 기본 생성자
     public AlarmRelation() {}
 
-    // Getter 및 Setter
-    public Integer getAlarmNo() {
-        return alarmNo;
-    }
+	public Alarm getAlarm() {
+		return alarm;
+	}
 
-    public void setAlarmNo(Integer alarmNo) {
-        this.alarmNo = alarmNo;
-    }
+	public void setAlarm(Alarm alarm) {
+		this.alarm = alarm;
+	}
 
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public User getReceiver() {
+		return receiver;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
+	}
 
-    public Integer getMakerNo() {
-        return makerNo;
-    }
+	public User getMaker() {
+		return maker;
+	}
 
-    public void setMakerNo(Integer makerNo) {
-        this.makerNo = makerNo;
-    }
+	public void setMaker(User maker) {
+		this.maker = maker;
+	}
 }

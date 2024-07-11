@@ -1,36 +1,40 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Category;
+import com.ksw.object.entity.Report;
+import com.ksw.object.entity.User;
+
 public class ReportCategory {
 
-    private Integer userNo;
-    private Integer categoryNo;
-    private Integer reportNo;
+    private User user;
+    private Category category;
+    private Report report;
 
     // 기본 생성자
     public ReportCategory() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public Integer getCategoryNo() {
-        return categoryNo;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public void setCategoryNo(Integer categoryNo) {
-        this.categoryNo = categoryNo;
-    }
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
-    public Integer getReportNo() {
-        return reportNo;
-    }
+	public Report getReport() {
+		return report;
+	}
 
-    public void setReportNo(Integer reportNo) {
-        this.reportNo = reportNo;
-    }
+	public void setReport(Report report) {
+		this.report = report;
+	}
+
 }

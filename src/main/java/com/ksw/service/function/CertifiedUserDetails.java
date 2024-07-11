@@ -4,45 +4,43 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ksw.object.entity.User;
+import com.ksw.vo.forObject.entity.UserVO;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class AuthTranslationService implements UserDetails {
-	
-    private User user;
+public class CertifiedUserDetails implements UserDetails {
 
-    public AuthTranslationService(User user) {
-        this.user = user;
-        System.out.println("CustomUserDetails created for user: " + user);
+    private UserVO userVO;
+    private String password;
+
+    public CertifiedUserDetails(UserVO userVO, String password) {
+        this.userVO = userVO;
+        this.password = password;
+        System.out.println("CertifiedUserDetails created for userVO: " + userVO);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (user.getType() == 1) {
+        if (userVO.getType() == 1) {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        } else if (user.getType() == 2) {
+        } else if (userVO.getType() == 2) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-
         }
-        System.out.println("Authorities for user " + user.getUserId() + ": " + authorities);
+        System.out.println("Authorities for user " + userVO.getUserId() + ": " + authorities);
         return authorities;
     }
+
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password; // User 객체에서 가져온 비밀번호를 반환
     }
 
-    public User getUser() {
-    	return this.user;
-    }
-    
     @Override
     public String getUsername() {
-        return user.getUserId();
+        return userVO.getUserId();
     }
 
     @Override
@@ -62,6 +60,10 @@ public class AuthTranslationService implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getIsActive();
+        return userVO.getIsActive();
+    }
+
+    public UserVO getUserVO() {
+        return userVO;
     }
 }

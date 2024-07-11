@@ -2,56 +2,69 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.NoteVO;
+import com.ksw.vo.forObject.entity.UserVO;
+
 public final class NoteUserVO {
-    private final Integer userNo;
-    private final Integer noteNo;
+    private final UserVO userVO;
+    private final NoteVO noteVO;
 
     private NoteUserVO(Builder builder) {
-        this.userNo = builder.userNo;
-        this.noteNo = builder.noteNo;
+        this.userVO = builder.userVO;
+        this.noteVO = builder.noteVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
-    }
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+    public NoteUserVO(UserVO userVO, NoteVO noteVO) {
+		super();
+		this.userVO = userVO;
+		this.noteVO = noteVO;
+	}
 
-    @Override
+
+	public UserVO getUserVO() {
+		return userVO;
+	}
+
+
+	public NoteVO getNoteVO() {
+		return noteVO;
+	}
+
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NoteUserVO that = (NoteUserVO) o;
-        return Objects.equals(userNo, that.userNo) &&
-                Objects.equals(noteNo, that.noteNo);
+        return Objects.equals(userVO, that.userVO) &&
+                Objects.equals(noteVO, that.noteVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userNo, noteNo);
+        return Objects.hash(userVO, noteVO);
     }
 
     @Override
     public String toString() {
         return "NoteUserVO{" +
-                "userNo=" + userNo +
-                ", noteNo=" + noteNo +
+                "userVO=" + userVO +
+                ", noteVO=" + noteVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer userNo;
-        private Integer noteNo;
+        private UserVO userVO;
+        private NoteVO noteVO;
 
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
 
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
+        public Builder noteVO(NoteVO noteVO) {
+            this.noteVO = noteVO;
             return this;
         }
 

@@ -1,36 +1,39 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Note;
+import com.ksw.object.entity.Report;
+import com.ksw.object.entity.User;
+
 public class ReportNote {
 
-    private Integer userNo;
-    private Integer noteNo;
-    private Integer reportNo;
+    private User user;
+    private Note note;
+    private Report report;
 
-    // 기본 생성자
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
+	public Report getReport() {
+		return report;
+	}
+
+	public void setReport(Report report) {
+		this.report = report;
+	}
+
+	// 기본 생성자
     public ReportNote() {}
-
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    public Integer getNoteNo() {
-        return noteNo;
-    }
-
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
-
-    public Integer getReportNo() {
-        return reportNo;
-    }
-
-    public void setReportNo(Integer reportNo) {
-        this.reportNo = reportNo;
-    }
 }
