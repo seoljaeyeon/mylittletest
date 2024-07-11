@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+
+import com.ksw.object.relation.NoteCategory;
 
 @Mapper
 public interface NoteCategoryMapper {
@@ -14,11 +17,23 @@ public interface NoteCategoryMapper {
 			+ "INSERT INTO noteCategory "
 			+ "(categoryNo, noteNo) "
 			+ "VALUES "
-			+ "(#{categoryNo}, #{noteNo})")
-	void insert(@Param("categoryNo") Integer categoryNo, @Param("noteNo") Integer noteNo);
+			+ "(#{category.categoryNo}, #{note.noteNo})")
+	void insert(NoteCategory noteCategory);
 	
     @Select("SELECT noteNo FROM noteCategory "
     		+ "WHERE categoryNo = #{categoryNo}")
     List<Integer> findNoteNosByCategoryNo(int categoryNo);
+    
+    @Select("SELECT c.* FROM category c "
+    		+ "join categoryView cv "
+    		+ "on cv.categoryNo = c.categoryNo "
+    		+ "where cv.noteNo = #{noteNo}")
+    @Results({
+    	@Result(property = "category.categoryNo", column = "categoryNo"),
+    	@Result(property = "category.categoryTitle", column = "categoryTitle"),
+    	@Result(property = "category.isActive", column = "isActive"),
+    	@Result(property = "category.createdAt", column = "createdAt")
+    	})
+    NoteCategory getNoteCategorybynoteNo(Integer noteNo);
 	
 }

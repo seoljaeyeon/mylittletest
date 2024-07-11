@@ -73,7 +73,7 @@
 			login-page="/login"
 			default-target-url="/index" 
 			username-parameter="userId"
-			password-parameter="password" />
+            always-use-default-target="false" />
 	</security:http>
 
 	<beans:bean id="authenticationService"

@@ -16,6 +16,8 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    
+    
 	
     // Entity -> DTO 변환 메소드
     public CategoryDTO convertToDTO(Category category) {

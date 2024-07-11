@@ -1,45 +1,44 @@
 package com.ksw.mylittletest;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ksw.dto.forObject.entity.ReplyDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.function.QuestionDTO;
-import com.ksw.object.entity.Reply;
 import com.ksw.service.forObject.entity.ReplyService;
-import com.ksw.service.forObject.relation.NoteReplyService;
+import com.ksw.service.forObject.entity.UserService;
 import com.ksw.service.forObject.relation.ReplyUserService;
+import com.ksw.service.function.CertifiedUserDetails;
 
 @Controller
 public class ReplyController {
 
 	@Autowired
-	private NoteReplyService noteReplyService; 
-	
-	@Autowired
 	private ReplyService replyService;
 	
 	@Autowired
-	private ReplyService userService;
+	private UserService userService;
 	
 	@Autowired 
 	private ReplyUserService replyUserService;
 	
-	/*
-	 * @PostMapping("/replyWrite") public String replyWrite(
-	 * 
-	 * @RequestParam(name = "noteNo", required = false) Integer noteNo,
-	 * 
-	 * @ModelAttribute ReplyDTO replyDTO,
-	 * 
-	 * @ModelAttribute UserDTO userDTO) { replyService.writeReply(replyDTO);
-	 * replyUserService.writeReplyRelation(replyDTO, userDTO); return
-	 * "redirect:/view?noteNo=" + noteNo; }
-	 */
+	
+	@PostMapping("/replyWrite/{noteNo}") 
+	public String replyWrite(
+			@AuthenticationPrincipal CertifiedUserDetails userinfo,
+            @PathVariable("noteNo") Integer noteNo,
+			@ModelAttribute ReplyDTO replyDTO,
+			HttpServletRequest request) {
+		
+		UserDTO userDTO = userService.convertVOToDTO(userinfo.getUserVO());
+		replyService.writeReply(replyDTO);
+		replyUserService.writeReplayRelation(replyDTO, userDTO); 
+		return "redirect:/view/"+noteNo;
+	}
 }

@@ -1,83 +1,66 @@
 package com.ksw.vo.forObject.relation;
 
-import java.sql.Timestamp;
+
 import java.util.Objects;
 
-import com.ksw.vo.forObject.entity.AnswerVO;
 import com.ksw.vo.forObject.entity.NoteVO;
 import com.ksw.vo.forObject.entity.UserVO;
+import com.ksw.vo.forObject.entity.ViewVO;
 
-public class AnswerHistoryVO {
+public class NoteViewVO {
 
     private final NoteVO noteVO;
-    private final AnswerVO answerVO;
+    private final ViewVO viewVO;
     private final UserVO userVO;
 
     // 생성자
-    public AnswerHistoryVO(NoteVO noteVO, AnswerVO answerVO, UserVO userVO, Timestamp createdAt, Timestamp updatedAt) {
+    public NoteViewVO(NoteVO noteVO, ViewVO viewVO, UserVO userVO) {
         this.noteVO = noteVO;
-        this.answerVO = answerVO;
+        this.viewVO = viewVO;
         this.userVO = userVO;
     }
 
     // Getters
-    public NoteVO getNoteVO() {
+    public NoteVO getnoteVO() {
         return noteVO;
     }
 
-    public AnswerVO getAnswerVO() {
-        return answerVO;
+    public ViewVO getViewVO() {
+        return viewVO;
     }
-
-    public UserVO getUserVO() {
-        return userVO;
-    }
-
 
     // 빌더 패턴 구현
     public static class Builder {
         private NoteVO noteVO;
-        private AnswerVO answerVO;
+        private ViewVO viewVO;
         private UserVO userVO;
-        private Timestamp createdAt;
-        private Timestamp updatedAt;
 
         public Builder noteVO(NoteVO noteVO) {
             this.noteVO = noteVO;
             return this;
         }
 
-        public Builder answerVO(AnswerVO answerVO) {
-            this.answerVO = answerVO;
+        public Builder viewVO(ViewVO viewVO) {
+            this.viewVO = viewVO;
             return this;
         }
-
+        
         public Builder userVO(UserVO userVO) {
             this.userVO = userVO;
             return this;
         }
 
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder updatedAt(Timestamp updatedAt) {
-            this.updatedAt = updatedAt;
-            return this;
-        }
-
-        public AnswerHistoryVO build() {
-            return new AnswerHistoryVO(noteVO, answerVO, userVO, createdAt, updatedAt);
+        public NoteViewVO build() {
+            return new NoteViewVO(noteVO, viewVO, userVO);
         }
     }
 
     // toString 메소드
     @Override
     public String toString() {
-        return "AnswerHistoryVO{" +
+        return "CategoryViewVO{" +
                 "noteVO=" + noteVO +
-                ", answerVO=" + answerVO +
+                ", viewVO=" + viewVO +
                 ", userVO=" + userVO +
                 '}';
     }
@@ -87,15 +70,15 @@ public class AnswerHistoryVO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AnswerHistoryVO that = (AnswerHistoryVO) o;
+        NoteViewVO that = (NoteViewVO) o;
         return Objects.equals(noteVO, that.noteVO) &&
-                Objects.equals(answerVO, that.answerVO) &&
+                Objects.equals(viewVO, that.viewVO) &&
                 Objects.equals(userVO, that.userVO);
     }
 
     // hashCode 메소드
     @Override
     public int hashCode() {
-        return Objects.hash(noteVO, answerVO, userVO);
+        return Objects.hash(noteVO, viewVO, userVO);
     }
 }

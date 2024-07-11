@@ -1,29 +1,20 @@
 package com.ksw.service.forObject.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ksw.dao.forObject.entity.NoteRepository;
 import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.object.entity.Note;
 import com.ksw.service.forObject.relation.FavoriteNoteService;
-import com.ksw.service.function.ViewHistoryService;
 import com.ksw.vo.forObject.entity.NoteVO;
-
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NoteService {
 
     @Autowired
     private NoteRepository noteRepository;
-    
-    @Autowired
-    ViewHistoryService viewHistoryService;
     
     @Autowired
     FavoriteNoteService favoriteNoteService;

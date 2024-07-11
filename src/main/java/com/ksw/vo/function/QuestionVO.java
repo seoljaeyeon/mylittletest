@@ -6,16 +6,15 @@ import java.util.Objects;
 import com.ksw.vo.forObject.entity.CategoryVO;
 import com.ksw.vo.forObject.entity.FileVO;
 import com.ksw.vo.forObject.entity.NoteVO;
-import com.ksw.vo.forObject.entity.ReplyVO;
 import com.ksw.vo.forObject.entity.UserVO;
+import com.ksw.vo.forObject.relation.ReplyUserVO;
 
 public final class QuestionVO {
     private final NoteVO noteVO;
-    private final UserVO userVO;
     private final UserVO writerVO;
     private final CategoryVO categoryVO;
     private final FileVO fileVO;
-    private final List<ReplyVO> replies;
+    private final List<ReplyUserVO> replies;
     private final int viewCount;
     private final int favoriteCount;
     private final int answerType;
@@ -23,7 +22,6 @@ public final class QuestionVO {
 
     private QuestionVO(Builder builder) {
         this.noteVO = builder.noteVO;
-        this.userVO = builder.userVO;
 		this.writerVO = builder.writerVO;
         this.categoryVO = builder.categoryVO;
         this.fileVO = builder.fileVO;
@@ -46,10 +44,6 @@ public final class QuestionVO {
 		return isFavorite;
 	}
 
-	public UserVO getUserVO() {
-        return userVO;
-    }
-
     public CategoryVO getCategoryVO() {
         return categoryVO;
     }
@@ -58,7 +52,7 @@ public final class QuestionVO {
         return fileVO;
     }
 
-    public List<ReplyVO> getReplies() {
+    public List<ReplyUserVO> getReplies() {
 		return replies;
 	}
 
@@ -86,20 +80,19 @@ public final class QuestionVO {
 		return answerType == other.answerType && Objects.equals(categoryVO, other.categoryVO)
 				&& favoriteCount == other.favoriteCount && Objects.equals(fileVO, other.fileVO)
 				&& Objects.equals(isFavorite, other.isFavorite) && Objects.equals(noteVO, other.noteVO)
-				&& Objects.equals(replies, other.replies) && Objects.equals(userVO, other.userVO)
+				&& Objects.equals(replies, other.replies) 
 				&& viewCount == other.viewCount && Objects.equals(writerVO, other.writerVO);
 	}
 
     @Override
 	public int hashCode() {
-		return Objects.hash(answerType, categoryVO, favoriteCount, fileVO, isFavorite, noteVO, replies, userVO,
+		return Objects.hash(answerType, categoryVO, favoriteCount, fileVO, isFavorite, noteVO, replies,
 				viewCount, writerVO);
 	}
 
     @Override
 	public String toString() {
 		return "QuestionVO [noteVO=" + noteVO + 
-				", userVO=" + userVO + 
 				", writerVO=" + writerVO + 
 				", categoryVO="	+ categoryVO + 
 				", fileVO=" + fileVO + 
@@ -114,10 +107,9 @@ public final class QuestionVO {
     public static class Builder {
         private UserVO writerVO;
 		private NoteVO noteVO;
-        private UserVO userVO;
         private CategoryVO categoryVO;
         private FileVO fileVO;
-        private List<ReplyVO> replies;
+        private List<ReplyUserVO> replies;
         private int viewCount;
         private int favoriteCount;
         private int answerType;
@@ -133,11 +125,6 @@ public final class QuestionVO {
             return this;
         }
 
-        public Builder userVO(UserVO userVO) {
-            this.userVO = userVO;
-            return this;
-        }
-
         public Builder categoryVO(CategoryVO categoryVO) {
             this.categoryVO = categoryVO;
             return this;
@@ -148,7 +135,7 @@ public final class QuestionVO {
             return this;
         }
         
-        public Builder replies(List<ReplyVO> replies) {
+        public Builder replies(List<ReplyUserVO> replies) {
             this.replies = replies;
             return this;
         }
