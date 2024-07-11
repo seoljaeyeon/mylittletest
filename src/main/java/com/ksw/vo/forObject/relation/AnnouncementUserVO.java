@@ -2,61 +2,71 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
-public final class AnnouncementUserVO {
-    private final Integer announcementNo;
-    private final Integer userNo;
+import com.ksw.vo.forObject.entity.AnnouncementVO;
+import com.ksw.vo.forObject.entity.UserVO;
 
-    private AnnouncementUserVO(Builder builder) {
-        this.announcementNo = builder.announcementNo;
-        this.userNo = builder.userNo;
+public class AnnouncementUserVO {
+
+    private final AnnouncementVO announcementVO;
+    private final UserVO userVO;
+
+    // 생성자
+    public AnnouncementUserVO(AnnouncementVO announcementVO, UserVO userVO) {
+        this.announcementVO = announcementVO;
+        this.userVO = userVO;
     }
 
-    public Integer getAnnouncementNo() {
-        return announcementNo;
+    // Getters
+    public AnnouncementVO getAnnouncementVO() {
+        return announcementVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
+    public UserVO getUserVO() {
+        return userVO;
     }
 
+    // 빌더 패턴 구현
+    public static class Builder {
+        private AnnouncementVO announcementVO;
+        private UserVO userVO;
+
+        public Builder announcementVO(AnnouncementVO announcementVO) {
+            this.announcementVO = announcementVO;
+            return this;
+        }
+
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
+            return this;
+        }
+
+        public AnnouncementUserVO build() {
+            return new AnnouncementUserVO(announcementVO, userVO);
+        }
+    }
+
+    // toString 메소드
+    @Override
+    public String toString() {
+        return "AnnouncementUserVO{" +
+                "announcementVO=" + announcementVO +
+                ", userVO=" + userVO +
+                '}';
+    }
+
+    // equals 메소드
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnnouncementUserVO that = (AnnouncementUserVO) o;
-        return Objects.equals(announcementNo, that.announcementNo) &&
-                Objects.equals(userNo, that.userNo);
+        return Objects.equals(announcementVO, that.announcementVO) &&
+                Objects.equals(userVO, that.userVO);
     }
 
+    // hashCode 메소드
     @Override
     public int hashCode() {
-        return Objects.hash(announcementNo, userNo);
-    }
-
-    @Override
-    public String toString() {
-        return "AnnouncementUserVO{" +
-                "announcementNo=" + announcementNo +
-                ", userNo=" + userNo +
-                '}';
-    }
-
-    public static class Builder {
-        private Integer announcementNo;
-        private Integer userNo;
-
-        public Builder announcementNo(Integer announcementNo) {
-            this.announcementNo = announcementNo;
-            return this;
-        }
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public AnnouncementUserVO build() {
-            return new AnnouncementUserVO(this);
-        }
+        return Objects.hash(announcementVO, userVO);
     }
 }

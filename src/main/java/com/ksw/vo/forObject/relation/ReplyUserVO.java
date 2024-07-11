@@ -2,56 +2,65 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.ReplyVO;
+import com.ksw.vo.forObject.entity.UserVO;
+
 public final class ReplyUserVO {
-    private final Integer userNo;
-    private final Integer replyNo;
+    private final UserVO userVO;
+    private final ReplyVO replyVO;
 
     private ReplyUserVO(Builder builder) {
-        this.userNo = builder.userNo;
-        this.replyNo = builder.replyNo;
+        this.userVO = builder.userVO;
+        this.replyVO = builder.replyVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
-    }
+    public ReplyUserVO(UserVO userVO, ReplyVO replyVO) {
+		super();
+		this.userVO = userVO;
+		this.replyVO = replyVO;
+	}
 
-    public Integer getReplyNo() {
-        return replyNo;
-    }
+	public UserVO getUserVO() {
+		return userVO;
+	}
 
-    @Override
+	public ReplyVO getReplyVO() {
+		return replyVO;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReplyUserVO that = (ReplyUserVO) o;
-        return Objects.equals(userNo, that.userNo) &&
-                Objects.equals(replyNo, that.replyNo);
+        return Objects.equals(userVO, that.userVO) &&
+                Objects.equals(replyVO, that.replyVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userNo, replyNo);
+        return Objects.hash(userVO, replyVO);
     }
 
     @Override
     public String toString() {
         return "ReplyUserVO{" +
-                "userNo=" + userNo +
-                ", replyNo=" + replyNo +
+                "userVO=" + userVO +
+                ", replyVO=" + replyVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer userNo;
-        private Integer replyNo;
+        private UserVO userVO;
+        private ReplyVO replyVO;
 
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
 
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
+        public Builder replyVO(ReplyVO replyVO) {
+            this.replyVO = replyVO;
             return this;
         }
 

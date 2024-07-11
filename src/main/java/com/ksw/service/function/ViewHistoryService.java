@@ -18,15 +18,6 @@ import com.ksw.vo.function.ViewHistoryVO;
 @Service
 public class ViewHistoryService {
 
-    @Autowired
-    private NoteViewRepository noteViewRepository;
-
-    @Autowired
-    private ViewUserNoteMapper viewUserNoteMapper;
-	
-    @Autowired
-    private NoteCategoryMapper noteCategoryMapper;
-
     // 사용자 전체 본 문제 리스트 로딩
     @Transactional(readOnly = true)
     public List<ViewHistoryVO> getHistory(int userNo) {

@@ -1,27 +1,30 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Note;
+import com.ksw.object.entity.Reply;
+
 public class NoteReply {
 
-    private Integer noteNo;
-    private Integer replyNo;
+    private Note note;
+    private Reply reply;
 
     // 기본 생성자
     public NoteReply() {}
 
-    // Getter 및 Setter
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public Note getNote() {
+		return note;
+	}
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public void setNote(Note note) {
+		this.note = note;
+	}
 
-    public Integer getReplyNo() {
-        return replyNo;
-    }
+	public Reply getReply() {
+		return reply;
+	}
 
-    public void setReplyNo(Integer replyNo) {
-        this.replyNo = replyNo;
-    }
+	public void setReply(Reply reply) {
+		this.reply = reply;
+	}
+
 }

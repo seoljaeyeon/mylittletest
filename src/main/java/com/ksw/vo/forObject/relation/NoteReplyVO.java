@@ -2,56 +2,69 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.NoteVO;
+import com.ksw.vo.forObject.entity.ReplyVO;
+
 public final class NoteReplyVO {
-    private final Integer noteNo;
-    private final Integer replyNo;
+    private final NoteVO noteVO;
+    private final ReplyVO replyVO;
 
     private NoteReplyVO(Builder builder) {
-        this.noteNo = builder.noteNo;
-        this.replyNo = builder.replyNo;
+        this.noteVO = builder.noteVO;
+        this.replyVO = builder.replyVO;
     }
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
 
-    public Integer getReplyNo() {
-        return replyNo;
-    }
+    public NoteReplyVO(NoteVO noteVO, ReplyVO replyVO) {
+		super();
+		this.noteVO = noteVO;
+		this.replyVO = replyVO;
+	}
 
-    @Override
+
+	public NoteVO getNoteVO() {
+		return noteVO;
+	}
+
+
+	public ReplyVO getReplyVO() {
+		return replyVO;
+	}
+
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NoteReplyVO that = (NoteReplyVO) o;
-        return Objects.equals(noteNo, that.noteNo) &&
-                Objects.equals(replyNo, that.replyNo);
+        return Objects.equals(noteVO, that.noteVO) &&
+                Objects.equals(replyVO, that.replyVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteNo, replyNo);
+        return Objects.hash(noteVO, replyVO);
     }
 
     @Override
     public String toString() {
         return "NoteReplyVO{" +
-                "noteNo=" + noteNo +
-                ", replyNo=" + replyNo +
+                "noteVO=" + noteVO +
+                ", replyVO=" + replyVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer noteNo;
-        private Integer replyNo;
+        private NoteVO noteVO;
+        private ReplyVO replyVO;
 
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
+        public Builder noteVO(NoteVO noteVO) {
+            this.noteVO = noteVO;
             return this;
         }
 
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
+        public Builder replyVO(ReplyVO replyVO) {
+            this.replyVO = replyVO;
             return this;
         }
 

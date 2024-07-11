@@ -2,70 +2,84 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.UserVO;
+
 public final class ReportManagementVO {
-    private final Integer userNo;
-    private final Integer managerNo;
-    private final Integer solverNo;
+    private final UserVO userVO;
+    private final UserVO managerVO;
+    private final UserVO solverVO;
 
     private ReportManagementVO(Builder builder) {
-        this.userNo = builder.userNo;
-        this.managerNo = builder.managerNo;
-        this.solverNo = builder.solverNo;
+        this.userVO = builder.userVO;
+        this.managerVO = builder.managerVO;
+        this.solverVO = builder.solverVO;
     }
 
-    public Integer getUserNo() {
-        return userNo;
-    }
 
-    public Integer getManagerNo() {
-        return managerNo;
-    }
+	public UserVO getUserVO() {
+		return userVO;
+	}
 
-    public Integer getSolverNo() {
-        return solverNo;
-    }
 
-    @Override
+	public UserVO getManagerVO() {
+		return managerVO;
+	}
+
+
+	public ReportManagementVO(UserVO userVO, UserVO managerVO, UserVO solverVO) {
+		super();
+		this.userVO = userVO;
+		this.managerVO = managerVO;
+		this.solverVO = solverVO;
+	}
+
+
+	public UserVO getSolverVO() {
+		return solverVO;
+	}
+
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReportManagementVO that = (ReportManagementVO) o;
-        return Objects.equals(userNo, that.userNo) &&
-                Objects.equals(managerNo, that.managerNo) &&
-                Objects.equals(solverNo, that.solverNo);
+        return Objects.equals(userVO, that.userVO) &&
+                Objects.equals(managerVO, that.managerVO) &&
+                Objects.equals(solverVO, that.solverVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userNo, managerNo, solverNo);
+        return Objects.hash(userVO, managerVO, solverVO);
     }
 
     @Override
     public String toString() {
         return "ReportManagementVO{" +
-                "userNo=" + userNo +
-                ", managerNo=" + managerNo +
-                ", solverNo=" + solverNo +
+                "userVO=" + userVO +
+                ", managerVO=" + managerVO +
+                ", solverVO=" + solverVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer userNo;
-        private Integer managerNo;
-        private Integer solverNo;
+        private UserVO userVO;
+        private UserVO managerVO;
+        private UserVO solverVO;
 
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
+        public Builder userVO(UserVO userVO) {
+            this.userVO = userVO;
             return this;
         }
 
-        public Builder managerNo(Integer managerNo) {
-            this.managerNo = managerNo;
+        public Builder managerVO(UserVO managerVO) {
+            this.managerVO = managerVO;
             return this;
         }
 
-        public Builder solverNo(Integer solverNo) {
-            this.solverNo = solverNo;
+        public Builder solverVO(UserVO solverVO) {
+            this.solverVO = solverVO;
             return this;
         }
 

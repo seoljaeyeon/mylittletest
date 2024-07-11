@@ -1,27 +1,29 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.File;
+import com.ksw.object.entity.Note;
+
 public class FileNote {
 
-    private Integer noteNo;
-    private Integer fileNo;
+    private Note note;
+    private File file;
 
     // 기본 생성자
     public FileNote() {}
 
-    // Getter 및 Setter
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public Note getNote() {
+		return note;
+	}
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public void setNote(Note note) {
+		this.note = note;
+	}
 
-    public Integer getFileNo() {
-        return fileNo;
-    }
+	public File getFile() {
+		return file;
+	}
 
-    public void setFileNo(Integer fileNo) {
-        this.fileNo = fileNo;
-    }
+	public void setFile(File file) {
+		this.file = file;
+	}
 }

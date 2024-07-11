@@ -1,27 +1,29 @@
 package com.ksw.object.relation;
 
+import com.ksw.object.entity.Announcement;
+import com.ksw.object.entity.User;
+
 public class AnnouncementUser {
 
-    private Integer announcementNo;
-    private Integer userNo;
+    private Announcement announcement;
+    private User user;
 
     // 기본 생성자
     public AnnouncementUser() {}
 
-    // Getter 및 Setter
-    public Integer getAnnouncementNo() {
-        return announcementNo;
-    }
+	public Announcement getAnnouncement() {
+		return announcement;
+	}
 
-    public void setAnnouncementNo(Integer announcementNo) {
-        this.announcementNo = announcementNo;
-    }
+	public void setAnnouncement(Announcement announcement) {
+		this.announcement = announcement;
+	}
 
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

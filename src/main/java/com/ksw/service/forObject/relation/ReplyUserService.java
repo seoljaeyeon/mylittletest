@@ -1,52 +1,35 @@
 package com.ksw.service.forObject.relation;
 
-import com.ksw.dao.forObject.entity.ReplyRepository;
-import com.ksw.dao.forObject.relation.ReplyUserMapper;
-import com.ksw.dto.forObject.entity.ReplyDTO;
-import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.forObject.relation.ReplyUserDTO;
-import com.ksw.object.entity.Reply;
-import com.ksw.object.relation.ReplyUser;
-import com.ksw.vo.forObject.entity.ReplyVO;
-import com.ksw.vo.forObject.relation.ReplyUserVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.ksw.dto.forObject.relation.ReplyUserDTO;
+import com.ksw.object.relation.ReplyUser;
+import com.ksw.service.forObject.entity.ReplyService;
+import com.ksw.service.forObject.entity.UserService;
+import com.ksw.vo.forObject.relation.ReplyUserVO;
 
 @Service
 public class ReplyUserService {
 
 	@Autowired
-	private ReplyUserMapper replyUserMapper;
-	
-	@Transactional
-	public ReplyUserVO writeReplyRelation(ReplyDTO replyDTO, UserDTO userDTO) {
-		
-		ReplyUser replyUser = replyUserMapper.insert(replyDTO.getReplyNo(), userDTO.getUserNo());
-		return this.convertToVO(this.convertToDTO(replyUser));
-	}
+	private ReplyService replyService;
+	@Autowired
+	private UserService userService;
 	
     // Entity -> DTO 변환 메소드
     public ReplyUserDTO convertToDTO(ReplyUser replyUserEntity) {
-        return new ReplyUserDTO.Builder()
-                .userNo(replyUserEntity.getUserNo())
-                .replyNo(replyUserEntity.getReplyNo())
-                .build();
-    }
-    
-    public ReplyUser convertToEntity(ReplyUserDTO replyUserDTO) {
-    	ReplyUser replyUser = null;
-    	replyUser.setReplyNo(replyUserDTO.getReplyNo());
-    	replyUser.setUserNo(replyUserDTO.getUserNo());
-    	return replyUser;
+    	ReplyUserDTO dto = new ReplyUserDTO();
+    	dto.setReplyDTO(replyService.convertToDTO(replyUserEntity.getReply()));
+    	dto.setUserDTO(userService.convertToDTO(replyUserEntity.getUser()));
+        return dto;
     }
 
     // DTO -> VO 변환 메소드
     public ReplyUserVO convertToVO(ReplyUserDTO replyUserDTO) {
         return new ReplyUserVO.Builder()
-                .userNo(replyUserDTO.getUserNo())
-                .replyNo(replyUserDTO.getReplyNo())
+                .userVO(userService.convertToVO(replyUserDTO.getUserDTO()))
+                .replyVO(replyService.convertToVO(replyUserDTO.getReplyDTO()))
                 .build();
     }
 }

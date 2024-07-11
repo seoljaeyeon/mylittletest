@@ -2,56 +2,67 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.AnnouncementVO;
+import com.ksw.vo.forObject.entity.FileVO;
+
 public final class FileAnnouncementVO {
-    private final Integer announcementNo;
-    private final Integer fileNo;
+    private final AnnouncementVO announcementVO;
+    private final FileVO fileVO;
 
     private FileAnnouncementVO(Builder builder) {
-        this.announcementNo = builder.announcementNo;
-        this.fileNo = builder.fileNo;
+        this.announcementVO = builder.announcementVO;
+        this.fileVO = builder.fileVO;
     }
 
-    public Integer getAnnouncementNo() {
-        return announcementNo;
-    }
+    public AnnouncementVO getAnnouncementVO() {
+		return announcementVO;
+	}
 
-    public Integer getFileNo() {
-        return fileNo;
-    }
+	public FileVO getFileVO() {
+		return fileVO;
+	}
 
-    @Override
+	public FileAnnouncementVO(AnnouncementVO announcementVO, FileVO fileVO) {
+		super();
+		this.announcementVO = announcementVO;
+		this.fileVO = fileVO;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FileAnnouncementVO that = (FileAnnouncementVO) o;
-        return Objects.equals(announcementNo, that.announcementNo) &&
-                Objects.equals(fileNo, that.fileNo);
+        return Objects.equals(announcementVO, that.announcementVO) &&
+                Objects.equals(fileVO, that.fileVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(announcementNo, fileNo);
+        return Objects.hash(announcementVO, fileVO);
     }
 
-    @Override
+
+
+	@Override
     public String toString() {
         return "FileAnnouncementVO{" +
-                "announcementNo=" + announcementNo +
-                ", fileNo=" + fileNo +
+                "announcementVO=" + announcementVO +
+                ", fileVO=" + fileVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer announcementNo;
-        private Integer fileNo;
+        private AnnouncementVO announcementVO;
+        private FileVO fileVO;
 
-        public Builder announcementNo(Integer announcementNo) {
-            this.announcementNo = announcementNo;
+        public Builder announcementVO(AnnouncementVO announcementVO) {
+            this.announcementVO = announcementVO;
             return this;
         }
 
-        public Builder fileNo(Integer fileNo) {
-            this.fileNo = fileNo;
+        public Builder fileVO(FileVO fileVO) {
+            this.fileVO = fileVO;
             return this;
         }
 

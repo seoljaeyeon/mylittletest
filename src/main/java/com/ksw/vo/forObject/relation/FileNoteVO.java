@@ -2,56 +2,69 @@ package com.ksw.vo.forObject.relation;
 
 import java.util.Objects;
 
+import com.ksw.vo.forObject.entity.FileVO;
+import com.ksw.vo.forObject.entity.NoteVO;
+
 public final class FileNoteVO {
-    private final Integer noteNo;
-    private final Integer fileNo;
+    private final NoteVO noteVO;
+    private final FileVO fileVO;
 
     private FileNoteVO(Builder builder) {
-        this.noteNo = builder.noteNo;
-        this.fileNo = builder.fileNo;
+        this.noteVO = builder.noteVO;
+        this.fileVO = builder.fileVO;
     }
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
 
-    public Integer getFileNo() {
-        return fileNo;
-    }
+    public FileNoteVO(NoteVO noteVO, FileVO fileVO) {
+		super();
+		this.noteVO = noteVO;
+		this.fileVO = fileVO;
+	}
 
-    @Override
+
+	public NoteVO getNoteVO() {
+		return noteVO;
+	}
+
+
+	public FileVO getFileVO() {
+		return fileVO;
+	}
+
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FileNoteVO that = (FileNoteVO) o;
-        return Objects.equals(noteNo, that.noteNo) &&
-                Objects.equals(fileNo, that.fileNo);
+        return Objects.equals(noteVO, that.noteVO) &&
+                Objects.equals(fileVO, that.fileVO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noteNo, fileNo);
+        return Objects.hash(noteVO, fileVO);
     }
 
     @Override
     public String toString() {
         return "FileNoteVO{" +
-                "noteNo=" + noteNo +
-                ", fileNo=" + fileNo +
+                "noteVO=" + noteVO +
+                ", fileVO=" + fileVO +
                 '}';
     }
 
     public static class Builder {
-        private Integer noteNo;
-        private Integer fileNo;
+        private NoteVO noteVO;
+        private FileVO fileVO;
 
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
+        public Builder noteVO(NoteVO noteVO) {
+            this.noteVO = noteVO;
             return this;
         }
 
-        public Builder fileNo(Integer fileNo) {
-            this.fileNo = fileNo;
+        public Builder fileVO(FileVO fileVO) {
+            this.fileVO = fileVO;
             return this;
         }
 
