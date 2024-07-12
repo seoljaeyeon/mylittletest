@@ -476,7 +476,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </style>
 
 <div class="container">
-    <form id="writeFrm" class="writeFrm" name="writeFrm" action="writeok.jsp">
+    <form id="writeFrm" class="writeFrm" name="writeFrm" action="writeok.jsp" enctype="multipart/form-data"> 
         <div class="subject-input-container">
     		<div class="subject-input-shadow">
         		<div class="subject-container">
