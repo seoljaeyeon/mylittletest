@@ -1,24 +1,27 @@
 package com.ksw.service.function;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.ksw.vo.forObject.entity.UserVO;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CertifiedUserDetails implements UserDetails {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-    private UserVO userVO;
-    private String password;
+import com.ksw.object.entity.User;
+import com.ksw.vo.forObject.entity.UserVO;
+
+public class CertifiedUserDetails implements UserDetails  {
+	
+	private static final long serialVersionUID = 1L;
+	
+	private UserVO userVO;
+	private String password;
 
     public CertifiedUserDetails(UserVO userVO, String password) {
         this.userVO = userVO;
         this.password = password;
-        System.out.println("CertifiedUserDetails created for userVO: " + userVO);
+        System.out.println("CertifiedUserDetails created for user: " + userVO);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class CertifiedUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password; // User 객체에서 가져온 비밀번호를 반환
+        return password; 
     }
 
     @Override

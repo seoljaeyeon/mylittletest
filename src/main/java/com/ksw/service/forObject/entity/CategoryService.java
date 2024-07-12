@@ -1,26 +1,20 @@
 package com.ksw.service.forObject.entity;
 
-import com.ksw.dao.forObject.entity.CategoryRepository;
+import org.springframework.stereotype.Service;
+
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.object.entity.Category;
-import com.ksw.object.entity.Note;
 import com.ksw.vo.forObject.entity.CategoryVO;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-    
-    
-	
     // Entity -> DTO 변환 메소드
     public CategoryDTO convertToDTO(Category category) {
+    	if (category == null) {
+    		return null;
+    	}
+    	
         return new CategoryDTO.Builder()
                 .categoryNo(category.getCategoryNo())
                 .categoryTitle(category.getCategoryTitle())
@@ -30,6 +24,9 @@ public class CategoryService {
     }
     
     public Category convertToEntity(CategoryDTO categoryDTO) {
+    	if (categoryDTO == null) {
+    		return null;
+    	}
         Category category = new Category();
         category.setCategoryNo(categoryDTO.getCategoryNo());
         category.setCategoryTitle(categoryDTO.getCategoryTitle());
@@ -40,6 +37,10 @@ public class CategoryService {
 
     // DTO -> VO 변환 메소드
     public CategoryVO convertToVO(CategoryDTO categoryDTO) {
+    	if(categoryDTO == null) {
+    		return null;
+    	}
+    	
         return new CategoryVO.Builder()
                 .categoryNo(categoryDTO.getCategoryNo())
                 .categoryTitle(categoryDTO.getCategoryTitle())

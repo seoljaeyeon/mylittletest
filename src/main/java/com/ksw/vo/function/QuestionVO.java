@@ -15,9 +15,9 @@ public final class QuestionVO {
     private final CategoryVO categoryVO;
     private final FileVO fileVO;
     private final List<ReplyUserVO> replies;
-    private final int viewCount;
-    private final int favoriteCount;
-    private final int answerType;
+    private final Integer viewCount;
+    private final Integer favoriteCount;
+    private final Integer answerType;
     private final Boolean isFavorite;
 
     private QuestionVO(Builder builder) {
@@ -56,15 +56,15 @@ public final class QuestionVO {
 		return replies;
 	}
 
-	public int getViewCount() {
+	public Integer getViewCount() {
 		return viewCount;
 	}
 
-	public int getFavoriteCount() {
+	public Integer getFavoriteCount() {
 		return favoriteCount;
 	}
 	
-	public int getAnswerType() {
+	public Integer getAnswerType() {
 		return answerType;
 	}
 
@@ -110,9 +110,9 @@ public final class QuestionVO {
         private CategoryVO categoryVO;
         private FileVO fileVO;
         private List<ReplyUserVO> replies;
-        private int viewCount;
-        private int favoriteCount;
-        private int answerType;
+        private Integer viewCount;
+        private Integer favoriteCount;
+        private Integer answerType;
         private Boolean isFavorite;
         
         public Builder writerVO(UserVO writerVO) {
@@ -140,17 +140,17 @@ public final class QuestionVO {
             return this;
         }
         
-        public Builder viewCount(int viewCount) {
+        public Builder viewCount(Integer viewCount) {
             this.viewCount = viewCount;
             return this;
         }
         
-        public Builder favoriteCount(int favoriteCount) {
+        public Builder favoriteCount(Integer favoriteCount) {
             this.favoriteCount = favoriteCount;
             return this;
         }
         
-        public Builder answerType(int answerType) {
+        public Builder answerType(Integer answerType) {
         	this.answerType = answerType;
         	return this;
         }

@@ -24,7 +24,7 @@
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="location" value="classpath:application.properties"/>
     </bean>
-
+    
     <!-- JavaMailSender 설정 -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${spring.mail.host}"/>

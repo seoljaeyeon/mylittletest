@@ -15,10 +15,8 @@ public interface CategoryViewMapper {
     void insertCategoryView(CategoryView categoryView);
 
     @Select("SELECT * FROM categoryView WHERE categoryNo = #{categoryNo}")
-    @ResultMap("CategoryViewResultMap")
     CategoryView getCategoryViewByCategoryNo(@Param("categoryNo") int categoryNo);
 
     @Select("SELECT * FROM categoryView")
-    @ResultMap("CategoryViewResultMap")
     List<CategoryView> getAllCategoryViews();
 }

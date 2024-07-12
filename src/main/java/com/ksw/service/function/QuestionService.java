@@ -3,7 +3,6 @@ package com.ksw.service.function;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +27,7 @@ import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.File;
 import com.ksw.object.entity.Note;
+import com.ksw.object.relation.NoteCategory;
 import com.ksw.service.forObject.entity.AnswerService;
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.entity.FileService;
@@ -39,6 +39,7 @@ import com.ksw.service.forObject.relation.FileNoteService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.forObject.relation.NoteUserService;
 import com.ksw.service.forObject.relation.ReplyUserService;
+import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
 
 @Service
@@ -86,22 +87,26 @@ public class QuestionService {
 	public QuestionVO convertToVO(QuestionDTO questionDTO) {
 		QuestionVO.Builder builder = new QuestionVO.Builder();
 
+		if (questionDTO == null) {
+			return null;
+		}
+		
 		builder.noteVO(noteService.convertToVO(questionDTO.getNoteDTO()))
 				.writerVO(userService.convertToVO(questionDTO.getWriterDTO()))
 				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()))
 				.fileVO(fileService.convertToVO(questionDTO.getFileDTO()))
-				.replies(replyUserService.convertToVOList(questionDTO.getReplies()))
-				.viewCount(questionDTO.getViewCount())
-				.favoriteCount(questionDTO.getFavoriteCount())
-				.answerType(questionDTO.getAnswerType())
-				.isFavorite(questionDTO.getIsFavorite());
+				.replies(replyUserService.convertToVOList(questionDTO.getReplies()));
+//				.viewCount(questionDTO.getViewCount())
+//				.favoriteCount(questionDTO.getFavoriteCount())
+//				.answerType(questionDTO.getAnswerType())
+//				.isFavorite(questionDTO.getIsFavorite());
 		return builder.build();
 	}
 
 	// CertifiedDetails -> 사용자 정보를 담고 있는 인증 객체. .getUserVO로 VO 얻을 수 있음.
 	@Transactional
 	public QuestionVO Write(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO,
-			@AuthenticationPrincipal CertifiedUserDetails userinfo) {
+			UserVO userVO) {
 
 		// 반환할 QuestionVO 객체 준비
 		QuestionVO questionVO = null;
@@ -114,7 +119,7 @@ public class QuestionService {
 			FileDTO fileDTO = fileService.uploadFile(notefile);
 
 			// 사용자 정보 활용을 위해 DTO로 변환 (작성자)
-			UserDTO userDTO = userService.convertVOToDTO(userinfo.getUserVO());
+			UserDTO userDTO = userService.convertVOToDTO(userVO);
 
 			// note 데이터 DTO로 변환
 			Note note = noteService.convertToEntity(noteDTO);
@@ -138,6 +143,8 @@ public class QuestionService {
 				fileNoteMapper.insert(fileNoteService.convertToEntity(fileNoteDTO)); // 엔티티로 변환 & 데이터 삽입
 			}
 			// 관계형 테이블 데이터 삽입 - note+category 관계테이블
+			noteDTO = noteService.convertToDTO(note);
+			categoryDTO = categoryService.convertToDTO(category);
 			NoteCategoryDTO noteCategoryDTO = new NoteCategoryDTO(noteDTO, categoryDTO);
 			noteCategoryMapper.insert(noteCategoryService.convertToEntity(noteCategoryDTO));
 
@@ -149,7 +156,7 @@ public class QuestionService {
 			questionVO = new QuestionVO.Builder()
 					.noteVO(noteService.convertToVO(noteService.convertToDTO(note)))
 					.categoryVO(categoryService.convertToVO(categoryService.convertToDTO(category)))
-					.fileVO(fileDTO != null ? fileService.convertToVO(fileService.convertToDTO(file)) : null).build();
+					.fileVO(file != null ? fileService.convertToVO(fileService.convertToDTO(file)) : null).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -159,10 +166,10 @@ public class QuestionService {
 	@Transactional(readOnly = true) 
 	public QuestionVO Read(
 		Integer noteNo, 
-		@AuthenticationPrincipal CertifiedUserDetails userinfo) { 
+		UserVO userVO) { 
 		
 		//조회자 정보 로딩
-		UserDTO readerDTO = userService.convertVOToDTO(userinfo.getUserVO());
+		UserDTO readerDTO = userService.convertVOToDTO(userVO);
 		
 		//글쓴이 정보 로딩 
 		UserDTO writerDTO = questionMapper.getWriterByNoteNo(noteNo);

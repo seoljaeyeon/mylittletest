@@ -31,7 +31,6 @@ public class NoteCategoryService {
     // Entity -> DTO 변환 메소드
     public NoteCategoryDTO convertToDTO(NoteCategory noteCategoryEntity) {
     	NoteCategoryDTO dto = new NoteCategoryDTO();
-    	
     	dto.setCategoryDTO(categoryService.convertToDTO(noteCategoryEntity.getCategory()));
     	dto.setNoteDTO(noteService.convertToDTO(noteCategoryEntity.getNote()));
         return dto;
@@ -47,6 +46,7 @@ public class NoteCategoryService {
     
     // DTO -> Entity 변환 메소드
     public NoteCategory convertToEntity(NoteCategoryDTO noteCategoryDTO) {
+    	
         NoteCategory noteCategoryEntity = new NoteCategory();
 
         Category categoryEntity = categoryService.convertToEntity(noteCategoryDTO.getCategoryDTO());
@@ -54,7 +54,6 @@ public class NoteCategoryService {
 
         noteCategoryEntity.setCategory(categoryEntity);
         noteCategoryEntity.setNote(noteEntity);
-
         return noteCategoryEntity;
     }
 }

@@ -76,6 +76,10 @@ public class FileService {
 	
     // Entity -> DTO 변환 메소드
     public FileDTO convertToDTO(File file) {
+    	if (file == null) {
+    		return null;
+    	}
+    	
         return new FileDTO.Builder()
                 .fileNo(file.getFileNo())
                 .savedName(file.getSavedName())
@@ -86,6 +90,10 @@ public class FileService {
     
     // DTO -> Entity 변환 메소드
     public File convertToEntity(FileDTO fileDTO) {
+    	if(fileDTO == null) {
+    		return null;
+    	}
+    	
         File file = new File();
         file.setFileNo(fileDTO.getFileNo());
         file.setSavedName(fileDTO.getSavedName());
@@ -97,6 +105,9 @@ public class FileService {
 
     // DTO -> VO 변환 메소드
     public FileVO convertToVO(FileDTO fileDTO) {
+        if (fileDTO == null) {
+            return null;
+        }
         return new FileVO.Builder()
                 .fileNo(fileDTO.getFileNo())
                 .savedName(fileDTO.getSavedName())

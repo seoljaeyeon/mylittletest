@@ -16,7 +16,7 @@
 			.addEventListener(
 					"DOMContentLoaded",
 					function() {
-					    var csrfToken = $("meta[name='_csrf']").attr("content");
+						var csrfToken = $("meta[name='_csrf']").attr("content");
 					    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 					    console.log("CSRF Token:", csrfToken);
@@ -40,9 +40,11 @@
 					            },
 					            success: function(data) {
 					                console.log("SUCCESS : ", data);
+					                window.location.href = "/mylittletest/view/"+data; // 성공 시 이동할 페이지
 					            },
 					            error: function(e) {
 					                console.log("ERROR : ", e);
+					                window.location.href = "/mylittletest/write"
 					            }
 					        });
 					        event.preventDefault();

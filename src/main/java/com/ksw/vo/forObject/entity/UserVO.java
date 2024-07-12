@@ -1,9 +1,13 @@
 package com.ksw.vo.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public final class UserVO {
+public final class UserVO implements Serializable {
+	
+    private static final long serialVersionUID = 1L;
+	
     private final Integer userNo;
     private final String userId;
     private final String nickname;
@@ -11,7 +15,7 @@ public final class UserVO {
     private final Boolean isActive;
     private final Integer type;
     private final Timestamp createdAt;
-
+    
     private UserVO(Builder builder) {
         this.userNo = builder.userNo;
         this.userId = builder.userId;

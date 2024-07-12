@@ -15,9 +15,9 @@ public class QuestionDTO {
 	private CategoryDTO categoryDTO;
 	private FileDTO fileDTO;
 	private List<ReplyUserDTO> replies;
-	private int viewCount;
-	private int favoriteCount;
-	private int answerType;
+	private Integer viewCount;
+	private Integer favoriteCount;
+	private Integer answerType;
 	private Boolean isFavorite;
 	
 	public List<ReplyUserDTO> getReplies() {
@@ -41,7 +41,7 @@ public class QuestionDTO {
 	public int getViewCount() {
 		return viewCount;
 	}
-	public void setViewCount(int viewCount) {
+	public void setViewCount(Integer viewCount) {
 		this.viewCount = viewCount;
 	}
 	public int getFavoriteCount() {
@@ -50,10 +50,10 @@ public class QuestionDTO {
 	public int getAnswerType() {
 		return answerType;
 	}
-	public void setAnswerType(int answerType) {
+	public void setAnswerType(Integer answerType) {
 		this.answerType = answerType;
 	}
-	public void setFavoriteCount(int favoriteCount) {
+	public void setFavoriteCount(Integer favoriteCount) {
 		this.favoriteCount = favoriteCount;
 	}
 	public NoteDTO getNoteDTO() {

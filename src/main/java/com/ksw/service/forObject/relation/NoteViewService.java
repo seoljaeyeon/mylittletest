@@ -1,6 +1,7 @@
 package com.ksw.service.forObject.relation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,9 @@ public class NoteViewService {
 	@Autowired
 	private NoteViewMapper noteViewMapper;
 	
-	public List<NoteView> GetHistory(Integer categoryNo, Integer noteNo, Integer userNo) {
-		return noteViewMapper.getHistory(categoryNo, noteNo, userNo);
+	public List<NoteViewVO> GetHistory(Integer categoryNo, Integer noteNo, Integer userNo) {
+		List<NoteView> list = noteViewMapper.getHistory(categoryNo, noteNo, userNo);
+		return this.convertToVOList(list);
 	}
 	
 	public NoteViewDTO convertToDTO(NoteView noteView) {
@@ -43,6 +45,13 @@ public class NoteViewService {
 				.viewVO(viewService.convertToVO(dto.getViewDTO()))
 				.userVO(userService.convertToVO(dto.getUserDTO()))
 				.build();
+	}
+
+	public List<NoteViewVO> convertToVOList(List<NoteView> list) {
+		return list.stream()
+				.map(this::convertToDTO)
+				.map(this::convertToVO)
+				.collect(Collectors.toList());
 	}
 	
 }

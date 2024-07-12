@@ -33,6 +33,9 @@ public class ReplyService {
 	
     // Entity -> DTO 변환 메소드
     public ReplyDTO convertToDTO(Reply replyEntity) {
+    	if (replyEntity == null) {
+    		return null;
+    	}
         return new ReplyDTO.Builder()
                 .replyNo(replyEntity.getReplyNo())
                 .replyContent(replyEntity.getReplyContent())
@@ -44,6 +47,10 @@ public class ReplyService {
     }
     
     public Reply convertToEntity(ReplyDTO replyDTO) {
+    	if(replyDTO == null) {
+    		return null;
+    	}
+    	
         Reply replyEntity = new Reply();
         replyEntity.setReplyNo(replyDTO.getReplyNo());
         replyEntity.setReplyContent(replyDTO.getReplyContent());
@@ -56,6 +63,10 @@ public class ReplyService {
 
     // DTO -> VO 변환 메소드
     public ReplyVO convertToVO(ReplyDTO replyDTO) {
+    	if(replyDTO == null) {
+    		return null;
+    	}
+    	
         return new ReplyVO.Builder()
                 .replyNo(replyDTO.getReplyNo())
                 .replyContent(replyDTO.getReplyContent())

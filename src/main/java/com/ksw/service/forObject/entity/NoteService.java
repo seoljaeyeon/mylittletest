@@ -58,6 +58,10 @@ public class NoteService {
 
     // Entity -> DTO 변환 메소드
     public NoteDTO convertToDTO(Note note) {
+    	if (note == null) {
+    		return null;
+    	}
+    	
         return new NoteDTO.Builder()
                 .noteNo(note.getNoteNo())
                 .noteTitle(note.getNoteTitle())
@@ -72,6 +76,10 @@ public class NoteService {
 
     // DTO -> Entity로 변환
     public Note convertToEntity(NoteDTO noteDTO) {
+    	if (noteDTO == null) {
+    		return null;
+    	}
+    	
         Note note = new Note();
         note.setNoteNo(noteDTO.getNoteNo());
         note.setNoteTitle(noteDTO.getNoteTitle());
@@ -87,6 +95,10 @@ public class NoteService {
     
     // DTO -> VO 변환 메소드
     public NoteVO convertToVO(NoteDTO noteDTO) {
+    	if (noteDTO == null) {
+    		return null;
+    	}
+    	
         return new NoteVO.Builder()
                 .noteNo(noteDTO.getNoteNo())
                 .noteTitle(noteDTO.getNoteTitle())
