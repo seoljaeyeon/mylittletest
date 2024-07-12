@@ -31,7 +31,7 @@
     	margin-top:20px;
     }								
 </style>
-	<form id="modifyFrm" name="modifyFrm" action="announcement_modifyok.jsp">	
+	<form id="modifyFrm" name="modifyFrm" action="announcement_modifyok.jsp" enctype="multipart/form-data">	
 		<div class="a">
 		<div>&nbsp&nbsp<span style="font-size: 20px; font-weight: bolder;">공지사항</span>
 		<br><br>
