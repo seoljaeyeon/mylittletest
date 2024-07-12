@@ -33,17 +33,18 @@ public class ReplyService {
 	
     // Entity -> DTO 변환 메소드
     public ReplyDTO convertToDTO(Reply replyEntity) {
+    	ReplyDTO dto = new ReplyDTO();
     	if (replyEntity == null) {
-    		return null;
+    		System.out.println("Reply to ReplyDTO failed. Empty ReplyDTO created. Reply is null");
+    		return dto;
     	}
-        return new ReplyDTO.Builder()
-                .replyNo(replyEntity.getReplyNo())
-                .replyContent(replyEntity.getReplyContent())
-                .parentReply(replyEntity.getParentReply())
-                .isActive(replyEntity.getIsActive())
-                .createdAt(replyEntity.getCreatedAt())
-                .updatedAt(replyEntity.getUpdatedAt())
-                .build();
+    	dto.setCreatedAt(null);
+    	dto.setIsActive(null);
+    	dto.setParentReply(null);
+    	dto.setReplyContent(null);
+    	dto.setReplyNo(null);
+    	dto.setUpdatedAt(null);
+        return dto;
     }
     
     public Reply convertToEntity(ReplyDTO replyDTO) {

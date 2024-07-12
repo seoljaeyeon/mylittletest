@@ -1,8 +1,12 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class AnswerDTO {
+public class AnswerDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
     private Integer answerNo;
     private Integer answerType;
     private Timestamp createdAt;

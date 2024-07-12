@@ -1,8 +1,11 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class CategoryDTO {
+public class CategoryDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
     private Integer categoryNo;
     private String categoryTitle;
@@ -43,42 +46,5 @@ public class CategoryDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-
-    // Builder 클래스
-    public static class Builder {
-        private Integer categoryNo;
-        private String categoryTitle;
-        private Boolean isActive;
-        private Timestamp createdAt;
-
-        public Builder categoryNo(Integer categoryNo) {
-            this.categoryNo = categoryNo;
-            return this;
-        }
-
-        public Builder categoryTitle(String categoryTitle) {
-            this.categoryTitle = categoryTitle;
-            return this;
-        }
-
-        public Builder isActive(Boolean isActive) {
-            this.isActive = isActive;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public CategoryDTO build() {
-            CategoryDTO categoryDTO = new CategoryDTO();
-            categoryDTO.categoryNo = this.categoryNo;
-            categoryDTO.categoryTitle = this.categoryTitle;
-            categoryDTO.isActive = this.isActive;
-            categoryDTO.createdAt = this.createdAt;
-            return categoryDTO;
-        }
     }
 }

@@ -1,8 +1,12 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class ReportDTO {
+public class ReportDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
     private Integer reportNo;
     private Integer reportType;

@@ -1,8 +1,11 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.User;
 
-public class ReportManagement {
+public class ReportManagement implements Serializable{
+	private static final long serialVersionUID = 1L;
 
     private User user;
     private User manager;

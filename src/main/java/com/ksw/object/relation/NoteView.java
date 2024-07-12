@@ -1,11 +1,16 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.Note;
 import com.ksw.object.entity.User;
 import com.ksw.object.entity.View;
 
-public class NoteView {
+public class NoteView implements Serializable{
     
+	
+	private static final long serialVersionUID = 1L;
+
     private View view;
     private Note note;
     private User user;

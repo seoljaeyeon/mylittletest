@@ -1,9 +1,12 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class AnnouncementDTO {
+public class AnnouncementDTO implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
     private Integer announcementNo;
     private String announcementTitle;
     private String announcementContent;
@@ -71,62 +74,5 @@ public class AnnouncementDTO {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
-    // Builder 패턴
-    public static class Builder {
-        private Integer announcementNo;
-        private String announcementTitle;
-        private String announcementContent;
-        private Timestamp schedule;
-        private Boolean isActive;
-        private Timestamp createdAt;
-        private Timestamp updatedAt;
 
-        public Builder announcementNo(Integer announcementNo) {
-            this.announcementNo = announcementNo;
-            return this;
-        }
-
-        public Builder announcementTitle(String announcementTitle) {
-            this.announcementTitle = announcementTitle;
-            return this;
-        }
-
-        public Builder announcementContent(String announcementContent) {
-            this.announcementContent = announcementContent;
-            return this;
-        }
-
-        public Builder schedule(Timestamp schedule) {
-            this.schedule = schedule;
-            return this;
-        }
-
-        public Builder isActive(Boolean isActive) {
-            this.isActive = isActive;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder updatedAt(Timestamp updatedAt) {
-            this.updatedAt = updatedAt;
-            return this;
-        }
-
-        public AnnouncementDTO build() {
-            AnnouncementDTO announcementDTO = new AnnouncementDTO();
-            announcementDTO.announcementNo = this.announcementNo;
-            announcementDTO.announcementTitle = this.announcementTitle;
-            announcementDTO.announcementContent = this.announcementContent;
-            announcementDTO.schedule = this.schedule;
-            announcementDTO.isActive = this.isActive;
-            announcementDTO.createdAt = this.createdAt;
-            announcementDTO.updatedAt = this.updatedAt;
-            return announcementDTO;
-        }
-    }
 }

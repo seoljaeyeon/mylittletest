@@ -11,23 +11,26 @@ public class CategoryService {
 
     // Entity -> DTO 변환 메소드
     public CategoryDTO convertToDTO(Category category) {
-    	if (category == null) {
-    		return null;
-    	}
     	
-        return new CategoryDTO.Builder()
-                .categoryNo(category.getCategoryNo())
-                .categoryTitle(category.getCategoryTitle())
-                .isActive(category.getIsActive())
-                .createdAt(category.getCreatedAt())
-                .build();
+    	CategoryDTO dto = new CategoryDTO();
+    	
+    	if (category == null) {
+    		System.out.println("Category to CategoryDTO failed. Empty CategoryDTO created. Category is null");
+    		return dto;
+    	}
+    	dto.setCategoryNo(category.getCategoryNo());
+    	dto.setCategoryTitle(category.getCategoryTitle());
+    	dto.setCreatedAt(category.getCreatedAt());
+    	dto.setIsActive(category.getIsActive());
+        return dto;
     }
     
     public Category convertToEntity(CategoryDTO categoryDTO) {
+    	Category category = new Category();
     	if (categoryDTO == null) {
-    		return null;
+    		System.out.println("CategoryDTO to Category failed. Empty Category created. CategoryDTO is null");
+    		return category;
     	}
-        Category category = new Category();
         category.setCategoryNo(categoryDTO.getCategoryNo());
         category.setCategoryTitle(categoryDTO.getCategoryTitle());
         category.setIsActive(categoryDTO.getIsActive());
@@ -38,7 +41,8 @@ public class CategoryService {
     // DTO -> VO 변환 메소드
     public CategoryVO convertToVO(CategoryDTO categoryDTO) {
     	if(categoryDTO == null) {
-    		return null;
+    		System.out.println("CategoryDTO to CategoryVO failed. Empty CategoryVO created. CategoryDTO is null");
+    		return new CategoryVO.Builder().build();
     	}
     	
         return new CategoryVO.Builder()

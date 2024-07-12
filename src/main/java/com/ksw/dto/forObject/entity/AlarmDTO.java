@@ -1,9 +1,13 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class AlarmDTO {
+public class AlarmDTO implements Serializable
+{
 
+	private static final long serialVersionUID = 1L;
+	
     private Integer alarmNo;
     private String alarmNote;
     private Integer alarmType;
@@ -52,49 +56,5 @@ public class AlarmDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-    
-    // Builder 패턴
-    public static class Builder {
-        private Integer alarmNo;
-        private String alarmNote;
-        private Integer alarmType;
-        private Boolean isRead;
-        private Timestamp createdAt;
-
-        public Builder alarmNo(Integer alarmNo) {
-            this.alarmNo = alarmNo;
-            return this;
-        }
-
-        public Builder alarmNote(String alarmNote) {
-            this.alarmNote = alarmNote;
-            return this;
-        }
-
-        public Builder alarmType(Integer alarmType) {
-            this.alarmType = alarmType;
-            return this;
-        }
-
-        public Builder isRead(Boolean isRead) {
-            this.isRead = isRead;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public AlarmDTO build() {
-            AlarmDTO alarmDTO = new AlarmDTO();
-            alarmDTO.alarmNo = this.alarmNo;
-            alarmDTO.alarmNote = this.alarmNote;
-            alarmDTO.alarmType = this.alarmType;
-            alarmDTO.isRead = this.isRead;
-            alarmDTO.createdAt = this.createdAt;
-            return alarmDTO;
-        }
     }
 }

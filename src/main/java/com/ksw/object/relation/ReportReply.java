@@ -1,10 +1,13 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.Reply;
 import com.ksw.object.entity.Report;
 import com.ksw.object.entity.User;
 
-public class ReportReply {
+public class ReportReply implements Serializable{
+	private static final long serialVersionUID = 1L;
 
     private User user;
     private Reply reply;

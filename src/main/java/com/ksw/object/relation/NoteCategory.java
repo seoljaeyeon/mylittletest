@@ -1,10 +1,15 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.Note;
 
-public class NoteCategory {
+public class NoteCategory implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
+	
     private Category category;
     private Note note;
 

@@ -1,10 +1,15 @@
 package com.ksw.dto.forObject.relation;
 
+import java.io.Serializable;
+
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FavoriteDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
 
-public class FavoriteCategoryDTO {
+public class FavoriteCategoryDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
     private UserDTO userDTO;
     private CategoryDTO categoryDTO;

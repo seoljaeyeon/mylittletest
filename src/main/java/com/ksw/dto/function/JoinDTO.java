@@ -1,6 +1,11 @@
 package com.ksw.dto.function;
 
-public class JoinDTO {
+import java.io.Serializable;
+
+public class JoinDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 	
     private String userId;
     private String password;

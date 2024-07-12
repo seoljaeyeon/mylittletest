@@ -1,11 +1,24 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class FavoriteDTO {
+public class FavoriteDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
     private Integer favoriteNo;
+    private Integer favoriteType;
     private Timestamp createdAt;
+    
+    public Integer getFavoriteType() {
+		return favoriteType;
+	}
+
+	public void setFavoriteType(Integer favoriteType) {
+		this.favoriteType = favoriteType;
+	}
 
     // 기본 생성자
     public FavoriteDTO() {}
@@ -25,27 +38,5 @@ public class FavoriteDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-    // Builder 클래스
-    public static class Builder {
-        private Integer favoriteNo;
-        private Timestamp createdAt;
-
-        public Builder favoriteNo(Integer favoriteNo) {
-            this.favoriteNo = favoriteNo;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public FavoriteDTO build() {
-            FavoriteDTO favoriteDTO = new FavoriteDTO();
-            favoriteDTO.favoriteNo = this.favoriteNo;
-            favoriteDTO.createdAt = this.createdAt;
-            return favoriteDTO;
-        }
     }
 }

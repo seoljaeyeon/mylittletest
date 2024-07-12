@@ -58,29 +58,33 @@ public class NoteService {
 
     // Entity -> DTO 변환 메소드
     public NoteDTO convertToDTO(Note note) {
+    	NoteDTO dto = new NoteDTO();
+    	
     	if (note == null) {
-    		return null;
+    		System.out.println("Note to NoteDTO failed. Empty NoteDTO created. Note is null");
+    		return dto;
     	}
     	
-        return new NoteDTO.Builder()
-                .noteNo(note.getNoteNo())
-                .noteTitle(note.getNoteTitle())
-                .noteContent(note.getNoteContent())
-                .noteHint(note.getNoteHint())
-                .noteAnswer(note.getNoteAnswer())
-                .isActive(note.getIsActive())
-                .createdAt(note.getCreatedAt())
-                .updatedAt(note.getUpdatedAt())
-                .build();
+    	dto.setCreatedAt(note.getCreatedAt());
+    	dto.setIsActive(note.getIsActive());
+    	dto.setNoteAnswer(note.getNoteAnswer());
+    	dto.setNoteCommentary(note.getNoteCommentary());
+    	dto.setNoteContent(note.getNoteContent());
+    	dto.setNoteHint(note.getNoteHint());
+    	dto.setNoteNo(note.getNoteNo());
+    	dto.setNoteTitle(note.getNoteTitle());
+    	dto.setUpdatedAt(note.getUpdatedAt());
+        return dto;
     }
 
     // DTO -> Entity로 변환
     public Note convertToEntity(NoteDTO noteDTO) {
+    	Note note = new Note();
     	if (noteDTO == null) {
-    		return null;
+    		System.out.println("NoteDTO to Note failed. Empty Note created. NoteDTO is null");
+    		return note;
     	}
     	
-        Note note = new Note();
         note.setNoteNo(noteDTO.getNoteNo());
         note.setNoteTitle(noteDTO.getNoteTitle());
         note.setNoteContent(noteDTO.getNoteContent());
@@ -96,7 +100,8 @@ public class NoteService {
     // DTO -> VO 변환 메소드
     public NoteVO convertToVO(NoteDTO noteDTO) {
     	if (noteDTO == null) {
-    		return null;
+    		System.out.println("NoteDTO to NoteVO failed. Empty NoteVO created. NoteDTO is null");
+    		return new NoteVO.Builder().build();
     	}
     	
         return new NoteVO.Builder()

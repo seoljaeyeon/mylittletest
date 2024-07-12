@@ -1,13 +1,16 @@
 package com.ksw.object.relation;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 
 import com.ksw.object.entity.Answer;
 import com.ksw.object.entity.Note;
 import com.ksw.object.entity.User;
 
 
-public class AnswerHistory {
+public class AnswerHistory implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
     private Note note;
     private Answer answer;
     private User user;

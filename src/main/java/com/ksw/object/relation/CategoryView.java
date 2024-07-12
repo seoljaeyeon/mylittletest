@@ -1,11 +1,17 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.User;
 import com.ksw.object.entity.View;
 
-public class CategoryView {
+public class CategoryView implements Serializable
+{
     
+	private static final long serialVersionUID = 1L;
+
+	
     private Category category;
     private View view;
     private User user;

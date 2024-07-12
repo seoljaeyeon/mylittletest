@@ -1,10 +1,15 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.Announcement;
 import com.ksw.object.entity.User;
 
-public class AnnouncementUser {
+public class AnnouncementUser implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
+	
     private Announcement announcement;
     private User user;
 

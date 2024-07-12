@@ -1,5 +1,6 @@
 package com.ksw.dto.function;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.ksw.dto.forObject.entity.CategoryDTO;
@@ -8,7 +9,10 @@ import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.forObject.relation.ReplyUserDTO;
 
-public class QuestionDTO {
+public class QuestionDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
 	private UserDTO writerDTO;
 	private NoteDTO noteDTO;
