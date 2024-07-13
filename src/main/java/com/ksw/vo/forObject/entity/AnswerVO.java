@@ -1,9 +1,12 @@
 package com.ksw.vo.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public final class AnswerVO {
+public final class AnswerVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final Integer answerNo;
     private final Integer answerType;
     private final Timestamp createdAt;

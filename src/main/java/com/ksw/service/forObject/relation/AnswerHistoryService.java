@@ -27,13 +27,19 @@ public class AnswerHistoryService {
 	private AnswerHistoryMapper answerHistoryMapper;
 	
 	public Integer getAnswerHistoryByNoteNoAndUserNo(Integer noteNo, Integer userNo) {
+		if (noteNo == null || userNo == null) {
+			return -1; // -1은 null 대신 반환값으로 사용
+		}
 		Integer result = answerHistoryMapper.findAnswerByNoteNoAndUserNo(noteNo, userNo);
-		
 		return result;
 	}
 	
 	public AnswerHistoryDTO convertToDTO(AnswerHistory answerHistory) {
 		AnswerHistoryDTO answerHistoryDTO = new AnswerHistoryDTO();
+		if(answerHistory == null) {
+    		System.out.println("AnswerHistory to AnswerHistoryDTO failed. Empty AnswerHistoryDTO created. AnswerHistory is null");
+    		return answerHistoryDTO;
+		}
 		answerHistoryDTO.setNoteDTO(noteService.convertToDTO(answerHistory.getNote()));
 		answerHistoryDTO.setAnswerDTO(answerService.convertToDTO(answerHistory.getAnswer()));
 		answerHistoryDTO.setUserDTO(userService.convertToDTO(answerHistory.getUser()));
@@ -41,6 +47,10 @@ public class AnswerHistoryService {
 	}
 
     public AnswerHistoryVO convertToVO(AnswerHistoryDTO answerHistoryDTO) {
+    	if (answerHistoryDTO == null) {
+    		System.out.println("AnswerHistoryDTO to AnswerHistoryVO failed. Empty AnswerHistoryVO created. AnswerHistoryDTO is null");    		
+    		return new AnswerHistoryVO.Builder().build();
+    	}
         return new AnswerHistoryVO.Builder()
                 .noteVO(noteService.convertToVO(answerHistoryDTO.getNoteDTO()))
                 .answerVO(answerService.convertToVO(answerHistoryDTO.getAnswerDTO()))

@@ -1,9 +1,12 @@
 package com.ksw.vo.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public final class FavoriteVO {
+public final class FavoriteVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final Integer favoriteNo;
     private final Timestamp createdAt;
 

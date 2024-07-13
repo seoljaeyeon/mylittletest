@@ -1,5 +1,6 @@
 package com.ksw.vo.function;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,7 +10,9 @@ import com.ksw.vo.forObject.entity.NoteVO;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.forObject.relation.ReplyUserVO;
 
-public final class QuestionVO {
+public final class QuestionVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final NoteVO noteVO;
     private final UserVO writerVO;
     private final CategoryVO categoryVO;

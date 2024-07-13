@@ -1,11 +1,14 @@
 package com.ksw.vo.forObject.relation;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.ksw.vo.forObject.entity.ReplyVO;
 import com.ksw.vo.forObject.entity.UserVO;
 
-public final class ReplyUserVO {
+public final class ReplyUserVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final UserVO userVO;
     private final ReplyVO replyVO;
 

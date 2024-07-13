@@ -12,6 +12,10 @@ public class UserService {
     // DTO -> Entity 변환 메소드
     public User convertToEntity(UserDTO userDTO) {
         User userEntity = new User();
+        if (userDTO == null) {
+    		System.out.println("UserDTO to User failed. Empty User created. UserDTO is null");
+        	return userEntity;
+        }
         userEntity.setUserNo(userDTO.getUserNo());
         userEntity.setUserId(userDTO.getUserId());
         userEntity.setPassword(userDTO.getPassword());
@@ -27,22 +31,30 @@ public class UserService {
 	
     // Entity -> DTO 변환 메소드
     public UserDTO convertToDTO(User userEntity) {
-        return new UserDTO.Builder()
-                .userNo(userEntity.getUserNo())
-                .userId(userEntity.getUserId())
-                .password(userEntity.getPassword())
-                .nickname(userEntity.getNickname())
-                .email(userEntity.getEmail())
-                .securityQuestion(userEntity.getSecurityQuestion())
-                .securityAnswer(userEntity.getSecurityAnswer())
-                .isActive(userEntity.getIsActive())
-                .type(userEntity.getType())
-                .createdAt(userEntity.getCreatedAt())
-                .build();
+        UserDTO dto = new UserDTO();
+        if (userEntity == null) {
+    		System.out.println("User to UserDTO failed. Empty UserDTO created. User is null");
+        	return dto;        	
+        }
+        dto.setUserNo(userEntity.getUserNo());
+        dto.setUserId(userEntity.getUserId());
+        dto.setPassword(userEntity.getPassword());
+        dto.setNickname(userEntity.getNickname());
+        dto.setEmail(userEntity.getEmail());
+        dto.setSecurityQuestion(userEntity.getSecurityQuestion());
+        dto.setSecurityAnswer(userEntity.getSecurityAnswer());
+        dto.setIsActive(userEntity.getIsActive());
+        dto.setType(userEntity.getType());
+        dto.setCreatedAt(userEntity.getCreatedAt());
+        return dto;
     }
 
     // DTO -> VO 변환 메소드
     public UserVO convertToVO(UserDTO userDTO) {
+    	System.out.println("UserDTO to UserVO failed. Empty UserVO created. UserDTO is null");
+    	if(userDTO == null) {
+    		return new UserVO.Builder().build();
+    	}
         return new UserVO.Builder()
                 .userNo(userDTO.getUserNo())
                 .userId(userDTO.getUserId())
@@ -56,14 +68,18 @@ public class UserService {
     
     // VO -> DTO 변환 메소드
     public UserDTO convertVOToDTO(UserVO userVO) {
-        return new UserDTO.Builder()
-                .userNo(userVO.getUserNo())
-                .userId(userVO.getUserId())
-                .nickname(userVO.getNickname())
-                .email(userVO.getEmail())
-                .isActive(userVO.getIsActive())
-                .type(userVO.getType())
-                .createdAt(userVO.getCreatedAt())
-                .build();
+    	UserDTO dto = new UserDTO();
+    	if (userVO == null) {
+    		System.out.println("UserVO to UserDTO failed. Empty UserDTO created. UserVO is null");
+    		return dto;
+    	}
+    	dto.setUserNo(userVO.getUserNo());
+    	dto.setUserId(userVO.getUserId());
+    	dto.setNickname(userVO.getNickname());
+    	dto.setEmail(userVO.getEmail());
+    	dto.setIsActive(userVO.getIsActive());
+    	dto.setType(userVO.getType());
+    	dto.setCreatedAt(userVO.getCreatedAt());
+    	return dto;
     }
 }

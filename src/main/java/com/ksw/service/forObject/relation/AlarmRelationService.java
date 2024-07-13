@@ -21,6 +21,10 @@ public class AlarmRelationService {
     // Entity -> DTO 변환 메소드
     public AlarmRelationDTO convertToDTO(AlarmRelation entity) {
     	AlarmRelationDTO dto = new AlarmRelationDTO();
+    	if (entity == null) {
+    		System.out.println("AlarmRelation to AlarmRelationDTO failed. Empty AlarmRelationDTO created. AlarmRelation is null");
+    		return dto;
+    	}
     	dto.setAlarmDTO(alarmService.convertToDTO(entity.getAlarm()));
     	dto.setMakerDTO(userService.convertToDTO(entity.getMaker()));
     	dto.setReceiverDTO(userService.convertToDTO(entity.getReceiver()));
@@ -29,6 +33,10 @@ public class AlarmRelationService {
 
     // DTO -> VO 변환 메소드
     public AlarmRelationVO convertToVO(AlarmRelationDTO alarmRelationDTO) {
+    	if((alarmRelationDTO==null)) {
+    		System.out.println("AlarmRelationDTO to AlarmRelationVO failed. Empty AlarmRelationVO created. AlarmRelationDTO is null");
+    		return new AlarmRelationVO.Builder().build();
+    	}
         return new AlarmRelationVO.Builder()
                 .alarmVO(alarmService.convertToVO(alarmRelationDTO.getAlarmDTO()))
                 .receiverVO(userService.convertToVO(alarmRelationDTO.getReceiverDTO()))

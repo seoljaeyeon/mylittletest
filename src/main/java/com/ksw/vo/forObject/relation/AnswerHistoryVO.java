@@ -1,5 +1,6 @@
 package com.ksw.vo.forObject.relation;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -7,7 +8,9 @@ import com.ksw.vo.forObject.entity.AnswerVO;
 import com.ksw.vo.forObject.entity.NoteVO;
 import com.ksw.vo.forObject.entity.UserVO;
 
-public class AnswerHistoryVO {
+public class AnswerHistoryVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
     private final NoteVO noteVO;
     private final AnswerVO answerVO;

@@ -1,9 +1,12 @@
 package com.ksw.vo.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class ViewVO {
+public class ViewVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
     private final Integer viewNo;
     private final Timestamp createdAt;

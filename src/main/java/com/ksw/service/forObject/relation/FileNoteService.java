@@ -22,7 +22,10 @@ public class FileNoteService {
     // Entity -> DTO 변환 메소드
     public FileNoteDTO convertToDTO(FileNote fileNoteEntity) {
     	FileNoteDTO dto = new FileNoteDTO();
-    	
+    	if(fileNoteEntity == null) {
+    		System.out.println("FileNote to FileNoteDTO failed. Empty FileNoteDTO created. FileNote is null");    		
+    		return dto;
+    	}
     	dto.setFileDTO(fileService.convertToDTO(fileNoteEntity.getFile()));
     	dto.setNoteDTO(noteService.convertToDTO(fileNoteEntity.getNote()));
     	
@@ -31,6 +34,10 @@ public class FileNoteService {
 
     public FileNote convertToEntity(FileNoteDTO fileNoteDTO) {
         FileNote fileNoteEntity = new FileNote();
+        if (fileNoteDTO == null) {
+        	System.out.println("FileNoteDTO to FileNote failed. Empty FileNote created. FileNoteDTO is null");    		
+        	return fileNoteEntity;
+        }
 
         File fileEntity = fileService.convertToEntity(fileNoteDTO.getFileDTO());
         Note noteEntity = noteService.convertToEntity(fileNoteDTO.getNoteDTO());
@@ -43,6 +50,10 @@ public class FileNoteService {
     
     // DTO -> VO 변환 메소드
     public FileNoteVO convertToVO(FileNoteDTO fileNoteDTO) {
+		if (fileNoteDTO == null) {
+			System.out.println("FileNoteDTO to FileNoteVO failed. Empty FileNoteVO created. FileNoteDTO is null");    		
+			return new FileNoteVO.Builder().build();
+		}
         return new FileNoteVO.Builder()
                 .noteVO(noteService.convertToVO(fileNoteDTO.getNoteDTO()))
                 .fileVO(fileService.convertToVO(fileNoteDTO.getFileDTO()))

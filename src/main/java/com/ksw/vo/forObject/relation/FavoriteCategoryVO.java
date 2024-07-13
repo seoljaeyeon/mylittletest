@@ -1,12 +1,15 @@
 package com.ksw.vo.forObject.relation;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.ksw.vo.forObject.entity.CategoryVO;
 import com.ksw.vo.forObject.entity.FavoriteVO;
 import com.ksw.vo.forObject.entity.UserVO;
 
-public final class FavoriteCategoryVO {
+public final class FavoriteCategoryVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final UserVO userVO;
     private final CategoryVO categoryVO;
     private final FavoriteVO favoriteVO;
