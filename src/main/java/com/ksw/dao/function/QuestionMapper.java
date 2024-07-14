@@ -72,13 +72,12 @@ public interface QuestionMapper {
     })
     List<ReplyUserDTO> getRepliesByNoteNo(int noteNo);
     
-    @Select("SELECT COUNT(*) FROM noteView nv JOIN viewUserNote vun "
-    		+ "ON nv.noteViewNo = vun.noteViewNo "
-    		+ "WHERE vun.noteNo = #{noteNo}")
+    @Select("SELECT COUNT(*) FROM noteView "
+    		+ "WHERE noteNo = #{noteNo}")
     int getViewCountByNoteNo(int noteNo);
     
     @Select("SELECT COUNT(*) FROM favorite fv JOIN favoriteNote fvn "
-    		+ "ON fv.favorite = fvn favoriteNote "
+    		+ "ON fv.favoriteNo = fvn.favoriteNo "
     		+ "WHERE fvn.noteNo = #{noteNo}")
     int getfavoriteCountByNoteNo(int noteNo);
 

@@ -1,9 +1,12 @@
 package com.ksw.vo.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public final class NoteVO {
+public final class NoteVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final Integer noteNo;
     private final String noteTitle;
     private final String noteContent;

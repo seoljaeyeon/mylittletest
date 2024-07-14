@@ -1,13 +1,24 @@
 package com.ksw.object.entity;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer categoryNo;
@@ -21,6 +32,17 @@ public class Category {
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
+    // 기본 생성자
+    public Category() {
+    	
+    }
+    
+    @PrePersist
+    protected void onCreate() {
+    	createdAt = Timestamp.valueOf(LocalDateTime.now());
+    }
+
+    
 	public Integer getCategoryNo() {
 		return categoryNo;
 	}
@@ -41,11 +63,6 @@ public class Category {
 		this.categoryNo = categoryNo;
 	}
 
-    @PrePersist
-    protected void onCreate() {
-        Timestamp currentTimestamp = Timestamp.valueOf(LocalDateTime.now());
-        createdAt = currentTimestamp;
-    }
     
 	public void setCategoryTitle(String categoryTitle) {
 		this.categoryTitle = categoryTitle;

@@ -1,15 +1,20 @@
 package com.ksw.vo.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public final class FavoriteVO {
+public final class FavoriteVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final Integer favoriteNo;
     private final Timestamp createdAt;
+    private final Integer favoriteType;
 
     private FavoriteVO(Builder builder) {
         this.favoriteNo = builder.favoriteNo;
         this.createdAt = builder.createdAt;
+        this.favoriteType = builder.favoriteType;
     }
 
     public Integer getFavoriteNo() {
@@ -45,6 +50,7 @@ public final class FavoriteVO {
     public static class Builder {
         private Integer favoriteNo;
         private Timestamp createdAt;
+        private Integer favoriteType;
 
         public Builder favoriteNo(Integer favoriteNo) {
             this.favoriteNo = favoriteNo;
@@ -54,6 +60,11 @@ public final class FavoriteVO {
         public Builder createdAt(Timestamp createdAt) {
             this.createdAt = createdAt;
             return this;
+        }
+        
+        public Builder favoriteType(Integer favoriteType) {
+        	this.favoriteType = favoriteType;
+        	return this;
         }
 
         public FavoriteVO build() {

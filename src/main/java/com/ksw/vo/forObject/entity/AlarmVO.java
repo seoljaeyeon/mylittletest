@@ -1,9 +1,12 @@
 package com.ksw.vo.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public final class AlarmVO {
+public final class AlarmVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final Integer alarmNo;
     private final String alarmNote;
     private final Integer alarmType;

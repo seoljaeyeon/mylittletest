@@ -1,5 +1,6 @@
 package com.ksw.service.forObject.relation;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,14 +33,24 @@ public class ReplyUserService {
 	
 	
 	@Transactional
-	public void writeReplayRelation(ReplyDTO replyDTO, UserDTO userDTO) {
-		ReplyUserDTO replyUserDTO = new ReplyUserDTO(replyDTO, userDTO);
-		replyUserMapper.insert(this.convertToEntity(replyUserDTO));
+	public ReplyUserDTO writeReplyRelation(ReplyDTO replyDTO, UserDTO userDTO) {
+		ReplyUserDTO replyUserDTO = new ReplyUserDTO();
+		if (replyDTO == null || userDTO == null) {
+    		System.out.println("Writting ReplyRelation failed. One of parameters is empty. Empty ReplyUserDTO returned");   	
+			return replyUserDTO;
+		}
+		ReplyUser replyUser = replyUserMapper.insert(this.convertToEntity(replyUserDTO));
+		replyUserDTO = this.convertToDTO(replyUser);
+		return replyUserDTO;
 	}
 	
     // Entity -> DTO 변환 메소드
     public ReplyUserDTO convertToDTO(ReplyUser replyUserEntity) {
     	ReplyUserDTO dto = new ReplyUserDTO();
+    	if (replyUserEntity == null) {
+    		System.out.println("ReplyUserDTO to ReplyUser failed. Empty ReplyUser created. ReplyUserDTO is null");   	
+    		return dto;
+    	}
     	dto.setReplyDTO(replyService.convertToDTO(replyUserEntity.getReply()));
     	dto.setUserDTO(userService.convertToDTO(replyUserEntity.getUser()));
         return dto;
@@ -48,7 +59,10 @@ public class ReplyUserService {
     // DTO -> Entity 변환 메소드
     public ReplyUser convertToEntity(ReplyUserDTO replyUserDTO) {
         ReplyUser replyUserEntity = new ReplyUser();
-
+        if (replyUserDTO == null) {
+    		System.out.println("ReplyUser to ReplyUserDTO failed. Empty ReplyUserDTO created. ReplyUser is null");   	
+        	return replyUserEntity;
+        }
         Reply replyEntity = replyService.convertToEntity(replyUserDTO.getReplyDTO());
         User userEntity = userService.convertToEntity(replyUserDTO.getUserDTO());
 
@@ -60,6 +74,10 @@ public class ReplyUserService {
 
     // DTO -> VO 변환 메소드
     public ReplyUserVO convertToVO(ReplyUserDTO replyUserDTO) {
+    	if (replyUserDTO == null) {
+    		System.out.println("ReplyUserDTO to ReplyUserVO failed. Empty ReplyUserVO created. ReplyUserDTO is null");   	
+    		return new ReplyUserVO.Builder().build();
+    	}
         return new ReplyUserVO.Builder()
                 .userVO(userService.convertToVO(replyUserDTO.getUserDTO()))
                 .replyVO(replyService.convertToVO(replyUserDTO.getReplyDTO()))
@@ -68,6 +86,11 @@ public class ReplyUserService {
     
     // List<ReplyUserDTO> -> List<ReplyUserVO> 변환 메소드
     public List<ReplyUserVO> convertToVOList(List<ReplyUserDTO> replyUserDTOs) {
+    	if (replyUserDTOs == null) {
+    		System.out.println("List<ReplyUserDTO>  to List<ReplyUserVO> failed. Empty List<ReplyUserVO> created. List<ReplyUserDTO> is null");   	
+    		return Collections.singletonList(new ReplyUserVO.Builder().build());
+    	}
+    	
     	// replyUserDTOs의 각 요소들을 순환하면
         return replyUserDTOs.stream()
         		// 각 요소들에 대해 convertToVO 메소드를 사용한다.

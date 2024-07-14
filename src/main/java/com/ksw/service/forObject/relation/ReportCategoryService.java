@@ -23,6 +23,10 @@ public class ReportCategoryService {
     // Entity -> DTO 변환 메소드
     public ReportCategoryDTO convertToDTO(ReportCategory reportCategoryEntity) {
     	ReportCategoryDTO dto = new ReportCategoryDTO();
+    	if (reportCategoryEntity == null) {
+    		System.out.println("ReportCategoryDTO to ReportCategory failed. Empty ReportCategory created. ReportCategoryDTO is null");   	
+    		return dto;
+    	}
     	dto.setCategoryDTO(categoryService.convertToDTO(reportCategoryEntity.getCategory()));
     	dto.setReportDTO(ReportService.convertToDTO(reportCategoryEntity.getReport()));
     	dto.setUserDTO(userService.convertToDTO(reportCategoryEntity.getUser()));
@@ -31,6 +35,10 @@ public class ReportCategoryService {
 
     // DTO -> VO 변환 메소드
     public ReportCategoryVO convertToVO(ReportCategoryDTO reportCategoryDTO) {
+    	if (reportCategoryDTO == null) {
+    		System.out.println("ReportCategoryDTO to ReportCategoryVO failed. Empty ReportCategoryVO created. ReportCategoryDTO is null");   	
+    		return new ReportCategoryVO.Builder().build();
+    	}
         return new ReportCategoryVO.Builder()
                 .userVO(userService.convertToVO(reportCategoryDTO.getUserDTO()))
                 .categoryVO(categoryService.convertToVO(reportCategoryDTO.getCategoryDTO()))

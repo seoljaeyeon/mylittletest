@@ -20,6 +20,10 @@ public class NoteReplyService {
     // Entity -> DTO 변환 메소드
     public NoteReplyDTO convertToDTO(NoteReply noteReplyEntity) {
     	NoteReplyDTO dto = new NoteReplyDTO();
+    	if (noteReplyEntity == null) {
+    		System.out.println("NoteReply to NoteReplyDTO failed. Empty NoteReplyDTO created. NoteReply is null");   	
+    		return dto;
+    	}
     	dto.setNoteDTO(noteService.convertToDTO(noteReplyEntity.getNote()));
     	dto.setReplyDTO(replyService.convertToDTO(noteReplyEntity.getReply()));
         return dto;
@@ -27,6 +31,10 @@ public class NoteReplyService {
 
     // DTO -> VO 변환 메소드
     public NoteReplyVO convertToVO(NoteReplyDTO noteReplyDTO) {
+    	if (noteReplyDTO == null) {
+    		System.out.println("NoteReplyDTO to NoteReplyVO failed. Empty NoteReplyVO created. NoteReplyDTO is null");   	
+    		return new NoteReplyVO.Builder().build();
+    	}
         return new NoteReplyVO.Builder()
                 .noteVO(noteService.convertToVO(noteReplyDTO.getNoteDTO()))
                 .replyVO(replyService.convertToVO(noteReplyDTO.getReplyDTO()))

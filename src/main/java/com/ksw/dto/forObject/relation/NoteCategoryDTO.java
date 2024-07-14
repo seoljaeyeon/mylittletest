@@ -1,9 +1,14 @@
 package com.ksw.dto.forObject.relation;
 
+import java.io.Serializable;
+
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
 
-public class NoteCategoryDTO {
+public class NoteCategoryDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
     private CategoryDTO categoryDTO;
     private NoteDTO noteDTO;

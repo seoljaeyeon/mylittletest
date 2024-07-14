@@ -28,13 +28,12 @@ public class LoginController {
             // 사용자 정보가 존재하지 않으면 login 페이지로 이동
             return "login";
         }
-
 	}
 	
 	/*
 	 * 로그인 기능은 Spring Security를 통해서 구현했습니다. 
 	 * 
-	 * 파라미터에 @AuthenticationPrincipal CertifiedUserDetails userinfo 이걸 넣고, userinfo.getUserVO()하면 userVO를 꺼낼 수 있습니다.
+	 * 인증이 필요한 페이지에 authService를 @Autowired하시고, UserVO userVO = authService.getUserVO()  로 사용자 정보를 얻고 점검하시기 바랍니다.
 	 * 
 	 * 모든 form이 csrf 기능이 활성화 되어있기 때문에 csrf 태그를 각 폼에 추가해야 합니다.
 	 * 

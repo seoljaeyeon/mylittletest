@@ -24,6 +24,10 @@ public class FavoriteNoteService {
     // Entity -> DTO 변환 메소드
     public FavoriteNoteDTO convertToDTO(FavoriteNote favoriteNoteEntity) {
     	FavoriteNoteDTO dto = new FavoriteNoteDTO();
+    	if (favoriteNoteEntity == null) {
+    		System.out.println("FavoriteNote to FavoriteNoteDTO failed. Empty FavoriteNoteDTO created. FavoriteNote is null");    		
+    		return dto;
+    	}
     	dto.setFavoriteDTO(favoriteService.convertToDTO(favoriteNoteEntity.getFavorite()));
     	dto.setNoteDTO(noteService.convertToDTO(favoriteNoteEntity.getNote()));
     	dto.setUserDTO(userService.convertToDTO(favoriteNoteEntity.getUser()));
@@ -32,6 +36,10 @@ public class FavoriteNoteService {
 
     // DTO -> VO 변환 메소드
     public FavoriteNoteVO convertToVO(FavoriteNoteDTO favoriteNoteDTO) {
+    	if (favoriteNoteDTO == null) {
+    		System.out.println("FavoriteNoteDTO to FavoriteNoteVO failed. Empty FavoriteNoteVO created. FavoriteNoteDTO is null");    		
+    		return new FavoriteNoteVO.Builder().build();
+    	}
         return new FavoriteNoteVO.Builder()
                 .userVO(userService.convertToVO(favoriteNoteDTO.getUserDTO()))
                 .noteVO(noteService.convertToVO(favoriteNoteDTO.getNoteDTO()))

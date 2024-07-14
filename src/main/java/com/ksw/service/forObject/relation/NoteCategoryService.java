@@ -25,13 +25,20 @@ public class NoteCategoryService {
 	
 	// noteNo로 categoryVO 반환 메소드
 	public CategoryVO getCategoryVObynoteNo(Integer noteNO) {
+		if (noteNO == null) {
+			System.out.println("Getting CategoryVO failed. noteNo is null. Empty CategoryVO returned.");
+			return new CategoryVO.Builder().build();
+		}
 		return categoryService.convertToVO(categoryService.convertToDTO(noteCategoryMapper.getNoteCategorybynoteNo(noteNO).getCategory()));
 	}
 	
     // Entity -> DTO 변환 메소드
     public NoteCategoryDTO convertToDTO(NoteCategory noteCategoryEntity) {
     	NoteCategoryDTO dto = new NoteCategoryDTO();
-    	
+    	if (noteCategoryEntity == null) {
+    		System.out.println("NoteCategory to NoteCategoryDTO failed. Empty NoteCategoryDTO created. NoteCategory is null");    		
+    		return dto;
+    	}
     	dto.setCategoryDTO(categoryService.convertToDTO(noteCategoryEntity.getCategory()));
     	dto.setNoteDTO(noteService.convertToDTO(noteCategoryEntity.getNote()));
         return dto;
@@ -39,6 +46,10 @@ public class NoteCategoryService {
 
     // DTO -> VO 변환 메소드
     public NoteCategoryVO convertToVO(NoteCategoryDTO noteCategoryDTO) {
+    	if (noteCategoryDTO == null) {
+    		System.out.println("NoteCategoryDTO to NoteCategoryVO failed. Empty NoteCategoryVO created. NoteCategoryDTO is null");    		
+    		return new NoteCategoryVO.Builder().build();
+    	}
         return new NoteCategoryVO.Builder()
                 .categoryVO(categoryService.convertToVO(noteCategoryDTO.getCategoryDTO()))
                 .noteVO(noteService.convertToVO(noteCategoryDTO.getNoteDTO()))
@@ -48,13 +59,15 @@ public class NoteCategoryService {
     // DTO -> Entity 변환 메소드
     public NoteCategory convertToEntity(NoteCategoryDTO noteCategoryDTO) {
         NoteCategory noteCategoryEntity = new NoteCategory();
-
+        if(noteCategoryDTO == null) {
+    		System.out.println("NoteCategoryDTO to NoteCategory failed. Empty NoteCategory created. NoteCategoryDTO is null");    		
+        	return noteCategoryEntity;
+        }
         Category categoryEntity = categoryService.convertToEntity(noteCategoryDTO.getCategoryDTO());
         Note noteEntity = noteService.convertToEntity(noteCategoryDTO.getNoteDTO());
 
         noteCategoryEntity.setCategory(categoryEntity);
         noteCategoryEntity.setNote(noteEntity);
-
         return noteCategoryEntity;
     }
 }

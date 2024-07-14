@@ -19,7 +19,11 @@ public class AnnouncementUserService {
 	
     // Entity -> DTO 변환 메소드
     public AnnouncementUserDTO convertToDTO(AnnouncementUser entity) {
-        AnnouncementUserDTO dto = new AnnouncementUserDTO();
+    	AnnouncementUserDTO dto = new AnnouncementUserDTO();
+    	if (entity==null) {	
+    		System.out.println("AnnouncementUser to AnnouncementUserDTO failed. Empty AnnouncementUserDTO created. AnnouncementUser is null");
+    		return dto;
+    	}
         dto.setAnnouncementDTO(announcementService.convertToDTO(entity.getAnnouncement()));
         dto.setUserDTO(userService.convertToDTO(entity.getUser()));
         return dto;
@@ -27,6 +31,10 @@ public class AnnouncementUserService {
 
     // DTO -> VO 변환 메소드
     public AnnouncementUserVO convertToVO(AnnouncementUserDTO announcementUserDTO) {
+    	if (announcementUserDTO == null) {
+    		System.out.println("AnnouncementUserDTO to AnnouncementUserVO failed. Empty AnnouncementUserVO created. AnnouncementUserDTO is null");
+    		return new AnnouncementUserVO.Builder().build();
+    	}
         return new AnnouncementUserVO.Builder()
                 .announcementVO(announcementService.convertToVO(announcementUserDTO.getAnnouncementDTO()))
                 .userVO(userService.convertToVO(announcementUserDTO.getUserDTO()))

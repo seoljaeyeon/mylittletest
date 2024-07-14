@@ -1,10 +1,15 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.Alarm;
 import com.ksw.object.entity.User;
 
-public class AlarmRelation {
+public class AlarmRelation implements Serializable
+{
 
+	private static final long serialVersionUID = 1L;
+	
     private Alarm alarm;
     private User receiver;
     private User maker;

@@ -1,13 +1,16 @@
 package com.ksw.vo.forObject.relation;
 
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.ksw.vo.forObject.entity.CategoryVO;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.forObject.entity.ViewVO;
 
-public class CategoryViewVO {
+public class CategoryViewVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
     private final CategoryVO categoryVO;
     private final ViewVO viewVO;

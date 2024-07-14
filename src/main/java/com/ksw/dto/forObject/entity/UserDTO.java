@@ -1,8 +1,12 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class UserDTO {
+public class UserDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
     private Integer userNo;
     private String userId;
@@ -97,83 +101,5 @@ public class UserDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private String userId;
-        private String password;
-        private String nickname;
-        private String email;
-        private Integer securityQuestion;
-        private String securityAnswer;
-        private Boolean isActive;
-        private Integer type;
-        private Timestamp createdAt;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder userId(String userId) {
-            this.userId = userId;
-            return this;
-        }
-
-        public Builder password(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder nickname(String nickname) {
-            this.nickname = nickname;
-            return this;
-        }
-
-        public Builder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder securityQuestion(Integer securityQuestion) {
-            this.securityQuestion = securityQuestion;
-            return this;
-        }
-
-        public Builder securityAnswer(String securityAnswer) {
-            this.securityAnswer = securityAnswer;
-            return this;
-        }
-
-        public Builder isActive(Boolean isActive) {
-            this.isActive = isActive;
-            return this;
-        }
-
-        public Builder type(Integer type) {
-            this.type = type;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public UserDTO build() {
-            UserDTO userDTO = new UserDTO();
-            userDTO.userNo = this.userNo;
-            userDTO.userId = this.userId;
-            userDTO.password = this.password;
-            userDTO.nickname = this.nickname;
-            userDTO.email = this.email;
-            userDTO.securityQuestion = this.securityQuestion;
-            userDTO.securityAnswer = this.securityAnswer;
-            userDTO.isActive = this.isActive;
-            userDTO.type = this.type;
-            userDTO.createdAt = this.createdAt;
-            return userDTO;
-        }
     }
 }

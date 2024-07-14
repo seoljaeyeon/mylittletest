@@ -1,11 +1,14 @@
 package com.ksw.vo.forObject.relation;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.ksw.vo.forObject.entity.AlarmVO;
 import com.ksw.vo.forObject.entity.UserVO;
 
-public class AlarmRelationVO {
+public class AlarmRelationVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
     private final AlarmVO alarmVO;
     private final UserVO receiverVO;

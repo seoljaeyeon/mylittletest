@@ -16,7 +16,7 @@
 			.addEventListener(
 					"DOMContentLoaded",
 					function() {
-					    var csrfToken = $("meta[name='_csrf']").attr("content");
+						var csrfToken = $("meta[name='_csrf']").attr("content");
 					    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 					    console.log("CSRF Token:", csrfToken);
@@ -37,12 +37,20 @@
 					            timeout: 600000,
 					            beforeSend: function(xhr) {
 				                    xhr.setRequestHeader(csrfHeader, csrfToken);
+				                    xhr.setRequestHeader("Accept", "application/json"); 
 					            },
-					            success: function(data) {
-					                console.log("SUCCESS : ", data);
+					            success: function(response) {
+									if (response.status == "success") {
+										window.location.href = response.url;
+									} else if (response.status == "login_needeed") {
+										window.location.href = response.url;
+									} else {
+										window.location.href = response.url;
+									}
 					            },
 					            error: function(e) {
 					                console.log("ERROR : ", e);
+					                window.location.href = "/mylittletest/write"
 					            }
 					        });
 					        event.preventDefault();

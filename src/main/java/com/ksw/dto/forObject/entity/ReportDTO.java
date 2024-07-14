@@ -1,8 +1,12 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class ReportDTO {
+public class ReportDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
     private Integer reportNo;
     private Integer reportType;
@@ -61,55 +65,5 @@ public class ReportDTO {
 
     public void setSolvedAt(Timestamp solvedAt) {
         this.solvedAt = solvedAt;
-    }
-    // Builder 클래스
-    public static class Builder {
-        private Integer reportNo;
-        private Integer reportType;
-        private String reportNote;
-        private Integer solvedType;
-        private Timestamp createdAt;
-        private Timestamp solvedAt;
-
-        public Builder reportNo(Integer reportNo) {
-            this.reportNo = reportNo;
-            return this;
-        }
-
-        public Builder reportType(Integer reportType) {
-            this.reportType = reportType;
-            return this;
-        }
-
-        public Builder reportNote(String reportNote) {
-            this.reportNote = reportNote;
-            return this;
-        }
-
-        public Builder solvedType(Integer solvedType) {
-            this.solvedType = solvedType;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder solvedAt(Timestamp solvedAt) {
-            this.solvedAt = solvedAt;
-            return this;
-        }
-
-        public ReportDTO build() {
-            ReportDTO reportDTO = new ReportDTO();
-            reportDTO.reportNo = this.reportNo;
-            reportDTO.reportType = this.reportType;
-            reportDTO.reportNote = this.reportNote;
-            reportDTO.solvedType = this.solvedType;
-            reportDTO.createdAt = this.createdAt;
-            reportDTO.solvedAt = this.solvedAt;
-            return reportDTO;
-        }
     }
 }

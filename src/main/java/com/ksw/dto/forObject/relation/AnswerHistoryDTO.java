@@ -1,12 +1,15 @@
 package com.ksw.dto.forObject.relation;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 
 import com.ksw.dto.forObject.entity.AnswerDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
 
-public class AnswerHistoryDTO {
+public class AnswerHistoryDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
     private NoteDTO noteDTO;
     private AnswerDTO answerDTO;
     private UserDTO userDTO;

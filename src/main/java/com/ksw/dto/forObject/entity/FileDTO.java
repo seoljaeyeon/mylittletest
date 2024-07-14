@@ -1,9 +1,12 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class FileDTO {
+public class FileDTO implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
     private Integer fileNo;
     private String savedName;
     private String uploadName;
@@ -43,41 +46,5 @@ public class FileDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-    // Builder 클래스
-    public static class Builder {
-        private Integer fileNo;
-        private String savedName;
-        private String uploadName;
-        private Timestamp createdAt;
-
-        public Builder fileNo(Integer fileNo) {
-            this.fileNo = fileNo;
-            return this;
-        }
-
-        public Builder savedName(String savedName) {
-            this.savedName = savedName;
-            return this;
-        }
-
-        public Builder uploadName(String uploadName) {
-            this.uploadName = uploadName;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public FileDTO build() {
-            FileDTO fileDTO = new FileDTO();
-            fileDTO.fileNo = this.fileNo;
-            fileDTO.savedName = this.savedName;
-            fileDTO.uploadName = this.uploadName;
-            fileDTO.createdAt = this.createdAt;
-            return fileDTO;
-        }
     }
 }

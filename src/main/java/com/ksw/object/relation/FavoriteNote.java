@@ -1,11 +1,15 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.Favorite;
 import com.ksw.object.entity.Note;
 import com.ksw.object.entity.User;
 
-public class FavoriteNote {
-
+public class FavoriteNote implements Serializable
+{
+	private static final long serialVersionUID = 1L;
+	
     private User user;
     private Note note;
     private Favorite favorite;

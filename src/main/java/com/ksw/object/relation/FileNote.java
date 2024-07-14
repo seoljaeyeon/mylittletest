@@ -1,10 +1,15 @@
 package com.ksw.object.relation;
 
+import java.io.Serializable;
+
 import com.ksw.object.entity.File;
 import com.ksw.object.entity.Note;
 
-public class FileNote {
+public class FileNote implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
+	
     private Note note;
     private File file;
 

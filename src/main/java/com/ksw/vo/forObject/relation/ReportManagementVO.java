@@ -1,10 +1,13 @@
 package com.ksw.vo.forObject.relation;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.ksw.vo.forObject.entity.UserVO;
 
-public final class ReportManagementVO {
+public final class ReportManagementVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private final UserVO userVO;
     private final UserVO managerVO;
     private final UserVO solverVO;

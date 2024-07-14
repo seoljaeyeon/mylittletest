@@ -49,32 +49,17 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 
-<beans:bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>
-
-	<security:http>
-    <security:csrf token-repository-ref="csrfTokenRepository"/>
-		<security:intercept-url pattern="/login"
-			access="permitAll" />
-		<security:intercept-url pattern="/join"
-			access="permitAll" />
-		<security:intercept-url pattern="/joincomplete"
-			access="permitAll" />
-		<security:intercept-url pattern="/logout"
-			access="permitAll" />
-		<security:intercept-url pattern="/**"
-			access="permitAll" />
-		<security:intercept-url pattern="/write" 
-			access="permitAll" />
-		<security:intercept-url pattern="/view"
-			access="permitAll" />
-		<security:logout 
-			logout-success-url="/login?logout" />
-		<security:form-login 
-			login-page="/login"
-			default-target-url="/index" 
-			username-parameter="userId"
+    <security:http  auto-config="true" use-expressions="true">
+        <security:csrf />
+        <security:logout logout-success-url="/login?logout" />
+   		<security:intercept-url pattern="/write"
+			access="hasRole('ROLE_USER')" />
+        <security:form-login login-page="/login"
+            default-target-url="/index" 
+            username-parameter="userId"
+            password-parameter="password"
             always-use-default-target="false" />
-	</security:http>
+    </security:http>
 
 	<beans:bean id="authenticationService"
 		class="com.ksw.service.function.AuthService" />

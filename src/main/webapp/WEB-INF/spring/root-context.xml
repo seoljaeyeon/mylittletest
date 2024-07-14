@@ -24,7 +24,7 @@
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="location" value="classpath:application.properties"/>
     </bean>
-
+    
     <!-- JavaMailSender 설정 -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${spring.mail.host}"/>
@@ -36,6 +36,12 @@
                 <prop key="mail.smtp.auth">${spring.mail.properties.mail.smtp.auth}</prop>
                 <prop key="mail.smtp.starttls.enable">${spring.mail.properties.mail.smtp.starttls.enable}</prop>
                 <prop key="mail.smtp.starttls.required">${spring.mail.properties.mail.smtp.starttls.required}</prop>
+                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+                <prop key="mail.smtp.connectiontimeout">5000</prop>
+                <prop key="mail.smtp.timeout">5000</prop>
+                <prop key="mail.smtp.writetimeout">5000</prop>
+                <prop key="mail.debug">true</prop>
             </props>
         </property>
     </bean> 

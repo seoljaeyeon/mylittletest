@@ -1,10 +1,14 @@
 package com.ksw.dto.forObject.relation;
 
+import java.io.Serializable;
+
 import com.ksw.dto.forObject.entity.ReplyDTO;
 import com.ksw.dto.forObject.entity.ReportDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
 
-public class ReportReplyDTO {
+public class ReportReplyDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
     private UserDTO userDTO;
     private ReplyDTO replyDTO;

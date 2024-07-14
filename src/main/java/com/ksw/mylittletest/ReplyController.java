@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ksw.dto.forObject.entity.ReplyDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.entity.UserService;
 import com.ksw.service.forObject.relation.ReplyUserService;
@@ -38,7 +39,8 @@ public class ReplyController {
 		
 		UserDTO userDTO = userService.convertVOToDTO(userinfo.getUserVO());
 		replyService.writeReply(replyDTO);
-		replyUserService.writeReplayRelation(replyDTO, userDTO); 
+		replyUserService.writeReplyRelation(replyDTO, userDTO); 
+		
 		return "redirect:/view/"+noteNo;
 	}
 }

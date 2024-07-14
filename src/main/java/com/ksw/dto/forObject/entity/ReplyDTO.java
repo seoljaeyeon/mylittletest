@@ -1,8 +1,12 @@
 package com.ksw.dto.forObject.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class ReplyDTO {
+public class ReplyDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 
     private Integer replyNo;
     private String replyContent;
@@ -61,55 +65,5 @@ public class ReplyDTO {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
-    }
-    // Builder 클래스
-    public static class Builder {
-        private Integer replyNo;
-        private String replyContent;
-        private Integer parentReply;
-        private Boolean isActive;
-        private Timestamp createdAt;
-        private Timestamp updatedAt;
-
-        public Builder replyNo(Integer replyNo) {
-            this.replyNo = replyNo;
-            return this;
-        }
-
-        public Builder replyContent(String replyContent) {
-            this.replyContent = replyContent;
-            return this;
-        }
-
-        public Builder parentReply(Integer parentReply) {
-            this.parentReply = parentReply;
-            return this;
-        }
-
-        public Builder isActive(Boolean isActive) {
-            this.isActive = isActive;
-            return this;
-        }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder updatedAt(Timestamp updatedAt) {
-            this.updatedAt = updatedAt;
-            return this;
-        }
-
-        public ReplyDTO build() {
-            ReplyDTO replyDTO = new ReplyDTO();
-            replyDTO.replyNo = this.replyNo;
-            replyDTO.replyContent = this.replyContent;
-            replyDTO.parentReply = this.parentReply;
-            replyDTO.isActive = this.isActive;
-            replyDTO.createdAt = this.createdAt;
-            replyDTO.updatedAt = this.updatedAt;
-            return replyDTO;
-        }
     }
 }
