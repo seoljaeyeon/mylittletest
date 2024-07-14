@@ -1,6 +1,7 @@
 package com.ksw.object.relation;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import com.ksw.object.entity.Note;
 import com.ksw.object.entity.User;
@@ -14,6 +15,7 @@ public class NoteView implements Serializable{
     private View view;
     private Note note;
     private User user;
+    private Timestamp createdAt;
     
 	public User getUser() {
 		return user;
@@ -26,6 +28,12 @@ public class NoteView implements Serializable{
 	}
 	public void setView(View view) {
 		this.view = view;
+	}
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 	public Note getNote() {
 		return note;

@@ -15,17 +15,11 @@ public interface NoteViewMapper {
     @Insert("INSERT INTO noteView (viewNo, noteNo) VALUES (#{viewNo}, #{noteNo})")
     void insertNoteView(NoteView noteView);
     
-    @Select("SELECT n.noteNo, n.createdAt AS noteCreatedAt, n.isActive, n.noteAnswer, n.noteContent, n.noteHint, n.noteTitle, n.updatedAt, n.noteCommentary, v.viewNo, v.createdAt as viewCreatedAt " +
-            "FROM note n " +
-            "JOIN noteCategory nc ON n.noteNo = nc.noteNo " +
-            "JOIN noteView nv ON n.noteNo = nv.noteNo " +
-            "JOIN view v ON nv.viewNo = v.viewNo " +
-            "WHERE nc.categoryNo = #{categoryNo} AND nc.noteNo = #{noteNo} AND nv.userNo = #{userNo}")
-    @Results({
-    	@Result(property = "note.createdAt", column="noteCreatedAt"),
-    	@Result(property = "view.createdAt", column="viewCreatedAt")
-    })
-    List<NoteView> getHistory(@Param("categoryNo") Integer categoryNo,
-                              @Param("noteNo") Integer noteNo,
+    @Select(""
+    		+ "SELECT COUNT(*) FROM "
+    		+ "noteView nv JOIN noteCategory nc ON nv.noteNo = nc.noteNo "
+    		+ "WHERE nv.userNo = #{userNo} AND nc.categoryNo = #{categoryNo} "
+    		+ "AND DATE(nv.createdAt) = CURDATE()") // 날짜 조건 - 오늘 
+	Integer getTodayHistory(@Param("categoryNo") Integer categoryNo,
                               @Param("userNo") Integer userNo);
 }

@@ -7,6 +7,7 @@ import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FileDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.dto.forObject.relation.NoteViewDTO;
 import com.ksw.dto.forObject.relation.ReplyUserDTO;
 
 public class QuestionDTO implements Serializable{
@@ -23,7 +24,14 @@ public class QuestionDTO implements Serializable{
 	private Integer favoriteCount;
 	private Integer answerType;
 	private Boolean isFavorite;
+	private Integer todayNoteViewInCategory;
 	
+	public Integer getTodayNoteViewInCategory() {
+		return todayNoteViewInCategory;
+	}
+	public void setTodayNoteViewInCategory(Integer todayNoteViewInCategory) {
+		this.todayNoteViewInCategory = todayNoteViewInCategory;
+	}
 	public List<ReplyUserDTO> getReplies() {
 		return replies;
 	}

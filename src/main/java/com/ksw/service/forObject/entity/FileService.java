@@ -63,7 +63,7 @@ public class FileService {
 		FileDTO fileDTO = new FileDTO();
 		
 		// file이 null일 경우, 빈 fileDTO 반환
-		if (file == null) {
+		if (file == null || file.isEmpty()) {
 			return fileDTO;
 		}
 		

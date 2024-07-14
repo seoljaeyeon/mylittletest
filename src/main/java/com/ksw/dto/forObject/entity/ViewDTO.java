@@ -9,16 +9,14 @@ public class ViewDTO implements Serializable{
 	
 
     private Integer viewNo;
-    private Timestamp createdAt;
 
     // 기본 생성자
     public ViewDTO() {}
     
     // 기본 생성자
-    public ViewDTO(Integer viewNo, Timestamp createdAt) {
+    public ViewDTO(Integer viewNo) {
     	super();
     	this.viewNo = viewNo;
-    	this.createdAt = createdAt;
     }
 
     // Getter 및 Setter
@@ -28,13 +26,5 @@ public class ViewDTO implements Serializable{
 
     public void setViewNo(Integer viewNo) {
         this.viewNo = viewNo;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
     }
 }

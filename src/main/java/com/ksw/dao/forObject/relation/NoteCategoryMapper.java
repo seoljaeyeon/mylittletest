@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
+import com.ksw.object.entity.Category;
 import com.ksw.object.relation.NoteCategory;
 
 @Mapper
@@ -35,5 +36,11 @@ public interface NoteCategoryMapper {
     	@Result(property = "category.createdAt", column = "createdAt")
     	})
     NoteCategory getNoteCategorybynoteNo(Integer noteNo);
+    
+    @Select(""
+    		+ "SELECT c.* FROM category c JOIN noteCategory nc "
+    		+ "ON c.categoryNo = nc.categoryNo "
+    		+ "WHERE nc.noteNo = #{noteNo} ")
+    Category getCategorybyNoteNo(Integer noteNo);
 	
 }

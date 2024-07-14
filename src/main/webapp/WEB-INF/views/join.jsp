@@ -153,10 +153,6 @@ a {
 	<script>
     var csrfToken = $("meta[name='_csrf']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
-    $(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(csrfHeader, csrfToken);
-    });
 	
 	</script>
 	<form class="input_area" name="join" id="join" method="post"
@@ -206,6 +202,9 @@ a {
 						data : {
 							email : email
 						},
+			            beforeSend: function(xhr) {
+		                    xhr.setRequestHeader(csrfHeader, csrfToken);
+			            },
 						success : function(response) {
 							response.trim();
 							if (response == "success") {
@@ -269,6 +268,9 @@ a {
 	                data: {
 	                    code: authCode
 	                },
+		            beforeSend: function(xhr) {
+	                    xhr.setRequestHeader(csrfHeader, csrfToken);
+		            },
 	                success: function(response) {
 	                    response = response.trim();
 	                    if (response === "valid") {

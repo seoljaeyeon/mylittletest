@@ -1,11 +1,14 @@
 package com.ksw.mylittletest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -59,21 +62,25 @@ public class QuestionController {
 	public String viewPage(
 			@PathVariable("noteNo") Integer noteNo,
 			Model model) { 
-		
+		/*
+		 * 필요 기능 목록
+		 * - 조회 수 증가 시키기 (조회 이력 남기기)
+		 * - 댓글 목록 로딩 --> questionService.Read에서 처리
+		 * - 댓글 쓰기 기능(ReplyController에서 처리)
+		 * - 수정 관련 컨트롤러 만들기
+		 * - 비활성화 컨트롤러 만들기
+		 * - 덜보기 컨트롤러 만들기
+		 * - 오늘 조회 목록 불러오기
+		 * - 다음 문제 보기
+		 */
 		UserVO userVO = authService.getUserVO();
 
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
-
-		
+				
 		// DB에서 문제 정보 가져오기 
 		QuestionVO questionVO = questionService.Read(noteNo, userVO);
 
-		// 해당 카테고리에서 사용자가 본 목록 가져오기
-		List<NoteViewVO> noteViewList = noteViewService.GetHistory(questionVO.getCategoryVO().getCategoryNo(), noteNo, userVO.getUserNo());
-		
-		
-		
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);
 		
@@ -126,9 +133,9 @@ public class QuestionController {
 //        }
 //    }
     
-	@PostMapping("/write")
-	@ResponseBody
-	public String notewrite(
+    @PostMapping(value = "/write", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+	public Map<String, String> notewrite(
 			@ModelAttribute NoteDTO noteDTO,
 			@ModelAttribute CategoryDTO categoryDTO,
 			@RequestParam("file") MultipartFile file,
@@ -136,16 +143,30 @@ public class QuestionController {
 			RedirectAttributes redirectAttributes,
 	        HttpServletRequest request,
 	        Model model) {
-			// 사용자 정보 model에 추가 (view에서 활용) 
+			// 인증 서비스로부터 사용자 정보 로딩
 			UserVO userVO = authService.getUserVO();
-
+			
+			// 응답용 Map생성 (Json)
+			Map<String, String> response = new HashMap<String, String>();
+			if (userVO == null || userVO.getUserNo() == null) {
+				response.put("status", "loing_needed");
+				response.put("url", "/mylittletest/write");
+				return response;
+			}
+				
+			// 사용자 정보model에 추가
 			model.addAttribute("userVO", userVO);
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userVO);
             	model.addAttribute("questionVO", questionVO); // view에서 어떻게 쓸 지 아직 미정
-                return String.valueOf(questionVO.getNoteVO().getNoteNo());
+                response.put("status", "success");
+                response.put("url", "/mylittletest/view/" + questionVO.getNoteVO().getNoteNo());
+                return response;
+                
             } catch (Exception e) {
-            	return "write";
+                response.put("status", "fail");
+                response.put("url", "/mylittletest/write");
+            	return response;
             }	
 	}
 }

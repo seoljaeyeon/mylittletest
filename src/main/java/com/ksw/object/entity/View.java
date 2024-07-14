@@ -17,27 +17,16 @@ import javax.persistence.Table;
 public class View implements Serializable {
     
 	private static final long serialVersionUID = 1L;
-
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer viewNo;
-
-    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp createdAt;
-
     
     //constructor
     public View() {
     	super();
     }
     
-	// 엔티티가 처음 저장되기 전에 실행
-    @PrePersist
-    protected void onCreate() {
-    	createdAt = Timestamp.valueOf(LocalDateTime.now());
-    }
-
 	// Getters and Setters
     public Integer getViewNo() {
         return viewNo;
@@ -47,11 +36,4 @@ public class View implements Serializable {
         this.viewNo = viewNo;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
 }

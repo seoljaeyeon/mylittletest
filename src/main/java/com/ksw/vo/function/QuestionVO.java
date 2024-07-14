@@ -8,6 +8,7 @@ import com.ksw.vo.forObject.entity.CategoryVO;
 import com.ksw.vo.forObject.entity.FileVO;
 import com.ksw.vo.forObject.entity.NoteVO;
 import com.ksw.vo.forObject.entity.UserVO;
+import com.ksw.vo.forObject.relation.NoteViewVO;
 import com.ksw.vo.forObject.relation.ReplyUserVO;
 
 public final class QuestionVO implements Serializable {
@@ -16,8 +17,13 @@ public final class QuestionVO implements Serializable {
     private final NoteVO noteVO;
     private final UserVO writerVO;
     private final CategoryVO categoryVO;
-    private final FileVO fileVO;
+    public Integer getTodayNoteViewInCategory() {
+		return todayNoteViewInCategory;
+	}
+
+	private final FileVO fileVO;
     private final List<ReplyUserVO> replies;
+    private final Integer todayNoteViewInCategory;
     private final Integer viewCount;
     private final Integer favoriteCount;
     private final Integer answerType;
@@ -33,6 +39,7 @@ public final class QuestionVO implements Serializable {
         this.favoriteCount = builder.favoriteCount;
         this.answerType = builder.answerType;
         this.isFavorite = builder.isFavorite;
+        this.todayNoteViewInCategory = builder.todayNoteViewInCategory;
     }
 
     public NoteVO getNoteVO() {
@@ -71,41 +78,7 @@ public final class QuestionVO implements Serializable {
 		return answerType;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		QuestionVO other = (QuestionVO) obj;
-		return answerType == other.answerType && Objects.equals(categoryVO, other.categoryVO)
-				&& favoriteCount == other.favoriteCount && Objects.equals(fileVO, other.fileVO)
-				&& Objects.equals(isFavorite, other.isFavorite) && Objects.equals(noteVO, other.noteVO)
-				&& Objects.equals(replies, other.replies) 
-				&& viewCount == other.viewCount && Objects.equals(writerVO, other.writerVO);
-	}
 
-    @Override
-	public int hashCode() {
-		return Objects.hash(answerType, categoryVO, favoriteCount, fileVO, isFavorite, noteVO, replies,
-				viewCount, writerVO);
-	}
-
-    @Override
-	public String toString() {
-		return "QuestionVO [noteVO=" + noteVO + 
-				", writerVO=" + writerVO + 
-				", categoryVO="	+ categoryVO + 
-				", fileVO=" + fileVO + 
-				", replies=" + replies + 
-				", viewCount=" + viewCount 
-				+ ", favoriteCount=" + favoriteCount + 
-				", answerType=" + answerType + 
-				", isFavorite=" + isFavorite
-				+ "]";
-	}
 
     public static class Builder {
         private UserVO writerVO;
@@ -117,6 +90,7 @@ public final class QuestionVO implements Serializable {
         private Integer favoriteCount;
         private Integer answerType;
         private Boolean isFavorite;
+        private Integer todayNoteViewInCategory;
         
         public Builder writerVO(UserVO writerVO) {
         	this.writerVO = writerVO;
@@ -160,6 +134,41 @@ public final class QuestionVO implements Serializable {
         
         public Builder isFavorite(Boolean isFavorite) {
         	this.isFavorite = isFavorite;
+        	return this;
+        }
+        
+        @Override
+		public int hashCode() {
+			return Objects.hash(answerType, categoryVO, favoriteCount, fileVO, isFavorite, noteVO, todayNoteViewInCategory,
+					replies, viewCount, writerVO);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Builder other = (Builder) obj;
+			return Objects.equals(answerType, other.answerType) && Objects.equals(categoryVO, other.categoryVO)
+					&& Objects.equals(favoriteCount, other.favoriteCount) && Objects.equals(fileVO, other.fileVO)
+					&& Objects.equals(isFavorite, other.isFavorite) && Objects.equals(noteVO, other.noteVO)
+					&& Objects.equals(todayNoteViewInCategory, other.todayNoteViewInCategory) && Objects.equals(replies, other.replies)
+					&& Objects.equals(viewCount, other.viewCount) && Objects.equals(writerVO, other.writerVO);
+		}
+
+		@Override
+		public String toString() {
+			return "Builder [writerVO=" + writerVO + ", noteVO=" + noteVO + ", categoryVO=" + categoryVO + ", fileVO="
+					+ fileVO + ", replies=" + replies + ", viewCount=" + viewCount + ", favoriteCount=" + favoriteCount
+					+ ", answerType=" + answerType + ", isFavorite=" + isFavorite + ", todayNoteViewInCategory=" + todayNoteViewInCategory
+					+ "]";
+		}
+
+		public Builder todayNoteViewInCategory(Integer todayNoteViewInCategory) {
+        	this.todayNoteViewInCategory = todayNoteViewInCategory;
         	return this;
         }
 

@@ -27,13 +27,15 @@ public class NoteViewService {
 	@Autowired
 	private NoteViewMapper noteViewMapper;
 	
-	public List<NoteViewVO> GetHistory(Integer categoryNo, Integer noteNo, Integer userNo) {
-		if (categoryNo == null || noteNo == null || userNo == null) {
-    		System.out.println("Getting NoteViewVO History failed. One of parameters is null. Empty list returned");   	
-			return Collections.singletonList(new NoteViewVO.Builder().build());
+	public Integer GetTodayHistoryCount(Integer categoryNo, Integer userNo) {
+		Integer result = 0;
+		
+		if (categoryNo == null || userNo == null) {
+    		System.out.println("Getting count for today's view failed. One of parameters is null. 0 returned");   	
+			return result;
 		}
-		List<NoteView> list = noteViewMapper.getHistory(categoryNo, noteNo, userNo);
-		return this.convertToVOList(list);
+		result = noteViewMapper.getTodayHistory(categoryNo, userNo);
+		return result;
 	}
 	
 	public NoteViewDTO convertToDTO(NoteView noteView) {
@@ -70,6 +72,16 @@ public class NoteViewService {
 		return list.stream()
 				.map(this::convertToDTO)
 				.map(this::convertToVO)
+				.collect(Collectors.toList());
+	}
+	
+	public List<NoteViewDTO> convertToDTOList(List<NoteView> list) {
+		if (list == null ) {
+    		System.out.println("List<NoteView> to List<NoteViewVO> failed. Empty List<NoteViewVO> created. List<NoteView> is null");   	
+			return Collections.singletonList(new NoteViewDTO());
+		}
+		return list.stream()
+				.map(this::convertToDTO)
 				.collect(Collectors.toList());
 	}
 	

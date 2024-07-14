@@ -19,7 +19,6 @@ public class ViewService {
     		System.out.println("View to ViewDTO failed. Empty ViewDTO created. View is null");
 			return dto;
 		}
-		dto.setCreatedAt(view.getCreatedAt());
 		dto.setViewNo(view.getViewNo());
 		return dto;
 	}
@@ -31,7 +30,6 @@ public class ViewService {
 		}
 		return new ViewVO.Builder()
 				.viewNo(viewDTO.getViewNo())
-				.createdAt(viewDTO.getCreatedAt())
 				.build();
 	}
 	

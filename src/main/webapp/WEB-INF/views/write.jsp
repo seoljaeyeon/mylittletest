@@ -37,10 +37,16 @@
 					            timeout: 600000,
 					            beforeSend: function(xhr) {
 				                    xhr.setRequestHeader(csrfHeader, csrfToken);
+				                    xhr.setRequestHeader("Accept", "application/json"); 
 					            },
-					            success: function(data) {
-					                console.log("SUCCESS : ", data);
-					                window.location.href = "/mylittletest/view/"+data; // 성공 시 이동할 페이지
+					            success: function(response) {
+									if (response.status == "success") {
+										window.location.href = response.url;
+									} else if (response.status == "login_needeed") {
+										window.location.href = response.url;
+									} else {
+										window.location.href = response.url;
+									}
 					            },
 					            error: function(e) {
 					                console.log("ERROR : ", e);

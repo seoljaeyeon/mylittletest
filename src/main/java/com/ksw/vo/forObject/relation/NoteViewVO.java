@@ -2,6 +2,7 @@ package com.ksw.vo.forObject.relation;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 import com.ksw.vo.forObject.entity.NoteVO;
@@ -15,12 +16,14 @@ public class NoteViewVO implements Serializable {
     private final NoteVO noteVO;
     private final ViewVO viewVO;
     private final UserVO userVO;
+    private final Timestamp createdAt;
 
     // 생성자
-    public NoteViewVO(NoteVO noteVO, ViewVO viewVO, UserVO userVO) {
+    public NoteViewVO(NoteVO noteVO, ViewVO viewVO, UserVO userVO, Timestamp createdAt) {
         this.noteVO = noteVO;
         this.viewVO = viewVO;
         this.userVO = userVO;
+        this.createdAt = createdAt;
     }
 
     // Getters
@@ -28,15 +31,28 @@ public class NoteViewVO implements Serializable {
         return noteVO;
     }
 
-    public ViewVO getViewVO() {
+    public NoteVO getNoteVO() {
+		return noteVO;
+	}
+
+	public UserVO getUserVO() {
+		return userVO;
+	}
+
+	public ViewVO getViewVO() {
         return viewVO;
     }
 
-    // 빌더 패턴 구현
+    public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	// 빌더 패턴 구현
     public static class Builder {
         private NoteVO noteVO;
         private ViewVO viewVO;
         private UserVO userVO;
+        private Timestamp createdAt;
 
         public Builder noteVO(NoteVO noteVO) {
             this.noteVO = noteVO;
@@ -53,8 +69,13 @@ public class NoteViewVO implements Serializable {
             return this;
         }
 
+        public Builder createdAt(Timestamp createdAt) {
+        	this.createdAt = createdAt;
+        	return this;
+        }
+        
         public NoteViewVO build() {
-            return new NoteViewVO(noteVO, viewVO, userVO);
+            return new NoteViewVO(noteVO, viewVO, userVO, createdAt);
         }
     }
 
@@ -65,6 +86,7 @@ public class NoteViewVO implements Serializable {
                 "noteVO=" + noteVO +
                 ", viewVO=" + viewVO +
                 ", userVO=" + userVO +
+                ", createdAt=" + createdAt +
                 '}';
     }
 
@@ -76,12 +98,13 @@ public class NoteViewVO implements Serializable {
         NoteViewVO that = (NoteViewVO) o;
         return Objects.equals(noteVO, that.noteVO) &&
                 Objects.equals(viewVO, that.viewVO) &&
+                Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(userVO, that.userVO);
     }
 
     // hashCode 메소드
     @Override
     public int hashCode() {
-        return Objects.hash(noteVO, viewVO, userVO);
+        return Objects.hash(noteVO, viewVO, userVO, createdAt);
     }
 }

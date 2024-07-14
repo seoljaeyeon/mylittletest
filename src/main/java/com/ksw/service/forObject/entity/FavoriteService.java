@@ -19,6 +19,7 @@ public class FavoriteService {
     	
     	dto.setCreatedAt(favorite.getCreatedAt());
     	dto.setFavoriteNo(favorite.getFavoriteNo());
+    	dto.setFavoriteType(favorite.getFavoriteType());
         return dto;
     }
 
@@ -29,6 +30,7 @@ public class FavoriteService {
     		return new FavoriteVO.Builder().build();
     	}
         return new FavoriteVO.Builder()
+        		.favoriteType(favoriteDTO.getFavoriteType())
                 .favoriteNo(favoriteDTO.getFavoriteNo())
                 .createdAt(favoriteDTO.getCreatedAt())
                 .build();

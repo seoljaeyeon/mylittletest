@@ -9,12 +9,10 @@ public class ViewVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
     private final Integer viewNo;
-    private final Timestamp createdAt;
 
     // 생성자
-    public ViewVO(Integer viewNo, Timestamp createdAt) {
+    public ViewVO(Integer viewNo) {
         this.viewNo = viewNo;
-        this.createdAt = createdAt;
     }
 
     // Getters
@@ -22,27 +20,16 @@ public class ViewVO implements Serializable {
         return viewNo;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
     // 빌더 패턴 구현
     public static class Builder {
         private Integer viewNo;
-        private Timestamp createdAt;
 
         public Builder viewNo(Integer viewNo) {
             this.viewNo = viewNo;
             return this;
         }
-
-        public Builder createdAt(Timestamp createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
         public ViewVO build() {
-            return new ViewVO(viewNo, createdAt);
+            return new ViewVO(viewNo);
         }
     }
 
@@ -51,7 +38,6 @@ public class ViewVO implements Serializable {
     public String toString() {
         return "ViewVO{" +
                 "viewNo=" + viewNo +
-                ", createdAt=" + createdAt +
                 '}';
     }
 
@@ -61,13 +47,12 @@ public class ViewVO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ViewVO viewVO = (ViewVO) o;
-        return Objects.equals(viewNo, viewVO.viewNo) &&
-                Objects.equals(createdAt, viewVO.createdAt);
+        return Objects.equals(viewNo, viewVO.viewNo);
     }
 
     // hashCode 메소드
     @Override
     public int hashCode() {
-        return Objects.hash(viewNo, createdAt);
+        return Objects.hash(viewNo);
     }
 }

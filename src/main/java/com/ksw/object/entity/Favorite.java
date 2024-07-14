@@ -25,6 +25,8 @@ public class Favorite implements Serializable {
 	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
+    @Column(nullable = true)
+    private Integer favoriteType; // -1 이면 덜보기 1이면 좋아요 / 북마크
 	
 	// constructor
 	public Favorite() {
@@ -43,6 +45,14 @@ public class Favorite implements Serializable {
 
 	public Timestamp getCreatedAt() {
 		return createdAt;
+	}
+
+	public Integer getFavoriteType() {
+		return favoriteType;
+	}
+
+	public void setFavoriteType(Integer favoriteType) {
+		this.favoriteType = favoriteType;
 	}
 
 	public void setFavoriteNo(Integer favoriteNo) {
