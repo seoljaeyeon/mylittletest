@@ -99,10 +99,50 @@ document.addEventListener("DOMContentLoaded", function() {
     btnX.addEventListener("click", () => {
         btnX.classList.toggle("clicked2");
     });
+    
     //오디오 재생
-    const audioPlayer = document.getElementById("audioPlayer");
-    audioPlayer.play().catch(error => {
-        console.error("오디오 재생 중 오류가 발생했습니다:", error);
+    const audio = document.getElementById('audioPlayer');
+    let isSeeking = false;
+
+    audio.addEventListener('click', function(event) {
+      event.preventDefault();
+      const rect = audio.getBoundingClientRect();
+      const offsetX = event.clientX - rect.left;
+      const playerWidth = rect.width;
+      const duration = audio.duration;
+
+      const clickTime = (offsetX / playerWidth) * duration;
+      audio.currentTime = clickTime;
+
+      if (audio.paused) {
+        audio.play();
+      }
+    });
+
+    audio.addEventListener('mousedown', function(event) {
+      event.preventDefault();
+      isSeeking = true;
+      const rect = audio.getBoundingClientRect();
+      const playerWidth = rect.width;
+      const duration = audio.duration;
+
+      function moveListener(event) {
+        if (isSeeking) {
+          const offsetX = event.clientX - rect.left;
+          const clickTime = (offsetX / playerWidth) * duration;
+          audio.currentTime = clickTime;
+        }
+      }
+
+      document.addEventListener('mousemove', moveListener);
+
+      document.addEventListener('mouseup', function() {
+        isSeeking = false;
+        if (!audio.paused) {
+          audio.play();
+        }
+        document.removeEventListener('mousemove', moveListener);
+      });
     });
   });
 </script>
@@ -262,9 +302,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		gap:10px;
 	}
 	.next{
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
 		border-radius: 10px;
@@ -273,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		padding: auto;
 		justify-content: center;
 		align-items: center;
-		font-size: 25px;
+		font-size: 20px;
 		text-align:center;
 		display:flex;
 		cursor:pointer;
@@ -321,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		height:40px;		
 	}
 	.audioPlayer{
-		width:170px;
+		width:250px;
 		height:40px;
 	}
 	.success_btn{
@@ -664,8 +701,8 @@ document.addEventListener("DOMContentLoaded", function() {
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
 					<div class="media">
-						<audio id="audioPlayer" class="audioPlayer" controls>
-					        <source src="/audio/Winner_Winner_Funky_Chicken_Dinner.mp3" type="audio/mpeg">
+						<audio id="audioPlayer" class="audioPlayer" controls="controls" loop="loop">
+					        <source src="https://cdn.pixabay.com/download/audio/2024/06/13/audio_8822cea290.mp3?filename=no-place-to-go-216744.mp3"  type="audio/mpeg"/>
 					    </audio>
 						<div class="check">
 							<div class="success_btn" id="btnO">O</div>
