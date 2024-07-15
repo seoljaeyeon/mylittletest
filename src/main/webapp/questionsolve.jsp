@@ -99,6 +99,11 @@ document.addEventListener("DOMContentLoaded", function() {
     btnX.addEventListener("click", () => {
         btnX.classList.toggle("clicked2");
     });
+    //오디오 재생
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.play().catch(error => {
+        console.error("오디오 재생 중 오류가 발생했습니다:", error);
+    });
   });
 </script>
 <style>
@@ -313,13 +318,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	.check{
 		display:flex;
 		gap:10px;
+		height:40px;		
+	}
+	.audioPlayer{
+		width:170px;
 		height:40px;
-		margin-top:43px;
 	}
 	.success_btn{
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
 		border-radius: 10px;
@@ -658,9 +663,14 @@ document.addEventListener("DOMContentLoaded", function() {
 						</div>
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
-					<div class="check">
-						<div class="success_btn" id="btnO">O</div>
-						<div class="success_btn" id="btnX">X</div>
+					<div class="media">
+						<audio id="audioPlayer" class="audioPlayer" controls>
+					        <source src="/audio/Winner_Winner_Funky_Chicken_Dinner.mp3" type="audio/mpeg">
+					    </audio>
+						<div class="check">
+							<div class="success_btn" id="btnO">O</div>
+							<div class="success_btn" id="btnX">X</div>
+						</div>
 					</div>
 				</div>	
 			</div>

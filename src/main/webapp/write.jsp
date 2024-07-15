@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="./include/head_login.jsp"></jsp:include>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+	
 	const inputField = document.getElementById('subject');
     const dropdownMenu = document.createElement('div');
     dropdownMenu.classList.add('dropdown-menu');
@@ -498,7 +501,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="box">
             <div class="hint_container"><input class="hint_input" type="text" id="hint" name="hint" placeholder="힌트를 입력해주세요"></div>
             	<div class="file_container">
-            		<input type="file" class="upload" multiple>
+            		 <input type="file" id="mediaFiles" name="mediaFiles[]" accept="image/*,audio/*" multiple>
             	</div>
         </div>
         <div class="answer_container"><textarea id="answer" name="answer" placeholder="정답을 입력해주세요"></textarea></div>

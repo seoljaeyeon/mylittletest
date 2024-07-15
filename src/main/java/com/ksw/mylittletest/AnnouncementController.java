@@ -33,10 +33,15 @@ import com.ksw.vo.forObject.relation.FileAnnouncementVO;
 @RequestMapping("/announcements")
 public class AnnouncementController {
 
+	
     private final AnnouncementService announcementService; // 공지사항 서비스
+    
     private final AnnouncementUserService announcementUserService; // 공지사항-사용자 매핑 서비스
+    
     private final FileAnnouncementService fileAnnouncementService; // 파일-공지사항 매핑 서비스
+    
     private final UserService userService; // 사용자 서비스
+    
 
     @Autowired
     public AnnouncementController(AnnouncementService announcementService, AnnouncementUserService announcementUserService,
@@ -73,7 +78,7 @@ public class AnnouncementController {
             AnnouncementVO announcementVO = announcementService.convertToVO(announcementDTO);
 
             // 공지를 데이터베이스에 저장
-            announcementService.save(announcementVO);
+            Announcement announcement = announcementService.insertAnnouncement(announcementVO);
 
             // 파일 업로드 처리
             if (!file.isEmpty()) {
@@ -104,7 +109,7 @@ public class AnnouncementController {
                     .build();
             announcementUserService.save(announcementUserVO); // 공지사항-사용자 매핑 서비스에 저장 메서드 호출
 
-            redirectAttributes.addFlashAttribute("message", "공지사항이 등록되었습니다!"); // 리다이렉트 시 메시지 전달
+            redirectAttributes.addFlashAttribute("message", "공지사항이 등록되었습니다!"); // 리다s이렉트 시 메시지 전달
 
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("message", "파일 업로드에 실패했습니다."); // 예외 발생 시 메시지 전달
