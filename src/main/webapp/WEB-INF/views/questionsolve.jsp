@@ -614,7 +614,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 	</div>
 	<div class="reply_container">
-		<form id="replyFrm" name="replyFrm" method="post" action="replyok.jsp">
+		<form id="replyFrm" name="replyFrm" method="post" action="/mylittletest/replyWrite">
 			<div class="reply_box">
 				<div class="reply_profile" style="font-size:30px; margin-top:5px;">😃</div>
 				<div class="replyinput"><input type="text" class="reply_input" id="reply" name="reply" placeholder="댓글을 입력해주세요"></div>

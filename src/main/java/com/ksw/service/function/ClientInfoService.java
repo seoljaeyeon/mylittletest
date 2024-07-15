@@ -164,13 +164,17 @@ public class ClientInfoService {
     
     // 세션에 해당 게시글을 본 기록이 있는 지 확인 후, 조회수를 올려도 될 지 말지 정해주는 메소드 -> false면 조회수 증가 O, true면 증가 X
     public boolean getSessionClientViewHistory(Integer noteNo, HttpSession session, HttpServletRequest request) {
-	    	HashMap<Integer, HashMap<String, String>> sessionClientInfos = (HashMap<Integer, HashMap<String, String>>) session.getAttribute("clientInfos");
-	    	
-	    	HashMap<String, String> sessionClientInfo = new HashMap<String, String>();
-	    	if (sessionClientInfos == null) {
-	    		return false;
-	    	}
-	    	sessionClientInfo = sessionClientInfos.get(noteNo);
+    	HashMap<Integer, HashMap<String, String>> sessionClientInfos = (HashMap<Integer, HashMap<String, String>>) session.getAttribute("clientInfos");
+    	
+    	HashMap<String, String> sessionClientInfo = new HashMap<String, String>();
+    	if (sessionClientInfos == null || sessionClientInfos.isEmpty()) {
+    		return false;
+    	}
+    	
+    	if (sessionClientInfos.get(noteNo) == null || sessionClientInfos.get(noteNo).isEmpty()) {
+    		return false;
+    	}
+    	sessionClientInfo = sessionClientInfos.get(noteNo);
         
         String sessionClientIp = sessionClientInfo.get("clientIp");
         String sessionUserAgent = sessionClientInfo.get("userAgent");
