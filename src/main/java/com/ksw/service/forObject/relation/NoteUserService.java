@@ -18,6 +18,7 @@ public class NoteUserService {
 	private NoteService noteService;
 	@Autowired
 	private UserService userService;
+
 	
     // Entity -> DTO 변환 메소드
     public NoteUserDTO convertToDTO(NoteUser noteUserEntity) {

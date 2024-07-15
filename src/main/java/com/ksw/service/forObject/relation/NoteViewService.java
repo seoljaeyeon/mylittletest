@@ -1,5 +1,6 @@
 package com.ksw.service.forObject.relation;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ksw.dao.forObject.relation.NoteViewMapper;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.dto.forObject.entity.ViewDTO;
 import com.ksw.dto.forObject.relation.NoteViewDTO;
 import com.ksw.object.relation.NoteView;
 import com.ksw.service.forObject.entity.NoteService;
@@ -27,6 +31,18 @@ public class NoteViewService {
 	@Autowired
 	private NoteViewMapper noteViewMapper;
 	
+	public Boolean checkRecentViewHistory(Integer noteNo, Integer userNo) {
+		System.out.println("DB최근 정보 조회: "+noteViewMapper.checkRecentViewHistory(noteNo, userNo));
+		if (noteViewMapper.checkRecentViewHistory(noteNo, userNo) == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	public void insertRelation(ViewDTO viewDTO, NoteDTO noteDTO, UserDTO readerDTO, Timestamp timestamp ) {
+		noteViewMapper.insert(viewDTO.getViewNo(), noteDTO.getNoteNo(),readerDTO.getUserNo(), timestamp);
+	}
+
 	public Integer GetTodayHistoryCount(Integer categoryNo, Integer userNo) {
 		Integer result = 0;
 		

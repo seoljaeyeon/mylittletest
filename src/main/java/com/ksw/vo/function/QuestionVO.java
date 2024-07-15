@@ -17,10 +17,6 @@ public final class QuestionVO implements Serializable {
     private final NoteVO noteVO;
     private final UserVO writerVO;
     private final CategoryVO categoryVO;
-    public Integer getTodayNoteViewInCategory() {
-		return todayNoteViewInCategory;
-	}
-
 	private final FileVO fileVO;
     private final List<ReplyUserVO> replies;
     private final Integer todayNoteViewInCategory;
@@ -42,6 +38,10 @@ public final class QuestionVO implements Serializable {
         this.todayNoteViewInCategory = builder.todayNoteViewInCategory;
     }
 
+    public Integer getTodayNoteViewInCategory() {
+    	return todayNoteViewInCategory;
+    }
+    
     public NoteVO getNoteVO() {
         return noteVO;
     }

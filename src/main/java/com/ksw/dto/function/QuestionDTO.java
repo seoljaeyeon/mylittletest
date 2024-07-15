@@ -50,16 +50,16 @@ public class QuestionDTO implements Serializable{
 	public void setReplies(List<ReplyUserDTO> replies) {
 		this.replies = replies;
 	}
-	public int getViewCount() {
+	public Integer getViewCount() {
 		return viewCount;
 	}
 	public void setViewCount(Integer viewCount) {
 		this.viewCount = viewCount;
 	}
-	public int getFavoriteCount() {
+	public Integer getFavoriteCount() {
 		return favoriteCount;
 	}
-	public int getAnswerType() {
+	public Integer getAnswerType() {
 		return answerType;
 	}
 	public void setAnswerType(Integer answerType) {

@@ -1,5 +1,6 @@
 package com.ksw.service.forObject.relation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,16 @@ public class ReplyUserService {
 	@Autowired
 	private ReplyUserService replyUserService;
 	
+	public List<ReplyUserDTO> getRepliesByNoteNo(Integer noteNo) {
+		
+		List<ReplyUserDTO> dto = new ArrayList<ReplyUserDTO>();
+		if(noteNo == null) {
+			System.out.println("noteNo is null. Failed to load ReplyUserDTO. empty DTO");
+			return dto;
+		}
+		dto = replyUserMapper.getRepliesAndWriterByNoteno(noteNo);
+		return dto; 
+	}
 	
 	@Transactional
 	public ReplyUserDTO writeReplyRelation(ReplyDTO replyDTO, UserDTO userDTO) {

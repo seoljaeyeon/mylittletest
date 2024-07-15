@@ -61,17 +61,19 @@ public class QuestionController {
 	@Transactional
 	public String viewPage(
 			@PathVariable("noteNo") Integer noteNo,
-			Model model) { 
+			Model model,
+			HttpServletRequest request,
+			HttpSession session) { 
 		/*
 		 * 필요 기능 목록
-		 * - 조회 수 증가 시키기 (조회 이력 남기기)
-		 * - 댓글 목록 로딩 --> questionService.Read에서 처리
-		 * - 댓글 쓰기 기능(ReplyController에서 처리)
-		 * - 수정 관련 컨트롤러 만들기
-		 * - 비활성화 컨트롤러 만들기
-		 * - 덜보기 컨트롤러 만들기
-		 * - 오늘 조회 목록 불러오기
-		 * - 다음 문제 보기
+		 * - 조회 수 증가 시키기 (조회 이력 남기기) [완]
+		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완]
+		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함
+		 * - 수정 관련 컨트롤러 만들기 - 만들어야함
+		 * - 비활성화 컨트롤러 만들기 - 만들어야함
+		 * - 덜보기 컨트롤러 만들기 - 만들어야함
+		 * - 오늘 조회 목록 불러오기 - [완]
+		 * - 다음 문제 보기 - 만들어야함 (randomview 수정마무리)
 		 */
 		UserVO userVO = authService.getUserVO();
 
@@ -79,7 +81,7 @@ public class QuestionController {
 		model.addAttribute("userVO", userVO);
 				
 		// DB에서 문제 정보 가져오기 
-		QuestionVO questionVO = questionService.Read(noteNo, userVO);
+		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
 
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);

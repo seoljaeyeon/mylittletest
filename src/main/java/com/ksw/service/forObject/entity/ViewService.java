@@ -1,15 +1,22 @@
 package com.ksw.service.forObject.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.entity.ViewRepository;
 import com.ksw.dto.forObject.entity.ViewDTO;
 import com.ksw.object.entity.View;
 import com.ksw.vo.forObject.entity.ViewVO;
-import com.ksw.vo.forObject.entity.ViewVO.Builder;
 
 @Service
 public class ViewService {
 
+	@Autowired
+	private ViewRepository viewRepository;
+	
+	public View insert(View view) {
+		return viewRepository.save(view);
+	}
 	
 	public ViewDTO convertToDTO(View view) {
 		

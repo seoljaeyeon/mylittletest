@@ -1,19 +1,55 @@
 package com.ksw.dao.forObject.relation;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import com.ksw.object.relation.NoteView;
 
 public interface NoteViewMapper {
 
-    @Insert("INSERT INTO noteView (viewNo, noteNo) VALUES (#{viewNo}, #{noteNo})")
-    void insertNoteView(NoteView noteView);
+	
+//		잠시 비활성
+//    @Insert(""
+//            + "INSERT INTO noteUser (noteNo, viewNo, userNo, createdAt) "
+//            + "SELECT #{noteNo}, #{viewNo}, #{userNo}, #{createdAt} FROM DUAL "
+//            + "WHERE NOT EXISTS ("
+//            + "  SELECT 1 FROM ("
+//            + "    SELECT 1 FROM noteUser nu "
+//            + "    WHERE nu.noteNo = #{noteNo} "
+//            + "    AND nu.viewNo = #{viewNo} "
+//            + "    AND nu.userNo = #{userNo} "
+//            + "    ORDER BY nu.createdAt DESC "
+//            + "    LIMIT 1"
+//            + "  ) As subquery "
+//            + "  WHERE TIMESTAMPDIFF(MINUTE, subquery.createdAt, #{createdAt}) <= 5)"
+//            + "")
+//	void insert(@Param("viewNo") Integer viewNo,
+//				@Param("noteNo") Integer noteNo,
+//				@Param("userNo") Integer userNo, 
+//				@Param("createdAt") Timestamp createdAt);
+	
+	@Insert(""
+			+ "INSERT INTO noteView (noteNo, viewNo, userNo, createdAt) "
+			+ "VALUES"
+			+ "(#{noteNo}, #{viewNo}, #{userNo}, #{createdAt})")
+	void insert(@Param("viewNo") Integer viewNo,
+			@Param("noteNo") Integer noteNo,
+			@Param("userNo") Integer userNo, 
+			@Param("createdAt") Timestamp createdAt);
+
+	@Select(""
+			+ "    SELECT COUNT(*) "
+			+ "    FROM noteView "
+			+ "    WHERE noteNo = #{noteNo} "
+			+ "    AND userNo = #{userNo} "
+			+ "    AND TIMESTAMPDIFF(MINUTE, createdAt, NOW()) < 5")
+	Integer checkRecentViewHistory(			
+			@Param("noteNo") Integer noteNo,
+			@Param("userNo") Integer userNo);
+	
     
     @Select(""
     		+ "SELECT COUNT(*) FROM "

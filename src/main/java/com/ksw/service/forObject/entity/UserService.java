@@ -51,8 +51,8 @@ public class UserService {
 
     // DTO -> VO 변환 메소드
     public UserVO convertToVO(UserDTO userDTO) {
-    	System.out.println("UserDTO to UserVO failed. Empty UserVO created. UserDTO is null");
     	if(userDTO == null) {
+    		System.out.println("UserDTO to UserVO failed. Empty UserVO created. UserDTO is null");
     		return new UserVO.Builder().build();
     	}
         return new UserVO.Builder()
