@@ -572,7 +572,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 		<div class="today_box">
 			<div class="today_question"><span>오늘 본 문제수 </span></div>
-    <div class="today_count"><span style="font-size:20px;">${fn:length(viewHistory)}</span></div>
+    <div class="today_count"><span style="font-size:20px;">${questionVO.viewCount}</span></div>
 		</div>
 		<div class="modify_btn" onclick="location.href='modify.jsp'">수정 </div>
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>

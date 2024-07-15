@@ -20,7 +20,7 @@ public interface NoteUserMapper {
 	void insert(NoteUser noteUser);
 	
 	@Select(""
-			+ "SELECT u.userNo "
+			+ "SELECT u.* "
 			+ "FROM user u JOIN noteUser nu on u.userNo = nu.userNo "
 			+ "WHERE nu.noteNo = #{noteNo}" )
 	User getUserByNoteNo(Integer noteNo); 

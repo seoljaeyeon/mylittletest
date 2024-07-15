@@ -19,7 +19,6 @@ import com.ksw.dao.forObject.entity.UserRepository;
 import com.ksw.dao.forObject.relation.FileNoteMapper;
 import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dao.forObject.relation.NoteUserMapper;
-import com.ksw.dao.forObject.relation.ReplyUserMapper;
 import com.ksw.dao.function.QuestionMapper;
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FileDTO;
@@ -34,11 +33,9 @@ import com.ksw.object.entity.Category;
 import com.ksw.object.entity.File;
 import com.ksw.object.entity.Note;
 import com.ksw.object.entity.View;
-import com.ksw.service.forObject.entity.AnswerService;
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.entity.FileService;
 import com.ksw.service.forObject.entity.NoteService;
-import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.entity.UserService;
 import com.ksw.service.forObject.entity.ViewService;
 import com.ksw.service.forObject.relation.AnswerHistoryService;
@@ -71,8 +68,6 @@ public class QuestionService {
 	@Autowired
 	private QuestionMapper questionMapper;
 	@Autowired
-	private ReplyService replyService;
-	@Autowired
 	private NoteService noteService;
 	@Autowired
 	private FileService fileService;
@@ -80,8 +75,6 @@ public class QuestionService {
 	private CategoryService categoryService;
 	@Autowired
 	private AnswerHistoryService answerHistoryService;
-	@Autowired
-	private AnswerService answerService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -190,10 +183,10 @@ public class QuestionService {
 		UserDTO readerDTO = userService.convertVOToDTO(userVO);
 		
 		//글쓴이 정보 로딩 
-		UserDTO writerDTO = userService.convertToDTO(noteUserService.getUserByNoteNo(noteNo)); 
+		UserDTO writerDTO = noteUserService.getUserByNoteNo(noteNo); 
 
 		//문제 카테고리 정보 로딩
-		CategoryDTO categoryDTO = categoryService.convertToDTO(noteCategoryMapper.getCategorybyNoteNo(noteNo));
+		CategoryDTO categoryDTO = noteCategoryService.getCategorybyNoteNo(noteNo);
 		
 		//문제 내용 정보 로딩
 		NoteDTO noteDTO = noteService.convertToDTO(noteRepository.findById(noteNo).orElse(null));
