@@ -1,6 +1,11 @@
 package com.ksw.service.function;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +19,7 @@ import com.ksw.dao.forObject.entity.UserRepository;
 import com.ksw.dao.forObject.relation.FileNoteMapper;
 import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dao.forObject.relation.NoteUserMapper;
+import com.ksw.dao.forObject.relation.ReplyUserMapper;
 import com.ksw.dao.function.QuestionMapper;
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FileDTO;
@@ -22,18 +28,19 @@ import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.forObject.relation.FileNoteDTO;
 import com.ksw.dto.forObject.relation.NoteCategoryDTO;
 import com.ksw.dto.forObject.relation.NoteUserDTO;
-import com.ksw.dto.forObject.relation.NoteViewDTO;
 import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.File;
 import com.ksw.object.entity.Note;
+import com.ksw.object.entity.View;
 import com.ksw.service.forObject.entity.AnswerService;
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.entity.FileService;
 import com.ksw.service.forObject.entity.NoteService;
 import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.entity.UserService;
+import com.ksw.service.forObject.entity.ViewService;
 import com.ksw.service.forObject.relation.AnswerHistoryService;
 import com.ksw.service.forObject.relation.FileNoteService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
@@ -89,11 +96,15 @@ public class QuestionService {
 	private AuthService authService;
 	@Autowired
 	private NoteViewService noteViewService;
+	@Autowired
+	private ClientInfoService clientInfoService;
+	@Autowired
+	private ViewService viewService;
 
 	public QuestionVO convertToVO(QuestionDTO questionDTO) {
 		QuestionVO.Builder builder = new QuestionVO.Builder();
 
-		if (questionDTO == null) {
+		if (questionDTO == null || questionDTO.getNoteDTO().getNoteNo() == null) {
 			return builder.build();
 		}
 		
@@ -101,11 +112,13 @@ public class QuestionService {
 				.writerVO(userService.convertToVO(questionDTO.getWriterDTO()))
 				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()))
 				.fileVO(fileService.convertToVO(questionDTO.getFileDTO()))
-				.replies(replyUserService.convertToVOList(questionDTO.getReplies()));
-//				.viewCount(questionDTO.getViewCount())
-//				.favoriteCount(questionDTO.getFavoriteCount())
-//				.answerType(questionDTO.getAnswerType())
-//				.isFavorite(questionDTO.getIsFavorite());
+				.replies(replyUserService.convertToVOList(questionDTO.getReplies()))
+				.todayNoteViewInCategory(questionDTO.getTodayNoteViewInCategory())
+				.viewCount(questionDTO.getViewCount())
+				.favoriteCount(questionDTO.getFavoriteCount())
+				.answerType(questionDTO.getAnswerType())
+				.isFavorite(questionDTO.getIsFavorite());
+		
 		return builder.build();
 	}
 
@@ -169,7 +182,9 @@ public class QuestionService {
 	@Transactional
 	public QuestionVO Read(
 		Integer noteNo, 
-		UserVO userVO) { 
+		UserVO userVO,
+		HttpServletRequest request,
+		HttpSession session) { 
 		
 		//조회자 정보 로딩
 		UserDTO readerDTO = userService.convertVOToDTO(userVO);
@@ -190,11 +205,24 @@ public class QuestionService {
 		Integer todayNoteViewInCategory = noteViewService.GetTodayHistoryCount(categoryDTO.getCategoryNo(), userVO.getUserNo());
 		
 		// 조회 이력 확인 및 등록
-		
-		//
+		if(!clientInfoService.getSessionClientViewHistory(noteNo, session, request)) {
+			// 세션에 조회 이력 등
+			System.out.println("session 체크 통과? "+clientInfoService.getSessionClientViewHistory(noteNo, session, request));
+			clientInfoService.saveClientInfoInSession(noteNo, request, session);
+			if (!noteViewService.checkRecentViewHistory(noteNo, readerDTO.getUserNo())) {
+				System.out.println("최근 기록에도 없음");
+				View view = new View(); // view Entity 객체 생성
+				view = viewService.insert(view); // view DB에 기록
+				HashMap<Integer, HashMap<String, String>> clientInfos = (HashMap<Integer, HashMap<String, String>>) session.getAttribute("clientInfos");
+				HashMap<String,String> clientInfo = clientInfos.get(noteNo);
+				Timestamp timestamp = Timestamp.valueOf(clientInfo.get("currentTime"));
+				noteViewService.insertRelation(viewService.convertToDTO(view), noteDTO, readerDTO, timestamp);
+				System.out.println("noteView insert 성공");
+			}
+		};
 		
 		//문제 댓글 목록 로딩 
-		List<ReplyUserDTO> replyList =	questionMapper.getRepliesByNoteNo(noteNo);
+		List<ReplyUserDTO> replyList = replyUserService.getRepliesByNoteNo(noteNo);
 		
 		//해당 게시글 조회 수 로딩 
 		int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
@@ -210,7 +238,9 @@ public class QuestionService {
 		
 		//QuestionDTO에 모든 정보 담고 VO 반환
 		QuestionDTO questionDTO = new QuestionDTO(); 
+		System.out.println("글쓴이" + writerDTO.getNickname());
 		questionDTO.setWriterDTO(writerDTO); 
+		System.out.println("글쓴이세팅 완료" +questionDTO.getWriterDTO().getNickname());
 		questionDTO.setCategoryDTO(categoryDTO);
 		questionDTO.setNoteDTO(noteDTO); 
 		questionDTO.setFileDTO(fileDTO);

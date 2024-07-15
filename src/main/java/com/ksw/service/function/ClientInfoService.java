@@ -1,9 +1,18 @@
 package com.ksw.service.function;
 
+import java.sql.Timestamp;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
-import java.util.*;
 
 @Service
 public class ClientInfoService {
@@ -89,23 +98,91 @@ public class ClientInfoService {
     }
 
     // 세션에 클라이언트 정보를 저장하는 메소드
-    public void saveClientInfoInSession(HttpServletRequest request, HttpSession session) {
+    public void saveClientInfoInSession(
+    		Integer noteNo, 
+    		HttpServletRequest request, 
+    		HttpSession session) {
         String clientIp = getClientIp(request);
         String userAgent = getClientAgent(request);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
-        session.setAttribute("clientIp", clientIp);
-        session.setAttribute("userAgent", userAgent);
+        HashMap<Integer, HashMap<String, String>> clientInfos = (HashMap<Integer, HashMap<String, String>>) session.getAttribute("clientInfos");
+        if (clientInfos == null) {
+        	clientInfos = new HashMap<>();
+        }
+        
+        HashMap<String, String> clientInfo = clientInfos.getOrDefault(noteNo, new HashMap<>());
+        
+        if(clientInfo.get(noteNo) == null || clientInfo.get(noteNo).isEmpty()) {
+        	clientInfo.put("clientIp", clientIp);
+        	clientInfo.put("userAgent", userAgent);
+        	clientInfo.put("currentTime", currentTime.toString());
+        	
+        	clientInfos.put(noteNo, clientInfo);
+        }
+        
+        // 기록이 50개가 넘어가면 가장 오래된 기록 삭제
+        if(clientInfos.size() > 50 ) {
+            removeOldestRecord(clientInfos);
+        }
+        
+        session.setAttribute("clientInfos", clientInfos);
     }
 
-    // 세션에 저장된 클라이언트 정보가 변경되었는지 확인하는 메소드
-    public boolean isClientInfoChanged(HttpSession session, HttpServletRequest request) {
-        String sessionClientIp = (String) session.getAttribute("clientIp");
-        String sessionUserAgent = (String) session.getAttribute("userAgent");
+//    // 가장 오래된 기록을 삭제하는 메소드
+//    private void removeOldestRecord(HashMap<Integer, HashMap<String, String>> clientInfos) {
+//        Integer oldestKey = null;
+//        Timestamp oldestTimestamp = null;
+//        
+//        //	clientInfos 조회 기록의 각각의 map들을 entrySet으로 묶음. 그리고 각 entry들을 돌면서 가장 오래된 기록을 찾음. 
+//        for (HashMap.Entry<Integer, HashMap<String, String>> entry : clientInfos.entrySet()) {
+//            Timestamp currentTimestamp = Timestamp.valueOf(entry.getValue().get("currentTime"));
+//            if (oldestTimestamp == null || currentTimestamp.before(oldestTimestamp)) {
+//                oldestTimestamp = currentTimestamp;
+//                oldestKey = entry.getKey();
+//            }
+//        }
+//
+//        // 가장 오래된 기록이 null이 아니라면, 해당 기록을 지움
+//        if (oldestKey != null) {
+//            clientInfos.remove(oldestKey);
+//        }
+//    }
+    
+    // 가장 오래된 기록을 삭제하는 메소드 (Stream API 사용)
+    private void removeOldestRecord(HashMap<Integer, HashMap<String, String>> clientInfos) {
+    	// Optional :: 없으면 그냥 빈 객체를 넣어라 / 
+    	// clientInfos의 요소들을 entrySet으로 각각 만들
+        Optional<Map.Entry<Integer, HashMap<String, String>>> oldestEntry = 
+        		clientInfos.entrySet()    	// clientInfos의 요소들을 entrySet으로 각각 만들고
+        		.stream()					// 각 요소들을 돌면서
+        		.min(Comparator.comparing(	// Comparator로 각 요소를 비교하는데
+        				entry -> Timestamp.valueOf(entry.getValue().get("currentTime")))); // 각 요소의 현재 시간 값을 가져와서, Timestamp로 변환하고 비교한다.  
 
+        oldestEntry.ifPresent(entry -> clientInfos.remove(entry.getKey())); // 그렇게 나온 oldestEntry를 clientInfos에서 지운다.	
+    }
+    
+    // 세션에 해당 게시글을 본 기록이 있는 지 확인 후, 조회수를 올려도 될 지 말지 정해주는 메소드 -> false면 조회수 증가 O, true면 증가 X
+    public boolean getSessionClientViewHistory(Integer noteNo, HttpSession session, HttpServletRequest request) {
+	    	HashMap<Integer, HashMap<String, String>> sessionClientInfos = (HashMap<Integer, HashMap<String, String>>) session.getAttribute("clientInfos");
+	    	
+	    	HashMap<String, String> sessionClientInfo = new HashMap<String, String>();
+	    	if (sessionClientInfos == null) {
+	    		return false;
+	    	}
+	    	sessionClientInfo = sessionClientInfos.get(noteNo);
+        
+        String sessionClientIp = sessionClientInfo.get("clientIp");
+        String sessionUserAgent = sessionClientInfo.get("userAgent");
+        Timestamp sessionTime = Timestamp.valueOf(sessionClientInfo.get("currentTime")); 
+        
         String currentClientIp = getClientIp(request);
         String currentUserAgent = getClientAgent(request);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis()); 
 
-        return !sessionClientIp.equals(currentClientIp) || !sessionUserAgent.equals(currentUserAgent);
+        return (
+        		sessionClientIp.equals(currentClientIp) 
+        		&& currentTime.getTime() - sessionTime.getTime() <= 5 * 60 * 1000);
     }
 }
 

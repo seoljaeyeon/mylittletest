@@ -1,12 +1,17 @@
 package com.ksw.service.forObject.relation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.relation.NoteReplyMapper;
 import com.ksw.dto.forObject.relation.NoteReplyDTO;
+import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.object.relation.NoteReply;
-import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.entity.NoteService;
+import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.vo.forObject.relation.NoteReplyVO;
 
 @Service
@@ -16,6 +21,8 @@ public class NoteReplyService {
 	private NoteService noteService;
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private NoteReplyMapper noteReplyMapper;
 	
     // Entity -> DTO 변환 메소드
     public NoteReplyDTO convertToDTO(NoteReply noteReplyEntity) {
