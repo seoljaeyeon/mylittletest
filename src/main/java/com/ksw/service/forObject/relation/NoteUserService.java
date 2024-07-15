@@ -3,6 +3,8 @@ package com.ksw.service.forObject.relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.relation.NoteUserMapper;
+import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.forObject.relation.NoteUserDTO;
 import com.ksw.object.entity.Note;
 import com.ksw.object.entity.User;
@@ -18,7 +20,17 @@ public class NoteUserService {
 	private NoteService noteService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private NoteUserMapper noteUserMapper; 
 
+	public UserDTO getUserByNoteNo(Integer noteNo) {
+		UserDTO user = new UserDTO();
+		if (noteNo == null) {
+			return user;
+		}
+		user = userService.convertToDTO(noteUserMapper.getUserByNoteNo(noteNo));
+		return user;
+	}
 	
     // Entity -> DTO 변환 메소드
     public NoteUserDTO convertToDTO(NoteUser noteUserEntity) {
