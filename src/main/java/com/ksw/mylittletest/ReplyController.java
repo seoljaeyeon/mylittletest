@@ -3,19 +3,17 @@ package com.ksw.mylittletest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ksw.dto.forObject.entity.ReplyDTO;
-import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.entity.UserService;
 import com.ksw.service.forObject.relation.ReplyUserService;
-import com.ksw.service.function.CertifiedUserDetails;
+import com.ksw.service.function.AuthService;
+import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
 public class ReplyController {
@@ -28,18 +26,21 @@ public class ReplyController {
 	
 	@Autowired 
 	private ReplyUserService replyUserService;
+
+	@Autowired
+	private AuthService authService;
 	
 	
 	@PostMapping("/replyWrite/{noteNo}") 
 	public String replyWrite(
-			@AuthenticationPrincipal CertifiedUserDetails userinfo,
             @PathVariable("noteNo") Integer noteNo,
 			@ModelAttribute ReplyDTO replyDTO,
 			HttpServletRequest request) {
 		
-		UserDTO userDTO = userService.convertVOToDTO(userinfo.getUserVO());
+		UserVO userVO = authService.getUserVO();
+		
 		replyService.writeReply(replyDTO);
-		replyUserService.writeReplyRelation(replyDTO, userDTO); 
+		replyUserService.writeReplyRelation(replyDTO, userService.convertVOToDTO(userVO)); 
 		
 		return "redirect:/view/"+noteNo;
 	}

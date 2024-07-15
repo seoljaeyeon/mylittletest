@@ -54,6 +54,8 @@
         <security:logout logout-success-url="/login?logout" />
    		<security:intercept-url pattern="/write"
 			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/view/**"
+			access="hasRole('ROLE_USER')" />
         <security:form-login login-page="/login"
             default-target-url="/index" 
             username-parameter="userId"

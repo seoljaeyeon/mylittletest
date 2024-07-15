@@ -190,7 +190,7 @@ public class QuestionService {
 		UserDTO readerDTO = userService.convertVOToDTO(userVO);
 		
 		//글쓴이 정보 로딩 
-		UserDTO writerDTO = userService.convertToDTO(noteUserMapper.getUserByNoteNo(noteNo)); 
+		UserDTO writerDTO = userService.convertToDTO(noteUserService.getUserByNoteNo(noteNo)); 
 
 		//문제 카테고리 정보 로딩
 		CategoryDTO categoryDTO = categoryService.convertToDTO(noteCategoryMapper.getCategorybyNoteNo(noteNo));

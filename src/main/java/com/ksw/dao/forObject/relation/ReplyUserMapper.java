@@ -31,9 +31,10 @@ public interface ReplyUserMapper {
             + "u.nickname AS u_nickname, "
             + "u.type AS u_type " +
             "FROM reply r " +
-            "JOIN user u ON r.userNo = u.userNo " +
-            "JOIN noteReply n ON r.replyNo = n.replyNo " +
-            "WHERE n.noteNo = #{noteNo} AND r.isActive != 0")
+            "JOIN noteReply nr ON r.replyNo = nr.replyNo " +
+            "JOIN replyUser ru ON r.replyNo = ru.replyNo " +
+            "JOIN user u ON ru.userNo = u.userNo " +
+            "WHERE nr.noteNo = #{noteNo} AND r.isActive != 0")
     @Results({
         @Result(property = "replyDTO.replyNo", column = "r_replyNo"),
         @Result(property = "replyDTO.createdAt", column = "r_createdAt"),

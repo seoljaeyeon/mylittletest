@@ -66,17 +66,17 @@ public class QuestionController {
 			HttpSession session) { 
 		/*
 		 * 필요 기능 목록
-		 * - 조회 수 증가 시키기 (조회 이력 남기기) [완]
-		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완]
-		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함
+		 * - 조회 수 증가 시키기 (조회 이력 남기기) [구현 - 완] [테스트 - 완]
+		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완] [테스트 - 이전]
+		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함 [구현 - 완] [테스트 - 이전]
 		 * - 수정 관련 컨트롤러 만들기 - 만들어야함
 		 * - 비활성화 컨트롤러 만들기 - 만들어야함
 		 * - 덜보기 컨트롤러 만들기 - 만들어야함
-		 * - 오늘 조회 목록 불러오기 - [완]
+		 * - 오늘 조회 목록 불러오기 - [완] [테스트 - 완]
 		 * - 다음 문제 보기 - 만들어야함 (randomview 수정마무리)
 		 */
 		UserVO userVO = authService.getUserVO();
-
+		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
 				

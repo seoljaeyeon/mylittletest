@@ -19,6 +19,10 @@ public class NoteUserService {
 	@Autowired
 	private UserService userService;
 
+	public User getUserByNoteNo(Integer noteNo) {
+		User user = new User();
+		return user;
+	}
 	
     // Entity -> DTO 변환 메소드
     public NoteUserDTO convertToDTO(NoteUser noteUserEntity) {
