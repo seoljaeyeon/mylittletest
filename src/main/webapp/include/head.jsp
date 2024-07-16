@@ -42,11 +42,13 @@
         document.getElementById("btn_close").addEventListener("click", function() {
             togglePopup('popup_admin', 'hide');
         });
+      	
+        
+      
 	});
 </script>
 <body>
     <style>
-
         body {
             background-color: #292929;
             font-family: 'Inter', sans-serif;
@@ -101,7 +103,7 @@
             place-items: center;
             overflow: hidden;
             margin-right:2rem;
-            
+            cursor:pointer;
         }
 
         .titlebar {
@@ -126,6 +128,7 @@
             flex-direction:row;
             overflow: hidden;
             align-items: center;
+            cursor: grab;
         }
 
         .top-ads {
@@ -218,12 +221,12 @@
 		.show {
 			display:block;
 		}	
-    </style>
+</style>
     <div class="titlebar">
         <div class="logo" onclick="location.href='index.jsp'">
             <span style="font-size:5rem">🤓</span>
         </div>
-        <div class="ad-container">
+        <div class="ad-container" id="ad-container">
             <div class="top-ads">
                     <img src="https://res.heraldm.com/content/image/2022/06/17/20220617000554_0.jpg" class="ads_img" alt="">
             </div>

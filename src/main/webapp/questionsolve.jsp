@@ -101,48 +101,20 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     //오디오 재생
-    const audio = document.getElementById('audioPlayer');
-    let isSeeking = false;
+    const audioPlayer = document.getElementById('audioPlayer');
 
-    audio.addEventListener('click', function(event) {
-      event.preventDefault();
-      const rect = audio.getBoundingClientRect();
-      const offsetX = event.clientX - rect.left;
-      const playerWidth = rect.width;
-      const duration = audio.duration;
+    // 오디오 요소 클릭 이벤트 핸들러
+    audioPlayer.addEventListener('click', function (event) {
+        const rect = audioPlayer.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const playerWidth = rect.width;
+        const duration = audioPlayer.duration;
+        const newTime = (clickX / playerWidth) * duration;
 
-      const clickTime = (offsetX / playerWidth) * duration;
-      audio.currentTime = clickTime;
-
-      if (audio.paused) {
-        audio.play();
-      }
-    });
-
-    audio.addEventListener('mousedown', function(event) {
-      event.preventDefault();
-      isSeeking = true;
-      const rect = audio.getBoundingClientRect();
-      const playerWidth = rect.width;
-      const duration = audio.duration;
-
-      function moveListener(event) {
-        if (isSeeking) {
-          const offsetX = event.clientX - rect.left;
-          const clickTime = (offsetX / playerWidth) * duration;
-          audio.currentTime = clickTime;
+        // currentTime 설정 전 확인
+        if (!isNaN(newTime) && newTime >= 0 && newTime <= duration) {
+            audioPlayer.currentTime = newTime;
         }
-      }
-
-      document.addEventListener('mousemove', moveListener);
-
-      document.addEventListener('mouseup', function() {
-        isSeeking = false;
-        if (!audio.paused) {
-          audio.play();
-        }
-        document.removeEventListener('mousemove', moveListener);
-      });
     });
   });
 </script>
@@ -190,9 +162,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 	.modify_btn{
 		background-position: center;
-    	background-size: cover;
-    	-webkit-appearance: none;
-		-moz-appearance: none;
 		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
@@ -208,6 +177,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		cursor:pointer;
 		border: none;
 		margin-top:5px;
+	}
+	.modify_btn:hover{
+		background-color:white;
+		color:black;
 	}
 	.bookmark_btn,.reportbtn{
 		font-size:30px;
@@ -702,8 +675,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					</div>
 					<div class="media">
 						<audio id="audioPlayer" class="audioPlayer" controls="controls" loop="loop">
-					        <source src="https://cdn.pixabay.com/download/audio/2024/06/13/audio_8822cea290.mp3?filename=no-place-to-go-216744.mp3"  type="audio/mpeg"/>
-					    </audio>
+						  <source src="https://t1.daumcdn.net/cfile/tistory/9945CE425CE45B920A"  type="audio/mpeg"/>
+						</audio>					    
 						<div class="check">
 							<div class="success_btn" id="btnO">O</div>
 							<div class="success_btn" id="btnX">X</div>

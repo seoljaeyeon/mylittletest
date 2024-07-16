@@ -91,12 +91,20 @@
         // 문서가 로드되면 슬라이더 기능 설정
         setupListSlider();
         
-        // 좋아요 버튼 애니메이션
+        // 북마크 버튼 애니메이션
         var bookmarks = document.querySelectorAll('.bookmark');
 
         bookmarks.forEach(function(bookmark) {
             bookmark.addEventListener('click', function() {
                 bookmark.classList.toggle('liked');
+            });
+        });
+        // 좋아요 버튼 애니메이션
+        const likeBtns = document.querySelectorAll('.question_like');
+
+        likeBtns.forEach(function(Btn) {
+        	Btn.addEventListener('click', function() {
+                this.classList.toggle('liked');
             });
         });
         // 화살표 슬라이더
@@ -117,6 +125,8 @@
 		      },
 		    });
 		swiper.slideNext();
+		
+		
     
 	});
 </script>
@@ -438,7 +448,19 @@
 			 width:100%;
 			 gap:5px;
 		  }
-		 
+		  .question_like{
+		  	cursor:pointer;
+		  }
+		  .question_like.liked{
+			 color: red;
+	         transform: scale(1.2);
+		  }
+		  .likebox{
+		  	display:flex;
+		  }
+		 .question_question{
+		 	cursor:pointer;
+		 }
 		  /* 팝업 창 스타일  */
 		 .popup_wrap {
 		    display: none; 
@@ -555,6 +577,7 @@
 							<div class="list_order">   
 			                	<div class="order_option">모든문제</div>
 			                	<div class="order_option">내문제</div>
+			                	<div class="order_option">다른유저문제</div>
 			            	</div>
 			            </div>
 			            <div class="order_dropdown">
@@ -563,7 +586,7 @@
 			            	</div>
 							<div class="list_order">   
 			                	<div class="order_option">최신순</div>
-			                	<div class="order_option">인기순</div>
+			                	<div class="order_option">좋아요순</div>
 			                	<div class="order_option">조회순</div>
 			                	<div class="order_option">댓글순</div>
 			            	</div>
@@ -621,8 +644,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn">🚨</div>
@@ -644,8 +667,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn" >🚨</div>
@@ -666,8 +689,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn">🚨</div>
@@ -688,8 +711,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn">🚨</div>
@@ -712,8 +735,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn">🚨</div>
@@ -735,8 +758,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn" >🚨</div>
@@ -757,8 +780,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn">🚨</div>
@@ -779,8 +802,8 @@
 				      			</div>
 				      			<div class="question_count">
 				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
+				      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">13</div></div>
+				      					<div class="question_question" onclick="location.href='all_note_list.jsp'">📚 21문제</div>
 				      					<div class="question_person">🧑 12출제자</div>
 				      				</div>	
 				      					<div class="question_report" id="report_btn">🚨</div>

@@ -1,56 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="./include/head_login.jsp"></jsp:include>
-<!-- CSRF 메타 태그 추가 -->
-<meta name="_csrf" content="${_csrf.token}" />
-<meta name="_csrf_header" content="${_csrf.headerName}" />
+
 
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-	var csrfToken = $("meta[name='_csrf']").attr("content");
-    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
-    console.log("CSRF Token:", csrfToken);
-    console.log("CSRF Header:", csrfHeader);
-
-    $("#writeFrm").submit(function(event) {
-        var form = $(this)[0];
-        var data = new FormData(form);
-
-        $.ajax({
-            type: "POST",
-            enctype: 'multipart/form-data',
-            url: "/mylittletest/write",
-            data: data,
-            processData: false,
-            contentType: false,
-            cache: false,
-            timeout: 600000,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-                xhr.setRequestHeader("Accept", "application/json"); 
-            },
-            success: function(response) {
-				if (response.status == "success") {
-					window.location.href = response.url;
-				} else if (response.status == "login_needeed") {
-					window.location.href = response.url;
-				} else {
-					window.location.href = response.url;
-				}
-            },
-            error: function(e) {
-                console.log("ERROR : ", e);
-                window.location.href = "/mylittletest/write"
-            }
-        });
-        event.preventDefault();
-    });
-	
-	
 	const inputField = document.getElementById('subject');
     const dropdownMenu = document.createElement('div');
     dropdownMenu.classList.add('dropdown-menu');

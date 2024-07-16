@@ -28,6 +28,50 @@ document.addEventListener("DOMContentLoaded", function() {
             pwcBtn.innerHTML = '👁️';
         }
     });
+    
+    const sendEmailBtn = document.querySelector('.send_email_btn');
+    const timerMessage = document.getElementById('timerMessage');
+    let timerInterval;
+
+    function startTimer(duration, display) {
+        let timer = duration;
+        updateDisplay(timer, display); // 초기화면 설정
+
+        console.log('타이머 시작:', timer); // 콘솔에 시작 메시지 출력
+
+        timerInterval = setInterval(function () {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+            console.log('남은 시간:', minutes, '분', seconds, '초'); // 콘솔에 남은 시간 출력
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                display.textContent = "유효시간이 끝났습니다";
+                console.log('타이머 종료'); // 콘솔에 종료 메시지 출력
+            }
+        }, 1000);
+    }
+
+    function updateDisplay(timer, display) {
+        let minutes = parseInt(timer / 60, 10);
+        let seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+    }
+
+    sendEmailBtn.addEventListener('click', function () {
+        clearInterval(timerInterval); // 기존 타이머 제거
+        const fiveMinutes = 5 * 60; // 5분을 초 단위로 계산
+        startTimer(fiveMinutes, timerMessage); // 타이머 시작
+    });
 });
 </script>
 <style>
@@ -131,6 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor:pointer;
 }
 
 .id_find_area {
@@ -179,6 +224,8 @@ a {
 	color: #cccccc;
 	font-size: 12px;
 }
+
+ 
 </style>
 	<div class="join_area">
 		<h1 class="join_title">환영합니다!</h1>
@@ -222,9 +269,7 @@ a {
 					style="margin-bottom: 2rem; justify-content: center; position: relative;">
 					<input class="id_input" id="code" name="code"
 						placeholder="이메일 확인 코드" autocomplete="off">
-					<p
-						style="opacity: 0.3; position: absolute; top: 110%; left: 0; margin: 0;">💡
-						발송된 코드는 5분간 유효합니다.</p>
+					<span id="timerMessage" style="text-align:right; color:#ffa500; font-weight:bolder; opacity: 0.3; position: absolute;  top: 110%; left: 0; margin: 0;">💡발송된 코드는 5분간 유효합니다.</span>
 				</div>
 			</div>
 			<div class="id_find_area">
