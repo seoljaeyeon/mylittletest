@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // 여기서는 간단한 예시로 고정된 데이터를 사용하겠습니다. 실제로는 서버에서 데이터를 가져오거나 기존 데이터에서 필터링할 수 있습니다.
         const existingData = ['JAVA', 'Javascript', 'JSP', 'Spring', 'JPA', 'CSS','Mybatis','EL'];
         
         // 입력된 값이 포함된 데이터를 찾아서 드롭다운으로 보여줍니다.

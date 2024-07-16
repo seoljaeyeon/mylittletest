@@ -12,19 +12,30 @@
     .like_no {
         width: 10%;
     }
-    a { color: #333; }
+    a { color: white; }
     a:visited { color: white; }
     a:hover { color: white; }
-    a:active { color: white; }
-    a {text-decoration-line: none;}     
+    a:active{color:white;}
+    a {text-decoration-line: none;} 
+    .notelist{
+    	color: black;
+    	cursor:pointer;
+    }
+    .notelist.active {
+        color: white; 
+    }
+    .notelist:hover {
+        color: white; 
+    }
+    
 </style>
 <div class="a">
     <div>
-        <div style="display: inline-block; font-size: 30px; font-weight: bolder; margin-left: 50px;" id="my_note">
-            <a href="#">내 문제</a>
+        <div class="notelist" style="display: inline-block; font-size: 30px; font-weight: bolder; margin-left: 50px;" id="my_note">
+            내 문제
         </div>
-        <div style="display: inline-block; font-size: 30px; font-weight: bolder; margin-left: 50px;" id="searchNote">
-            <a href="#">조회한 문제</a>
+        <div class="notelist" style="display: inline-block; font-size: 30px; font-weight: bolder; margin-left: 50px;" id="searchNote">
+           조회한 문제
         </div>
 	<div align="right" style="display: inline-block;">
 		<form style="width: 565px; background: #333333; padding: 10px; display: block; border-radius: 17px; margin-left: 495px;">
@@ -79,5 +90,37 @@
                 }
             });
         });
+        // 초기 설정: "내 문제"가 기본으로 클릭된 상태로 표시되도록 설정
+        $('#my_note').addClass('active');
+
+        // "내 문제" 클릭 시 처리
+        $('#my_note').click(function(event) {
+            event.preventDefault(); // 기본 동작을 막음
+            $('#my_note').addClass('active');
+            $('#searchNote').removeClass('active');
+            loadContent('my_note_list2.jsp');
+        });
+
+        // "조회한 문제" 클릭 시 처리
+        $('#searchNote').click(function(event) {
+            event.preventDefault(); // 기본 동작을 막음
+            $('#searchNote').addClass('active');
+            $('#my_note').removeClass('active');
+            loadContent('my_note_list4.jsp');
+        });
+
+        // AJAX를 사용하여 내용을 로드하는 함수
+        function loadContent(url) {
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(data) {
+                    $('#container').empty().html(data);
+                },
+                error: function() {
+                    alert('Failed to load content');
+                }
+            });
+        }
     });
 </script>
