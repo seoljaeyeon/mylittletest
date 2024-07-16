@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
     	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
+	    <%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+	    <meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <jsp:include page="./include/head_login.jsp"></jsp:include>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -572,7 +576,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 		<div class="today_box">
 			<div class="today_question"><span>오늘 본 문제수 </span></div>
-    <div class="today_count"><span style="font-size:20px;">${questionVO.viewCount}</span></div>
+    <div class="today_count"><span style="font-size:20px;">${questionVO.todayNoteViewInCategory}</span></div>
 		</div>
 		<div class="modify_btn" onclick="location.href='modify.jsp'">수정 </div>
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
@@ -597,7 +601,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				<div class="tip" id="tip">💡팁 보기</div><div class="showtip" id="showtip">${questionVO.noteVO.noteHint}</div>
 			</div>
 				<div class="next_box">
-					<div class="next" onclick="location.href='questionsolve.jsp'">▷다음문제</div>
+					<div class="next" onclick="/mylittletest/myTest/category/${questionVO.categoryVO.categoryTitle}">▷다음문제</div>
 					<div class="mini_box">
 						<div class="like">❤ ${questionVO.favoriteCount }</div>
 						<div class="share" id="sharebtn">📤공유하기</div>
@@ -615,18 +619,21 @@ document.addEventListener("DOMContentLoaded", function() {
 	</div>
 	<div class="reply_container">
 		<form id="replyFrm" name="replyFrm" method="post" action="/mylittletest/replyWrite">
+	    	<sec:csrfInput/>
+	    	<input type="hidden" name="noteNo" id="noteNo" value="${questionVO.noteVO.noteNo}">
+	    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
 			<div class="reply_box">
 				<div class="reply_profile" style="font-size:30px; margin-top:5px;">😃</div>
-				<div class="replyinput"><input type="text" class="reply_input" id="reply" name="reply" placeholder="댓글을 입력해주세요"></div>
-				<div class="replybtn"><button type="button" class="reply_btn">작성</button></div>
+				<div class="replyinput"><input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요"></div>
+				<div class="replybtn"><button type="submit" class="reply_btn">작성</button></div>
 			</div>
 		</form>
 		<div class="reply">
 			<div class="reply_show">
 				<div class="reply_profiles" style="font-size:30px;">😃</div>
 				<div class="replynote">
-					댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.
-					<div class="reply_date" id="reply_report">🚨신고 <span>2024-07-01</span></div>
+					${questionVO.replies[0].replyVO.replyContent}
+					<div class="reply_date" id="reply_report">🚨신고 <span>${questionVO.replies[0].replyVO.createdAt}</span></div>
 				</div>
 				<div class="replycheck">
 					<div class="reply_modify_btn">수정</div>

@@ -32,27 +32,34 @@ public class ReplyUserService {
 	@Autowired
 	private ReplyUserService replyUserService;
 	
-	public List<ReplyUserDTO> getRepliesByNoteNo(Integer noteNo) {
+	public Reply insertReply(Reply reply) {
 		
+		return replyUserMapper.insertReply(reply); 
+	}
+	
+	public List<ReplyUserDTO> getRepliesByNoteNo(Integer noteNo) {
 		List<ReplyUserDTO> dto = new ArrayList<ReplyUserDTO>();
 		if(noteNo == null) {
 			System.out.println("noteNo is null. Failed to load ReplyUserDTO. empty DTO");
 			return dto;
 		}
-		dto = replyUserMapper.getRepliesAndWriterByNoteno(noteNo);
-		return dto; 
+		dto = replyUserMapper.getRepliesAndWriterByNoteNo(noteNo);
+	    if (dto == null || dto.isEmpty()) {
+	        System.out.println("No data found for noteNo: " + noteNo);
+	    } else {
+	        System.out.println("Successfully retrieved data. First reply content: " + dto.get(0).getReplyDTO().getReplyContent());
+	    }
+	    return dto; 
 	}
 	
 	@Transactional
-	public ReplyUserDTO writeReplyRelation(ReplyDTO replyDTO, UserDTO userDTO) {
+	public void writeReplyRelation(Integer replyNo, Integer userNo) {
 		ReplyUserDTO replyUserDTO = new ReplyUserDTO();
-		if (replyDTO == null || userDTO == null) {
+		if (replyNo == null || userNo == null) {
     		System.out.println("Writting ReplyRelation failed. One of parameters is empty. Empty ReplyUserDTO returned");   	
-			return replyUserDTO;
 		}
-		ReplyUser replyUser = replyUserMapper.insert(this.convertToEntity(replyUserDTO));
-		replyUserDTO = this.convertToDTO(replyUser);
-		return replyUserDTO;
+		replyUserMapper.insert(replyNo, userNo);
+		System.out.println("replyUser insert  성공 결과값 확인 ");
 	}
 	
     // Entity -> DTO 변환 메소드

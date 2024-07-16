@@ -24,6 +24,7 @@ public class ReplyService {
 		Reply reply = new Reply();
 		if (replyDTO != null) {
 			reply = replyRepository.save(this.convertToEntity(replyDTO));
+			System.out.println("reply 삽입 후 no 반환 : "+reply.getReplyNo());
 			return this.convertToDTO(reply);
 		}
 		System.out.println("Insert Reply failed. Empty ReplyDTO returned");
@@ -49,12 +50,12 @@ public class ReplyService {
     		System.out.println("Reply to ReplyDTO failed. Empty ReplyDTO created. Reply is null");
     		return dto;
     	}
-    	dto.setCreatedAt(null);
-    	dto.setIsActive(null);
-    	dto.setParentReply(null);
-    	dto.setReplyContent(null);
-    	dto.setReplyNo(null);
-    	dto.setUpdatedAt(null);
+    	dto.setCreatedAt(replyEntity.getCreatedAt());
+    	dto.setIsActive(replyEntity.getIsActive());
+    	dto.setParentReply(replyEntity.getParentReply());
+    	dto.setReplyContent(replyEntity.getReplyContent());
+    	dto.setReplyNo(replyEntity.getReplyNo());
+    	dto.setUpdatedAt(replyEntity.getUpdatedAt());
         return dto;
     }
     

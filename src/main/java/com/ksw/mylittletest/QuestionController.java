@@ -62,7 +62,7 @@ public class QuestionController {
 	
 	@GetMapping("/myTest")
 	public String toCategory() {
-		return "/myTest/category";
+		return "redirect:/myTest/category";
 	}
 	
 	@GetMapping("/myTest/category/{categoryTitle}")
@@ -104,12 +104,12 @@ public class QuestionController {
 		/*
 		 * 필요 기능 목록
 		 * - 조회 수 증가 시키기 (조회 이력 남기기) [구현 - 완] [테스트 - 완]
-		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완] [테스트 - 이전]
-		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함 [구현 - 완] [테스트 - 이전]
+		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완] [테스트 - 완]
+		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함 [구현 - 완] [테스트 - 완]
 		 * - 오늘 조회 목록 불러오기 - [완] [테스트 - 완]
 		 * - 다음 문제 보기 - 만들어야함 (randomview 수정마무리 완) [구현 - 완][테스트 - 완]
-		 * - 메뉴 이름 [완]
-		 * - 수정 관련 컨트롤러 만들기 
+		 * - 메뉴 이름 출력 [완]
+		 * - 수정 관련 컨트롤러 만들기  
 		 * - 비활성화 컨트롤러 만들기
 		 * - 덜보기 컨트롤러 만들기
          * - 문제 전체 보기 목록
@@ -137,6 +137,7 @@ public class QuestionController {
 
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);
+		System.out.println(questionVO.getReplies().get(0).getReplyVO().getReplyContent());
 		model.addAttribute("menuName", menuName);
 		
 		return "questionsolve"; 
