@@ -1,13 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="./include/head_login.jsp"></jsp:include>
-
+<jsp:include page="./include/head.jsp"></jsp:include>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+	<!-- CSRF 메타 태그 추가 -->
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+	
+		var csrfToken = $("meta[name='_csrf']").attr("content");
+	    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+	    console.log("CSRF Token:", csrfToken);
+	    console.log("CSRF Header:", csrfHeader);
+
+	    $("#modifyFrm").submit(function(event) {
+	        var form = $(this)[0];
+	        var data = new FormData(form);
+
+	        $.ajax({
+	            type: "POST",
+	            enctype: 'multipart/form-data',
+	            url: "/mylittletest/modify",
+	            data: data,
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            timeout: 600000,
+	            beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                    xhr.setRequestHeader("Accept", "application/json"); 
+	            },
+	            success: function(response) {
+					if (response.status == "success") {
+						window.location.href = response.url;
+					} else if (response.status == "login_needeed") {
+						window.location.href = response.url;
+					} else {
+						window.location.href = response.url;
+					}
+	            },
+	            error: function(e) {
+	                console.log("ERROR : ", e);
+	                window.location.href = "/mylittletest/modify"
+	            }
+	        });
+	        event.preventDefault();
+	    });
+	
+	
+	
+	
 	// HTML에서 subject라는 id를 가진 input 요소를 가져옵니다.
 	const inputField = document.getElementById('subject');
 
@@ -18,9 +66,16 @@ document.addEventListener("DOMContentLoaded", function() {
 	// input 요소의 부모 노드에 드롭다운 메뉴를 추가합니다.
 	inputField.parentNode.appendChild(dropdownMenu);
 
-	// 기존 데이터 배열입니다. 중복 데이터를 포함하고 있습니다.
-	const existingData = ['JAVA', 'Javascript', 'JSP', 'Spring', 'JPA', 'CSS', 'Mybatis', 'EL', 'JAVA', 'JSP', 'JSP', 'CSS'];
-
+	// 기존 데이터 배열입니다.
+	const existingData = [];
+	
+	// 서버에서 데이터를 받아옴
+	 fetch('/category')
+        .then(response => response.json())
+        .then(data => {
+            existingData = data.map(category => category.name);
+        });
+	
 	// input 요소에 input 이벤트 리스너를 추가합니다.
 	inputField.addEventListener('input', function() {
 	    // 입력된 값의 양쪽 공백을 제거하고 대문자로 변환합니다.
@@ -81,7 +136,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	    });
 	    return counts;
 	}
-	    
+    
+    
 	    
 	
 	// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
@@ -505,10 +561,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div class="container">
     <form id="modifyFrm" class="modifyFrm" name="modifyFrm" action="modifyok.jsp" enctype="multipart/form-data">
+     <input type="hidden" id="questionno" name="questionno" value="${ questionno }">
         <div class="subject-input-container">
             <div class="subject-input-shadow">
                 <div class="subject-container">
-                    <input class="subject_input" type="text" id="subject" name="subject" placeholder="JAVA" spellcheck="false" maxlength="20" autocomplete="off">
+                    <input class="subject_input" type="text" id="subject" name="subject" value="${${questionVO.categoryVO.categoryTitle}" 
+                    	placeholder="JAVA" spellcheck="false" maxlength="20" autocomplete="off">
                 </div>
             </div>
             <span class="subject-hidden-input"></span>
@@ -518,25 +576,25 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         </div>
         <div class="title_container">
-            <input class="title_input" type="text" id="title_input" name="title" placeholder="제목입니다"
+            <input class="title_input" type="text" id="title_input" name="title" value="${questionVO.noteVO.noteTitle }"
                 spellcheck="false" autocomplete="off">
             <span class="title_underline" id="title_underline"></span>
         </div>
         <div id="editor" class="editor"  data-placeholder="내용입니다" ></div>
-        <input type="hidden" name="editorContent" id="editorContent">
+        <input type="hidden" name="editorContent" id="editorContent" value="${questionVO.noteVO.noteContent}">
         <div class="box">
-            <div class="hint_container"><input class="hint_input" type="text" id="hint" name="hint" placeholder="힌트 입니다"></div>
+            <div class="hint_container"><input class="hint_input" type="text" id="hint" name="hint" value="${questionVO.noteVO.noteHint}"></div>
             	<div class="file_container">
             	<input type="file" id="mediaFiles" name="mediaFiles[]" accept="image/*,audio/*" multiple>
             	</div>
         </div>
-        <div class="answer_container"><textarea id="answer" name="answer" placeholder="정답입니다"></textarea></div>
+        <div class="answer_container"><textarea id="answer" name="answer">${questionVO.noteVO.noteAnswer}</textarea></div>
         <div id="commentary_editor" class="commentary_editor"  data-placeholder="해설입니다"></div>
-        <input type="hidden" name="commentary_editorContent" id="commentary_editorContent">
+        <input type="hidden" name="commentary_editorContent" id="commentary_editorContent" value="${questionVO.noteVO.commentaryContent}">
         <div class="minibox">
             <div class="danger_container">저작권 경고</div>
             <div class="button_container">
-                <input type="button" class="write_btn" id="write_btn" name="write_btn"  onclick="location.href='questionsolve.jsp'" value="수정">
+                <input type="button" class="write_btn" id="write_btn" name="write_btn"  onclick="location.href='/mylittletest/questionsolve?questionno='${questionNo}" value="수정">
                 <input type="button" class="reset_btn" id="reset_btn" name="reset_btn" value="취소">
             </div>
         </div>

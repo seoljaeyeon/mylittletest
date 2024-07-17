@@ -190,16 +190,16 @@
 			</div>
 		</div>
 		<div class="goal_box">
-			<div class="goal_title">🎯 현재 달성률</div>
+			<div class="goal_title">🎯 오늘 달성률</div>
 			<div class="setting">		
 				<div class="goal_achieve" style="font-size:35px; margin-top:20px"><span style="font-size:15px;">(88/100)</span> 88%</div>
 			</div>
 		</div>
 		<div class="goal_box">
-			<div class="goal_title">🏆 최근 정답률</div>
+			<div class="goal_title">🏆 최근 달성률</div>
 			<div class="setting">	
 				<div class="goal_success">
-					<div class="success_count"><span>1일 전 10%</span></div>
+					<div class="success_count"><span>1일 전</span> <span>10%</span></div>
 					<div class="success_count"><span>2일 전 20%</span></div>
 					<div class="success_count"><span>3일 전 50%</span></div>
 					<div class="success_count"><span>4일 전 80%</span></div>

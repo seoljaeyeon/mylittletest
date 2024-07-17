@@ -72,7 +72,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const fiveMinutes = 5 * 60; // 5분을 초 단위로 계산
         startTimer(fiveMinutes, timerMessage); // 타이머 시작
     });
+    
 });
+function goBack() {
+    window.history.back();
+}
 </script>
 <style>
 .join_area {
@@ -296,9 +300,8 @@ a {
 			</div>
 			<button class="join_btn" type="button" onclick="location.href='joincomplete.jsp'">회원가입</button>
 			<br>
-			<div class="login_box" style="margin-left:10px;">
-				<a href="index.jsp">돌아가기</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="login.jsp">기존
-					계정 로그인하기</a>
+			<div class="login_box" style="margin-left:10px; display:flex;">
+				<div onclick="goBack();" style="cursor:pointer;">돌아가기</div><div style="margin-left:15px; cursor:pointer;">기존계정 로그인하기</div>
 			</div>
 		</form>
 	</div>
