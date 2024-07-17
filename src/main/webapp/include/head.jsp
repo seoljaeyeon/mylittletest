@@ -246,25 +246,25 @@
     </div>
     <div style="display:flex;flex-direction: row; gap:0.8rem;">
         <aside class="side_container">
-            <div class="side_button" onclick="location.href='login.jsp'">
-                로그인
-            </div>
-            <div class="side_button" id="mystudy_btn">
-                나의 학습
-            </div>        
-            <div class="side_button" onclick="location.href='questionlist.jsp'">
-                문제 둘러보기
-            </div>        
-            <div class="side_button" onclick="location.href='announcement_list.jsp'">
-                공지사항
-            </div>        
-            <div class="side_button manager_contact_button" id="admin_btn" >
-                관리자 연락
-            </div>
-            <hr style="width:100%; opacity:0.6; margin-top:auto">
-            <div class="side_button">
-                웹사이트 운영 정책
-            </div>
+	            <div class="side_button" onclick="location.href='login.jsp'">
+	                로그인
+	            </div>
+	            <div class="side_button" id="mystudy_btn">
+	                나의 학습
+	            </div>        
+	            <div class="side_button" onclick="location.href='questionlist.jsp'">
+	                문제 둘러보기
+	            </div>        
+	            <div class="side_button" onclick="location.href='announcement_list.jsp'">
+	                공지사항
+	            </div>        
+	            <div class="side_button manager_contact_button" id="admin_btn" >
+	                관리자 연락
+	            </div>
+	            <hr style="width:100%; opacity:0.6; margin-top:auto">
+	            <div class="side_button">
+	                웹사이트 운영 정책
+	            </div>
         </aside>
         <!-- 팝업 영역  -->
         <div class="popup_wrap" id="popup_login">
