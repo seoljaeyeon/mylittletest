@@ -6,7 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 	    <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
-<jsp:include page="./include/head_login.jsp"></jsp:include>
+<jsp:include page="./include/head.jsp"></jsp:include>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 		//팝업요소를 가져온다
@@ -46,11 +46,19 @@ document.addEventListener("DOMContentLoaded", function() {
         popupReply.classList.remove("show");
     });
     
-	 // 북마크 버튼 애니메이션
-    const likeBtns = document.querySelectorAll('.like_btn');
+    // 북마크 버튼 애니메이션
+    const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
 
-    likeBtns.forEach(function(btn) {
+    bookmarkBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
+            this.classList.toggle('bookmarked');
+        });
+    });
+    // 좋아요 버튼 애니메이션
+    const likeBtns = document.querySelectorAll('.like');
+
+    likeBtns.forEach(function(Btn) {
+    	Btn.addEventListener('click', function() {
             this.classList.toggle('liked');
         });
     });
@@ -86,6 +94,34 @@ document.addEventListener("DOMContentLoaded", function() {
 	            document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
 	        }, 500);
 	    });
+    //정답 오답체크
+    const btnO = document.getElementById("btnO");
+    const btnX = document.getElementById("btnX");
+
+    btnO.addEventListener("click", () => {
+        btnO.classList.toggle("clicked");
+    });
+
+    btnX.addEventListener("click", () => {
+        btnX.classList.toggle("clicked2");
+    });
+    
+    //오디오 재생
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    // 오디오 요소 클릭 이벤트 핸들러
+    audioPlayer.addEventListener('click', function (event) {
+        const rect = audioPlayer.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const playerWidth = rect.width;
+        const duration = audioPlayer.duration;
+        const newTime = (clickX / playerWidth) * duration;
+
+        // currentTime 설정 전 확인
+        if (!isNaN(newTime) && newTime >= 0 && newTime <= duration) {
+            audioPlayer.currentTime = newTime;
+        }
+    });
   });
 </script>
 <style>
@@ -132,9 +168,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 	.modify_btn{
 		background-position: center;
-    	background-size: cover;
-    	-webkit-appearance: none;
-		-moz-appearance: none;
 		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
@@ -151,16 +184,24 @@ document.addEventListener("DOMContentLoaded", function() {
 		border: none;
 		margin-top:5px;
 	}
-	.like_btn,.reportbtn{
+	.modify_btn:hover{
+		background-color:white;
+		color:black;
+	}
+	.bookmark_btn,.reportbtn{
 		font-size:30px;
 		margin-left:10px;
 		margin-top:5px;
 		cursor:pointer;
 		transition: transform 0.3s, color 0.3s;
 	}
-	 .like_btn.liked {
-            color: red;
+	 .bookmark_btn.bookmarked {
+            color: yellow;
             transform: scale(1.5);
+        }
+        .bookmark_btn:hover{
+        	color:yellow;
+        	transform: scale(1.5);
         }
 	.solve_main{
 		display:inline-flex;
@@ -240,9 +281,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		gap:10px;
 	}
 	.next{
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
 		border-radius: 10px;
@@ -251,12 +289,17 @@ document.addEventListener("DOMContentLoaded", function() {
 		padding: auto;
 		justify-content: center;
 		align-items: center;
-		font-size: 25px;
+		font-size: 20px;
 		text-align:center;
 		display:flex;
 		cursor:pointer;
 		border: none;
 	}
+	.next:hover {
+	    color: #007bff;
+	    transform: scale(1.1);
+	}
+	
 	.mini_box{
 		height: 58px;
 		width: 170px;
@@ -264,18 +307,24 @@ document.addEventListener("DOMContentLoaded", function() {
 		margin-top: 15px;
 		font-size:20px;
 	}
+	.like_box{
+		display:flex;
+	}
 	.like{
 		margin-bottom:10px;
+		cursor:pointer;
 	}
-	.like.likes{
-		margin-bottom:10px;
-		color: red;
-        transform: scale(1.5);
+	.like.liked{
+		 color: red;
+         transform: scale(1.1);
 	}
+    .like:hover{
+         color:red;
+         transform: scale(1.1);
+    }
 	.share {
 	    cursor: pointer;
 	    transition: transform 0.3s, color 0.3s;
-	    margin-top: 10px;
 	}
 	
 	.share:hover {
@@ -285,13 +334,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	.check{
 		display:flex;
 		gap:10px;
+		height:40px;		
+	}
+	.audioPlayer{
+		width:250px;
 		height:40px;
-		margin-top:43px;
 	}
 	.success_btn{
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
 		border-radius: 10px;
@@ -305,8 +354,22 @@ document.addEventListener("DOMContentLoaded", function() {
 		display:flex;
 		cursor:pointer;
 		border: none;	
+		transition: background-color 0.3s ease, transform 0.3s ease;
+	}
+	.success_btn:hover{
+		color: #007bff;
+	    transform: scale(1.1);
+	}
+		.success_btn.clicked {
+	    background-color: #2E64FE; 
+	    transform: scale(1.1);
 	}
 	
+	.success_btn.clicked2 {
+	    background-color: #f44336; 
+	    transform: scale(1.1);
+	}
+		
 	.answer-container {
     position: relative;
     width: 542px;
@@ -513,6 +576,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		display:block;
 	}
 			    
+			    
 </style>
 <!-- 팝업영역  -->
 <div class="popup_wrap" id="popup_report">
@@ -578,7 +642,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<div class="today_question"><span>오늘 본 문제수 </span></div>
     <div class="today_count"><span style="font-size:20px;">${questionVO.todayNoteViewInCategory}</span></div>
 		</div>
-		<div class="modify_btn" onclick="location.href='modify.jsp'">수정 </div>
+		<div class="modify_btn" onclick="location.href='/mylittletest/modify'">수정 </div>
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
 		<div class="reportbtn" id="reportbtn">🚨</div>
@@ -601,14 +665,25 @@ document.addEventListener("DOMContentLoaded", function() {
 				<div class="tip" id="tip">💡팁 보기</div><div class="showtip" id="showtip">${questionVO.noteVO.noteHint}</div>
 			</div>
 				<div class="next_box">
+<<<<<<< HEAD
 					<div class="next" onclick="/mylittletest/myTest/category/${questionVO.categoryVO.categoryTitle}">▷다음문제</div>
+=======
+					<!-- 다음 문제를 클릭하면 과목타이틀이 같은 문제가 랜덤으로 나옴  -->
+					<div class="next" onclick="location.href='/mylittletest/questionsolve?categoryno='${categoryNo}">▷다음문제</div>
+>>>>>>> refs/remotes/origin/develop
 					<div class="mini_box">
-						<div class="like">❤ ${questionVO.favoriteCount }</div>
+						<div class="like">❤ </div>
+						<div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
-					<div class="check">
-						<div class="success_btn">O</div>
-						<div class="success_btn">X</div>
+					<div class="media">
+						<audio id="audioPlayer" class="audioPlayer" controls="controls" loop="loop">
+						  <source src="https://t1.daumcdn.net/cfile/tistory/9945CE425CE45B920A"  type="audio/mpeg"/>
+						</audio>					    
+						<div class="check">
+							<div class="success_btn" id="btnO">O</div>
+							<div class="success_btn" id="btnX">X</div>
+						</div>
 					</div>
 				</div>	
 			</div>
@@ -618,50 +693,43 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 	</div>
 	<div class="reply_container">
+<<<<<<< HEAD
 		<form id="replyFrm" name="replyFrm" method="post" action="/mylittletest/replyWrite">
 	    	<sec:csrfInput/>
 	    	<input type="hidden" name="noteNo" id="noteNo" value="${questionVO.noteVO.noteNo}">
 	    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
+=======
+		<c:if test="${ sessionScope.login != null }">
+		<form id="replyFrm" name="replyFrm" method="post" action="replyok.jsp">
+>>>>>>> refs/remotes/origin/develop
 			<div class="reply_box">
 				<div class="reply_profile" style="font-size:30px; margin-top:5px;">😃</div>
 				<div class="replyinput"><input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요"></div>
 				<div class="replybtn"><button type="submit" class="reply_btn">작성</button></div>
 			</div>
 		</form>
+		</c:if>
 		<div class="reply">
+		<c:forEach var="reply" items="${ reply }">
 			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">😃</div>
+				<div class="reply_profiles" style="font-size:30px;">${ reply.profil }</div>
 				<div class="replynote">
+<<<<<<< HEAD
 					${questionVO.replies[0].replyVO.replyContent}
 					<div class="reply_date" id="reply_report">🚨신고 <span>${questionVO.replies[0].replyVO.createdAt}</span></div>
+=======
+					${ reply.rnote }
+					<div class="reply_date" id="reply_report">🚨신고 <span>${ reply.rwdate }</span></div>
+>>>>>>> refs/remotes/origin/develop
 				</div>
-				<div class="replycheck">
-					<div class="reply_modify_btn">수정</div>
-					<div class="reply_modify_btn">삭제</div>
-				</div>
+				<c:if test="${ login != null and login.userno ==  reply.ruserno }">
+					<div class="replycheck">
+						<div class="reply_modify_btn">수정</div>
+						<div class="reply_modify_btn">삭제</div>
+					</div>
+				</c:if>
 			</div>
-			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">😃</div>
-				<div class="replynote">
-					댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.
-					<div class="reply_date" id="reply_report">🚨신고 <span>2024-07-01</span></div>
-				</div>
-				<div class="replycheck">
-					<div class="reply_modify_btn">수정</div>
-					<div class="reply_modify_btn">삭제</div>
-				</div>
-			</div>
-			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">😃</div>
-				<div class="replynote">
-					댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.
-					<div class="reply_date" id="reply_report">🚨신고 <span>2024-07-01</span></div>
-				</div>
-				<div class="replycheck">
-					<div class="reply_modify_btn">수정</div>
-					<div class="reply_modify_btn">삭제</div>
-				</div>
-			</div>
+		</c:forEach>
 		</div>
 	</div>
 </div>

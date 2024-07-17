@@ -24,7 +24,7 @@ function decrease() {
 
 function saveSetting() {
     let numberInput = document.getElementById('number').value;
-    alert(`설정 완료: ${numberInput}`);
+    alert(numberInput + "문제 설정완료");
 }
 </script>
 <style>
@@ -57,6 +57,14 @@ function saveSetting() {
 		height:fit-content;
 	}
 	.setting{
+		margin-left:50px;
+		display:flex;
+		margin-top:1rem;
+		justify-content: flex-end;
+		margin-right:2rem;
+		cursor:pointer;
+	}
+	.count_setting{
 		display:flex;
 		margin-top:1rem;
 		justify-content: flex-end;
@@ -169,7 +177,7 @@ function saveSetting() {
 	<div class="head_box">
 		<div class="goal_box">
 			<div class="goal_title">😀 오늘의 목표</div>
-			<div class="setting" style="margin-top:30px">		
+			<div class="count_setting" style="margin-top:30px">		
 				<div class="goal_btn" onclick="saveSetting()">설정 완료</div>
 				<div class="goal_set">
 					<div style="width:20px; height:48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">

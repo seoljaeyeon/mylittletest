@@ -64,11 +64,11 @@
 <!-- 컨텐츠 영역  -->	
 	<div class="join_area">
         <h1 class="join_title">환영합니다!</h1>
-       <div class="emoji"><img src="./img/idea.png" style="width:100px; height:100px;"></div>
+       <div class="emoji" style="font-size:100px; text-align:center;">🐼</div>
        <div style="opacity:0.3; width: 60%; margin-top:3rem; text-align:center; color:#eeeeee">회원가입이 완료됐습니다.<br>로그인하고 이제 학습을 시작해볼까요?</div>
         <div style="display:inline-flex; flex-direction:row; gap:2rem;">
-            <div class="login_btn" onclick="location.href='./login.jsp'">로그인 하기</div>
-            <div class="index_btn" onclick="location.href='./index.jsp'">메인으로 이동</div>
+            <div class="login_btn" onclick="location.href='/mylittletest/login'">로그인 하기</div>
+            <div class="index_btn" onclick="location.href='/mylittletest/index'">메인으로 이동</div>
         </div>
     </div>
 <!-- 컨텐츠 영역  -->	

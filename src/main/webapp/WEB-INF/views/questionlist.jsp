@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="./include/head_login.jsp"></jsp:include>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
+<jsp:include page="./include/head.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script>
@@ -91,12 +93,20 @@
         // 문서가 로드되면 슬라이더 기능 설정
         setupListSlider();
         
-        // 좋아요 버튼 애니메이션
+        // 북마크 버튼 애니메이션
         var bookmarks = document.querySelectorAll('.bookmark');
 
         bookmarks.forEach(function(bookmark) {
             bookmark.addEventListener('click', function() {
                 bookmark.classList.toggle('liked');
+            });
+        });
+        // 좋아요 버튼 애니메이션
+        const likeBtns = document.querySelectorAll('.question_like');
+
+        likeBtns.forEach(function(Btn) {
+        	Btn.addEventListener('click', function() {
+                this.classList.toggle('liked');
             });
         });
         // 화살표 슬라이더
@@ -117,6 +127,8 @@
 		      },
 		    });
 		swiper.slideNext();
+		
+		
     
 	});
 </script>
@@ -438,7 +450,19 @@
 			 width:100%;
 			 gap:5px;
 		  }
-		 
+		  .question_like{
+		  	cursor:pointer;
+		  }
+		  .question_like.liked{
+			 color: red;
+	         transform: scale(1.2);
+		  }
+		  .likebox{
+		  	display:flex;
+		  }
+		 .question_question{
+		 	cursor:pointer;
+		 }
 		  /* 팝업 창 스타일  */
 		 .popup_wrap {
 		    display: none; 
@@ -553,8 +577,9 @@
 			                	<span style="font-weight:bold" id="questionDisplay">모든 문제</span>
 			            	</div>
 							<div class="list_order">   
-			                	<div class="order_option">모든문제</div>
-			                	<div class="order_option">내문제</div>
+			                	<div class="order_option"  onclick="location.href='questionlist?type=all'">모든문제</div>
+			                	<div class="order_option"  onclick="location.href='questionlist?type=my'">내문제</div>
+			                	<div class="order_option"  onclick="location.href='questionlist?type=other'">다른유저문제</div>
 			            	</div>
 			            </div>
 			            <div class="order_dropdown">
@@ -562,241 +587,63 @@
 			                	<span style="font-weight:bold" id="orderDisplay">정렬기준</span>
 			            	</div>
 							<div class="list_order">   
-			                	<div class="order_option">최신순</div>
-			                	<div class="order_option">인기순</div>
-			                	<div class="order_option">조회순</div>
-			                	<div class="order_option">댓글순</div>
+			                	<div class="order_option" onclick="location.href='questionlist?sort=latest'">최신순</div>
+			                	<div class="order_option" onclick="location.href='questionlist?sort=likes'">좋아요순</div>
+			                	<div class="order_option" onclick="location.href='questionlist?sort=views'">조회순</div>
 			            	</div>
 			         	</div>
 		         	</div>
-		          </div>
+		         </div>
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
-			                <li class="list1">
-			                    <div class="list">JAVA</div>
-			                </li>
-			                <li class="list2">
-			                    <div class="list">HTML</div>
-			                </li>
-			              	<li class="list3">
-		                        <div class="list">CSS</div>
-		                    </li>
-		                    <li class="list4">
-		                        <div class="list">Javascript</div>
-		                    </li>
-			                <li class="list5">
-		                        <div class="list">Spring</div>
-		                    </li>
-		                    <li class="list6">
-		                        <div class="list">JSP</div>
-		                    </li>
-		                    <li class="list7">
-		                        <div class="list">EL</div>
-		                    </li>
-		                    <li class="list8">
-		                        <div class="list">AWS</div>
-		                    </li>
-		                    <li class="list9">
-		                        <div class="list">CLOUD</div>
-		                    </li>
+			            	<c:forEach var="category" items="${category}">
+			                	<li class="list1">
+			                    	<div class="list" onclick="location.href='/mylittletest/all_note_list?categoryno='${category.categoryno}">${category.categorytitle}</div>
+			                	</li>
+			               	</c:forEach>
 			            </ul>
 			      </div>
 			  </div>
 			  <!-- 슬라이드 할 요소 -->
 			 <div class="swiper-container"> 
-			  <div class="swiper-wrapper">
-				<div class="swiper-slide">
-					     	<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
+			  	<div class="swiper-wrapper">
+			  	<c:forEach var="i" begin="0" end="2">
+					<div class="swiper-slide">
+						  <c:forEach var="question" items="${ question }" begin="0" end="3">
+						     	<div class="question_box">
+						     		<div class="question_item">
+						      			<div class="bookmark">
+						      				★
+						      			</div>
+						      			<div class="question_title" onclick="location.href='mylittletest/questionsolve?categoryno='${question.categoryno}">${question.categorytitle}</div>
 					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JAVA</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn">🚨</div>
-				      			</div>
-				      			
-				      		</div>	
-				      		<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
+					      			<div class="question_mini">
+					      				<div class="question_mbox">
+					      					<div class="question_mtitle" onclick="location.href='mylittletest/questionsolve?categoryno='${question.categoryno}">${question.categorytitle}</div>
+					      					<div class="question_answer">나의 정답률 ${question.rate}%</div>
+					      				</div>
 					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">HTML</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn" >🚨</div>
-				      			</div>
-				      		</div>
-				      		<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
+					      			<div class="question_count">
+					      				<div class="count_box">
+					      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">${question.likeCount}</div></div>
+					      					<div class="question_question" onclick="location.href='/mylittletest/all_note_list?categoryno='${question.categoryno}">📚 ${questionCount}문제</div>
+					      					<div class="question_person">🧑 ${question.userCount}출제자</div>
+					      				</div>	
+					      					<div class="question_report" id="report_btn">🚨</div>
 					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">CSS</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn">🚨</div>
-				      			</div>
-				      		</div>
-				      		<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
-					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JSP</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn">🚨</div>
-				      			</div>
-				      		</div>
-				      	 </div>
-				      	 <div class="swiper-slide">
-					     	<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
-					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JAVA</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JAVA</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn">🚨</div>
-				      			</div>
-				      			
-				      		</div>	
-				      		<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
-					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">HTML</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">HTML</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn" >🚨</div>
-				      			</div>
-				      		</div>
-				      		<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
-					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">CSS</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">CSS</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn">🚨</div>
-				      			</div>
-				      		</div>
-				      		<div class="question_box">
-					     		<div class="question_item">
-					      			<div class="bookmark">
-					      				★
-					      			</div>
-					      			<div class="question_title" onclick="location.href='questionsolve.jsp'">JSP</div>
-				      			</div>
-				      			<div class="question_mini">
-				      				<div class="question_mbox">
-				      					<div class="question_mtitle" onclick="location.href='questionsolve.jsp'">JSP</div>
-				      					<div class="question_answer">나의 정답률 60%(60/100)</div>
-				      				</div>
-				      			</div>
-				      			<div class="question_count">
-				      				<div class="count_box">
-				      					<div class="question_like">🤍 13</div>
-				      					<div class="question_question">📚 21문제</div>
-				      					<div class="question_person">🧑 12출제자</div>
-				      				</div>	
-				      					<div class="question_report" id="report_btn">🚨</div>
-				      			</div>
-				      		</div>
-				      	 </div>
+					      		</div>	
+					      </c:forEach>		
+				     </div>
+				  </c:forEach>
 				      	<!--슬라이더 추가  -->
-			      	</div>
+			      </div>
 			      	 <!-- 네비게이션 버튼 -->
 					<div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
 					<div class="swiper-button-prev"></div><!-- 이전 버튼 -->
 				
 					<!-- 페이징 -->
 					<div class="swiper-pagination"></div>
-			      </div>
-				</div>
-				
+			 </div>
+		</div>
 <!-- 컨텐츠 영역  -->
 <jsp:include page="./include/tail.jsp"></jsp:include>

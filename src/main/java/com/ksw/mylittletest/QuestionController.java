@@ -137,7 +137,6 @@ public class QuestionController {
 
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);
-		System.out.println(questionVO.getReplies().get(0).getReplyVO().getReplyContent());
 		model.addAttribute("menuName", menuName);
 		
 		return "questionsolve"; 
@@ -180,25 +179,4 @@ public class QuestionController {
             	return response;
             }	
 	}
-    
-    @PostMapping(value = "/favorite", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Map<String, String> doFavorite(
-    		Model model
-    		){
-		// 인증 서비스로부터 사용자 정보 로딩
-		UserVO userVO = authService.getUserVO();
-		
-		// 응답용 Map생성 (Json)
-		Map<String, String> response = new HashMap<String, String>();
-		if (userVO == null || userVO.getUserNo() == null) {
-			response.put("status", "loing_needed");
-			response.put("url", "/mylittletest/write");
-			return response;
-		}
-		// 사용자 정보model에 추가
-		model.addAttribute("userVO", userVO);
-    	
-    	return response;
-    }
 }

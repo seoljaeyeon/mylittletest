@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="./include/head_login.jsp"></jsp:include>
-<!-- CSRF 메타 태그 추가 -->
+<jsp:include page="./include/head.jsp"></jsp:include>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+	<!-- CSRF 메타 태그 추가 -->
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 
@@ -10,99 +12,132 @@
  <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-	var csrfToken = $("meta[name='_csrf']").attr("content");
-    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	
+		var csrfToken = $("meta[name='_csrf']").attr("content");
+	    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-    console.log("CSRF Token:", csrfToken);
-    console.log("CSRF Header:", csrfHeader);
+	    console.log("CSRF Token:", csrfToken);
+	    console.log("CSRF Header:", csrfHeader);
 
-    $("#writeFrm").submit(function(event) {
-        var form = $(this)[0];
-        var data = new FormData(form);
-        
-        $.ajax({
-            type: "POST",
-            enctype: 'multipart/form-data',
-            url: "/mylittletest/write",
-            data: data,
-            processData: false,
-            contentType: false,
-            cache: false,
-            timeout: 600000,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-                xhr.setRequestHeader("Accept", "application/json"); 
-            },
-            success: function(response) {
-				if (response.status == "success") {
-					window.location.href = response.url;
-				} else if (response.status == "login_needeed") {
-					window.location.href = response.url;
-				} else {
-					window.location.href = response.url;
-				}
-            },
-            error: function(e) {
-                console.log("ERROR : ", e);
-                window.location.href = "/mylittletest/write"
-            }
-        });
-        event.preventDefault();
-    });
+	    $("#modifyFrm").submit(function(event) {
+	        var form = $(this)[0];
+	        var data = new FormData(form);
+
+	        $.ajax({
+	            type: "POST",
+	            enctype: 'multipart/form-data',
+	            url: "/mylittletest/modify",
+	            data: data,
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            timeout: 600000,
+	            beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                    xhr.setRequestHeader("Accept", "application/json"); 
+	            },
+	            success: function(response) {
+					if (response.status == "success") {
+						window.location.href = response.url;
+					} else if (response.status == "login_needeed") {
+						window.location.href = response.url;
+					} else {
+						window.location.href = response.url;
+					}
+	            },
+	            error: function(e) {
+	                console.log("ERROR : ", e);
+	                window.location.href = "/mylittletest/modify"
+	            }
+	        });
+	        event.preventDefault();
+	    });
 	
 	
+	
+	
+	// HTML에서 subject라는 id를 가진 input 요소를 가져옵니다.
 	const inputField = document.getElementById('subject');
-    const dropdownMenu = document.createElement('div');
-    dropdownMenu.classList.add('dropdown-menu');
-    inputField.parentNode.appendChild(dropdownMenu);
 
-    // 입력 필드의 입력 이벤트 처리
-    inputField.addEventListener('input', function() {
-        const inputValue = inputField.value.trim().toLowerCase(); // 입력된 값 (소문자로 변환하여 공백 제거)
-        
-        // 기존에 드롭다운 메뉴에 있던 내용을 초기화합니다.
-        dropdownMenu.innerHTML = '';
+	// 드롭다운 메뉴를 생성하여 dropdown-menu 클래스를 추가합니다.
+	const dropdownMenu = document.createElement('div');
+	dropdownMenu.classList.add('dropdown-menu');
 
-        // 만약 입력된 값이 비어있다면 드롭다운을 숨깁니다.
-        if (inputValue === '') {
-            dropdownMenu.style.display = 'none';
-            return;
-        }
+	// input 요소의 부모 노드에 드롭다운 메뉴를 추가합니다.
+	inputField.parentNode.appendChild(dropdownMenu);
 
-        // 실제로는 서버에서 데이터를 가져오거나 기존 데이터에서 필터링할 수 있습니다.
-        const existingData = ['JAVA', 'Javascript', 'JSP', 'Spring', 'JPA', 'CSS','Mybatis','EL'];
-        
-        // 입력된 값이 포함된 데이터를 찾아서 드롭다운으로 보여줍니다.
-        const matchingData = existingData.filter(item => item.toLowerCase().includes(inputValue));
-
-        // 매칭된 항목들을 드롭다운 메뉴에 추가합니다.
-        matchingData.forEach(item => {
-            const option = document.createElement('div');
-            option.textContent = item;
-            option.classList.add('dropdown-item'); // 선택적으로 클래스 추가
-
-            // 드롭다운 항목을 클릭하면 해당 값을 입력 필드에 설정하고 드롭다운을 닫습니다.
-            option.addEventListener('mousedown', function() { // 'click' 대신 'mousedown' 이벤트 사용
-                inputField.value = item;
-                dropdownMenu.style.display = 'none'; // 클릭 후 드롭다운 숨기기
-            });
-
-            dropdownMenu.appendChild(option);
+	// 기존 데이터 배열입니다.
+	const existingData = [];
+	
+	// 서버에서 데이터를 받아옴
+	 fetch('/category')
+        .then(response => response.json())
+        .then(data => {
+            existingData = data.map(category => category.name);
         });
+	
+	// input 요소에 input 이벤트 리스너를 추가합니다.
+	inputField.addEventListener('input', function() {
+	    // 입력된 값의 양쪽 공백을 제거하고 대문자로 변환합니다.
+	    const inputValue = inputField.value.trim().toUpperCase();
 
-        // 입력된 값이 있을 때 드롭다운을 보여줍니다.
-        if (matchingData.length > 0) {
-            dropdownMenu.style.display = 'block';
-        } else {
-            dropdownMenu.style.display = 'none';
-        }
-    });
+	    // 드롭다운 메뉴의 내용을 초기화합니다.
+	    dropdownMenu.innerHTML = '';
 
-	    inputField.addEventListener('blur', function() {
-        setTimeout(() => {
-            dropdownMenu.style.display = 'none';
-        }, 100); // 입력 필드가 포커스를 잃을 때 약간의 딜레이를 줍니다.
-    });
+	    // 입력 값이 비어있으면 드롭다운 메뉴를 숨깁니다.
+	    if (inputValue === '') {
+	        dropdownMenu.style.display = 'none';
+	        return;
+	    }
+
+	    // 기존 데이터 배열에서 입력된 값과 일치하는 데이터만 필터링합니다.
+	    const matchingData = existingData.filter(item => item.toUpperCase().includes(inputValue));
+
+	    // 필터링된 데이터의 각 항목이 몇 번 중복되는지 세는 함수를 호출합니다.
+	    const dataCounts = countDataOccurrences(matchingData);
+
+	    // 각 데이터 항목과 그 개수를 기반으로 드롭다운 옵션을 생성합니다.
+	    Object.keys(dataCounts).forEach(item => {
+	        const count = dataCounts[item]; // 해당 데이터의 개수를 가져옵니다.
+	        const option = document.createElement('div');
+	        option.textContent = item + ' (' + count + '문제)'; // 텍스트 내용을 설정합니다.
+	        option.classList.add('dropdown-item'); // dropdown-item 클래스를 추가합니다.
+
+	        // 옵션을 클릭하면 input 값에 해당 데이터를 설정하고 드롭다운 메뉴를 숨깁니다.
+	        option.addEventListener('mousedown', function() {
+	            inputField.value = item;
+	            dropdownMenu.style.display = 'none';
+	        });
+
+	        // 생성한 옵션을 드롭다운 메뉴에 추가합니다.
+	        dropdownMenu.appendChild(option);
+	    });
+
+	    // 필터링된 데이터가 존재하면 드롭다운 메뉴를 보여줍니다.
+	    if (Object.keys(dataCounts).length > 0) {
+	        dropdownMenu.style.display = 'block';
+	    } else {
+	        dropdownMenu.style.display = 'none';
+	    }
+	});
+
+	// input 요소가 포커스를 잃으면 일정 시간 후에 드롭다운 메뉴를 숨깁니다.
+	inputField.addEventListener('blur', function() {
+	    setTimeout(() => {
+	        dropdownMenu.style.display = 'none';
+	    }, 100);
+	});
+
+	// 배열에서 각 데이터 항목이 몇 번 중복되는지 세는 함수입니다.
+	function countDataOccurrences(dataArray) {
+	    const counts = {};
+	    dataArray.forEach(item => {
+	        counts[item.toUpperCase()] = counts[item.toUpperCase()] ? counts[item.toUpperCase()] + 1 : 1;
+	    });
+	    return counts;
+	}
+    
+    
 	    
 	
 	// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
@@ -525,11 +560,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <div class="container">
-    <form id="writeFrm" class="writeFrm" name="writeFrm" action="writeok.jsp" enctype="multipart/form-data">
+    <form id="modifyFrm" class="modifyFrm" name="modifyFrm" action="modifyok.jsp" enctype="multipart/form-data">
+     <input type="hidden" id="questionno" name="questionno" value="${ questionno }">
         <div class="subject-input-container">
             <div class="subject-input-shadow">
                 <div class="subject-container">
-                    <input class="subject_input" type="text" id="subject" name="subject" placeholder="JAVA" spellcheck="false" maxlength="20" autocomplete="off">
+                    <input class="subject_input" type="text" id="subject" name="subject" value="${${questionVO.categoryVO.categoryTitle}" 
+                    	placeholder="JAVA" spellcheck="false" maxlength="20" autocomplete="off">
                 </div>
             </div>
             <span class="subject-hidden-input"></span>
@@ -539,25 +576,26 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         </div>
         <div class="title_container">
-            <input class="title_input" type="text" id="title_input" name="title" placeholder="제목입니다"
+            <input class="title_input" type="text" id="title_input" name="title" value="${questionVO.noteVO.noteTitle }"
                 spellcheck="false" autocomplete="off">
             <span class="title_underline" id="title_underline"></span>
         </div>
         <div id="editor" class="editor"  data-placeholder="내용입니다" ></div>
-        <input type="hidden" name="editorContent" id="editorContent">
+        <input type="hidden" name="editorContent" id="editorContent" value="${questionVO.noteVO.noteContent}">
         <div class="box">
-            <div class="hint_container"><input class="hint_input" type="text" id="hint" name="hint" placeholder="힌트 입니다"></div>
+            <div class="hint_container"><input class="hint_input" type="text" id="hint" name="hint" value="${questionVO.noteVO.noteHint}"></div>
             	<div class="file_container">
-            		<input type="file" class="upload" multiple>
+            	<input type="file" id="mediaFiles" name="mediaFiles[]" accept="image/*,audio/*" multiple>
             	</div>
         </div>
-        <div class="answer_container"><textarea id="answer" name="answer" placeholder="정답입니다"></textarea></div>
+        <div class="answer_container"><textarea id="answer" name="answer">${questionVO.noteVO.noteAnswer}</textarea></div>
         <div id="commentary_editor" class="commentary_editor"  data-placeholder="해설입니다"></div>
-        <input type="hidden" name="commentary_editorContent" id="commentary_editorContent">
+        <input type="hidden" name="commentary_editorContent" id="commentary_editorContent" value="${questionVO.noteVO.commentaryContent}">
         <div class="minibox">
             <div class="danger_container">저작권 경고</div>
             <div class="button_container">
-                <input type="button" class="write_btn" id="write_btn" name="write_btn"  onclick="location.href='questionsolve.jsp'" value="수정">
+                <input type="button" class="write_btn" id="write_btn" name="write_btn"  onclick="location.href='/mylittletest/questionsolve?questionno='${questionNo}" value="수정">
+>>>>>>> refs/remotes/origin/develop
                 <input type="button" class="reset_btn" id="reset_btn" name="reset_btn" value="취소">
             </div>
         </div>

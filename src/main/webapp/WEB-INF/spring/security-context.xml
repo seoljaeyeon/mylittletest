@@ -27,19 +27,6 @@
 	<beans:bean id="passwordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
-	<!-- 데이터 소스 설정 -->
-	<beans:bean id="dataSource"
-		class="com.zaxxer.hikari.HikariDataSource">
-		<beans:property name="driverClassName"
-			value="com.mysql.cj.jdbc.Driver" />
-		<beans:property name="jdbcUrl"
-			value="${spring.datasource.url}" />
-		<beans:property name="username"
-			value="${spring.datasource.username}" />
-		<beans:property name="password"
-			value="${spring.datasource.password}" />
-	</beans:bean>
-
 	<!-- Configure authentication manager -->
 	<security:authentication-manager>
 		<security:authentication-provider

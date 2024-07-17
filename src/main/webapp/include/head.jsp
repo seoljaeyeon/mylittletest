@@ -42,11 +42,13 @@
         document.getElementById("btn_close").addEventListener("click", function() {
             togglePopup('popup_admin', 'hide');
         });
+      	
+        
+      
 	});
 </script>
 <body>
     <style>
-
         body {
             background-color: #292929;
             font-family: 'Inter', sans-serif;
@@ -101,7 +103,7 @@
             place-items: center;
             overflow: hidden;
             margin-right:2rem;
-            
+            cursor:pointer;
         }
 
         .titlebar {
@@ -126,6 +128,7 @@
             flex-direction:row;
             overflow: hidden;
             align-items: center;
+            cursor: grab;
         }
 
         .top-ads {
@@ -218,12 +221,12 @@
 		.show {
 			display:block;
 		}	
-    </style>
+</style>
     <div class="titlebar">
         <div class="logo" onclick="location.href='index.jsp'">
             <span style="font-size:5rem">🤓</span>
         </div>
-        <div class="ad-container">
+        <div class="ad-container" id="ad-container">
             <div class="top-ads">
                     <img src="https://res.heraldm.com/content/image/2022/06/17/20220617000554_0.jpg" class="ads_img" alt="">
             </div>
@@ -243,25 +246,25 @@
     </div>
     <div style="display:flex;flex-direction: row; gap:0.8rem;">
         <aside class="side_container">
-            <div class="side_button" onclick="location.href='login.jsp'">
-                로그인
-            </div>
-            <div class="side_button" id="mystudy_btn">
-                나의 학습
-            </div>        
-            <div class="side_button" onclick="location.href='questionlist.jsp'">
-                문제 둘러보기
-            </div>        
-            <div class="side_button" onclick="location.href='announcement_list.jsp'">
-                공지사항
-            </div>        
-            <div class="side_button manager_contact_button" id="admin_btn" >
-                관리자 연락
-            </div>
-            <hr style="width:100%; opacity:0.6; margin-top:auto">
-            <div class="side_button">
-                웹사이트 운영 정책
-            </div>
+	            <div class="side_button" onclick="location.href='login.jsp'">
+	                로그인
+	            </div>
+	            <div class="side_button" id="mystudy_btn">
+	                나의 학습
+	            </div>        
+	            <div class="side_button" onclick="location.href='questionlist.jsp'">
+	                문제 둘러보기
+	            </div>        
+	            <div class="side_button" onclick="location.href='announcement_list.jsp'">
+	                공지사항
+	            </div>        
+	            <div class="side_button manager_contact_button" id="admin_btn" >
+	                관리자 연락
+	            </div>
+	            <hr style="width:100%; opacity:0.6; margin-top:auto">
+	            <div class="side_button">
+	                웹사이트 운영 정책
+	            </div>
         </aside>
         <!-- 팝업 영역  -->
         <div class="popup_wrap" id="popup_login">
