@@ -3,34 +3,34 @@ package com.ksw.service.forObject.relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ksw.dao.forObject.relation.FavoriteNoteMapper;
-import com.ksw.dto.forObject.relation.FavoriteNoteDTO;
+import com.ksw.dao.forObject.relation.FavoriteReplyMapper;
+import com.ksw.dto.forObject.relation.FavoriteReplyDTO;
 import com.ksw.object.entity.Favorite;
-import com.ksw.object.relation.FavoriteNote;
+import com.ksw.object.relation.FavoriteReply;
 import com.ksw.service.forObject.entity.FavoriteService;
-import com.ksw.service.forObject.entity.NoteService;
+import com.ksw.service.forObject.entity.ReplyService;
 import com.ksw.service.forObject.entity.UserService;
-import com.ksw.vo.forObject.relation.FavoriteNoteVO;
+import com.ksw.vo.forObject.relation.FavoriteReplyVO;
 
 @Service
-public class FavoriteNoteService {
+public class FavoriteReplyService {
 
 	@Autowired
 	private FavoriteService favoriteService;
 	@Autowired
-	private NoteService noteService;
+	private ReplyService replyService;
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private FavoriteNoteMapper favoriteNoteMapper;
+	private FavoriteReplyMapper favoriteReplyMapper;
 	
 	public Integer updateFavorite(
-			Integer noteNo,
+			Integer replyNo,
 			Integer userNo,
 			Integer requestType) {
 		
 		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
+		Integer favoriteNo = favoriteReplyMapper.checkRecentFavoriteRequest(replyNo, userNo);
 		
 		// 있으면 등록안하고, 에러코드 발행
 		if(favoriteNo!=null) {
@@ -40,20 +40,20 @@ public class FavoriteNoteService {
 		
 		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
 		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteNoteMapper.insert(noteNo, userNo, favoriteNo);
+		favoriteReplyMapper.insert(replyNo, userNo, favoriteNo);
 		
 		// 등록 후 변경된 타입 반환
 		return favorite.getFavoriteType();
 	}
 	
 	public Integer updateLessLook(
-			Integer noteNo,
+			Integer replyNo,
 			Integer userNo,
 			Integer requestType,
 			Integer targetType) {
 		
 		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
+		Integer favoriteNo = favoriteReplyMapper.checkRecentFavoriteRequest(replyNo, userNo);
 		
 		// 있으면 등록안하고, 에러코드 발행
 		if(favoriteNo!=null) {
@@ -63,20 +63,20 @@ public class FavoriteNoteService {
 		
 		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
 		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteNoteMapper.insert(noteNo, userNo, favoriteNo);
+		favoriteReplyMapper.insert(replyNo, userNo, favoriteNo);
 		
 		// 등록 후 변경된 타입 반환
 		return favorite.getFavoriteType();
 	}
 	
 	public Integer updateBlock(
-			Integer noteNo,
+			Integer replyNo,
 			Integer userNo,
 			Integer requestType,
 			Integer targetType) {
 		
 		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
+		Integer favoriteNo = favoriteReplyMapper.checkRecentFavoriteRequest(replyNo, userNo);
 		
 		// 있으면 등록안하고, 에러코드 발행
 		if(favoriteNo!=null) {
@@ -86,7 +86,7 @@ public class FavoriteNoteService {
 		
 		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
 		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteNoteMapper.insert(noteNo, userNo, favoriteNo);
+		favoriteReplyMapper.insert(replyNo, userNo, favoriteNo);
 		
 		// 등록 후 변경된 타입 반환
 		return favorite.getFavoriteType();
@@ -94,28 +94,28 @@ public class FavoriteNoteService {
 
 	
     // Entity -> DTO 변환 메소드
-    public FavoriteNoteDTO convertToDTO(FavoriteNote favoriteNoteEntity) {
-    	FavoriteNoteDTO dto = new FavoriteNoteDTO();
-    	if (favoriteNoteEntity == null) {
-    		System.out.println("FavoriteNote to FavoriteNoteDTO failed. Empty FavoriteNoteDTO created. FavoriteNote is null");    		
+    public FavoriteReplyDTO convertToDTO(FavoriteReply favoriteReplyEntity) {
+    	FavoriteReplyDTO dto = new FavoriteReplyDTO();
+    	if (favoriteReplyEntity == null) {
+    		System.out.println("FavoriteReply to FavoriteReplyDTO failed. Empty FavoriteReplyDTO created. FavoriteReply is null");    		
     		return dto;
     	}
-    	dto.setFavoriteDTO(favoriteService.convertToDTO(favoriteNoteEntity.getFavorite()));
-    	dto.setNoteDTO(noteService.convertToDTO(favoriteNoteEntity.getNote()));
-    	dto.setUserDTO(userService.convertToDTO(favoriteNoteEntity.getUser()));
+    	dto.setFavoriteDTO(favoriteService.convertToDTO(favoriteReplyEntity.getFavorite()));
+    	dto.setReplyDTO(replyService.convertToDTO(favoriteReplyEntity.getReply()));
+    	dto.setUserDTO(userService.convertToDTO(favoriteReplyEntity.getUser()));
         return dto;    
     }
 
     // DTO -> VO 변환 메소드
-    public FavoriteNoteVO convertToVO(FavoriteNoteDTO favoriteNoteDTO) {
-    	if (favoriteNoteDTO == null) {
-    		System.out.println("FavoriteNoteDTO to FavoriteNoteVO failed. Empty FavoriteNoteVO created. FavoriteNoteDTO is null");    		
-    		return new FavoriteNoteVO.Builder().build();
+    public FavoriteReplyVO convertToVO(FavoriteReplyDTO favoriteReplyDTO) {
+    	if (favoriteReplyDTO == null) {
+    		System.out.println("FavoriteReplyDTO to FavoriteReplyVO failed. Empty FavoriteReplyVO created. FavoriteReplyDTO is null");    		
+    		return new FavoriteReplyVO.Builder().build();
     	}
-        return new FavoriteNoteVO.Builder()
-                .userVO(userService.convertToVO(favoriteNoteDTO.getUserDTO()))
-                .noteVO(noteService.convertToVO(favoriteNoteDTO.getNoteDTO()))
-                .favoriteVO(favoriteService.convertToVO(favoriteNoteDTO.getFavoriteDTO()))
+        return new FavoriteReplyVO.Builder()
+                .userVO(userService.convertToVO(favoriteReplyDTO.getUserDTO()))
+                .replyVO(replyService.convertToVO(favoriteReplyDTO.getReplyDTO()))
+                .favoriteVO(favoriteService.convertToVO(favoriteReplyDTO.getFavoriteDTO()))
                 .build();
     }
 }

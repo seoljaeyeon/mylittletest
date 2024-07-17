@@ -595,6 +595,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="danger_container">저작권 경고</div>
             <div class="button_container">
                 <input type="button" class="write_btn" id="write_btn" name="write_btn"  onclick="location.href='/mylittletest/questionsolve?questionno='${questionNo}" value="수정">
+>>>>>>> refs/remotes/origin/develop
                 <input type="button" class="reset_btn" id="reset_btn" name="reset_btn" value="취소">
             </div>
         </div>

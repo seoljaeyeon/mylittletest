@@ -134,13 +134,12 @@ public class QuestionService {
 
 			// note 데이터 DTO로 변환
 			Note note = noteService.convertToEntity(noteDTO);
-
 			// category 데이터 DTO로 변환
 			Category category = categoryService.convertToEntity(categoryDTO);
 
 			// 데이터 DB에 저장
 			note = noteRepository.save(note); // JPA 기본 문법으로 note 데이터 저장
-			category = categoryRepository.save(category); // JPA 기본 문법으로 category 데이터 저장
+			category = categoryService.saveCategory(category);
 
 			// DTO로 바뀐 파일이 null이 아니면, 데이터를 저장
 			if (fileDTO.getUploadName() != null && !fileDTO.getUploadName().isEmpty()) {
@@ -195,7 +194,7 @@ public class QuestionService {
 		FileDTO fileDTO = fileService.convertToDTO(fileNoteMapper.getFileByNoteNo(noteNo));
 		
 		// 해당 카테고리에서 사용자가 오늘 본 목록 가져오기
-		Integer todayNoteViewInCategory = noteViewService.GetTodayHistoryCount(categoryDTO.getCategoryNo(), userVO.getUserNo());
+		Integer todayNoteViewInCategory = noteViewService.GetTodayHistoryCount(categoryDTO.getCategoryNo(), userVO.getUserNo())+1;
 		
 		// 조회 이력 확인 및 등록
 		if(!clientInfoService.getSessionClientViewHistory(noteNo, session, request)) {

@@ -1,14 +1,29 @@
 package com.ksw.service.forObject.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ksw.dao.forObject.entity.CategoryRepository;
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.vo.forObject.entity.CategoryVO;
 
 @Service
 public class CategoryService {
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
+	@Transactional
+    public Category saveCategory(Category category) {
+        if (categoryRepository.existsByCategoryTitle(category.getCategoryTitle())) {
+        	System.out.print("카테고리번호"+category.getCategoryNo());
+            return categoryRepository.findByCategoryTitle(category.getCategoryTitle());
+        }
+        return categoryRepository.save(category);
+    }
+	
     // Entity -> DTO 변환 메소드
     public CategoryDTO convertToDTO(Category category) {
     	

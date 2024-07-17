@@ -1,16 +1,15 @@
 package com.ksw.dao.forObject.relation;
 
-import java.util.List;
-
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 
-import com.ksw.dto.forObject.relation.ReplyUserDTO;
+import com.ksw.object.relation.NoteReply;
 
 @Mapper
 public interface NoteReplyMapper {
 
+    @Insert("INSERT INTO noteReply (noteNo, replyNo) VALUES (#{noteNo}, #{replyNo})")
+    void insert(@Param("noteNo") Integer noteNo, @Param("replyNo") Integer replyNo);
+	
 }

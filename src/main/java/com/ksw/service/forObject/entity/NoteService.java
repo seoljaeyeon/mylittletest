@@ -1,5 +1,8 @@
 package com.ksw.service.forObject.entity;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -114,5 +117,12 @@ public class NoteService {
                 .createdAt(noteDTO.getCreatedAt())
                 .updatedAt(noteDTO.getUpdatedAt())
                 .build();
+    }
+    
+    // List<Note> -> List<NoteDTO> 변환 메소드
+    public List<NoteDTO> convertToDTOList(List<Note> notes) {
+        return notes.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 }
