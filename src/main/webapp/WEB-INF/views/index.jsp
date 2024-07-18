@@ -178,64 +178,68 @@
 	}
 </style>
 <!-- 비회원은 안보이게함   -->
-<c:if test="${ login != null }"> 
-	<div class="main_container">
-		<div class="head_box">
-			<div class="goal_box">
-				<div class="goal_title">😀 오늘의 목표</div>
-				<div class="count_setting" style="margin-top:30px">		
-					<div class="goal_btn" onclick="saveSetting()">설정 완료</div>
-					<div class="goal_set">
-						<div style="width:20px; height:48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-							<span class="arrow_btn" style="font-size:20px;" onclick="increase()">&#x25B2;</span>
-							<span class="arrow_btn" style="font-size:20px;" onclick="decrease()">&#x25BC;</span>
+<c:choose>
+	<c:when test="${ userVO != null }"> 
+		<div class="main_container">
+			<div class="head_box">
+				<div class="goal_box">
+					<div class="goal_title">😀 오늘의 목표</div>
+					<div class="count_setting" style="margin-top:30px">		
+						<div class="goal_btn" onclick="saveSetting()">설정 완료</div>
+						<div class="goal_set">
+							<div style="width:20px; height:48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+								<span class="arrow_btn" style="font-size:20px;" onclick="increase()">&#x25B2;</span>
+								<span class="arrow_btn" style="font-size:20px;" onclick="decrease()">&#x25BC;</span>
+							</div>
+							<input type="number" id="Total" name="Total" value="100" min="0">
+							<span style="font-size:13px; margin-top:25px; height:fit-content;">(문제)</span>
 						</div>
-						<input type="number" id="Total" name="Total" value="100" min="0">
-						<span style="font-size:13px; margin-top:25px; height:fit-content;">(문제)</span>
+					</div>
+				</div>
+				<div class="goal_box">
+					<div class="goal_title">🎯 오늘 달성률</div>
+					<div class="setting">		
+						<div class="goal_achieve" style="font-size:35px; margin-top:20px">
+						<span style="font-size:15px;"><!--오늘푼 문제수-->${Today} / <!--사용자가 설정한 목표 문제수-->${Total}</span> 
+						<%--오늘푼 문제수 / 사용자가 설정한 문제수 * 100을 계산한값 --%>${TodayPercent}</div>
+					</div>
+				</div>
+				<div class="goal_box">
+					<div class="goal_title">🏆 최근 달성률</div>
+					<div class="setting">	
+						<div class="goal_success">
+							<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
+							<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
+							<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
+							<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
+							<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
+							<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
+						</div>	
+						<div class="goal_set" style="margin-top:20px; font-size:35px;"><%--평균 달성률 표시--%>${AvgPercent}</div>
 					</div>
 				</div>
 			</div>
-			<div class="goal_box">
-				<div class="goal_title">🎯 오늘 달성률</div>
-				<div class="setting">		
-					<div class="goal_achieve" style="font-size:35px; margin-top:20px">
-					<span style="font-size:15px;"><!--오늘푼 문제수-->${Today} / <!--사용자가 설정한 목표 문제수-->${Total}</span> 
-					<%--오늘푼 문제수 / 사용자가 설정한 문제수 * 100을 계산한값 --%>${TodayPercent}</div>
-				</div>
+			<div class="list_box">
+				<div class="list_set" onclick="location.href='/mylittletest/questionlist'">⏳문제 목록 관리</div>
+				<div class="list_set" onclick="location.href=''">⏳오늘 본 문제 목록</div>
 			</div>
-			<div class="goal_box">
-				<div class="goal_title">🏆 최근 달성률</div>
-				<div class="setting">	
-					<div class="goal_success">
-						<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
-						<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
-						<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
-						<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
-						<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
-						<div class="success_count"><span><%-- x일전 표시 --%>${dayAgo}</span> <span><%-- 그날 달성률 표시 --%>${TodayPercent}</span></div>
-					</div>	
-					<div class="goal_set" style="margin-top:20px; font-size:35px;"><%--평균 달성률 표시--%>${AvgPercent}</div>
-				</div>
+			<div class="sub_box">
+				<div class="sub_menu" onclick="location.href='/mylittletest/write'">🤓문제 쓰기</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📚내 문제 풀기</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📘맞춘 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📕틀린 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📖오늘 본 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">❤북마크 문제 복습</div>
 			</div>
 		</div>
-		<div class="list_box">
-			<div class="list_set" onclick="location.href='/mylittletest/questionlist'">⏳문제 목록 관리</div>
-			<div class="list_set" onclick="location.href=''">⏳오늘 본 문제 목록</div>
+	</c:when>
+	<c:otherwise>
+		<div>
+			<div style="text-align:center; font-size:30px; margin-top:20px;">⭐환영합니다⭐</div>
+			<div style="text-align:center; font-size:300px;">📖</div>
+			<div style="text-align:center; font-size:30px; margin-top:20px;">본 사이트는 회원일 때 이용이 가능합니다 회원이 아닐경우 회원가입 해주십시오.</div>
+			<div style="text-align:center; font-size:30px; margin-top:20px; cursor:pointer; color:yellow;" onclick="location.href='/mylittletest/join'">회원 가입하러가기</div>
 		</div>
-		<div class="sub_box">
-			<div class="sub_menu" onclick="location.href='/mylittletest/write'">🤓문제 쓰기</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📚내 문제 풀기</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📘맞춘 문제 복습</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📕틀린 문제 복습</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">📖오늘 본 문제 복습</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/questionsolve'">❤북마크 문제 복습</div>
-		</div>
-	</div>
-</c:if>
-<div>
-	<div style="text-align:center; font-size:30px; margin-top:20px;">⭐환영합니다⭐</div>
-	<div style="text-align:center; font-size:300px;">📖</div>
-	<div style="text-align:center; font-size:30px; margin-top:20px;">본 사이트는 회원일 때 이용이 가능합니다 회원이 아닐경우 회원가입 해주십시오.</div>
-	<div style="text-align:center; font-size:30px; margin-top:20px; cursor:pointer; color:yellow;" onclick="location.href='/mylittletest/join'">회원 가입하러가기</div>
-</div>
+	</c:otherwise>
+</c:choose>
 <jsp:include page="./include/tail.jsp"></jsp:include>

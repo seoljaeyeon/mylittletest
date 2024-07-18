@@ -6,376 +6,217 @@
 <!-- CSRF 메타 태그 추가 -->
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
-	rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css"rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
 <script>
-	document
-			.addEventListener(
-					"DOMContentLoaded",
-					function() {
-						var csrfToken = $("meta[name='_csrf']").attr("content");
-					    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	document.addEventListener("DOMContentLoaded",function() {
+		   // CSRF token 설정
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-					    console.log("CSRF Token:", csrfToken);
-					    console.log("CSRF Header:", csrfHeader);
+        console.log("CSRF Token:", csrfToken);
+        console.log("CSRF Header:", csrfHeader);
 
-					    $("#writeFrm").submit(function(event) {
-					        var form = $(this)[0];
-					        var data = new FormData(form);
+        $("#writeFrm").submit(function(event) {
+	        var form = $(this)[0];
+	        var data = new FormData(form);
 
-					        $.ajax({
-					            type: "POST",
-					            enctype: 'multipart/form-data',
-					            url: "/mylittletest/write",
-					            data: data,
-					            processData: false,
-					            contentType: false,
-					            cache: false,
-					            timeout: 600000,
-					            beforeSend: function(xhr) {
-				                    xhr.setRequestHeader(csrfHeader, csrfToken);
-				                    xhr.setRequestHeader("Accept", "application/json"); 
-					            },
-					            success: function(response) {
-									if (response.status == "success") {
-										window.location.href = response.url;
-									} else if (response.status == "login_needeed") {
-										window.location.href = response.url;
-									} else {
-										window.location.href = response.url;
-									}
-					            },
-					            error: function(e) {
-					                console.log("ERROR : ", e);
-					                window.location.href = "/mylittletest/write"
-					            }
-					        });
-					        event.preventDefault();
-					    });
-						
-						// HTML에서 subject라는 id를 가진 input 요소를 가져옵니다.
-						const inputField = document.getElementById('subject');
+	        $.ajax({
+	            type: "POST",
+	            enctype: 'multipart/form-data',
+	            url: "/mylittletest/write",
+	            data: data,
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            timeout: 600000,
+	            beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                    xhr.setRequestHeader("Accept", "application/json"); 
+	            },
+	            success: function(response) {
+					if (response.status == "success") {
+						window.location.href = response.url;
+					} else if (response.status == "login_needeed") {
+						window.location.href = response.url;
+					} else {
+						window.location.href = response.url;
+					}
+	            },
+	            error: function(e) {
+	                console.log("ERROR : ", e);
+	                window.location.href = "/mylittletest/write"
+	            }
+	        });
+	        event.preventDefault();
+	    });
+        
+        // 중복 데이터 필터링 및 드롭다운 메뉴 설정
+        const inputField = document.getElementById('categoryTitle');
+        const dropdownMenu = document.createElement('div');
+        
+        dropdownMenu.classList.add('dropdown-menu');
+        inputField.parentNode.appendChild(dropdownMenu);
+        
+     // 기존 데이터 배열입니다.
+		const existingData = [];
+		
+		// 서버에서 데이터를 받아옴
+		 fetch('/category')
+            .then(response => response.json())
+            .then(data => {
+                existingData = data.map(category => category.name);
+            });
+       
+        inputField.addEventListener('input', function() {
+            const inputValue = inputField.value.trim().toUpperCase();
+            dropdownMenu.innerHTML = '';
+            if (inputValue === '') {
+                dropdownMenu.style.display = 'none';
+                return;
+            }
+            
+            
+            
+            const matchingData = existingData.filter(item => item.toUpperCase().includes(inputValue));
+            const dataCounts = countDataOccurrences(matchingData);
+            
+            Object.keys(dataCounts).forEach(item => {
+                const count = dataCounts[item];
+                const option = document.createElement('div');
+                option.textContent = item + ' (' + count + '문제)';
+                option.classList.add('dropdown-item');
+                option.addEventListener('mousedown', function() {
+                    inputField.value = item;
+                    dropdownMenu.style.display = 'none';
+                });
+                dropdownMenu.appendChild(option);
+            });
+            dropdownMenu.style.display = Object.keys(dataCounts).length > 0 ? 'block' : 'none';
+        });
+        inputField.addEventListener('blur', function() {
+            setTimeout(() => {
+                dropdownMenu.style.display = 'none';
+            }, 100);
+        });
 
-						// 드롭다운 메뉴를 생성하여 dropdown-menu 클래스를 추가합니다.
-						const dropdownMenu = document.createElement('div');
-						dropdownMenu.classList.add('dropdown-menu');
+        function countDataOccurrences(dataArray) {
+            const counts = {};
+            dataArray.forEach(item => {
+                counts[item.toUpperCase()] = counts[item.toUpperCase()] ? counts[item.toUpperCase()] + 1 : 1;
+            });
+            return counts;
+        }
 
-						// input 요소의 부모 노드에 드롭다운 메뉴를 추가합니다.
-						inputField.parentNode.appendChild(dropdownMenu);
+        // 제목 밑줄 조정
+        const titleInput = document.getElementById('noteTitle');
+        const titleUnderline = document.getElementById('title_underline');
+        titleInput.addEventListener('input', function() {
+            adjustUnderlineWidth(titleInput, titleUnderline);
+        });
+        titleInput.addEventListener('focus', function() {
+            titleUnderline.style.width = '0';
+        });
+        titleInput.addEventListener('blur', function() {
+            adjustUnderlineWidth(titleInput, titleUnderline);
+        });
 
-						// 기존 데이터 배열입니다.
-						const existingData = [];
-						
-						// 서버에서 데이터를 받아옴
-						 fetch('/category')
-				            .then(response => response.json())
-				            .then(data => {
-				                existingData = data.map(category => category.name);
-				            });
-						
-						// input 요소에 input 이벤트 리스너를 추가합니다.
-						inputField.addEventListener('input', function() {
-						    // 입력된 값의 양쪽 공백을 제거하고 대문자로 변환합니다.
-						    const inputValue = inputField.value.trim().toUpperCase();
+        function adjustUnderlineWidth(input, underline) {
+            const textWidth = getTextWidth(input.value, window.getComputedStyle(input).font);
+            underline.style.width = textWidth + 'px';
+        }
 
-						    // 드롭다운 메뉴의 내용을 초기화합니다.
-						    dropdownMenu.innerHTML = '';
+        function getTextWidth(text, font) {
+            const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+            const context = canvas.getContext("2d");
+            context.font = font;
+            const metrics = context.measureText(text);
+            return metrics.width;
+        }
 
-						    // 입력 값이 비어있으면 드롭다운 메뉴를 숨깁니다.
-						    if (inputValue === '') {
-						        dropdownMenu.style.display = 'none';
-						        return;
-						    }
+        // Quill Editor 초기화
+        var editor = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: '내용을 입력해주세요. (이미지는 드래그해서 넣어주세요.)',
+            modules: {
+                toolbar: [[{ 'header': [1, 2, 3, 4, 5, 6, false] }], ['bold', 'italic', 'underline'], ['link', 'image', 'video'], ['clean']],
+                imageResize: {
+                    modules: ['Resize', 'DisplaySize', 'Toolbar']
+                }
+            }
+        });
 
-						    // 기존 데이터 배열에서 입력된 값과 일치하는 데이터만 필터링합니다.
-						    const matchingData = existingData.filter(item => item.toUpperCase().includes(inputValue));
+        var commentaryEditor = new Quill('#commentary_editor', {
+            theme: 'snow',
+            placeholder: '해설을 입력해주세요',
+            modules: {
+                toolbar: [[{ 'header': [1, 2, 3, 4, 5, 6, false] }], ['bold', 'italic', 'underline'], ['link', 'image', 'video'], ['clean']],
+                imageResize: {
+                    modules: ['Resize', 'DisplaySize', 'Toolbar']
+                }
+            }
+        });
 
-						    // 필터링된 데이터의 각 항목이 몇 번 중복되는지 세는 함수를 호출합니다.
-						    const dataCounts = countDataOccurrences(matchingData);
+        // 드래그앤드랍 이미지 처리
+        var editorContainer = document.getElementById('editor');
+        editorContainer.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            editorContainer.classList.add('dragover');
+        });
+        editorContainer.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            editorContainer.classList.remove('dragover');
+        });
+        editorContainer.addEventListener('drop', function(e) {
+            e.preventDefault();
+            editorContainer.classList.remove('dragover');
+            var file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var range = editor.getSelection();
+                    var index = range ? range.index : editor.getLength();
+                    editor.clipboard.dangerouslyPasteHTML(index, '<img src="' + event.target.result + '">');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-						    // 각 데이터 항목과 그 개수를 기반으로 드롭다운 옵션을 생성합니다.
-						    Object.keys(dataCounts).forEach(item => {
-						        const count = dataCounts[item]; // 해당 데이터의 개수를 가져옵니다.
-						        const option = document.createElement('div');
-						        option.textContent = item + ' (' + count + '문제)'; // 텍스트 내용을 설정합니다.
-						        option.classList.add('dropdown-item'); // dropdown-item 클래스를 추가합니다.
+        var commentaryEditorContainer = document.getElementById('commentary_editor');
+        commentaryEditorContainer.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            commentaryEditorContainer.classList.add('dragover');
+        });
+        commentaryEditorContainer.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            commentaryEditorContainer.classList.remove('dragover');
+        });
+        commentaryEditorContainer.addEventListener('drop', function(e) {
+            e.preventDefault();
+            commentaryEditorContainer.classList.remove('dragover');
+            var file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var range = commentaryEditor.getSelection();
+                    var index = range ? range.index : commentaryEditor.getLength();
+                    commentaryEditor.clipboard.dangerouslyPasteHTML(index, '<img src="' + event.target.result + '">');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-						        // 옵션을 클릭하면 input 값에 해당 데이터를 설정하고 드롭다운 메뉴를 숨깁니다.
-						        option.addEventListener('mousedown', function() {
-						            inputField.value = item;
-						            dropdownMenu.style.display = 'none';
-						        });
-
-						        // 생성한 옵션을 드롭다운 메뉴에 추가합니다.
-						        dropdownMenu.appendChild(option);
-						    });
-
-						    // 필터링된 데이터가 존재하면 드롭다운 메뉴를 보여줍니다.
-						    if (Object.keys(dataCounts).length > 0) {
-						        dropdownMenu.style.display = 'block';
-						    } else {
-						        dropdownMenu.style.display = 'none';
-						    }
-						});
-
-						// input 요소가 포커스를 잃으면 일정 시간 후에 드롭다운 메뉴를 숨깁니다.
-						inputField.addEventListener('blur', function() {
-						    setTimeout(() => {
-						        dropdownMenu.style.display = 'none';
-						    }, 100);
-						});
-
-						// 배열에서 각 데이터 항목이 몇 번 중복되는지 세는 함수입니다.
-						function countDataOccurrences(dataArray) {
-						    const counts = {};
-						    dataArray.forEach(item => {
-						        counts[item.toUpperCase()] = counts[item.toUpperCase()] ? counts[item.toUpperCase()] + 1 : 1;
-						    });
-						    return counts;
-						}
-					    
-					    
-						// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
-						const titleInput = document
-								.getElementById('noteTitle');
-						const titleUnderline = document
-								.getElementById('title_underline');
-
-						// 사용자가 입력할 때마다 밑줄의 너비를 조정합니다.
-						titleInput.addEventListener('input', function() {
-							adjustUnderlineWidth(titleInput, titleUnderline);
-						});
-
-						// 입력 필드에 포커스가 들어올 때 밑줄의 너비를 초기화합니다.
-						titleInput.addEventListener('focus', function() {
-							titleUnderline.style.width = '0';
-						});
-
-						// 입력 필드에서 포커스가 빠져나갈 때 다시 밑줄의 너비를 조정합니다.
-						titleInput.addEventListener('blur', function() {
-							adjustUnderlineWidth(titleInput, titleUnderline);
-						});
-
-						// 밑줄의 너비를 조정하는 함수
-						function adjustUnderlineWidth(input, underline) {
-							// 입력된 텍스트의 너비를 가져오는 getTextWidth라는 보조 함수를 사용합니다.
-							const textWidth = getTextWidth(input.value, window
-									.getComputedStyle(input).font);
-							// 밑줄의 너비를 텍스트의 너비에 맞게 설정합니다.
-							underline.style.width = textWidth + 'px';
-						}
-
-						// 텍스트의 너비를 계산하여 반환하는 함수
-						function getTextWidth(text, font) {
-							// 캔버스 엘리먼트를 가져오거나 새로 생성합니다. getTextWidth.canvas가 존재하지 않으면 새로운 캔버스 엘리먼트를 생성하고,
-							// getTextWidth.canvas에 할당합니다.
-							const canvas = getTextWidth.canvas
-									|| (getTextWidth.canvas = document
-											.createElement("canvas"));
-							// 캔버스에서 2D 그래픽 컨텍스트를 가져옵니다.
-							const context = canvas.getContext("2d");
-							// 그래픽 컨텍스트에 폰트 스타일을 설정합니다.
-							context.font = font;
-							// 지정된 텍스트의 너비를 측정하여 metrics 객체에 저장합니다.
-							const metrics = context.measureText(text);
-							// 측정된 텍스트의 너비를 반환합니다.
-							return metrics.width;
-						}
-
-						// Quill Editor 초기화
-						var editor = new Quill('#editor', {
-							theme : 'snow', // snow 테마 사용 (기본)
-							placeholder : '내용을 입력해주세요. (이미지는 드래그해서 넣어주세요.)',
-							modules : {
-								toolbar : [ [ {
-									'header' : [ 1, 2, 3, 4, 5, 6, false ]
-								} ], [ 'bold', 'italic', 'underline' ],
-										[ 'link', 'image', 'video' ],
-										[ 'clean' ] ],
-								imageResize : {
-									// 이미지 리사이즈 옵션 설정 (필요에 따라 설정 가능)
-									modules : [ 'Resize', 'DisplaySize',
-											'Toolbar' ]
-								}
-							}
-						});
-
-						var commentaryEditor = new Quill(
-								'#commentary_editor',
-								{
-									theme : 'snow', // snow 테마 사용 (기본)
-									placeholder : '해설을 입력해주세요',
-									modules : {
-										toolbar : [
-												[ {
-													'header' : [ 1, 2, 3, 4, 5,
-															6, false ]
-												} ],
-												[ 'bold', 'italic', 'underline' ],
-												[ 'link', 'image', 'video' ],
-												[ 'clean' ] ],
-										imageResize : {
-											// 이미지 리사이즈 옵션 설정 (필요에 따라 설정 가능)
-											modules : [ 'Resize',
-													'DisplaySize', 'Toolbar' ]
-										}
-									}
-								});
-
-						// 이미지를 드래그앤 드랍할 수 있도록 Quill 에디터 설정
-						var editorContainer = document.getElementById('editor');
-						editorContainer.addEventListener('dragover',
-								function(e) {
-									e.preventDefault();
-									editorContainer.classList.add('dragover');
-								});
-
-						editorContainer.addEventListener('dragleave', function(
-								e) {
-							e.preventDefault();
-							editorContainer.classList.remove('dragover');
-						});
-
-						editorContainer
-								.addEventListener(
-										'drop',
-										function(e) {
-											e.preventDefault();
-											editorContainer.classList
-													.remove('dragover');
-											var file = e.dataTransfer.files[0];
-											if (file
-													&& file.type
-															.startsWith('image/')) {
-												var reader = new FileReader();
-												reader.onload = function(event) {
-													var range = editor
-															.getSelection();
-													var index = range ? range.index
-															: editor
-																	.getLength();
-													editor.clipboard
-															.dangerouslyPasteHTML(
-																	index,
-																	'<img src="' + event.target.result + '">');
-												};
-												reader.readAsDataURL(file);
-											}
-										});
-
-						// 이미지를 드래그앤 드랍할 수 있도록 Quill 해설 에디터 설정
-						var commentaryEditorContainer = document
-								.getElementById('commentary_editor');
-						commentaryEditorContainer.addEventListener('dragover',
-								function(e) {
-									e.preventDefault();
-									commentaryEditorContainer.classList
-											.add('dragover');
-								});
-
-						commentaryEditorContainer.addEventListener('dragleave',
-								function(e) {
-									e.preventDefault();
-									commentaryEditorContainer.classList
-											.remove('dragover');
-								});
-
-						commentaryEditorContainer
-								.addEventListener(
-										'drop',
-										function(e) {
-											e.preventDefault();
-											commentaryEditorContainer.classList
-													.remove('dragover');
-											var file = e.dataTransfer.files[0];
-											if (file
-													&& file.type
-															.startsWith('image/')) {
-												var reader = new FileReader();
-												reader.onload = function(event) {
-													var range = commentaryEditor
-															.getSelection();
-													var index = range ? range.index
-															: commentaryEditor
-																	.getLength();
-													commentaryEditor.clipboard
-															.dangerouslyPasteHTML(
-																	index,
-																	'<img src="' + event.target.result + '">');
-												};
-												reader.readAsDataURL(file);
-											}
-										});
-
-						function handleDrop(e, quillEditor) {
-							var files = e.dataTransfer.files;
-							for (var i = 0; i < files.length; i++) {
-								var file = files[i];
-								if (file.type.startsWith('image/')) {
-									var reader = new FileReader();
-									reader.onload = function(event) {
-										var range = quillEditor.getSelection();
-										var index = range ? range.index
-												: quillEditor.getLength();
-										quillEditor.clipboard
-												.dangerouslyPasteHTML(index,
-														'<img src="' + event.target.result + '">');
-									};
-									reader.readAsDataURL(file);
-								}
-							}
-						}
-
-						// 파일 선택 버튼 처리
-						document
-								.getElementById('file')
-								.addEventListener(
-										'change',
-										function(e) {
-											var files = e.target.files;
-											for (var i = 0; i < files.length; i++) {
-												var file = files[i];
-												if (file.type
-														.startsWith('image/')) {
-													var reader = new FileReader();
-													reader.onload = function(
-															event) {
-														var range = editor
-																.getSelection();
-														var index = range ? range.index
-																: editor
-																		.getLength();
-														editor.clipboard
-																.dangerouslyPasteHTML(
-																		index,
-																		'<img src="' + event.target.result + '">');
-													};
-													reader.readAsDataURL(file);
-												}
-											}
-										});
-
-						// 저장 버튼 클릭 시 각 에디터의 내용을 hidden input에 설정
-						document
-								.getElementById('write_btn')
-								.addEventListener(
-										'click',
-										function() {
-											var editorHtml = editor.root.innerHTML;
-											var commentaryHtml = commentaryEditor.root.innerHTML;
-											document
-													.getElementById('editorContent').value = editorHtml;
-											document
-													.getElementById('commentary_editorContent').value = commentaryHtml;
-											document
-													.getElementById('noteContent').value = editorHtml;
-											document
-													.getElementById('noteCommentary').value = commentaryHtml;
-										});
-					});
+        // 파일 선택 버튼 처리
+        $('#customFile').on('change', function() {
+            var fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').html(fileName);
+        });
+});
+function goBack() {
+    window.history.back();
+}
 </script>
 
 <style>
@@ -542,7 +383,7 @@
 	height: fit-content;
 }
 
-#answer {
+#noteAnswer {
 	width: 850px;
 	resize: vertical;
 	height: 50px;
@@ -603,9 +444,6 @@ textarea::placeholder {
 }
 
 .write_btn, .reset_btn {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
 	box-shadow: 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
 	background-color: #333333;
 	color: #ffffff;
@@ -620,6 +458,7 @@ textarea::placeholder {
 	font-size: 1rem;
 	text-align: center;
 	margin-left: 2rem;
+	cursor:pointer;
 }
 
 .ql-toolbar.ql-snow {
@@ -685,8 +524,8 @@ textarea::placeholder {
 			<div class="danger_container">저작권 경고</div>
 			<div class="button_container">
 				<input type="submit" class="write_btn" id="write_btn"
-					name="write_btn" value="작성"> <input type="button"
-					class="reset_btn" id="reset_btn" name="reset_btn" value="취소">
+					name="write_btn" value="작성"> 
+			    <button type="button" class="reset_btn" id="reset_btn" name="reset_btn" onclick="goBack();">취소</button>
 			</div>
 		</div>
 	</form>

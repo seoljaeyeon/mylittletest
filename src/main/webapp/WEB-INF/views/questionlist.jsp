@@ -126,6 +126,12 @@
 		        prevEl: ".swiper-button-prev",
 		      },
 		    });
+        
+        var goToFirstButton = document.querySelector('.goto');
+        goToFirstButton.addEventListener('click', function () {
+        	swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
+        });
+        
 		swiper.slideNext();
 		
 		
@@ -138,7 +144,8 @@
 	    	width: 850px;
 	    	flex-direction:column;
 	    	height: calc(90vh - 8.8rem);
-	    	margin-left:350px;
+	    	justify-content:center;
+			align-items:center;
 		}
 		.list_container{
 			display:flex;
@@ -297,12 +304,12 @@
 	    	margin-left:10px;
 	    }
 		.swiper-slide{
-			margin-top: 5px;
-			margin-left: 15px;
 		    display: inline-flex;
 		    gap: 0.5rem;
 		    flex-wrap: wrap;
 		    height: 600px;
+		    align-items: center;
+	        justify-content: center;
 		}
 		/* 화살표 위치 변경 */
 		.swiper-button-next, .swiper-button-prev {
@@ -335,9 +342,23 @@
 		    color:black;
 		}
 		
+		.goto{
+			color: #ffffff;
+		    display: inline-flex;
+		    align-items: center;
+		    justify-content: center;
+		    width:7rem;
+		    background-color: #333333;
+		    padding: 0.5rem 0.5rem;
+		    border-radius: 5px 5px 5px 5px;
+		    cursor: pointer;
+		}
+		
 		.question_box{
             width:45%;
 			height:fit-content;
+			 align-items: center;
+	        justify-content: center;
             
 			}
 			
@@ -411,14 +432,14 @@
             width:fit-content;
 		  }
 		  .question_mini{
-		  	width:100%;
+		  	width:360px;
 		  	margin-top:0.5rem;
 		  	display:inline-flex;
 		  }
 		  .question_mbox{
 		  	display:flex;
 		  	justify-content: flex-start;
-		  	width:310px;
+		  	width:360px;
 		  }
 		  .question_mtitle{
 		  	margin-right: auto;
@@ -598,7 +619,7 @@
 			            <ul class="list_items">
 			            	<c:forEach var="category" items="${category}">
 			                	<li class="list1">
-			                    	<div class="list" onclick="location.href='/mylittletest/all_note_list?categoryno='${category.categoryno}">${category.categorytitle}</div>
+			                    	<div class="list" onclick="location.href='/mylittletest/categorylist?categoryno='${category.categoryno}">${category.categorytitle}</div>
 			                	</li>
 			               	</c:forEach>
 			            </ul>
@@ -607,7 +628,7 @@
 			  <!-- 슬라이드 할 요소 -->
 			 <div class="swiper-container"> 
 			  	<div class="swiper-wrapper">
-			  	<c:forEach var="i" begin="0" end="1">
+			  	<c:forEach  begin="0" end="5">
 					<div class="swiper-slide">
 						  <c:forEach var="question" items="${ question }" begin="0" end="3">
 						     	<div class="question_box">
@@ -626,7 +647,7 @@
 					      			<div class="question_count">
 					      				<div class="count_box">
 					      					<div class="likebox"><div class="question_like">❤</div><div style="margin-left:10px;">${question.likeCount}</div></div>
-					      					<div class="question_question" onclick="location.href='/mylittletest/all_note_list?categoryno='${question.categoryno}">📚 ${questionCount}문제</div>
+					      					<div class="question_question" onclick="location.href='/mylittletest/all_note_list?categoryno='${question.categoryno}">📚 ${question.Count}문제</div>
 					      					<div class="question_person">🧑 ${question.userCount}출제자</div>
 					      				</div>	
 					      					<div class="question_report" id="report_btn">🚨</div>
@@ -640,10 +661,8 @@
 			      	 <!-- 네비게이션 버튼 -->
 					<div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
 					<div class="swiper-button-prev"></div><!-- 이전 버튼 -->
-				
-					<!-- 페이징 -->
-					<div class="swiper-pagination"></div>
 			 </div>
+			  <div class="goto">처음으로</div>
 		</div>
 <!-- 컨텐츠 영역  -->
 <jsp:include page="./include/tail.jsp"></jsp:include>

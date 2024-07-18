@@ -67,6 +67,7 @@ body {
 	height: 3rem;
 	font-weight: 600;
 	box-shadow: 0.25rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.2);
+	cursor:pointer;
 }
 
 .logo {
@@ -80,6 +81,7 @@ body {
 	place-items: center;
 	overflow: hidden;
 	margin-right: 2rem;
+	cursor:pointer;
 }
 
 .titlebar {
@@ -131,6 +133,10 @@ body {
 	height: calc(90vh - 8.8rem);
 	min-height: calc(90vh - 8.8rem);
 	max-height: calc(90vh - 8.8rem);
+	min-width:800px;
+  	display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
   /* 팝업스타일  */
         .popup_wrap {
@@ -194,7 +200,7 @@ body {
 		}	
 </style>
 	<div class="titlebar">
-		<div class="logo">
+		<div class="logo" onclick="location.href='/mylittletest/index'">
 			<span style="font-size: 5rem">🤓</span>
 		</div>
 		<div class="ad-container">
@@ -228,11 +234,11 @@ body {
 	<div style="display: flex; flex-direction: row; gap: 0.8rem;">
 		<aside class="side_container">
 			<c:choose>
-				<c:when test="${ UserVO != null }">
+				<c:when test="${ userVO != null }">
 					 <div class="side_button" onclick="location.href='/mylittletest/mypage_alarm'">
 	                	마이페이지
 		           	 </div>
-		            <div class="side_button" id="mystudy_btn" onclick="location.href='/mylittletest/index'">
+		            <div class="side_button" onclick="location.href='/mylittletest/index'">
 		                나의 학습
 		            </div>        
 		            <div class="side_button" onclick="location.href='/mylittletest/questionlist'">
@@ -256,11 +262,11 @@ body {
 		            </div>
 				</c:when>
 				<c:otherwise>
-					<div class="side_button" onclick="locatioin.href='/mylittletest/login'">로그인</div>
+					<div class="side_button" onclick="location.href='/mylittletest/login'">로그인</div>
 					<div class="side_button" id="mystudy_btn">나의 학습</div>
-					<div class="side_button" onclick="locatioin.href='/mylittletest/questionlist'">문제 둘러보기</div>
-					<div class="side_button" onclick="locatioin.href='/mylittletest/announcement_list'">공지사항</div>
-					<div class="side_button manager_contact_button">관리자 연락</div>
+					<div class="side_button" onclick="location.href='/mylittletest/questionlist'">문제 둘러보기</div>
+					<div class="side_button" onclick="location.href='/mylittletest/announcement_list'">공지사항</div>
+					<div class="side_button manager_contact_button" id="admin_btn">관리자 연락</div>
 					<hr style="width: 100%; opacity: 0.6; margin-top: auto">
 					<div class="side_button">웹사이트 운영 정책</div>
 				</c:otherwise>
