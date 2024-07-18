@@ -51,11 +51,12 @@ public interface NoteViewMapper {
 			@Param("userNo") Integer userNo);
 	
     
-    @Select(""
-    		+ "SELECT COUNT(*) FROM "
-    		+ "noteView nv JOIN noteCategory nc ON nv.noteNo = nc.noteNo "
-    		+ "WHERE nv.userNo = #{userNo} AND nc.categoryNo = #{categoryNo} "
-    		+ "AND DATE(nv.createdAt) = CURDATE()") // 날짜 조건 - 오늘 
+	@Select(""
+	        + "SELECT COUNT(DISTINCT nv.noteNo) FROM "
+	        + "noteView nv JOIN noteCategory nc ON nv.noteNo = nc.noteNo "
+	        + "WHERE nv.userNo = #{userNo} "
+	        + "AND nc.categoryNo = #{categoryNo} "
+	        + "AND DATE(nv.createdAt) = CURDATE()") // 날짜 조건 - 오늘 
 	Integer getTodayHistory(@Param("categoryNo") Integer categoryNo,
-                              @Param("userNo") Integer userNo);
+	                        @Param("userNo") Integer userNo);
 }

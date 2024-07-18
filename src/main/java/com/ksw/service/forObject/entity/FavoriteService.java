@@ -1,14 +1,32 @@
 package com.ksw.service.forObject.entity;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.entity.FavoriteRepository;
 import com.ksw.dto.forObject.entity.FavoriteDTO;
 import com.ksw.object.entity.Favorite;
 import com.ksw.vo.forObject.entity.FavoriteVO;
 
 @Service
 public class FavoriteService {
-	    
+	
+	@Autowired
+	private FavoriteRepository favoriteRepository;
+	
+	public Favorite insert(Integer favoriteNo, Integer requestType) {
+		Favorite favorite = new Favorite();
+		
+		// 등록된 적이 있다면
+	    if (favoriteNo != null) {
+	        favorite.setFavoriteNo(favoriteNo); // 기존 엔티티 업데이트
+	    }
+	    favorite.setFavoriteType(requestType);
+		return favoriteRepository.save(favorite);
+	}
+	
     // Entity -> DTO 변환 메소드
     public FavoriteDTO convertToDTO(Favorite favorite) {
     	FavoriteDTO dto = new FavoriteDTO();

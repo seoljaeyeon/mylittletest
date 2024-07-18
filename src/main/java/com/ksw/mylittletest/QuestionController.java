@@ -3,6 +3,7 @@ package com.ksw.mylittletest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,11 +26,11 @@ import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.service.forObject.entity.NoteService;
 import com.ksw.service.forObject.entity.UserService;
+import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.forObject.relation.NoteViewService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
 import com.ksw.vo.forObject.entity.UserVO;
-import com.ksw.vo.forObject.relation.NoteViewVO;
 import com.ksw.vo.function.QuestionVO;
 
 @Controller
@@ -45,6 +46,8 @@ public class QuestionController {
 	private UserService userService;
 	@Autowired
 	private NoteViewService noteViewService;
+	@Autowired
+	private NoteCategoryService noteCategoryService;
 	
 	@GetMapping("/write")
 	public String toWritePage(
@@ -56,26 +59,75 @@ public class QuestionController {
 		model.addAttribute("userVO", userVO);
 		return "write";
 	}
-
-	@GetMapping("/view/{noteNo}")
+	
+	@GetMapping("/myTest")
+	public String toCategory() {
+		return "redirect:/myTest/category";
+	}
+	
+	@GetMapping("/myTest/category/{categoryTitle}")
+	public String getRandom(
+			@PathVariable("categoryTitle") String categoryTitle, 
+			HttpSession session,
+			Model model) {
+		
+        Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
+        if (!auth.isPresent()) {
+            return "redirect:/login";
+        }
+		
+		UserVO userVO = auth.get();
+		String menuName = "내 문제 풀기";
+		
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
+		
+		// 사용자가 작성한 문제 중, 사용자가 보지 못한 문제 중에서 랜덤문제 출제
+		// 보지 못한 문제가 없다면 본 문제 중에서 랜덤으로 출제
+		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo());
+		if (random == null || random == 0) {
+			// 추가적인 처리 또는 오류 페이지로 리다이렉트
+			return "redirect:/myTest/category";
+		}		
+		
+		return "redirect:/myTest/category/"+categoryTitle+"/"+random;
+	}
+ 	
+	@GetMapping("/myTest/category/{categoryTitle}/{noteNo}")
 	@Transactional
 	public String viewPage(
 			@PathVariable("noteNo") Integer noteNo,
+			@PathVariable("categoryTitle") String categoryTitle,
 			Model model,
 			HttpServletRequest request,
 			HttpSession session) { 
 		/*
 		 * 필요 기능 목록
 		 * - 조회 수 증가 시키기 (조회 이력 남기기) [구현 - 완] [테스트 - 완]
-		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완] [테스트 - 이전]
-		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함 [구현 - 완] [테스트 - 이전]
-		 * - 수정 관련 컨트롤러 만들기 - 만들어야함
-		 * - 비활성화 컨트롤러 만들기 - 만들어야함
-		 * - 덜보기 컨트롤러 만들기 - 만들어야함
+		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완] [테스트 - 완]
+		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함 [구현 - 완] [테스트 - 완]
 		 * - 오늘 조회 목록 불러오기 - [완] [테스트 - 완]
-		 * - 다음 문제 보기 - 만들어야함 (randomview 수정마무리)
+		 * - 다음 문제 보기 - 만들어야함 (randomview 수정마무리 완) [구현 - 완][테스트 - 완]
+		 * - 메뉴 이름 출력 [완]
+		 * - 수정 관련 컨트롤러 만들기  
+		 * - 비활성화 컨트롤러 만들기
+		 * - 덜보기 컨트롤러 만들기
+         * - 문제 전체 보기 목록
+         * - 신고 컨트롤러
+         * - 좋아요 버튼
+         * - 댓글 수정 
+         * - 댓글 삭제
+         * - 정답 입력  
+         * - 공유하기 
 		 */
-		UserVO userVO = authService.getUserVO();
+		
+        Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
+        if (!auth.isPresent()) {
+            return "redirect:/login";
+        }
+		
+		UserVO userVO = auth.get();
+		String menuName = "내 문제 풀기";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
@@ -85,56 +137,11 @@ public class QuestionController {
 
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);
+		model.addAttribute("menuName", menuName);
 		
 		return "questionsolve"; 
 	}
 	
-//    @GetMapping("/randomView")
-//    public String RandomViewPage(
-//            RedirectAttributes redirectAttributes,
-//            Model model,
-//            HttpSession session) {
-//    	// questionVO를 model에서 가져옴
-//    	UserVO userVO = authService.getUserVO();
-//    	
-//    	// userVO가 null일 경우 -> 로그인 X
-//        if (userVO == null) {
-//            redirectAttributes.addFlashAttribute("error", "로그인 필요");
-//            return "redirect:/login"; // 로그인 페이지로 리디렉션
-//        }
-//        
-//        // questionVO가 null일 경우 -> 랜덤진입
-//        if (questionVO == null) {
-//        	// 
-//			Note randomNote = noteService.getRandomUnviewedNoteByCategory(
-//					questionVO.getCategoryVO().getCategoryNo(), 
-//					userVO.getUserNo());
-//			
-//			noteNo = randomNote.getNoteNo();
-//			
-//			questionVO = questionService.Read(noteNo, userVO.getUserNo());
-//			
-//			session.setAttribute("questionVO", questionVO);
-//			
-//			List<ViewHistoryVO> viewHistory = viewHistoryService.getHistoryByCategory(
-//					questionVO.getCategoryVO().getCategoryNo(), 
-//					userVO.getUserNo());
-//        }
-//        
-//        if (questionVO != null) {
-//
-//        		if(' == null) {
-//        		}
-//        		QuestionVO newQuestionVO = questionService.Read(noteNo, userNo);
-//        		session.setAttribute("questionVO", newQuestionVO); // 문제 정보
-//        		session.setAttribute("viewHistory", viewHistory); // 해당 카테고리 내의 문제 중 사용자가 본 문제 조회이력
-//
-//        	return "view";
-//        } else {
-//        	
-//        }
-//    }
-    
     @PostMapping(value = "/write", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
 	public Map<String, String> notewrite(
@@ -161,8 +168,9 @@ public class QuestionController {
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userVO);
             	model.addAttribute("questionVO", questionVO); // view에서 어떻게 쓸 지 아직 미정
+            	model.addAttribute("fromWrite", "true");
                 response.put("status", "success");
-                response.put("url", "/mylittletest/view/" + questionVO.getNoteVO().getNoteNo());
+                response.put("url", "/mylittletest/myTest/category/" + questionVO.getCategoryVO().getCategoryTitle() + "/" + questionVO.getNoteVO().getNoteNo());
                 return response;
                 
             } catch (Exception e) {

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -22,7 +23,7 @@ public class Favorite implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer favoriteNo;
 
-	@Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(nullable = false, updatable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
     @Column(nullable = true)
@@ -37,6 +38,11 @@ public class Favorite implements Serializable {
     @PrePersist
     protected void onCreate() {
     	createdAt = Timestamp.valueOf(LocalDateTime.now());
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+        createdAt = new Timestamp(System.currentTimeMillis());
     }
 	
 	public Integer getFavoriteNo() {
