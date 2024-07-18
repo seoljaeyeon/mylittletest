@@ -275,15 +275,15 @@ function goBack() {
 	}
 
 .subject-input-container {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	max-width: 100%;
-	width: 100%;
-	height: 3rem;
-	position: relative;
-}
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		max-width: 100%;
+		width: 100%;
+		height: 3rem;
+		position: relative;
+	}
 .dropdown-menu {
 		      display: none;
 		    position: absolute;
@@ -458,7 +458,6 @@ textarea::placeholder {
 	font-size: 1rem;
 	text-align: center;
 	margin-left: 2rem;
-	cursor:pointer;
 }
 
 .ql-toolbar.ql-snow {

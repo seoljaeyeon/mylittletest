@@ -139,6 +139,19 @@
 	
 </script>
 <style>
+	.maincontainer{
+			width: calc(100% - 14rem);
+			background-color: #474747;
+			padding: 1.5rem 2rem 2rem 2rem;
+			border-radius: 2rem;
+			height: calc(90vh - 8.8rem);
+			min-height: calc(90vh - 8.8rem);
+			max-height: calc(90vh - 8.8rem);
+			min-width:800px;
+		  	display: inline-flex;
+		    align-items: center;
+		    justify-content: center;
+		}
 		.container{
 			display: inline-flex;
 	    	width: 850px;
@@ -582,6 +595,7 @@
 		<!--팝업 영역  -->
 	
 	<!-- 컨텐츠 영역  -->
+	<div class = maincontainer>
 		<div class="container">
 			<div class="search_box">
 				<div class="list_container">
@@ -841,7 +855,7 @@
 					
 			      </div>
 			     <div class="goto">처음으로</div>
-				</div>
-				
+			</div>
+			</div>	
 <!-- 컨텐츠 영역  -->
 <jsp:include page="./include/tail.jsp"></jsp:include>

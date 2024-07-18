@@ -156,10 +156,7 @@
             height: calc(90vh - 8.8rem);
             min-height:calc(90vh - 8.8rem);
             max-height: calc(90vh - 8.8rem);
-            min-width:800px;
-            display: inline-flex;
-	        align-items: center;
-	        justify-content: center;
+         
         }
         
         /* 팝업스타일  */
