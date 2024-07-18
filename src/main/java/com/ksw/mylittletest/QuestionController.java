@@ -65,6 +65,11 @@ public class QuestionController {
 		return "redirect:/myTest/category";
 	}
 	
+	@GetMapping("/myTest/category")
+	public String viewCategoryPage()
+	{
+		return "questionlist";
+	}
 	@GetMapping("/myTest/category/{categoryTitle}")
 	public String getRandom(
 			@PathVariable("categoryTitle") String categoryTitle, 

@@ -8,18 +8,19 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.ksw.dto.forObject.entity.FavoriteDTO;
 import com.ksw.object.relation.FavoriteNote;
 
 @Mapper
 public interface FavoriteNoteMapper {
 
 	@Select(""
-			+ "SELECT f.favoriteNo"
+			+ "SELECT f.*"
 			+ "FROM favorite f JOIN favoriteNote fu ON f.favoriteNo = fu.favoriteNo "
 			+ "WHERE fu.noteNo = #{noteNo} AND fu.userNo = #{userNo} "
 			+ "AND TIMESTAMPDIFF(SECOND, f.createdAt, NOW()) <= 5"
 			+ "")
-	Integer checkRecentFavoriteRequest(@Param("noteNo")Integer noteNo, @Param("userNo")Integer userNo);
+	FavoriteDTO checkRecentFavoriteRequest(@Param("noteNo")Integer noteNo, @Param("userNo")Integer userNo);
 
     @Insert("INSERT INTO favoriteNote (userNo, noteNo, favoriteNo) VALUES (#{userNo}, #{noteNo}, #{favoriteNo})")
     void insert(@Param("userNo") Integer userNo, @Param("noteNo") Integer noteNo, @Param("favoriteNo") Integer favoriteNo);

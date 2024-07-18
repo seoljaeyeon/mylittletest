@@ -9,11 +9,11 @@ import java.util.List;
 @Mapper
 public interface AnswerHistoryMapper {
 
-    @Insert("INSERT INTO answerHistory "
-    		+ "(noteNo, answerNo, userNo, createdAt, updatedAt) "
-    		+ "VALUES (#{noteNo}, #{answerNo}, #{userNo}, #{createdAt}, #{updatedAt})")
-    void insert(AnswerHistory answerHistory);
-
+	@Insert("INSERT INTO answerHistory "
+			+ "(noteNo, answerNo, userNo) "
+			+ "VALUES (#{noteNo}, #{answerNo}, #{userNo})")
+	Integer insertHistory(@Param("noteNo") Integer noteNo, @Param("answerNo") Integer answerNo, @Param("userNo") Integer userNo);
+	
     @Select("SELECT a.answerType "
     		+ "FROM answerHistory ah "
     		+ "JOIN answer a ON ah.answerNo = a.answerNo "

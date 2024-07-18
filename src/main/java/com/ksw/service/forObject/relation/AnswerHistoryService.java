@@ -1,12 +1,11 @@
 package com.ksw.service.forObject.relation;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ksw.dao.forObject.relation.AnswerHistoryMapper;
 import com.ksw.dto.forObject.relation.AnswerHistoryDTO;
+import com.ksw.object.entity.Answer;
 import com.ksw.object.relation.AnswerHistory;
 import com.ksw.service.forObject.entity.AnswerService;
 import com.ksw.service.forObject.entity.NoteService;
@@ -25,6 +24,16 @@ public class AnswerHistoryService {
 	
 	@Autowired
 	private AnswerHistoryMapper answerHistoryMapper;
+	
+	public Integer insertHistory(Integer noteNo, Integer answerNo, Integer userNo) {
+		if (noteNo == null || answerNo == null || userNo == null) {
+			return -1;
+		}
+		
+		Integer result = answerHistoryMapper.insertHistory(noteNo, answerNo, userNo);
+		return result;
+	}
+		
 	
 	public Integer getAnswerHistoryByNoteNoAndUserNo(Integer noteNo, Integer userNo) {
 		if (noteNo == null || userNo == null) {

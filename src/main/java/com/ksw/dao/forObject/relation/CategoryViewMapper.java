@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 
+import com.ksw.object.entity.Category;
 import com.ksw.object.relation.CategoryView;
 
 public interface CategoryViewMapper {
