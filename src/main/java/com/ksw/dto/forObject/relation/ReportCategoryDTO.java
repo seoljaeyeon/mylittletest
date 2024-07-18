@@ -1,66 +1,45 @@
 package com.ksw.dto.forObject.relation;
 
-public class ReportCategoryDTO {
+import java.io.Serializable;
 
-    private Integer userNo;
-    private Integer categoryNo;
-    private Integer reportNo;
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.ReportDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+
+public class ReportCategoryDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private UserDTO userDTO;
+    private CategoryDTO categoryDTO;
+    private ReportDTO reportDTO;
 
     // 기본 생성자
     public ReportCategoryDTO() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 
-    public Integer getCategoryNo() {
-        return categoryNo;
-    }
+	public CategoryDTO getCategoryDTO() {
+		return categoryDTO;
+	}
 
-    public void setCategoryNo(Integer categoryNo) {
-        this.categoryNo = categoryNo;
-    }
+	public void setCategoryDTO(CategoryDTO categoryDTO) {
+		this.categoryDTO = categoryDTO;
+	}
 
-    public Integer getReportNo() {
-        return reportNo;
-    }
+	public ReportDTO getReportDTO() {
+		return reportDTO;
+	}
 
-    public void setReportNo(Integer reportNo) {
-        this.reportNo = reportNo;
-    }
+	public void setReportDTO(ReportDTO reportDTO) {
+		this.reportDTO = reportDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private Integer categoryNo;
-        private Integer reportNo;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder categoryNo(Integer categoryNo) {
-            this.categoryNo = categoryNo;
-            return this;
-        }
-
-        public Builder reportNo(Integer reportNo) {
-            this.reportNo = reportNo;
-            return this;
-        }
-
-        public ReportCategoryDTO build() {
-            ReportCategoryDTO reportCategoryDTO = new ReportCategoryDTO();
-            reportCategoryDTO.userNo = this.userNo;
-            reportCategoryDTO.categoryNo = this.categoryNo;
-            reportCategoryDTO.reportNo = this.reportNo;
-            return reportCategoryDTO;
-        }
-    }
 }

@@ -1,50 +1,34 @@
 package com.ksw.dto.forObject.relation;
 
-public class FileUserDTO {
+import java.io.Serializable;
 
-    private Integer userNo;
-    private Integer fileNo;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+
+public class FileUserDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private UserDTO userDTO;
+    private FileDTO fileDTO;
 
     // 기본 생성자
     public FileUserDTO() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 
-    public Integer getFileNo() {
-        return fileNo;
-    }
+	public FileDTO getFileDTO() {
+		return fileDTO;
+	}
 
-    public void setFileNo(Integer fileNo) {
-        this.fileNo = fileNo;
-    }
-
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private Integer fileNo;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder fileNo(Integer fileNo) {
-            this.fileNo = fileNo;
-            return this;
-        }
-
-        public FileUserDTO build() {
-            FileUserDTO fileUserDTO = new FileUserDTO();
-            fileUserDTO.userNo = this.userNo;
-            fileUserDTO.fileNo = this.fileNo;
-            return fileUserDTO;
-        }
-    }
+	public void setFileDTO(FileDTO fileDTO) {
+		this.fileDTO = fileDTO;
+	}
 }

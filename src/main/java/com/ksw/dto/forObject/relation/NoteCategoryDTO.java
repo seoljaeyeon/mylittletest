@@ -1,50 +1,40 @@
 package com.ksw.dto.forObject.relation;
 
-public class NoteCategoryDTO {
+import java.io.Serializable;
 
-    private Integer categoryNo;
-    private Integer noteNo;
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+
+public class NoteCategoryDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private CategoryDTO categoryDTO;
+    private NoteDTO noteDTO;
 
     // 기본 생성자
     public NoteCategoryDTO() {}
-
-    // Getter 및 Setter
-    public Integer getCategoryNo() {
-        return categoryNo;
+    
+    public NoteCategoryDTO(NoteDTO noteDTO, CategoryDTO categoryDTO) {
+    	super();
+    	this.categoryDTO = categoryDTO;
+    	this.noteDTO = noteDTO;
     }
 
-    public void setCategoryNo(Integer categoryNo) {
-        this.categoryNo = categoryNo;
-    }
+	public CategoryDTO getCategoryDTO() {
+		return categoryDTO;
+	}
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public void setCategoryDTO(CategoryDTO categoryDTO) {
+		this.categoryDTO = categoryDTO;
+	}
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer categoryNo;
-        private Integer noteNo;
-
-        public Builder categoryNo(Integer categoryNo) {
-            this.categoryNo = categoryNo;
-            return this;
-        }
-
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
-            return this;
-        }
-
-        public NoteCategoryDTO build() {
-            NoteCategoryDTO noteCategoryDTO = new NoteCategoryDTO();
-            noteCategoryDTO.categoryNo = this.categoryNo;
-            noteCategoryDTO.noteNo = this.noteNo;
-            return noteCategoryDTO;
-        }
-    }
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
 }

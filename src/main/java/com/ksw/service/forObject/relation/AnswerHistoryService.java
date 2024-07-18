@@ -1,109 +1,69 @@
 package com.ksw.service.forObject.relation;
 
-import com.ksw.dto.forObject.object.AnswerDTO;
-import com.ksw.dto.forObject.relation.AnswerHistoryDTO;
-import com.ksw.dao.relation.AnswerHistoryMapper;
-import com.ksw.object.entity.mybatis.AnswerHistory;
-import com.ksw.object.vo.relation.AnswerHistoryVO;
-import com.ksw.service.forObject.object.AnswerService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.ksw.dao.forObject.relation.AnswerHistoryMapper;
+import com.ksw.dto.forObject.relation.AnswerHistoryDTO;
+import com.ksw.object.entity.Answer;
+import com.ksw.object.relation.AnswerHistory;
+import com.ksw.service.forObject.entity.AnswerService;
+import com.ksw.service.forObject.entity.NoteService;
+import com.ksw.service.forObject.entity.UserService;
+import com.ksw.vo.forObject.relation.AnswerHistoryVO;
 
 @Service
 public class AnswerHistoryService {
 
-    @Autowired
-    private AnswerHistoryMapper answerHistoryMapper;
+	@Autowired
+	private NoteService noteService;
+	@Autowired
+	private AnswerService answerService;
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private AnswerHistoryMapper answerHistoryMapper;
+	
+	public Integer insertHistory(Integer noteNo, Integer answerNo, Integer userNo) {
+		if (noteNo == null || answerNo == null || userNo == null) {
+			return -1;
+		}
+		
+		Integer result = answerHistoryMapper.insertHistory(noteNo, answerNo, userNo);
+		return result;
+	}
+		
+	
+	public Integer getAnswerHistoryByNoteNoAndUserNo(Integer noteNo, Integer userNo) {
+		if (noteNo == null || userNo == null) {
+			return -1; // -1은 null 대신 반환값으로 사용
+		}
+		Integer result = answerHistoryMapper.findAnswerByNoteNoAndUserNo(noteNo, userNo);
+		return result;
+	}
+	
+	public AnswerHistoryDTO convertToDTO(AnswerHistory answerHistory) {
+		AnswerHistoryDTO answerHistoryDTO = new AnswerHistoryDTO();
+		if(answerHistory == null) {
+    		System.out.println("AnswerHistory to AnswerHistoryDTO failed. Empty AnswerHistoryDTO created. AnswerHistory is null");
+    		return answerHistoryDTO;
+		}
+		answerHistoryDTO.setNoteDTO(noteService.convertToDTO(answerHistory.getNote()));
+		answerHistoryDTO.setAnswerDTO(answerService.convertToDTO(answerHistory.getAnswer()));
+		answerHistoryDTO.setUserDTO(userService.convertToDTO(answerHistory.getUser()));
+		return answerHistoryDTO;
+	}
 
-    @Autowired
-    private AnswerService answerService;
-
-    @Transactional
-    public AnswerHistoryDTO createAnswerHistory(AnswerHistoryDTO answerHistoryDTO) {
-        AnswerHistory answerHistory = convertToEntity(answerHistoryDTO);
-        answerHistoryMapper.insert(answerHistory);
-        return convertToDTO(answerHistory);
-    }
-
-    @Transactional(readOnly = true)
-    public AnswerHistoryDTO getAnswerHistoryByNoteNoAndUserNo(Integer noteNo, Integer userNo) {
-        List<AnswerHistory> answerHistories = answerHistoryMapper.findByNoteNoAndUserNo(noteNo, userNo);
-        if (answerHistories != null && !answerHistories.isEmpty()) {
-            AnswerHistory latestAnswerHistory = answerHistories.stream()
-                .max(Comparator.comparing(AnswerHistory::getUpdatedAt))
-                .orElse(null);
-            return convertToDTO(latestAnswerHistory);
-        }
-        return null;
-    }
-
-    @Transactional(readOnly = true)
-    public List<AnswerHistoryVO> getAllAnswerHistories() {
-        return answerHistoryMapper.findAll().stream()
-                .map(this::convertToDTO)
-                .map(this::convertToVO)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public Integer getAnswerTypeByNoteNo(Integer noteNo) {
-        List<AnswerHistory> answerHistories = answerHistoryMapper.findByNoteNo(noteNo);
-        if (answerHistories != null && !answerHistories.isEmpty()) {
-            AnswerHistory latestAnswerHistory = answerHistories.stream()
-                .max(Comparator.comparing(AnswerHistory::getUpdatedAt))
-                .orElse(null);
-            if (latestAnswerHistory != null) {
-                AnswerDTO answerDTO = answerService.getAnswerByNo(latestAnswerHistory.getAnswerNo());
-                return answerDTO != null ? answerDTO.getAnswerType() : null;
-            }
-        }
-        return null;
-    }
-
-    @Transactional
-    public void updateAnswerHistory(AnswerHistoryDTO answerHistoryDTO) {
-        AnswerHistory answerHistory = convertToEntity(answerHistoryDTO);
-        answerHistoryMapper.update(answerHistory);
-    }
-
-    @Transactional
-    public void deleteAnswerHistory(Integer noteNo, Integer userNo) {
-        answerHistoryMapper.delete(noteNo, userNo);
-    }
-
-    private AnswerHistory convertToEntity(AnswerHistoryDTO answerHistoryDTO) {
-        AnswerHistory answerHistory = new AnswerHistory();
-        answerHistory.setNoteNo(answerHistoryDTO.getNoteNo());
-        answerHistory.setAnswerNo(answerHistoryDTO.getAnswerNo());
-        answerHistory.setUserNo(answerHistoryDTO.getUserNo());
-        answerHistory.setCreatedAt(answerHistoryDTO.getCreatedAt());
-        answerHistory.setUpdatedAt(answerHistoryDTO.getUpdatedAt());
-        return answerHistory;
-    }
-
-    private AnswerHistoryDTO convertToDTO(AnswerHistory answerHistory) {
-        AnswerHistoryDTO answerHistoryDTO = new AnswerHistoryDTO();
-        answerHistoryDTO.setNoteNo(answerHistory.getNoteNo());
-        answerHistoryDTO.setAnswerNo(answerHistory.getAnswerNo());
-        answerHistoryDTO.setUserNo(answerHistory.getUserNo());
-        answerHistoryDTO.setCreatedAt(answerHistory.getCreatedAt());
-        answerHistoryDTO.setUpdatedAt(answerHistory.getUpdatedAt());
-        return answerHistoryDTO;
-    }
-
-    private AnswerHistoryVO convertToVO(AnswerHistoryDTO answerHistoryDTO) {
+    public AnswerHistoryVO convertToVO(AnswerHistoryDTO answerHistoryDTO) {
+    	if (answerHistoryDTO == null) {
+    		System.out.println("AnswerHistoryDTO to AnswerHistoryVO failed. Empty AnswerHistoryVO created. AnswerHistoryDTO is null");    		
+    		return new AnswerHistoryVO.Builder().build();
+    	}
         return new AnswerHistoryVO.Builder()
-                .noteNo(answerHistoryDTO.getNoteNo())
-                .answerNo(answerHistoryDTO.getAnswerNo())
-                .userNo(answerHistoryDTO.getUserNo())
-                .createdAt(answerHistoryDTO.getCreatedAt())
-                .updatedAt(answerHistoryDTO.getUpdatedAt())
+                .noteVO(noteService.convertToVO(answerHistoryDTO.getNoteDTO()))
+                .answerVO(answerService.convertToVO(answerHistoryDTO.getAnswerDTO()))
+                .userVO(userService.convertToVO(answerHistoryDTO.getUserDTO()))
                 .build();
     }
 }

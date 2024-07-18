@@ -1,6 +1,11 @@
 package com.ksw.dto.function;
 
-public class JoinDTO {
+import java.io.Serializable;
+
+public class JoinDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 	
     private String userId;
     private String password;
@@ -8,8 +13,17 @@ public class JoinDTO {
     private String email;
     private Integer securityQuestion;
     private String securityAnswer;
+    private String code;
 
-    // 기본 생성자
+    public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	// 기본 생성자
     public JoinDTO() {}
 
     // Getters and Setters

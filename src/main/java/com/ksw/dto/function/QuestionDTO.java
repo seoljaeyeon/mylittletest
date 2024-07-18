@@ -1,27 +1,38 @@
 package com.ksw.dto.function;
 
+import java.io.Serializable;
 import java.util.List;
 
-import com.ksw.dto.forObject.object.CategoryDTO;
-import com.ksw.dto.forObject.object.FileDTO;
-import com.ksw.dto.forObject.object.NoteDTO;
-import com.ksw.dto.forObject.object.ReplyDTO;
-import com.ksw.dto.forObject.object.UserDTO;
+import com.ksw.dto.forObject.entity.CategoryDTO;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.dto.forObject.relation.NoteViewDTO;
+import com.ksw.dto.forObject.relation.ReplyUserDTO;
 
-public class QuestionDTO {
+public class QuestionDTO implements Serializable{
 
-	private UserDTO userDTO;
+	private static final long serialVersionUID = 1L;
+	
+
 	private UserDTO writerDTO;
 	private NoteDTO noteDTO;
 	private CategoryDTO categoryDTO;
 	private FileDTO fileDTO;
-	private List<ReplyDTO> replies;
-	private int viewCount;
-	private int favoriteCount;
-	private int answerType;
+	private List<ReplyUserDTO> replies;
+	private Integer viewCount;
+	private Integer favoriteCount;
+	private Integer answerType;
 	private Boolean isFavorite;
+	private Integer todayNoteViewInCategory;
 	
-	public List<ReplyDTO> getReplies() {
+	public Integer getTodayNoteViewInCategory() {
+		return todayNoteViewInCategory;
+	}
+	public void setTodayNoteViewInCategory(Integer todayNoteViewInCategory) {
+		this.todayNoteViewInCategory = todayNoteViewInCategory;
+	}
+	public List<ReplyUserDTO> getReplies() {
 		return replies;
 	}
 	public UserDTO getWriterDTO() {
@@ -36,32 +47,26 @@ public class QuestionDTO {
 	public void setIsFavorite(Boolean isFavorite) {
 		this.isFavorite = isFavorite;
 	}
-	public void setReplies(List<ReplyDTO> replies) {
+	public void setReplies(List<ReplyUserDTO> replies) {
 		this.replies = replies;
 	}
-	public int getViewCount() {
+	public Integer getViewCount() {
 		return viewCount;
 	}
-	public void setViewCount(int viewCount) {
+	public void setViewCount(Integer viewCount) {
 		this.viewCount = viewCount;
 	}
-	public int getFavoriteCount() {
+	public Integer getFavoriteCount() {
 		return favoriteCount;
 	}
-	public int getAnswerType() {
+	public Integer getAnswerType() {
 		return answerType;
 	}
-	public void setAnswerType(int answerType) {
+	public void setAnswerType(Integer answerType) {
 		this.answerType = answerType;
 	}
-	public void setFavoriteCount(int favoriteCount) {
+	public void setFavoriteCount(Integer favoriteCount) {
 		this.favoriteCount = favoriteCount;
-	}
-	public UserDTO getUserDTO() {
-		return userDTO;
-	}
-	public void setUserDTO(UserDTO userDTO) {
-		this.userDTO = userDTO;
 	}
 	public NoteDTO getNoteDTO() {
 		return noteDTO;

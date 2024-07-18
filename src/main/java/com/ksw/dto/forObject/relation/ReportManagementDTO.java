@@ -1,66 +1,43 @@
 package com.ksw.dto.forObject.relation;
 
-public class ReportManagementDTO {
+import java.io.Serializable;
 
-    private Integer userNo;
-    private Integer managerNo;
-    private Integer solverNo;
+import com.ksw.dto.forObject.entity.UserDTO;
 
-    // 기본 생성자
+public class ReportManagementDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private UserDTO userDTO;
+    private UserDTO managerDTO;
+    private UserDTO solverDTO;
+
+    public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+	public UserDTO getManagerDTO() {
+		return managerDTO;
+	}
+
+	public void setManagerDTO(UserDTO managerDTO) {
+		this.managerDTO = managerDTO;
+	}
+
+	public UserDTO getSolverDTO() {
+		return solverDTO;
+	}
+
+	public void setSolverDTO(UserDTO solverDTO) {
+		this.solverDTO = solverDTO;
+	}
+
+	// 기본 생성자
     public ReportManagementDTO() {}
 
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    public Integer getManagerNo() {
-        return managerNo;
-    }
-
-    public void setManagerNo(Integer managerNo) {
-        this.managerNo = managerNo;
-    }
-
-    public Integer getSolverNo() {
-        return solverNo;
-    }
-
-    public void setSolverNo(Integer solverNo) {
-        this.solverNo = solverNo;
-    }
-
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private Integer managerNo;
-        private Integer solverNo;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder managerNo(Integer managerNo) {
-            this.managerNo = managerNo;
-            return this;
-        }
-
-        public Builder solverNo(Integer solverNo) {
-            this.solverNo = solverNo;
-            return this;
-        }
-
-        public ReportManagementDTO build() {
-            ReportManagementDTO reportManagementDTO = new ReportManagementDTO();
-            reportManagementDTO.userNo = this.userNo;
-            reportManagementDTO.managerNo = this.managerNo;
-            reportManagementDTO.solverNo = this.solverNo;
-            return reportManagementDTO;
-        }
-    }
 }

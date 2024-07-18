@@ -1,12 +1,91 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="./include/head_login.jsp"></jsp:include>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
+	
+	// HTML에서 subject라는 id를 가진 input 요소를 가져옵니다.
+	const inputField = document.getElementById('subject');
+
+	// 드롭다운 메뉴를 생성하여 dropdown-menu 클래스를 추가합니다.
+	const dropdownMenu = document.createElement('div');
+	dropdownMenu.classList.add('dropdown-menu');
+
+	// input 요소의 부모 노드에 드롭다운 메뉴를 추가합니다.
+	inputField.parentNode.appendChild(dropdownMenu);
+
+	// 기존 데이터 배열입니다. 중복 데이터를 포함하고 있습니다.
+	const existingData = ['JAVA', 'Javascript', 'JSP', 'Spring', 'JPA', 'CSS', 'Mybatis', 'EL', 'JAVA', 'JSP', 'JSP', 'CSS'];
+
+	// input 요소에 input 이벤트 리스너를 추가합니다.
+	inputField.addEventListener('input', function() {
+	    // 입력된 값의 양쪽 공백을 제거하고 대문자로 변환합니다.
+	    const inputValue = inputField.value.trim().toUpperCase();
+
+	    // 드롭다운 메뉴의 내용을 초기화합니다.
+	    dropdownMenu.innerHTML = '';
+
+	    // 입력 값이 비어있으면 드롭다운 메뉴를 숨깁니다.
+	    if (inputValue === '') {
+	        dropdownMenu.style.display = 'none';
+	        return;
+	    }
+
+	    // 기존 데이터 배열에서 입력된 값과 일치하는 데이터만 필터링합니다.
+	    const matchingData = existingData.filter(item => item.toUpperCase().includes(inputValue));
+
+	    // 필터링된 데이터의 각 항목이 몇 번 중복되는지 세는 함수를 호출합니다.
+	    const dataCounts = countDataOccurrences(matchingData);
+
+	    // 각 데이터 항목과 그 개수를 기반으로 드롭다운 옵션을 생성합니다.
+	    Object.keys(dataCounts).forEach(item => {
+	        const count = dataCounts[item]; // 해당 데이터의 개수를 가져옵니다.
+	        const option = document.createElement('div');
+	        option.textContent = item + ' (' + count + '문제)'; // 텍스트 내용을 설정합니다.
+	        option.classList.add('dropdown-item'); // dropdown-item 클래스를 추가합니다.
+
+	        // 옵션을 클릭하면 input 값에 해당 데이터를 설정하고 드롭다운 메뉴를 숨깁니다.
+	        option.addEventListener('mousedown', function() {
+	            inputField.value = item;
+	            dropdownMenu.style.display = 'none';
+	        });
+
+	        // 생성한 옵션을 드롭다운 메뉴에 추가합니다.
+	        dropdownMenu.appendChild(option);
+	    });
+
+	    // 필터링된 데이터가 존재하면 드롭다운 메뉴를 보여줍니다.
+	    if (Object.keys(dataCounts).length > 0) {
+	        dropdownMenu.style.display = 'block';
+	    } else {
+	        dropdownMenu.style.display = 'none';
+	    }
+	});
+
+	// input 요소가 포커스를 잃으면 일정 시간 후에 드롭다운 메뉴를 숨깁니다.
+	inputField.addEventListener('blur', function() {
+	    setTimeout(() => {
+	        dropdownMenu.style.display = 'none';
+	    }, 100);
+	});
+
+	// 배열에서 각 데이터 항목이 몇 번 중복되는지 세는 함수입니다.
+	function countDataOccurrences(dataArray) {
+	    const counts = {};
+	    dataArray.forEach(item => {
+	        counts[item.toUpperCase()] = counts[item.toUpperCase()] ? counts[item.toUpperCase()] + 1 : 1;
+	    });
+	    return counts;
+	}
+	    
+	
+	// 입력 필드(input)와 해당하는 밑줄 요소를 가져옵니다.
     const titleInput = document.getElementById('title_input');
     const titleUnderline = document.getElementById('title_underline');
 
@@ -68,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var commentaryEditor = new Quill('#commentary_editor', {
         theme: 'snow',  // snow 테마 사용 (기본)
-    	placeholder:'해설을 입력해주세요',
+    	placeholder:'해설을 입력해주세요. (이미지는 드래그해서 넣어주세요.)',
         modules: {
             toolbar: [
                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -198,7 +277,6 @@ document.addEventListener("DOMContentLoaded", function() {
     .subject_input {
         display: block;
         background-color: #333333;
-        font-family: 'Pretendard-Regular';
         font-size: 1rem;
         padding: 0.33rem 0.66rem;
         width: 5rem;
@@ -211,6 +289,28 @@ document.addEventListener("DOMContentLoaded", function() {
         box-shadow: 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
         color: #ffffff;
     }
+    .subject_input::placeholder {
+	    color:#b6b6b6;
+	    text-align: center;
+	}
+	.subject_input:hover {
+	    animation: tangle 0.25s ease-in-out;
+	}
+    .subject-hidden-input {
+		    visibility:hidden;
+		    font-size: 1rem;
+		    min-width: 50px;
+		    border-radius: 1rem;
+		    padding: 0.33rem 0.66rem;
+		    width: fit-content;
+		    text-align: center;
+		    position: absolute;
+		    top:0;
+		    left:0;
+		    white-space: pre; /* 공백 문자를 그대로 유지 */
+		    height: 0; /* 높이를 0으로 설정하여 공간 차지 안 함 */
+		    overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+		}
     .subject-input-container {
         display: flex;
         flex-direction: row;
@@ -221,6 +321,29 @@ document.addEventListener("DOMContentLoaded", function() {
         height: 3rem;
         position: relative;
     }
+		.dropdown-menu {
+		      display: none;
+		    position: absolute;
+		    top: 100%;
+		    left: 0;
+		    z-index: 1000;
+		    background-color: #474747;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+		    max-height: 10rem; /* 최대 높이 설정 */
+		    overflow-y: auto;
+		}
+		
+		.dropdown-item {
+		    padding: 0.5rem;
+		    cursor: pointer;
+		    color: #ffffff;
+		}
+		
+		.dropdown-item:hover {
+		    background-color: #444444;
+		}
     .title_input {
         font-size: 25px;
         color: #ffffff;
@@ -370,30 +493,25 @@ document.addEventListener("DOMContentLoaded", function() {
         border: 2px dashed #aaa; /* 드래그앤 드랍 시 보여질 스타일 */
         background-color: rgba(0, 0, 0, 0.1);
     }
-      .custom-placeholder {
-        color: white;
-        font-style: italic;
-        font-weight:bolder;
-    }
-	
+    
+
 	
 
 </style>
 
 <div class="container">
-    <form id="writeFrm" class="writeFrm" name="writeFrm" action="writeok.jsp">
+    <form id="writeFrm" class="writeFrm" name="writeFrm" action="writeok.jsp" enctype="multipart/form-data"> 
         <div class="subject-input-container">
-            <div class="subject-input-shadow">
-                <div class="subject-container">
-                    <input class="subject_input" type="text" id="subject" name="subject" placeholder="과목 입력" spellcheck="false" maxlength="20" autocomplete="off">
-                </div>
-            </div>
-            <span class="subject-hidden-input"></span>
-            <div id="overlay-container" class="overlay-container">
-                <div class="dropdown-menu">
-                </div>
-            </div>
-        </div>
+    		<div class="subject-input-shadow">
+        		<div class="subject-container">
+            		<input class="subject_input" type="text" id="subject" name="subject" placeholder="과목 입력" spellcheck="false" maxlength="20" autocomplete="off">
+       			</div>
+    		</div>
+	    	<span class="subject-hidden-input"></span>
+	    	<div id="overlay-container" class="overlay-container">
+	       	 	<div class="dropdown-menu"></div>
+	    	</div>
+		</div>
         <div class="title_container">
             <input class="title_input" type="text" id="title_input" name="title" placeholder="제목을 입력해주세요"
                 spellcheck="false" autocomplete="off">
@@ -404,7 +522,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="box">
             <div class="hint_container"><input class="hint_input" type="text" id="hint" name="hint" placeholder="힌트를 입력해주세요"></div>
             	<div class="file_container">
-            		<input type="file" class="upload" multiple>
+            		 <input type="file" id="mediaFiles" name="mediaFiles[]" accept="image/*,audio/*" multiple>
             	</div>
         </div>
         <div class="answer_container"><textarea id="answer" name="answer" placeholder="정답을 입력해주세요"></textarea></div>

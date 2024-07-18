@@ -1,52 +1,34 @@
 package com.ksw.dto.forObject.relation;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
 
-public class AnswerHistoryDTO {
+import com.ksw.dto.forObject.entity.AnswerDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
 
-	private Integer noteNo;
-    private Integer answerNo;
-    private Integer userNo;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+public class AnswerHistoryDTO implements Serializable{
 
-    public Timestamp getUpdatedAt() {
-    	return updatedAt;
-    }
-    
-    public void setUpdatedAt(Timestamp updatedAt) {
-    	this.updatedAt = updatedAt;
-    }
-
-    public Integer getNoteNo() {
-        return noteNo;
-    }
-
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
-
-    public Integer getAnswerNo() {
-        return answerNo;
-    }
-
-    public void setAnswerNo(Integer answerNo) {
-        this.answerNo = answerNo;
-    }
-
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
+	private static final long serialVersionUID = 1L;
+	
+    private NoteDTO noteDTO;
+    private AnswerDTO answerDTO;
+    private UserDTO userDTO;
+	public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
+	public AnswerDTO getAnswerDTO() {
+		return answerDTO;
+	}
+	public void setAnswerDTO(AnswerDTO answerDTO) {
+		this.answerDTO = answerDTO;
+	}
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 }

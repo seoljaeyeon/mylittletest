@@ -1,6 +1,83 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
+<link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var pwBtn = document.getElementById('PwBtn');
+    var pwcBtn = document.getElementById('PwcBtn');
+    var pwInput = document.getElementById('userPw');
+    var pwcInput = document.getElementById('Pwc');
+
+    pwBtn.addEventListener('click', function() {
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            pwBtn.innerHTML = '🙈';
+        } else {
+            pwInput.type = 'password';
+            pwBtn.innerHTML = '👁️';
+        }
+    });
+
+    pwcBtn.addEventListener('click', function() {
+        if (pwcInput.type === 'password') {
+            pwcInput.type = 'text';
+            pwcBtn.innerHTML = '🙈';
+        } else {
+            pwcInput.type = 'password';
+            pwcBtn.innerHTML = '👁️';
+        }
+    });
+    
+    const sendEmailBtn = document.querySelector('.send_email_btn');
+    const timerMessage = document.getElementById('timerMessage');
+    let timerInterval;
+
+    function startTimer(duration, display) {
+        let timer = duration;
+        updateDisplay(timer, display); // 초기화면 설정
+
+        console.log('타이머 시작:', timer); // 콘솔에 시작 메시지 출력
+
+        timerInterval = setInterval(function () {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+            console.log('남은 시간:', minutes, '분', seconds, '초'); // 콘솔에 남은 시간 출력
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                display.textContent = "유효시간이 끝났습니다";
+                console.log('타이머 종료'); // 콘솔에 종료 메시지 출력
+            }
+        }, 1000);
+    }
+
+    function updateDisplay(timer, display) {
+        let minutes = parseInt(timer / 60, 10);
+        let seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+    }
+
+    sendEmailBtn.addEventListener('click', function () {
+        clearInterval(timerInterval); // 기존 타이머 제거
+        const fiveMinutes = 5 * 60; // 5분을 초 단위로 계산
+        startTimer(fiveMinutes, timerMessage); // 타이머 시작
+    });
+    
+});
+function goBack() {
+    window.history.back();
+}
+</script>
 <style>
 .join_area {
 	width: 30rem;
@@ -83,6 +160,13 @@
 	opacity: 0.5;
 	transition: all 0.2s ease-out;
 }
+.show_password_btn:active {
+    opacity:1;
+}
+
+.show_password_btn:hover {
+    opacity:1;
+}
 
 .send_email_btn {
 	box-shadow: 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
@@ -95,6 +179,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor:pointer;
 }
 
 .id_find_area {
@@ -143,6 +228,8 @@ a {
 	color: #cccccc;
 	font-size: 12px;
 }
+
+ 
 </style>
 	<div class="join_area">
 		<h1 class="join_title">환영합니다!</h1>
@@ -186,9 +273,7 @@ a {
 					style="margin-bottom: 2rem; justify-content: center; position: relative;">
 					<input class="id_input" id="code" name="code"
 						placeholder="이메일 확인 코드" autocomplete="off">
-					<p
-						style="opacity: 0.3; position: absolute; top: 110%; left: 0; margin: 0;">💡
-						발송된 코드는 5분간 유효합니다.</p>
+					<span id="timerMessage" style="text-align:right; color:#ffa500; font-weight:bolder; opacity: 0.3; position: absolute;  top: 110%; left: 0; margin: 0;">💡발송된 코드는 5분간 유효합니다.</span>
 				</div>
 			</div>
 			<div class="id_find_area">
@@ -215,9 +300,8 @@ a {
 			</div>
 			<button class="join_btn" type="button" onclick="location.href='joincomplete.jsp'">회원가입</button>
 			<br>
-			<div class="login_box" style="margin-left:10px;">
-				<a href="index.jsp">돌아가기</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="login.jsp">기존
-					계정 로그인하기</a>
+			<div class="login_box" style="margin-left:10px; display:flex;">
+				<div onclick="goBack();" style="cursor:pointer;">돌아가기</div><div style="margin-left:15px; cursor:pointer;">기존계정 로그인하기</div>
 			</div>
 		</form>
 	</div>

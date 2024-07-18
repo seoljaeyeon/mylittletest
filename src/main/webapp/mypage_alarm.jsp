@@ -53,7 +53,30 @@
         document.getElementById("btn_close_pw").addEventListener("click", function() {
             togglePopup('popup_password', 'hide');
         });
+        // 프로필 사진 변경
+        const profilePicture = document.getElementById("profilePicture");
+        const pictureBtn = document.getElementById("picture_btn");
+        const fileInput = document.getElementById("fileInput");
+        const profileImg = document.getElementById("profileImg");
 
+        const openFileDialog = () => {
+            fileInput.click();
+        };
+
+        profilePicture.addEventListener("click", openFileDialog);
+        pictureBtn.addEventListener("click", openFileDialog);
+
+        fileInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profileImg.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+   	 
 });
 </script>
 <style>
@@ -65,6 +88,14 @@
         padding: 1.5rem 2rem 2rem 2rem;
         height:750px; 
         gap:50px;
+        justify-content: center;
+		align-items: center;
+	}
+	.profile-img {
+	    width: 130px;
+	    height: 130px;
+	    border-radius: 50%;
+	    margin-top:10px;
 	}
 	.profile_box{
 		height:fit-content;
@@ -72,8 +103,11 @@
 	}
 	.picture{
 		text-align:center;
-		font-size:100px;
+		font-size:20px;
+		width:298px;
+		height:150px;
 	}
+
 	.profile{
 		text-align:center;
 		border: 1px solid black;
@@ -82,6 +116,7 @@
 	.change{
 		color:#cccccc;
 		font-size:12px;
+		cursor: pointer;
 	}
 	.nickname, .email{
 		margin-top:20px;
@@ -118,6 +153,10 @@
 		align-items: center;
 		display:flex;
 		border-radius:20px;
+	}
+	.bookmark_list_btn:hover,.alarm_list_btn:hover{
+		background-color:#ffffff;
+		color:#000000;
 	}
 	.alarm_container{
 		display:flex;
@@ -514,21 +553,22 @@
 			</div>
 		</div>
 	</div>
-<!------------------------- 팝업영역 ----------------------------------->
+<!------------------------- 팝업영역 끝 ----------------------------------->
 <div class="mypage_container">
 	<div class="profile_box">
+	 <input type="file" id="fileInput" style="display:none;">
 		<div class="profile">
-			<div class="picture">
-				🤡
-				<div class="change" id="picture_btn">변경하기</div>
+			<div class="picture" id="profilePicture">
+				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr4LGLIS6YPlOt2SVkhqYHMFc0sS2LdqpfOAYPIGb-TrZ2gr_u-01NvYdSXg&s" alt="프로필사진" id="profileImg" class="profile-img">
 			</div>
+			<div class="change" id="picture_btn">변경하기</div>
 			<div class="nickname">
 				USER_NICKNAME
-				<div class="change" id="nicknamebtn">변경하기</div>
+			<div class="change" id="nicknamebtn">변경하기</div>
 			</div>
 			<div class="email">
 				user@email.com
-				<div class="change" id="email_btn">변경하기</div>
+			<div class="change" id="email_btn">변경하기</div>
 			</div>
 			<div class="password" id="password_btn">비밀번호 변경</div>
 			<div class="change" id="idstopbtn" style="margin-top:15px; margin-bottom:15px;">계정 비활성화</div>

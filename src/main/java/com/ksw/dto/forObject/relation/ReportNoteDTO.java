@@ -1,66 +1,44 @@
 package com.ksw.dto.forObject.relation;
 
-public class ReportNoteDTO {
+import java.io.Serializable;
 
-    private Integer userNo;
-    private Integer noteNo;
-    private Integer reportNo;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.ReportDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
 
-    // 기본 생성자
+public class ReportNoteDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private UserDTO userDTO;
+    private NoteDTO noteDTO;
+    private ReportDTO reportDTO;
+
+    public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+	public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
+
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
+
+	public ReportDTO getReportDTO() {
+		return reportDTO;
+	}
+
+	public void setReportDTO(ReportDTO reportDTO) {
+		this.reportDTO = reportDTO;
+	}
+
+	// 기본 생성자
     public ReportNoteDTO() {}
-
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    public Integer getNoteNo() {
-        return noteNo;
-    }
-
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
-
-    public Integer getReportNo() {
-        return reportNo;
-    }
-
-    public void setReportNo(Integer reportNo) {
-        this.reportNo = reportNo;
-    }
-
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private Integer noteNo;
-        private Integer reportNo;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
-            return this;
-        }
-
-        public Builder reportNo(Integer reportNo) {
-            this.reportNo = reportNo;
-            return this;
-        }
-
-        public ReportNoteDTO build() {
-            ReportNoteDTO reportNoteDTO = new ReportNoteDTO();
-            reportNoteDTO.userNo = this.userNo;
-            reportNoteDTO.noteNo = this.noteNo;
-            reportNoteDTO.reportNo = this.reportNo;
-            return reportNoteDTO;
-        }
-    }
 }

@@ -1,50 +1,40 @@
 package com.ksw.dto.forObject.relation;
 
-public class NoteUserDTO {
+import java.io.Serializable;
 
-    private Integer userNo;
-    private Integer noteNo;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+
+public class NoteUserDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private UserDTO userDTO;
+    private NoteDTO noteDTO;
 
     // 기본 생성자
     public NoteUserDTO() {}
-
-    // Getter 및 Setter
-    public Integer getUserNo() {
-        return userNo;
+    
+    public NoteUserDTO(NoteDTO noteDTO, UserDTO userDTO) {
+    	super();
+    	this.noteDTO = noteDTO;
+    	this.userDTO = userDTO;
     }
 
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
+    public UserDTO getUserDTO() {
+		return userDTO;
+	}
 
-    public Integer getNoteNo() {
-        return noteNo;
-    }
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer userNo;
-        private Integer noteNo;
-
-        public Builder userNo(Integer userNo) {
-            this.userNo = userNo;
-            return this;
-        }
-
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
-            return this;
-        }
-
-        public NoteUserDTO build() {
-            NoteUserDTO noteUserDTO = new NoteUserDTO();
-            noteUserDTO.userNo = this.userNo;
-            noteUserDTO.noteNo = this.noteNo;
-            return noteUserDTO;
-        }
-    }
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
 }

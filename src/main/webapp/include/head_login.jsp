@@ -73,6 +73,11 @@
             height:3rem;
             font-weight: 600;
             box-shadow: 0.25rem 0.25rem 0.5rem 0rem rgba(0,0,0,0.2);
+            cursor:pointer
+        }
+         .side_button:hover{
+        	background-color:#ffffff;
+        	color:#000000;
         }
 
         .logo {
@@ -86,7 +91,7 @@
             place-items: center;
             overflow: hidden;
             margin-right:2rem;
-            
+            cursor:pointer;
         }
 
         .titlebar {
@@ -234,7 +239,7 @@
             <div class="side_button" id="mystudy_btn" onclick="location.href='index_login.jsp'">
                 나의 학습
             </div>        
-            <div class="side_button" onclick="location.href='questionlist_login.jsp'">
+            <div class="side_button" onclick="location.href='questionlist.jsp'">
                 문제 둘러보기
             </div>        
             <div class="side_button" onclick="location.href='announcement_list.jsp'">

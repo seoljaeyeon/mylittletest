@@ -1,50 +1,35 @@
 package com.ksw.dto.forObject.relation;
 
-public class FileAnnouncementDTO {
+import java.io.Serializable;
 
-    private Integer announcementNo;
-    private Integer fileNo;
+import com.ksw.dto.forObject.entity.AnnouncementDTO;
+import com.ksw.dto.forObject.entity.FileDTO;
+
+public class FileAnnouncementDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private AnnouncementDTO announcementDTO;
+    private FileDTO fileDTO;
 
     // 기본 생성자
     public FileAnnouncementDTO() {}
 
-    // Getter 및 Setter
-    public Integer getAnnouncementNo() {
-        return announcementNo;
-    }
+	public AnnouncementDTO getAnnouncementDTO() {
+		return announcementDTO;
+	}
 
-    public void setAnnouncementNo(Integer announcementNo) {
-        this.announcementNo = announcementNo;
-    }
+	public void setAnnouncementDTO(AnnouncementDTO announcementDTO) {
+		this.announcementDTO = announcementDTO;
+	}
 
-    public Integer getFileNo() {
-        return fileNo;
-    }
+	public FileDTO getFileDTO() {
+		return fileDTO;
+	}
 
-    public void setFileNo(Integer fileNo) {
-        this.fileNo = fileNo;
-    }
+	public void setFileDTO(FileDTO fileDTO) {
+		this.fileDTO = fileDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer announcementNo;
-        private Integer fileNo;
-
-        public Builder announcementNo(Integer announcementNo) {
-            this.announcementNo = announcementNo;
-            return this;
-        }
-
-        public Builder fileNo(Integer fileNo) {
-            this.fileNo = fileNo;
-            return this;
-        }
-
-        public FileAnnouncementDTO build() {
-            FileAnnouncementDTO fileAnnouncementDTO = new FileAnnouncementDTO();
-            fileAnnouncementDTO.announcementNo = this.announcementNo;
-            fileAnnouncementDTO.fileNo = this.fileNo;
-            return fileAnnouncementDTO;
-        }
-    }
 }

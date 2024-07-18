@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
 
 <jsp:include page="./include/head.jsp"></jsp:include>
 <script>
@@ -290,30 +292,30 @@
 	align-self: flex-end;
 	border-bottom: 1px solid inherit;
 }
-
-.login_btn {
-	box-shadow: 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
-	background-color: #696969;
-	color: #ffffff;
-	border-radius: 5rem;
-	height: 3rem;
-	width: 10rem;
-	padding: auto;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-family: 'Pretendard-Regular';
-	border: none;
-	font-size: 1rem;
-	cursor: pointer;
-}
-
+.loginbtn{
+		box-shadow : 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
+	    background-color: #696969;
+	    color: #ffffff;
+	    border-radius: 5rem;
+	    height: 3rem;
+	    width: 10rem;
+	    padding: auto;
+	    display:flex;
+	    justify-content: center;
+	    align-items: center;
+	    font-family: 'Pretendard-Regular';
+	    border: none;
+	    font-size: 1rem;
+	    cursor:pointer;
+	    margin-left:10px;
+    }
 .join_btn {
 	margin-top: 2rem;
 	width: fit-content;
 	color: #cccccc;
 	border-bottom: 1px solid #cccccc;
 	transition: all 0.2s ease-out;
+	cursor:pointer;
 }
 
 .popup_wrap {
@@ -841,10 +843,7 @@
 
 		<div class="login_area">
 			<h1 class="login_title" style="color: #F8F8FF;">로그인하기</h1>
-			<div class="emoji">
-				<img src="./img/studying_11772194.png"
-					style="width: 100px; height: 100px;">
-			</div>
+			 <div class="emoji" style="font-size:100px; text-align:center;">📖</div>
 			<div class="id_input_area">
 				<div class="id_input_container">
 					<input class="id_input" id="userId" name="userId" placeholder="계정"
@@ -858,13 +857,11 @@
 				</div>
 				<div class="find_id" id="popup_open">계정을 잃어버렸으면?</div>
 			</div>
-			<div style="display: inline-flex; flex-direction: row; gap: 2rem;">
-				<input type="submit" name="loginbtn">로그인 하기
+		<div style="display: inline-flex; flex-direction: row; gap: 2rem;">
+				<input type="submit" class="loginbtn" name="loginbtn" value="로그인">
 			</div>
+			<div class="join_btn" onclick="location.href='/mylittletest/join'">회원가입하기</div>
 		</div>
-		<div class="join_btn"
-			onclick="location.href='/mylittletest/join'">회원가입
-			하기</div>
 	</form>
 </body>
 

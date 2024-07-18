@@ -16,27 +16,50 @@
            http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
            http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd
            http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd">
-	<context:component-scan base-package="com.ksw" />
-	<jpa:repositories base-package="com.ksw.dao" />
-	<mybatis-spring:scan base-package="com.ksw.dao" />
-	
+    
+    <context:component-scan base-package="com.ksw" />
+    <jpa:repositories base-package="com.ksw.dao" />
+    <mybatis-spring:scan base-package="com.ksw.dao" />
+    
     <!-- Property Placeholder Configure -->
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="location" value="classpath:application.properties"/>
     </bean>
+    
+    <!-- JavaMailSender 설정 -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${spring.mail.host}"/>
+        <property name="port" value="${spring.mail.port}"/>
+        <property name="username" value="${spring.mail.username}"/>
+        <property name="password" value="${spring.mail.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${spring.mail.properties.mail.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${spring.mail.properties.mail.smtp.starttls.enable}</prop>
+                <prop key="mail.smtp.starttls.required">${spring.mail.properties.mail.smtp.starttls.required}</prop>
+                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+                <prop key="mail.smtp.connectiontimeout">5000</prop>
+                <prop key="mail.smtp.timeout">5000</prop>
+                <prop key="mail.smtp.writetimeout">5000</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+    </bean> 
 
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
-		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+	<!-- dataSource 히카리 사용 설 -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
         <property name="jdbcUrl" value="${spring.datasource.url}"/>
         <property name="username" value="${spring.datasource.username}"/>
         <property name="password" value="${spring.datasource.password}"/>
         <property name="maximumPoolSize" value="10" />
-	</bean>
-	
+    </bean>
+    
     <!-- JPA configure -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.ksw.object.entity.jpa" />
+        <property name="packagesToScan" value="com.ksw.object.entity" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="databasePlatform" value="org.hibernate.dialect.MySQL8Dialect" />
@@ -46,21 +69,36 @@
         </property>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	<!-- JPA 사용 시 트랜잭션 매니저 -->
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+	<!-- mybatis 사용 시 트랜잭션 매니저 -->
+    <bean id="mybatisTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+	<!-- 두 개의 orm에서 사용하는 트랜잭션 매니저를 상황에 따르게 사용하게 설 -->
+    <bean id="transactionManager" class="org.springframework.data.transaction.ChainedTransactionManager">
+        <constructor-arg>
+            <list>
+                <ref bean="jpaTransactionManager" />
+                <ref bean="mybatisTransactionManager" />
+            </list>
+        </constructor-arg>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     
     <!-- MYBATIS configure -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
-	</bean>
-
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
-		destroy-method="clearCache">
-		<constructor-arg ref="sqlSessionFactory" name="sqlSessionFactory" />
-	</bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg ref="sqlSessionFactory" name="sqlSessionFactory" />
+    </bean>
 
 </beans>

@@ -1,6 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
+<script>
+	function increase() {
+	    let numberInput = document.getElementById('number');
+	    numberInput.value = parseInt(numberInput.value) + 1;
+	    document.querySelector('.arrow_btn:nth-child(1)').classList.add('active');
+	    setTimeout(() => {
+	        document.querySelector('.arrow_btn:nth-child(1)').classList.remove('active');
+	    }, 500);
+	}
+	
+	function decrease() {
+	    let numberInput = document.getElementById('number');
+	    if (parseInt(numberInput.value) > 0) {
+	        numberInput.value = parseInt(numberInput.value) - 1;
+	        document.querySelector('.arrow_btn:nth-child(2)').classList.add('active');
+	        setTimeout(() => {
+	            document.querySelector('.arrow_btn:nth-child(2)').classList.remove('active');
+	        }, 500);
+	    }
+	}
+	
+	function saveSetting() {
+	    let numberInput = document.getElementById('number').value;
+	    alert(numberInput + "문제 설정완료");
+	}
+</script>
 <style>
 	.main_container{
 		display: inline-flex;
@@ -23,8 +49,7 @@
 		border-right:1px solid black;
 		height:140px;
 		width:368px;
-		min-width:368px;
-		
+		min-width:368px;	
 	}
 	.goal_title{
 		font-size:40px;
@@ -32,19 +57,41 @@
 		height:fit-content;
 	}
 	.setting{
+		margin-left:50px;
 		display:flex;
 		margin-top:1rem;
 		justify-content: flex-end;
 		margin-right:2rem;
+		cursor:pointer;
 	}
+	.count_setting{
+		display:flex;
+		margin-top:1rem;
+		justify-content: flex-end;
+		margin-right:2rem;
+		cursor:pointer;
+	}
+	input[type="number"] {
+        width: 50px;
+        font-size: 28px;
+        text-align: center;
+        -moz-appearance: textfield; /* Firefox */
+        background-color:#474747;
+        border:none;
+        outline:none;
+        color:#ffffff;
+        margin-top:10px;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0; /* Chrome, Safari, Edge, Opera */
+    }
 	.goal_btn{
 		margin-left:2rem; 	 
 		margin-right: 65px;
 		background-position: center;
     	background-size: cover;
-    	-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
 		background-color: #333333;
 		color: #ffffff;
 		border-radius: 10px;
@@ -65,6 +112,8 @@
 		float:right;
 		font-size:30px;
 		min-width:65px;
+		width:130px;
+		display:flex;
 	}
 	.goal_achieve{
 		 float: right;
@@ -83,6 +132,7 @@
 		justify-content: flex-end;
 		margin-top:30px;
 		gap:5px;
+		cursor:pointer;
 	}
 	.list_set{
 		display:flex;
@@ -108,28 +158,48 @@
 		display:flex;
 		background-color:#333333;
 		border-radius:10px;
+		cursor:pointer;
+	}
+	.sub_menu:hover{
+		background-color:#ffffff;
+		color:#000000;
+	}
+	.arrow_btn {
+    transition: transform 0.2s ease; /* transform 속성에 대해 0.2초간의 ease 애니메이션 적용 */
+	}
+	
+	.arrow_btn.active {
+	    transform: scale(1.3); /* 활성화 상태일 때 크기를 좀 더 크게 스케일링 */
+	    color:#000000;
 	}
 </style>
 <div class="main_container">
 	<div class="head_box">
 		<div class="goal_box">
 			<div class="goal_title">😀 오늘의 목표</div>
-			<div class="setting" style="margin-top:30px">		
-				<div class="goal_btn">설정 완료</div>
-				<div class="goal_set"><span style="font-size:16px;">▲▼</span> 90개</div>
+			<div class="count_setting" style="margin-top:30px">		
+				<div class="goal_btn" onclick="saveSetting()">설정 완료</div>
+				<div class="goal_set">
+					<div style="width:20px; height:48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+						<span class="arrow_btn" style="font-size:20px;" onclick="increase()">&#x25B2;</span>
+						<span class="arrow_btn" style="font-size:20px;" onclick="decrease()">&#x25BC;</span>
+					</div>
+					<input type="number" id="number" value="100" min="0">
+					<span style="font-size:13px; margin-top:25px; height:fit-content;">(문제)</span>
+				</div>
 			</div>
 		</div>
 		<div class="goal_box">
-			<div class="goal_title">🎯 현재 달성률</div>
+			<div class="goal_title">🎯 오늘 달성률</div>
 			<div class="setting">		
 				<div class="goal_achieve" style="font-size:35px; margin-top:20px"><span style="font-size:15px;">(88/100)</span> 88%</div>
 			</div>
 		</div>
 		<div class="goal_box">
-			<div class="goal_title">🏆 최근 정답률</div>
+			<div class="goal_title">🏆 최근 달성률</div>
 			<div class="setting">	
 				<div class="goal_success">
-					<div class="success_count"><span>1일 전 10%</span></div>
+					<div class="success_count"><span>1일 전</span> <span>10%</span></div>
 					<div class="success_count"><span>2일 전 20%</span></div>
 					<div class="success_count"><span>3일 전 50%</span></div>
 					<div class="success_count"><span>4일 전 80%</span></div>

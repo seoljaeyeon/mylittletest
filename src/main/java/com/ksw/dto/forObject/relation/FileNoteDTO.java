@@ -1,50 +1,41 @@
 package com.ksw.dto.forObject.relation;
 
-public class FileNoteDTO {
+import java.io.Serializable;
 
-    private Integer noteNo;
-    private Integer fileNo;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+
+public class FileNoteDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+
+    private NoteDTO noteDTO;
+    private FileDTO fileDTO;
 
     // 기본 생성자
     public FileNoteDTO() {}
-
-    // Getter 및 Setter
-    public Integer getNoteNo() {
-        return noteNo;
+    
+    // 기본 생성자
+    public FileNoteDTO(NoteDTO noteDTO, FileDTO fileDTO) {
+    	super();
+    	this.noteDTO = noteDTO;
+    	this.fileDTO = fileDTO;
     }
 
-    public void setNoteNo(Integer noteNo) {
-        this.noteNo = noteNo;
-    }
+	public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
 
-    public Integer getFileNo() {
-        return fileNo;
-    }
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
 
-    public void setFileNo(Integer fileNo) {
-        this.fileNo = fileNo;
-    }
+	public FileDTO getFileDTO() {
+		return fileDTO;
+	}
 
-    // 빌더 패턴 구현
-    public static class Builder {
-        private Integer noteNo;
-        private Integer fileNo;
-
-        public Builder noteNo(Integer noteNo) {
-            this.noteNo = noteNo;
-            return this;
-        }
-
-        public Builder fileNo(Integer fileNo) {
-            this.fileNo = fileNo;
-            return this;
-        }
-
-        public FileNoteDTO build() {
-            FileNoteDTO fileNoteDTO = new FileNoteDTO();
-            fileNoteDTO.noteNo = this.noteNo;
-            fileNoteDTO.fileNo = this.fileNo;
-            return fileNoteDTO;
-        }
-    }
+	public void setFileDTO(FileDTO fileDTO) {
+		this.fileDTO = fileDTO;
+	}
 }
