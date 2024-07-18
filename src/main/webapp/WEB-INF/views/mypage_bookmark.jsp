@@ -68,7 +68,7 @@
         // 프로필 사진 변경
         const profilePicture = document.getElementById("profilePicture");
         const pictureBtn = document.getElementById("picture_btn");
-        const fileInput = document.getElementById("fileInput");
+        const fileInput = document.getElementById("profile");
         const profileImg = document.getElementById("profileImg");
 
         const openFileDialog = () => {
@@ -630,7 +630,7 @@
 
 <div class="mypage_container">
 	<div class="profile_box">
-		 <input type="file" id="fileInput" style="display:none;">
+		 <input type="file" id="profile" style="display:none;">
 		<div class="profile">
 			<div class="picture" id="profilePicture">
 				${ profil }
