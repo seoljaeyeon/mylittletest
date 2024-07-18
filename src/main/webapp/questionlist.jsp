@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="./include/head_login.jsp"></jsp:include>
+<jsp:include page="./include/head.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script>
@@ -124,11 +124,19 @@
 		        prevEl: ".swiper-button-prev",
 		      },
 		    });
+        
+        
+        var goToFirstButton = document.querySelector('.goto');
+        goToFirstButton.addEventListener('click', function () {
+        	swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
+        });
+        
 		swiper.slideNext();
 		
-		
+	
     
 	});
+	
 </script>
 <style>
 		.container{
@@ -136,7 +144,8 @@
 	    	width: 850px;
 	    	flex-direction:column;
 	    	height: calc(90vh - 8.8rem);
-	    	margin-left:350px;
+	    	justify-content:center;
+			align-items:center;
 		}
 		.list_container{
 			display:flex;
@@ -295,12 +304,12 @@
 	    	margin-left:10px;
 	    }
 		.swiper-slide{
-			margin-top: 5px;
-			margin-left: 15px;
 		    display: inline-flex;
 		    gap: 0.5rem;
 		    flex-wrap: wrap;
 		    height: 600px;
+		    align-items: center;
+	        justify-content: center;
 		}
 		/* 화살표 위치 변경 */
 		.swiper-button-next, .swiper-button-prev {
@@ -333,15 +342,28 @@
 		    color:black;
 		}
 		
+		.goto{
+			color: #ffffff;
+		    display: inline-flex;
+		    align-items: center;
+		    justify-content: center;
+		    width:7rem;
+		    background-color: #333333;
+		    padding: 0.5rem 0.5rem;
+		    border-radius: 5px 5px 5px 5px;
+		    cursor: pointer;
+		}
+		
 		.question_box{
             width:45%;
 			height:fit-content;
-            
+            align-items: center;
+	        justify-content: center;
 			}
 			
 		.question_item{
 			margin-top:10px;
-			width:300px;
+			width:340px;
 	     	height:200px;
 	     	background-color:#333333;
 	     	color:#ffffff;
@@ -409,14 +431,14 @@
             width:fit-content;
 		  }
 		  .question_mini{
-		  	width:100%;
+		  	width:360px;
 		  	margin-top:0.5rem;
 		  	display:inline-flex;
 		  }
 		  .question_mbox{
 		  	display:flex;
 		  	justify-content: flex-start;
-		  	width:310px;
+		  	width:360px;
 		  }
 		  .question_mtitle{
 		  	margin-right: auto;
@@ -433,7 +455,7 @@
     		font-size:12px;
 		  }
 		  .question_count{
-		  	width:310px;
+		  	width:360px;
 		  	margin-top:0.5rem;
 		  	display:inline-flex;
 		  	gap:10px;
@@ -815,10 +837,10 @@
 			      	 <!-- 네비게이션 버튼 -->
 					<div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
 					<div class="swiper-button-prev"></div><!-- 이전 버튼 -->
-				
-					<!-- 페이징 -->
-					<div class="swiper-pagination"></div>
+					
+					
 			      </div>
+			     <div class="goto">처음으로</div>
 				</div>
 				
 <!-- 컨텐츠 영역  -->
