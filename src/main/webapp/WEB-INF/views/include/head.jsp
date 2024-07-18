@@ -228,7 +228,7 @@ body {
 	<div style="display: flex; flex-direction: row; gap: 0.8rem;">
 		<aside class="side_container">
 			<c:choose>
-				<c:when test="${ login != null }">
+				<c:when test="${ UserVO != null }">
 					 <div class="side_button" onclick="location.href='/mylittletest/mypage_alarm'">
 	                	마이페이지
 		           	 </div>

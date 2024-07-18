@@ -607,7 +607,7 @@
 			  <!-- 슬라이드 할 요소 -->
 			 <div class="swiper-container"> 
 			  	<div class="swiper-wrapper">
-			  	<c:forEach var="i" begin="0" end="2">
+			  	<c:forEach var="i" begin="0" end="1">
 					<div class="swiper-slide">
 						  <c:forEach var="question" items="${ question }" begin="0" end="3">
 						     	<div class="question_box">
