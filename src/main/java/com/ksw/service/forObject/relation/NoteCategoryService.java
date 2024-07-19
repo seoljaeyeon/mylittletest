@@ -64,6 +64,7 @@ public class NoteCategoryService {
 	    return result;
 	}
 	
+	// 맞춘문제
 	public Integer getRandomNobyCorrectCategoryTitle(String categoryTitle, Integer userNo) {
 		Integer result = 0;
 		if (categoryTitle == null || categoryTitle.equals("")) {

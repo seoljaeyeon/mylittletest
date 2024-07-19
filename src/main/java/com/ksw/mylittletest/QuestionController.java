@@ -99,17 +99,17 @@ public class QuestionController {
 	}
 	
 	// 맞춘문제
-	@GetMapping("/myTest")
+	@GetMapping("/corretmytest")
 	public String Category() {
-		return "redirect:/myTest/category";
+		return "redirect:/corretmytest/category";
 	}
 	
-	@GetMapping("/myTest/category")
+	@GetMapping("/corretmytest/category")
 	public String CategoryPageView()
 	{
 		return "questionlist";
 	}
-	@GetMapping("/myTest/category/{categoryTitle}")
+	@GetMapping("/corretmytest/category/{categoryTitle}")
 	public String getCorrectRandom(
 			@PathVariable("categoryTitle") String categoryTitle, 
 			HttpSession session,
@@ -130,10 +130,10 @@ public class QuestionController {
 		Integer random = noteCategoryService.getRandomNobyCorrectCategoryTitle(categoryTitle, userVO.getUserNo());
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트
-			return "redirect:/myTest/category";
+			return "redirect:/corretmytest/category";
 		}		
 		
-		return "redirect:/myTest/category/"+categoryTitle+"/"+random;
+		return "redirect:/corretmytest/category/"+categoryTitle+"/"+random;
 	}
 	
  	
