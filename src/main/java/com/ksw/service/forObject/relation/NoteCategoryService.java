@@ -28,8 +28,8 @@ public class NoteCategoryService {
 	private NoteCategoryMapper noteCategoryMapper;
 	@Autowired
 	private NoteViewService noteViewservice;
-	
-	public List<Map<String, Object>> findCategoryNoteCountsByTitle(String categoryTitle){
+
+  public List<Map<String, Object>> findCategoryNoteCountsByTitle(String categoryTitle){
 		System.out.println(categoryTitle);
 		List<Map<String, Object>> results = noteCategoryMapper.findCategoryNoteCountsByTitle(categoryTitle);
 		return results;

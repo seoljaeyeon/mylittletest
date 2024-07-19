@@ -19,8 +19,6 @@ public class CategoryDetailService {
 	@Autowired
 	private CategoryService categoryService;
 
-	
-	
 	public List<Map<String, Object>> getCategorySummary(Integer categoryNo, Integer userNo, Integer limit, Integer offset) {
 		// 카운트 / category 객체 로 이루어진 리스트 반환
 	    List<Map<String, Object>> categoryList = categoryDetailMapper.getCategoryWithNoteCount(categoryNo, limit, offset);

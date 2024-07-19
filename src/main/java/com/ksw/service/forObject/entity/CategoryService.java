@@ -32,7 +32,6 @@ public class CategoryService {
 		
 		return results;
 	}
-	
 	public Integer getCategoryNoByTitle(String categoryTitle) {
 		return categoryRepository.findByCategoryTitle(categoryTitle).getCategoryNo();
 	}
