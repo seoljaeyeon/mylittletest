@@ -97,6 +97,45 @@ public class QuestionController {
 		
 		return "redirect:/myTest/category/"+categoryTitle+"/"+random;
 	}
+	
+	// 맞춘문제
+	@GetMapping("/myTest")
+	public String Category() {
+		return "redirect:/myTest/category";
+	}
+	
+	@GetMapping("/myTest/category")
+	public String CategoryPageView()
+	{
+		return "questionlist";
+	}
+	@GetMapping("/myTest/category/{categoryTitle}")
+	public String getCorrectRandom(
+			@PathVariable("categoryTitle") String categoryTitle, 
+			HttpSession session,
+			Model model) {
+		
+        Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
+        if (!auth.isPresent()) {
+            return "redirect:/login";
+        }
+		
+		UserVO userVO = auth.get();
+		String menuName = "맞춘 문제 복습";
+		
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
+		
+		// 사용자가 푼 문제 중, 사용자가 맞춘 문제 중에서 랜덤문제 출제
+		Integer random = noteCategoryService.getRandomNobyCorrectCategoryTitle(categoryTitle, userVO.getUserNo());
+		if (random == null || random == 0) {
+			// 추가적인 처리 또는 오류 페이지로 리다이렉트
+			return "redirect:/myTest/category";
+		}		
+		
+		return "redirect:/myTest/category/"+categoryTitle+"/"+random;
+	}
+	
  	
 	@GetMapping("/myTest/category/{categoryTitle}/{noteNo}")
 	@Transactional
