@@ -53,8 +53,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error("Error recording answer: ", e);
             }
         });
+        
     }
-
+   
     // 팝업요소를 가져온다
     var popup = document.getElementById("popup_report");
 
@@ -615,7 +616,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		display:block;
 	}
 			    
-			    
 </style>
 <!-- 팝업영역  -->
 <div class="popup_wrap" id="popup_report">
@@ -685,7 +685,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
 		<div class="reportbtn" id="reportbtn">🚨</div>
-		<div class="like_btn">❤</div>
+		<div class="bookmark_btn">★</div>
 	</div>
 	<div class="solve_main">
 		<div class="question">
@@ -706,15 +706,17 @@ document.addEventListener("DOMContentLoaded", function() {
 				<div class="next_box">
 					<div class="next" onclick="/mylittletest/myTest/category/${questionVO.categoryVO.categoryTitle}">▷다음문제</div>
 					<div class="mini_box">
-						<div class="like">❤ </div>
-						<div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
+						<div class="like_box">
+							<div class="like">❤ </div>
+							<div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
+						</div>
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
 					<div class="media">
 						<audio id="audioPlayer" class="audioPlayer" controls="controls" loop="loop">
 						  <source src="https://t1.daumcdn.net/cfile/tistory/9945CE425CE45B920A"  type="audio/mpeg"/>
 						</audio>					    
-						<div class="solve_container">
+						<div>
 						    <!-- Your existing HTML content here... -->
 						    <div class="check">
 						        <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO">O</div>

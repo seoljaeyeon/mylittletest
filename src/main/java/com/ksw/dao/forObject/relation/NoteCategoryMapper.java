@@ -114,7 +114,7 @@ public interface NoteCategoryMapper {
             "LIMIT 1")
     Integer getRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
                             @Param("userNo") Integer userNo);
-	
+	//맞춘문제 랜덤 
     @Select("(" +
             "SELECT noteNo FROM (" +
             "  SELECT nu.noteNo " +
@@ -124,10 +124,13 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             "    AND nv.noteNo IS NULL " +
             "    AND IFNULL(f.favoriteType, 0) <> -1 " +
+            "    AND a.answerType = 2 " +   //맞춘 문제를 필터링합니다.
             "  UNION ALL " +
             "  SELECT nu.noteNo " +
             "  FROM noteUser nu " +
@@ -136,9 +139,12 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             "    AND nv.noteNo IS NULL " +
+            "    AND a.answerType = 2 " +  //맞춘 문제를 필터링합니다.
             ") AS subquery " +
             "ORDER BY RAND() " +
             "LIMIT 1" +
@@ -153,9 +159,12 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             "    AND IFNULL(f.favoriteType, 0) <> -1 " +
+            "    AND a.answerType = 2 " +   //맞춘 문제를 필터링합니다.
             "  UNION ALL " +
             "  SELECT nu.noteNo " +
             "  FROM noteUser nu " +
@@ -164,6 +173,8 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             ") AS subquery " +
@@ -173,4 +184,5 @@ public interface NoteCategoryMapper {
             "LIMIT 1")
     Integer getCorrectRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
                             @Param("userNo") Integer userNo);
+   
 }

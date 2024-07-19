@@ -160,6 +160,9 @@ body {
 			padding: 2rem;
 			border-radius: 1rem;
 			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+			display:grid;
+			align-items:center;
+			justify-content:center;
 		}
 		.loginpopup_title {
 			font-size: 18px;
@@ -275,7 +278,7 @@ body {
 			<div class="loginpopup_area">
 				<h1 class="loginpopup_title">로그인이 필요한 메뉴입니다</h1>
 				<div class="loginbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-		            <div class="loginpopup_btn" id="loginok" onclick="location.href='login.jsp'">로그인</div>
+		            <div class="loginpopup_btn" id="loginok" onclick="location.href='/mylittletest/login'">로그인</div>
 		            <div class="deletepopup_btn" id="logindelete" style="background-color:#ffffff;color:black; ">취소</div>
 		        </div>
 			</div>

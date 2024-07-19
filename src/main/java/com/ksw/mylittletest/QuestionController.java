@@ -99,42 +99,41 @@ public class QuestionController {
 	}
 	
 	// 맞춘문제
-	@GetMapping("/corretmytest")
-	public String Category() {
-		return "redirect:/corretmytest/category";
+	@GetMapping("/correctmytest")
+	public String CorrectToCategory() {
+		return "redirect:/correctmytest/category";
 	}
 	
-	@GetMapping("/corretmytest/category")
-	public String CategoryPageView()
+	@GetMapping("/correctmytest/category")
+	public String CorrectToCategoryPageView()
 	{
+		
 		return "questionlist";
 	}
-	
-	@GetMapping("/corretmytest/category/{categoryTitle}")
+	@GetMapping("/correctmytest/category/{categoryTitle}")
 	public String getCorrectRandom(
-			@PathVariable("categoryTitle") String categoryTitle, 
-			HttpSession session,
-			Model model) {
-		
-        Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
-        if (!auth.isPresent()) {
-            return "redirect:/login";
-        }
-		
-		UserVO userVO = auth.get();
-		String menuName = "맞춘 문제 복습";
-		
-		// 사용자 정보 저장
-		model.addAttribute("userVO", userVO);
-		
-		// 사용자가 푼 문제 중, 사용자가 맞춘 문제 중에서 랜덤문제 출제
-		Integer random = noteCategoryService.getRandomNobyCorrectCategoryTitle(categoryTitle, userVO.getUserNo());
-		if (random == null || random == 0) {
-			// 추가적인 처리 또는 오류 페이지로 리다이렉트
-			return "redirect:/corretmytest/category";
-		}		
-		
-		return "redirect:/corretmytest/category/"+categoryTitle+"/"+random;
+	        @PathVariable("categoryTitle") String categoryTitle, 
+	        HttpSession session,
+	        Model model) {
+
+		 UserVO userVO = authService.getUserVO();
+		    if (userVO == null) {
+		        return "redirect:/login";
+		    }
+
+		    System.out.println("Authenticated user: " + userVO);
+		    System.out.println("Requested categoryTitle: " + categoryTitle);
+
+		    Integer random = noteCategoryService.getRandomNobyCorrectCategoryTitle(categoryTitle, userVO.getUserNo());
+		    System.out.println("Random note number: " + random);
+
+		    if (random == null || random == 0) {
+		    	System.out.println("푼 적이 없습니다");
+		        // 쿼리 파라미터로 메시지를 전달
+		        return "redirect:/correctmytest/category?message=NoSolvedQuestions";
+		    }
+
+		    return "redirect:/correctmytest/category/" + categoryTitle + "/" + random;
 	}
 	
  	
@@ -173,6 +172,36 @@ public class QuestionController {
 		
 		UserVO userVO = auth.get();
 		String menuName = "내 문제 풀기";
+		
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
+				
+		// DB에서 문제 정보 가져오기 
+		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
+
+		// 모델에 문제 정보 세팅
+		model.addAttribute("questionVO", questionVO);
+		model.addAttribute("menuName", menuName);
+		
+		return "questionsolve"; 
+	}
+	
+	@GetMapping("/correctmytest/category/{categoryTitle}/{noteNo}")
+	@Transactional
+	public String correctviewPage(
+			@PathVariable("noteNo") Integer noteNo,
+			@PathVariable("categoryTitle") String categoryTitle,
+			Model model,
+			HttpServletRequest request,
+			HttpSession session) { 
+		
+        Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
+        if (!auth.isPresent()) {
+            return "redirect:/login";
+        }
+		
+		UserVO userVO = auth.get();
+		String menuName = "맞춘 문제 풀기";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
