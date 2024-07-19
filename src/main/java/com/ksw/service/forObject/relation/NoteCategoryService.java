@@ -64,33 +64,58 @@ public class NoteCategoryService {
 	    return result;
 	}
 	
-	// 맞춘문제
+	// 맞춘문제 랜덤 보기
 	public Integer getRandomNobyCorrectCategoryTitle(String categoryTitle, Integer userNo) {
-		Integer result = 0;
-		if (categoryTitle == null || categoryTitle.equals("")) {
-			System.out.println("categoryTitle is null. Empty List<NoteDTO> returned");
-			return result;
-		}
-		
+	    // 카테고리 제목이 유효한지 확인
+	    if (categoryTitle == null || categoryTitle.isEmpty()) {
+	        System.out.println("categoryTitle is null or empty");
+	        return 0;
+	    }
 
+	    // 카테고리 번호 가져오기
+	    System.out.println("Fetching category number for title: " + categoryTitle);
 	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
+
+	    // 카테고리 번호가 유효하지 않은 경우
+	    if (categoryNo == null) {
+	        System.out.println("No category found for title: " + categoryTitle);
+	        return 0;
+	    }
+
+	    // 이전에 본 노트 번호 가져오기
+	    System.out.println("Fetched category number: " + categoryNo);
 	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
-	    
-	    result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
-	    
+
+	    // 랜덤 노트 번호 가져오기
+	    Integer result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+
+	    // 랜덤 노트 번호가 없을 경우 처리
+	    if (result == null) {
+	        System.out.println("No random note found. Returning 0.");
+	        return 0;
+	    }
+
+	    System.out.println("Fetched random note number: " + result);
+
+	    // 랜덤 노트 번호가 이전에 본 노트 번호와 같을 경우 재시도
 	    int attempts = 0;
 	    int maxAttempts = 10;
-	    
+
 	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
 	        result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	        if (result == null) {
+	            System.out.println("No random note found on retry. Returning 0.");
+	            return 0;
+	        }
 	        attempts++;
+	        System.out.println("Retrying random note number: " + result);
 	    }
-	    
+
+	    // 재시도 후에도 같은 번호가 나오면 0 반환
 	    if (result.equals(previousNoteNo)) {
-	    	result = 0;
-	    	return result;
+	        result = 0;
 	    }
-	    
+
 	    return result;
 	}
 	
