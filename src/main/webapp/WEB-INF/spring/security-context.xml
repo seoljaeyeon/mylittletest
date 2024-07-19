@@ -45,6 +45,8 @@
 			access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/replyWrite"
 			access="hasRole('ROLE_USER')" />			
+		<security:intercept-url pattern="/index"
+			access="hasRole('ROLE_USER')" />			
         <security:form-login login-page="/login"
             default-target-url="/index" 
             username-parameter="userId"

@@ -1,15 +1,13 @@
 package com.ksw.service.forObject.relation;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dto.forObject.entity.CategoryDTO;
-import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.relation.NoteCategoryDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.Note;
@@ -30,6 +28,12 @@ public class NoteCategoryService {
 	private NoteCategoryMapper noteCategoryMapper;
 	@Autowired
 	private NoteViewService noteViewservice;
+
+  public List<Map<String, Object>> findCategoryNoteCountsByTitle(String categoryTitle){
+		System.out.println(categoryTitle);
+		List<Map<String, Object>> results = noteCategoryMapper.findCategoryNoteCountsByTitle(categoryTitle);
+		return results;
+	}
 	
 	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo) {
 		Integer result = 0;

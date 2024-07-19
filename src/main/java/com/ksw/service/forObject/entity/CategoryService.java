@@ -1,6 +1,6 @@
 package com.ksw.service.forObject.entity;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ksw.dao.forObject.entity.CategoryRepository;
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.object.entity.Category;
+import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.CategoryDetailService;
 import com.ksw.vo.forObject.entity.CategoryVO;
 
@@ -22,7 +23,15 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private CategoryDetailService categoryDetailMapper;
+	@Autowired
+	private NoteCategoryService noteCategoryService;
 	
+	public List<Map<String, Object>> search(String categoryTitle) {
+		
+		List<Map<String,Object>> results = noteCategoryService.findCategoryNoteCountsByTitle(categoryTitle);
+		
+		return results;
+	}
 	public Integer getCategoryNoByTitle(String categoryTitle) {
 		return categoryRepository.findByCategoryTitle(categoryTitle).getCategoryNo();
 	}

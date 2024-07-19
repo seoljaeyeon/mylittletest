@@ -1,6 +1,7 @@
 package com.ksw.dao.forObject.relation;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,12 +11,21 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import com.ksw.object.entity.Category;
-import com.ksw.object.entity.Note;
 import com.ksw.object.relation.NoteCategory;
 
 @Mapper
 public interface NoteCategoryMapper {
-
+	
+	@Select(""
+	        + "SELECT c.categoryTitle AS categoryTitle, "
+	        + "COUNT(nc.noteNo) AS noteCount " 
+	        + "FROM category c " 
+	        + "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " 
+	        + "WHERE c.categoryTitle LIKE CONCAT('%', #{categoryTitle}, '%') " 
+	        + "GROUP BY c.categoryTitle "
+	        + "ORDER BY noteCount DESC")
+	List<Map<String, Object>> findCategoryNoteCountsByTitle(@Param("categoryTitle") String categoryTitle);
+	
 	@Insert(""
 			+ "INSERT INTO noteCategory "
 			+ "(categoryNo, noteNo) "

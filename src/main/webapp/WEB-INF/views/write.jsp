@@ -1,18 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+    uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
 <!-- CSRF 메타 태그 추가 -->
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css"rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
+
 <script>
-	document.addEventListener("DOMContentLoaded",function() {
-		   // CSRF token 설정
+    document.addEventListener("DOMContentLoaded", function() {
+        // CSRF token 설정
         var csrfToken = $("meta[name='_csrf']").attr("content");
         var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
@@ -20,94 +21,97 @@
         console.log("CSRF Header:", csrfHeader);
 
         $("#writeFrm").submit(function(event) {
-	        var form = $(this)[0];
-	        var data = new FormData(form);
+            var form = $(this)[0];
+            var data = new FormData(form);
 
-	        $.ajax({
-	            type: "POST",
-	            enctype: 'multipart/form-data',
-	            url: "/mylittletest/write",
-	            data: data,
-	            processData: false,
-	            contentType: false,
-	            cache: false,
-	            timeout: 600000,
-	            beforeSend: function(xhr) {
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/mylittletest/write",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                beforeSend: function(xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
-                    xhr.setRequestHeader("Accept", "application/json"); 
-	            },
-	            success: function(response) {
-					if (response.status == "success") {
-						window.location.href = response.url;
-					} else if (response.status == "login_needeed") {
-						window.location.href = response.url;
-					} else {
-						window.location.href = response.url;
-					}
-	            },
-	            error: function(e) {
-	                console.log("ERROR : ", e);
-	                window.location.href = "/mylittletest/write"
-	            }
-	        });
-	        event.preventDefault();
-	    });
-        
+                    xhr.setRequestHeader("Accept", "application/json");
+                },
+                success: function(response) {
+                    if (response.status === "success") {
+                        window.location.href = response.url;
+                    } else if (response.status === "login_needed") {
+                        window.location.href = response.url;
+                    } else {
+                        window.location.href = response.url;
+                    }
+                },
+                error: function(e) {
+                    console.log("ERROR : ", e);
+                    window.location.href = "/mylittletest/write";
+                }
+            });
+            event.preventDefault();
+        });
+
         // 중복 데이터 필터링 및 드롭다운 메뉴 설정
         const inputField = document.getElementById('categoryTitle');
         const dropdownMenu = document.createElement('div');
-        
+
         dropdownMenu.classList.add('dropdown-menu');
         inputField.parentNode.appendChild(dropdownMenu);
-        
-     // 기존 데이터 배열입니다.
-		const existingData = [];
-		
-		// 서버에서 데이터를 받아옴
-		 fetch('/category')
-            .then(response => response.json())
-            .then(data => {
-                existingData = data.map(category => category.name);
-            });
-       
-        inputField.addEventListener('input', function() {
-            const inputValue = inputField.value.trim().toUpperCase();
-            dropdownMenu.innerHTML = '';
-            if (inputValue === '') {
-                dropdownMenu.style.display = 'none';
-                return;
-            }
-            
-            
-            
-            const matchingData = existingData.filter(item => item.toUpperCase().includes(inputValue));
-            const dataCounts = countDataOccurrences(matchingData);
-            
-            Object.keys(dataCounts).forEach(item => {
-                const count = dataCounts[item];
-                const option = document.createElement('div');
-                option.textContent = item + ' (' + count + '문제)';
-                option.classList.add('dropdown-item');
-                option.addEventListener('mousedown', function() {
-                    inputField.value = item;
-                    dropdownMenu.style.display = 'none';
+
+        inputField.addEventListener('input', debounce(function() {
+            const inputValue = inputField.value.trim();
+            if (inputValue.length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/mylittletest/categories",
+                    data: { data: inputValue },
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function(response) {
+                        dropdownMenu.innerHTML = '';
+                        if (response.status === "success" && response.data && response.data.length > 0) {
+                            response.data.forEach(function(item) {
+                                const newItem = document.createElement('div');
+                                newItem.textContent = item.categoryTitle + ' | ' + item.noteCount;
+                                newItem.classList.add('dropdown-item');
+                                newItem.addEventListener('mousedown', function() {
+                                    inputField.value = item.categoryTitle;
+                                    dropdownMenu.style.display = 'none';
+                                });
+                                dropdownMenu.appendChild(newItem);
+                            });
+                            dropdownMenu.style.display = 'block';
+                        } else {
+                            dropdownMenu.style.display = 'none';
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error fetching data:", error);
+                        dropdownMenu.style.display = 'none';
+                    }
                 });
-                dropdownMenu.appendChild(option);
-            });
-            dropdownMenu.style.display = Object.keys(dataCounts).length > 0 ? 'block' : 'none';
-        });
+            } else {
+                dropdownMenu.style.display = 'none';
+            }
+        }, 500));
+
         inputField.addEventListener('blur', function() {
             setTimeout(() => {
                 dropdownMenu.style.display = 'none';
             }, 100);
         });
 
-        function countDataOccurrences(dataArray) {
-            const counts = {};
-            dataArray.forEach(item => {
-                counts[item.toUpperCase()] = counts[item.toUpperCase()] ? counts[item.toUpperCase()] + 1 : 1;
-            });
-            return counts;
+        function debounce(func, delay) {
+            let debounceTimer;
+            return function(...args) {
+                const context = this;
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(context, args), delay);
+            };
         }
 
         // 제목 밑줄 조정
@@ -213,12 +217,12 @@
             var fileName = $(this).val().split('\\').pop();
             $(this).next('.custom-file-label').html(fileName);
         });
-});
-function goBack() {
-    window.history.back();
-}
-</script>
+    });
 
+    function goBack() {
+        window.history.back();
+    }
+</script>
 <style>
 .container {
 	display: inline-flex;
