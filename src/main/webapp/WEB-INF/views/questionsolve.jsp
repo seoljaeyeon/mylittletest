@@ -1,18 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-	    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
-	    <%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-	    <meta name="_csrf" content="${_csrf.token}" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <jsp:include page="./include/head.jsp"></jsp:include>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-		//팝업요소를 가져온다
+	// CSRF token 설정
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+    const btnO = document.getElementById("btnO");
+    const btnX = document.getElementById("btnX");
+    const noteNo = document.getElementById("noteNo").value; // 숨겨진 필드에서 값 가져오기
+
+    btnO.addEventListener("click", () => {
+        btnO.classList.add("clicked");
+        btnX.classList.remove("clicked2");
+        sendAnswer(2);
+    });
+
+    btnX.addEventListener("click", () => {
+        btnX.classList.add("clicked2");
+        btnO.classList.remove("clicked");
+        sendAnswer(1);
+    });
+
+    function sendAnswer(answerType) {
+        $.ajax({
+            type: "POST",
+            url: "/mylittletest/answer",
+            data: {
+                noteNo: noteNo,
+                answerType: answerType
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function(response) {
+                if (response.status === "success") {
+                    console.log("Answer recorded successfully.");
+                } else if (response.status === "login_needed") {
+                    window.location.href = response.url;
+                } else {
+                    console.error("Failed to record answer.");
+                }
+            },
+            error: function(e) {
+                console.error("Error recording answer: ", e);
+            }
+        });
+    }
+
+    // 팝업요소를 가져온다
     var popup = document.getElementById("popup_report");
 
-    //팝업 오픈버튼을 가져옴
+    // 팝업 오픈버튼을 가져옴
     var popupOpenButton = document.getElementById("reportbtn");
 
     // 버튼에 클릭이벤트 추가
@@ -25,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
     popupCloseButton.addEventListener("click", function() {
         popup.classList.remove("show");
     });
-    
+
     // 댓글 신고 팝업요소를 가져온다
     var popupReply = document.getElementById("popup_reply");
 
@@ -45,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
     popupCloseButtonReply.addEventListener("click", function() {
         popupReply.classList.remove("show");
     });
-    
+
     // 북마크 버튼 애니메이션
     const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
 
@@ -54,14 +100,16 @@ document.addEventListener("DOMContentLoaded", function() {
             this.classList.toggle('bookmarked');
         });
     });
+
     // 좋아요 버튼 애니메이션
     const likeBtns = document.querySelectorAll('.like');
 
     likeBtns.forEach(function(Btn) {
-    	Btn.addEventListener('click', function() {
+        Btn.addEventListener('click', function() {
             this.classList.toggle('liked');
         });
     });
+
     // 공유하기 버튼 기능 추가
     const shareBtn = document.getElementById('sharebtn');
     shareBtn.addEventListener('click', function() {
@@ -80,33 +128,24 @@ document.addEventListener("DOMContentLoaded", function() {
             alert('이 브라우저는 공유 기능을 지원하지 않습니다.');
         }
     });
+
     // 팁박스보기
-   document.getElementById("tip").addEventListener("click", function() {
-		    this.style.opacity = "0"; // tip 클릭 시 opacity 0으로 변환
-		    setTimeout(() => {
-		        document.getElementById("showtip").style.opacity = "1"; // 0.5초 후 showtip이 나타나도록 변환
-		    }, 500);
-		});
-    //정답박스보기
+    document.getElementById("tip").addEventListener("click", function() {
+        this.style.opacity = "0"; // tip 클릭 시 opacity 0으로 변환
+        setTimeout(() => {
+            document.getElementById("showtip").style.opacity = "1"; // 0.5초 후 showtip이 나타나도록 변환
+        }, 500);
+    });
+
+    // 정답박스보기
     document.getElementById("answer").addEventListener("click", function() {
-	        this.classList.add("clicked"); // answer 클릭 시 opacity 0으로 변환
-	        setTimeout(() => {
-	            document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
-	        }, 500);
-	    });
-    //정답 오답체크
-    const btnO = document.getElementById("btnO");
-    const btnX = document.getElementById("btnX");
-
-    btnO.addEventListener("click", () => {
-        btnO.classList.toggle("clicked");
+        this.classList.add("clicked"); // answer 클릭 시 opacity 0으로 변환
+        setTimeout(() => {
+            document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
+        }, 500);
     });
 
-    btnX.addEventListener("click", () => {
-        btnX.classList.toggle("clicked2");
-    });
-    
-    //오디오 재생
+    // 오디오 재생
     const audioPlayer = document.getElementById('audioPlayer');
 
     // 오디오 요소 클릭 이벤트 핸들러
@@ -122,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
             audioPlayer.currentTime = newTime;
         }
     });
-  });
+});
 </script>
 <style>
 	.solve_container{
@@ -675,9 +714,13 @@ document.addEventListener("DOMContentLoaded", function() {
 						<audio id="audioPlayer" class="audioPlayer" controls="controls" loop="loop">
 						  <source src="https://t1.daumcdn.net/cfile/tistory/9945CE425CE45B920A"  type="audio/mpeg"/>
 						</audio>					    
-						<div class="check">
-							<div class="success_btn" id="btnO">O</div>
-							<div class="success_btn" id="btnX">X</div>
+						<div class="solve_container">
+						    <!-- Your existing HTML content here... -->
+						    <div class="check">
+						        <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO">O</div>
+						        <div class="success_btn ${questionVO.answerType == 1 ? 'clicked2' : ''}" id="btnX">X</div>
+						    </div>
+						    <!-- More of your existing HTML content... -->
 						</div>
 					</div>
 				</div>	
@@ -688,7 +731,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		</div>
 	</div>
 	<div class="reply_container">
-		<c:if test="${ sessionScope.login != null }">
+		<c:if test="${ userVO != null }">
 		<form id="replyFrm" name="replyFrm" method="post" action="/mylittletest/replyWrite">
 	    	<sec:csrfInput/>
 	    	<input type="hidden" name="noteNo" id="noteNo" value="${questionVO.noteVO.noteNo}">
@@ -701,9 +744,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		</form>
 		</c:if>
 		<div class="reply">
-		<c:forEach var="reply" items="${ reply }">
+		<c:forEach var="reply" items="${ questionVO.replies }">
 			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">${ reply.profil }</div>
+				<div class="reply_profiles" style="font-size:30px;">${ questionVO.replies[0].userVO.nickname }</div>
 				<div class="replynote">
 					${questionVO.replies[0].replyVO.replyContent}
 					<div class="reply_date" id="reply_report">🚨신고 <span>${questionVO.replies[0].replyVO.createdAt}</span></div>

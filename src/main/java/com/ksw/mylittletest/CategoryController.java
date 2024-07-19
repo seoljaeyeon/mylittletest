@@ -96,6 +96,9 @@ public class CategoryController {
 	    try {
 	    	List<Map<String, Object>> result = categoryService.search(data);
 	    	response.put("status", "success");
+	    	if (result.isEmpty()) {
+	    		response.put("data", data+"| 게시물 없음");
+	    	}
 	    	response.put("data", result);
 	    	
 	    } catch (Exception e) {

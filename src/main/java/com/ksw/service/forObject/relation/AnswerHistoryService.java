@@ -25,6 +25,15 @@ public class AnswerHistoryService {
 	@Autowired
 	private AnswerHistoryMapper answerHistoryMapper;
 	
+	public Integer updateHistory(Integer noteNo, Integer answerNo, Integer userNo) {
+		if (noteNo == null || answerNo == null || userNo == null) {
+			return -1;
+		}
+		
+		Integer result = answerHistoryMapper.updateHistory(noteNo, answerNo, userNo);
+		return result;	
+	}
+	
 	public Integer insertHistory(Integer noteNo, Integer answerNo, Integer userNo) {
 		if (noteNo == null || answerNo == null || userNo == null) {
 			return -1;
@@ -34,6 +43,14 @@ public class AnswerHistoryService {
 		return result;
 	}
 		
+	
+	public Integer getAnswerNoByNoteNoAndUserNo(Integer noteNo, Integer userNo) {
+		if(noteNo == null || userNo == null) {
+			return -1;
+		}
+		Integer result = answerHistoryMapper.getAnswerNoByNoteNoAndUserNo(noteNo, userNo);
+		return result;
+	}
 	
 	public Integer getAnswerHistoryByNoteNoAndUserNo(Integer noteNo, Integer userNo) {
 		if (noteNo == null || userNo == null) {
