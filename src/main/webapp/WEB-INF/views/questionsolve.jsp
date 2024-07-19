@@ -13,6 +13,40 @@ document.addEventListener("DOMContentLoaded", function() {
     var csrfToken = $("meta[name='_csrf']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
+    const solveAllBtn = document.querySelector(".solve_all");
+    const categoryTitleElement = document.getElementById("categoryTitleName");
+
+    solveAllBtn.addEventListener("click", function() {
+        const noteType = 4; // category에 포함되는 notelist 페이지 코
+        const categoryTitle = categoryTitleElement.innerText;
+
+        fetch('/mylittletest/notelist/'+noteType, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify({
+                noteType: noteType,
+                categoryTitle: categoryTitle,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                // 리다이렉트
+                window.location.href = data.url;
+            } else if (data.status === "login_needed") {
+                window.location.href = data.url;
+            } else {
+                console.error("Failed to get notes.");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching notes:", error);
+        });
+    });
+    
     const btnO = document.getElementById("btnO");
     const btnX = document.getElementById("btnX");
     const noteNo = document.getElementById("noteNo").value; // 숨겨진 필드에서 값 가져오기
@@ -672,7 +706,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- 팝업영역 -->
 <div class="solve_container">
 	<div class="solve_header">
-		<div class="solve_title"><span>▷${questionVO.categoryVO.categoryTitle}</span></div>
+		<div class="solve_title">▷<span name="categoryTitleName" id="categoryTitleName">${questionVO.categoryVO.categoryTitle}</span></div>
 		<div class="solve_list">
 			<div class="solve_question" style="margin-top:5px;"><span>내 문제 풀기</span></div>
 			<div class="solve_all" style="margin-top:15px;"><span style="font-size:12px;">문제 전체 보기</span></div>

@@ -1,5 +1,8 @@
 package com.ksw.service.forObject.relation;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,11 @@ public class FavoriteNoteService {
 	private UserService userService;
 	@Autowired
 	private FavoriteNoteMapper favoriteNoteMapper;
+	
+	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo){
+		List<Map<String,Object>> results = favoriteNoteMapper.getNoteListByUserNo(userNo);
+		return results;
+	}
 	
 	public Integer updateFavorite(
 			Integer noteNo,
