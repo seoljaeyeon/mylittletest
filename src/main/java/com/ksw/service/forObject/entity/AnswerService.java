@@ -15,6 +15,13 @@ import java.util.stream.Collectors;
 @Service
 public class AnswerService {
 
+	@Autowired
+	private AnswerRepository answerRepository;
+	
+	public AnswerDTO save(Answer answer) {
+		return this.convertToDTO(answerRepository.save(answer));
+	}
+	
     public Answer convertToEntity(AnswerDTO answerDTO) {
     	Answer answer = new Answer();
     	if (answerDTO == null) {

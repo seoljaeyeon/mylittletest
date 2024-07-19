@@ -11,25 +11,15 @@ import com.ksw.object.relation.NoteView;
 public interface NoteViewMapper {
 
 	
-//		잠시 비활성
-//    @Insert(""
-//            + "INSERT INTO noteUser (noteNo, viewNo, userNo, createdAt) "
-//            + "SELECT #{noteNo}, #{viewNo}, #{userNo}, #{createdAt} FROM DUAL "
-//            + "WHERE NOT EXISTS ("
-//            + "  SELECT 1 FROM ("
-//            + "    SELECT 1 FROM noteUser nu "
-//            + "    WHERE nu.noteNo = #{noteNo} "
-//            + "    AND nu.viewNo = #{viewNo} "
-//            + "    AND nu.userNo = #{userNo} "
-//            + "    ORDER BY nu.createdAt DESC "
-//            + "    LIMIT 1"
-//            + "  ) As subquery "
-//            + "  WHERE TIMESTAMPDIFF(MINUTE, subquery.createdAt, #{createdAt}) <= 5)"
-//            + "")
-//	void insert(@Param("viewNo") Integer viewNo,
-//				@Param("noteNo") Integer noteNo,
-//				@Param("userNo") Integer userNo, 
-//				@Param("createdAt") Timestamp createdAt);
+	
+	@Select(""
+			+ "SELECT n.noteNo, nv.createdAt FROM note n JOIN noteCategory nc ON n.noteNo = nc.noteNo "
+			+ "JOIN noteView nv ON n.noteNo = nv.noteNo "
+			+ "WHERE nc.categoryNo = #{categoryNo} AND nv.userNo = #{userNo} "
+			+ "ORDER BY createdAt DESC "
+			+ "LIMIT 1" 
+			)
+	Integer getPreviousNoteNo(@Param("categoryNo") Integer categoryNo, @Param("userNo") Integer userNo);
 	
 	@Insert(""
 			+ "INSERT INTO noteView (noteNo, viewNo, userNo, createdAt) "

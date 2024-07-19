@@ -31,6 +31,10 @@ public class NoteViewService {
 	@Autowired
 	private NoteViewMapper noteViewMapper;
 	
+	public Integer getPreviousNoteNo(Integer categoryNo, Integer userNo) {
+		return noteViewMapper.getPreviousNoteNo(categoryNo, userNo);
+	}
+	
 	public Boolean checkRecentViewHistory(Integer noteNo, Integer userNo) {
 		System.out.println("DB최근 정보 조회: "+noteViewMapper.checkRecentViewHistory(noteNo, userNo));
 		if (noteViewMapper.checkRecentViewHistory(noteNo, userNo) == 0) {

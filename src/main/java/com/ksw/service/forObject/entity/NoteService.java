@@ -10,7 +10,7 @@ import com.ksw.dao.forObject.entity.NoteRepository;
 import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.object.entity.Note;
-import com.ksw.service.forObject.relation.FavoriteNoteService;
+//import com.ksw.service.forObject.relation.FavoriteNoteService;
 import com.ksw.vo.forObject.entity.NoteVO;
 
 @Service
@@ -19,8 +19,8 @@ public class NoteService {
     @Autowired
     private NoteRepository noteRepository;
     
-    @Autowired
-    FavoriteNoteService favoriteNoteService;
+//    @Autowired
+//    FavoriteNoteService favoriteNoteService;
     
     @Autowired
     NoteCategoryMapper noteCategoryMapper;

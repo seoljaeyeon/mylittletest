@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ksw.dao.forObject.relation.FavoriteNoteMapper;
+import com.ksw.dto.forObject.entity.FavoriteDTO;
 import com.ksw.dto.forObject.relation.FavoriteNoteDTO;
 import com.ksw.object.entity.Favorite;
 import com.ksw.object.relation.FavoriteNote;
@@ -29,14 +30,19 @@ public class FavoriteNoteService {
 			Integer userNo,
 			Integer requestType) {
 		
-		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
-		
-		// 있으면 등록안하고, 에러코드 발행
-		if(favoriteNo!=null) {
-			System.out.println("5초 내 기록 있음");
-			return 100;
-		};
+		// DB로 최근 해당 요청과 같은 형태의 기록이 있는 지 먼저 확인
+		FavoriteDTO favoriteDTO= favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
+		Integer favoriteNo = null;
+		if (favoriteDTO != null) {
+			long currentTime = System.currentTimeMillis();
+			long timeDifference = currentTime - favoriteDTO.getCreatedAt().getTime();
+			favoriteNo = favoriteDTO.getFavoriteNo();
+			if(favoriteNo!=null && timeDifference <= 5000) {
+			// 있으면 시간 초 확인 해보고, 등록안하고, 에러코드 발행
+				System.out.println("5초 내 기록 있음");
+				return 100;
+			};
+		}
 		
 		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
 		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
@@ -52,14 +58,18 @@ public class FavoriteNoteService {
 			Integer requestType,
 			Integer targetType) {
 		
-		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
-		
-		// 있으면 등록안하고, 에러코드 발행
-		if(favoriteNo!=null) {
-			System.out.println("5초 내 기록 있음");
-			return 100;
-		};
+		FavoriteDTO favoriteDTO= favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
+		Integer favoriteNo = null;
+		if (favoriteDTO != null) {
+			long currentTime = System.currentTimeMillis();
+			long timeDifference = currentTime - favoriteDTO.getCreatedAt().getTime();
+			favoriteNo = favoriteDTO.getFavoriteNo();
+			if(favoriteNo!=null && timeDifference <= 5000) {
+			// 있으면 시간 초 확인 해보고, 등록안하고, 에러코드 발행
+				System.out.println("5초 내 기록 있음");
+				return 100;
+			};
+		}
 		
 		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
 		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
@@ -75,15 +85,19 @@ public class FavoriteNoteService {
 			Integer requestType,
 			Integer targetType) {
 		
-		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
-		
-		// 있으면 등록안하고, 에러코드 발행
-		if(favoriteNo!=null) {
-			System.out.println("5초 내 기록 있음");
-			return 100;
-		};
-		
+		FavoriteDTO favoriteDTO= favoriteNoteMapper.checkRecentFavoriteRequest(noteNo, userNo);
+		Integer favoriteNo = null;
+		if (favoriteDTO != null) {
+			long currentTime = System.currentTimeMillis();
+			long timeDifference = currentTime - favoriteDTO.getCreatedAt().getTime();
+			favoriteNo = favoriteDTO.getFavoriteNo();
+			if(favoriteNo!=null && timeDifference <= 5000) {
+			// 있으면 시간 초 확인 해보고, 등록안하고, 에러코드 발행
+				System.out.println("5초 내 기록 있음");
+				return 100;
+			};
+		}
+
 		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
 		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
 		favoriteNoteMapper.insert(noteNo, userNo, favoriteNo);

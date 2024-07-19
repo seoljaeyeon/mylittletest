@@ -1,5 +1,10 @@
 package com.ksw.service.forObject.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ksw.dao.forObject.entity.CategoryRepository;
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.object.entity.Category;
+import com.ksw.service.function.CategoryDetailService;
 import com.ksw.vo.forObject.entity.CategoryVO;
 
 @Service
@@ -14,6 +20,26 @@ public class CategoryService {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private CategoryDetailService categoryDetailMapper;
+	
+	public Integer getCategoryNoByTitle(String categoryTitle) {
+		return categoryRepository.findByCategoryTitle(categoryTitle).getCategoryNo();
+	}
+	
+	public List<Map<String, Object>>getListByViewOrder(Integer categoryNo, Integer userNo, Integer page) {
+		
+		if (categoryNo == null || userNo == null|| page == null) {
+			System.out.println("One of parameters is null. getListByViewOrder failed");
+			return null;
+		}
+		
+		Integer limit = 20;
+		int offset = (page - 1) * limit;
+	    List<Map<String, Object>> list = categoryDetailMapper.getCategorySummary(categoryNo, userNo, limit, offset);
+		
+		return list;
+	}
 
 	@Transactional
     public Category saveCategory(Category category) {

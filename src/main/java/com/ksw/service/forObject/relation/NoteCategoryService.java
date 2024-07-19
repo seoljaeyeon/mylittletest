@@ -28,6 +28,8 @@ public class NoteCategoryService {
 	private NoteService noteService;
 	@Autowired
 	private NoteCategoryMapper noteCategoryMapper;
+	@Autowired
+	private NoteViewService noteViewservice;
 	
 	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo) {
 		Integer result = 0;
@@ -35,8 +37,27 @@ public class NoteCategoryService {
 			System.out.println("categoryTitle is null. Empty List<NoteDTO> returned");
 			return result;
 		}
-		result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
-		return result;
+		
+
+	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
+	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
+	    
+	    result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+	    
+	    int attempts = 0;
+	    int maxAttempts = 10;
+	    
+	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	        result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+	        attempts++;
+	    }
+	    
+	    if (result.equals(previousNoteNo)) {
+	    	result = 0;
+	    	return result;
+	    }
+	    
+	    return result;
 	}
 	
 	public CategoryDTO getCategorybyNoteNo(Integer noteNo) {

@@ -1,14 +1,61 @@
 package com.ksw.mylittletest;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.ksw.service.forObject.entity.CategoryService;
+import com.ksw.service.forObject.relation.AnswerHistoryService;
+import com.ksw.service.forObject.relation.CategoryUserService;
+import com.ksw.service.forObject.relation.CategoryViewService;
+import com.ksw.service.forObject.relation.NoteCategoryService;
+import com.ksw.service.function.AuthService;
+import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
 public class CategoryController {
 
+	@Autowired
+	private AnswerHistoryService answerHistoryService;
+	@Autowired
+	private CategoryUserService categoryUserService;
+	@Autowired
+	private	NoteCategoryService noteCategoryService;
+	@Autowired
+	private	CategoryViewService categoryViewService;
+	@Autowired
+	private	CategoryService categoryService;
+	@Autowired
+	private AuthService authService;
+	
 	@GetMapping("/category")
-	public String categoryMain() {
-		return "questionlist.jsp";
+	public String categoryMain(
+			Model model,
+			Integer categoryNo,
+	        @RequestParam(value = "page", defaultValue = "1") Integer page
+			) {
+		UserVO userVO = authService.getUserVO();
+		
+		if (userVO == null) {
+			return "redirect:/login";
+		}
+		
+		List<Map<String, Object>> list = categoryService.getListByViewOrder(categoryNo, userVO.getUserNo(), page);
+        model.addAttribute("categoryDetail", list);
+        
+//		글 목록
+//		- 4개씩 보이게 해야함
+//		- 카테고리 이름,카테고리번호 받아야함
+//		- 정답률,출제자수,좋아요수,문제수 가져와야함 (정답률,출제자수는 꼭 필요한가? 뺴야될건 빼야할거같음)
+		// 진행률?-> answerHistory? 출제자 수? -> categoryUser? 문제 수? -> NoteCategory
+//		- 드랍다운에 클릭했을떄 보여주는 주소적어놓음 (DB구현필요)
+		
+		return "questionlist";
 	}
 	
 }
