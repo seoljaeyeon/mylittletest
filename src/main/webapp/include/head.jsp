@@ -156,6 +156,7 @@
             height: calc(90vh - 8.8rem);
             min-height:calc(90vh - 8.8rem);
             max-height: calc(90vh - 8.8rem);
+         
         }
         
         /* 팝업스타일  */

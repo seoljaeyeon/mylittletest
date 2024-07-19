@@ -465,9 +465,6 @@ document.addEventListener("DOMContentLoaded", function() {
         color: #ffffff;
     }
     .write_btn, .reset_btn {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
         box-shadow: 0.3rem 0.3rem 0.7rem #696969, -0.3rem -0.3rem 0.7rem #696969;
         background-color: #333333;
         color: #ffffff;
