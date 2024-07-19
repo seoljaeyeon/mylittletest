@@ -29,11 +29,17 @@ public class NoteCategoryService {
 	@Autowired
 	private NoteViewService noteViewservice;
 
-  public List<Map<String, Object>> findCategoryNoteCountsByTitle(String categoryTitle){
+	
+	public List<Map<String, Object>> getNoteListByCategoryTitle(String categoryTitle) {
+		List<Map<String, Object>> results = noteCategoryMapper.getNoteListByUserNo(categoryTitle);
+		return results;
+	}
+	
+	public List<Map<String, Object>> findCategoryNoteCountsByTitle(String categoryTitle){
 		System.out.println(categoryTitle);
 		List<Map<String, Object>> results = noteCategoryMapper.findCategoryNoteCountsByTitle(categoryTitle);
 		return results;
-	}
+		}
 	
 	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo) {
 		Integer result = 0;

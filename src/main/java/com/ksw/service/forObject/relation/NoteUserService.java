@@ -1,5 +1,8 @@
 package com.ksw.service.forObject.relation;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,11 @@ public class NoteUserService {
 	@Autowired
 	private NoteUserMapper noteUserMapper; 
 
+	public List<Map<String,Object>> getNoteListByUserNo(Integer userNo){
+		List<Map<String,Object>> result = noteUserMapper.getNoteListByUserNo(userNo);
+		return result;
+	}
+	
 	public UserDTO getUserByNoteNo(Integer noteNo) {
 		UserDTO user = new UserDTO();
 		if (noteNo == null) {

@@ -15,6 +15,20 @@ import com.ksw.object.relation.NoteCategory;
 
 @Mapper
 public interface NoteCategoryMapper {
+
+	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
+	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
+	        + "COUNT(nr.replyNo) AS reply_count "
+	        + "FROM note n "
+	        + "JOIN noteCategory nc ON nc.noteNo = n.noteNo "
+	        + "JOIN category c ON c.categoryNo = nc.categoryNo "
+	        + "LEFT JOIN favoriteNote fn ON fn.noteNo = n.noteNo "
+	        + "LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo "
+	        + "LEFT JOIN noteReply nr ON nr.noteNo = n.noteNo "
+	        + "WHERE c.categoryTitle = #{categoryTitle} "
+	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt "
+	        + "ORDER BY n.createdAt DESC")
+	List<Map<String, Object>> getNoteListByUserNo(@Param("categoryTitle") String categoryTitle);
 	
 	@Select(""
 	        + "SELECT c.categoryTitle AS categoryTitle, "
