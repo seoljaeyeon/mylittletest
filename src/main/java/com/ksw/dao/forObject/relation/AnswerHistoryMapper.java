@@ -9,6 +9,12 @@ import java.util.List;
 @Mapper
 public interface AnswerHistoryMapper {
 
+
+	@Update("UPDATE answerHistory "
+	        + "SET answerNo = #{answerNo} "
+	        + "WHERE noteNo = #{noteNo} AND userNo = #{userNo}")
+	Integer updateHistory(@Param("noteNo") Integer noteNo, @Param("answerNo") Integer answerNo, @Param("userNo") Integer userNo);
+
 	@Insert("INSERT INTO answerHistory "
 			+ "(noteNo, answerNo, userNo) "
 			+ "VALUES (#{noteNo}, #{answerNo}, #{userNo})")
@@ -21,6 +27,12 @@ public interface AnswerHistoryMapper {
     		+ "AND ah.userNo = #{userNo} "
     		+ "ORDER BY a.createdat DESC LIMIT 1")
     Integer findAnswerByNoteNoAndUserNo(@Param("noteNo") Integer noteNo, @Param("userNo") Integer userNo);
+    
+    @Select("SELECT answerNo "
+    		+ "FROM answerHistory "
+    		+ "WHERE noteNo = #{noteNo} AND userNo = #{userNo} "
+    		+ "LIMIT 1")
+    Integer getAnswerNoByNoteNoAndUserNo(@Param("noteNo") Integer noteNo, @Param("userNo") Integer userNo);
 
     @Select("SELECT * FROM answerHistory WHERE noteNo = #{noteNo}")
     List<AnswerHistory> findByNoteNo(Integer noteNo);
