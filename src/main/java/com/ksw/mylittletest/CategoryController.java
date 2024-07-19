@@ -1,13 +1,19 @@
 package com.ksw.mylittletest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.AnswerHistoryService;
@@ -58,4 +64,47 @@ public class CategoryController {
 		return "questionlist";
 	}
 	
+	@PostMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+	public Map<String, Object> categoriesInSearchBar(
+			@RequestParam("data") String data,
+			HttpSession session
+			){
+		UserVO userVO = authService.getUserVO();
+		Map<String, Object> response = new HashMap<>();
+		if (userVO == null) {
+			response.put("status", "login_needed");
+			response.put("url", "/mylittletest/login");
+			return response;
+		}
+		
+		if (data == null) {
+			response.put("status", "parameter_null");
+			return response;
+		}
+		
+	    // 이전 요청 시간이 있는지 확인
+	    Long previousRequestTime = (Long) session.getAttribute("requestTime");
+	    Long currentTime = System.currentTimeMillis();
+
+	    if (previousRequestTime != null && (currentTime - previousRequestTime) < 500) {
+	        response.put("status", "too_early");
+	        return response;
+	    }
+
+	    // 현재 요청 시간을 세션에 저장
+	    session.setAttribute("requestTime", currentTime);
+	    try {
+	    	List<Map<String, Object>> result = categoryService.search(data);
+	    	response.put("status", "success");
+	    	response.put("data", result);
+	    	
+	    } catch (Exception e) {
+	    	response.put("status", "failed");
+	    	e.printStackTrace();
+	    	System.out.println("문제있");
+	    	return response;
+	    }
+		return response;
+	}
 }
