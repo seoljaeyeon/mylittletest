@@ -64,6 +64,36 @@ public class NoteCategoryService {
 	    return result;
 	}
 	
+	public Integer getRandomNobyCorrectCategoryTitle(String categoryTitle, Integer userNo) {
+		Integer result = 0;
+		if (categoryTitle == null || categoryTitle.equals("")) {
+			System.out.println("categoryTitle is null. Empty List<NoteDTO> returned");
+			return result;
+		}
+		
+
+	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
+	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
+	    
+	    result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	    
+	    int attempts = 0;
+	    int maxAttempts = 10;
+	    
+	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	        result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	        attempts++;
+	    }
+	    
+	    if (result.equals(previousNoteNo)) {
+	    	result = 0;
+	    	return result;
+	    }
+	    
+	    return result;
+	}
+	
+	
 	public CategoryDTO getCategorybyNoteNo(Integer noteNo) {
 		CategoryDTO dto = new CategoryDTO();
 		if (noteNo == null) {

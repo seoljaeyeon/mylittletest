@@ -52,6 +52,7 @@ body {
 	height: calc(90vh - 8.8rem);
 	min-height: calc(90vh - 8.8rem);
 	max-height: calc(90vh - 8.8rem);
+	min-width:10rem;
 }
 
 .side_button {
