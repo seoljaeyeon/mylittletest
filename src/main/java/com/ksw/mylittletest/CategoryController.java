@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.AnswerHistoryService;
 import com.ksw.service.forObject.relation.CategoryUserService;
@@ -23,6 +25,7 @@ import com.ksw.service.function.AuthService;
 import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
+@RequestMapping("/category")
 public class CategoryController {
 
 	@Autowired
@@ -38,13 +41,25 @@ public class CategoryController {
 	@Autowired
 	private AuthService authService;
 	
-	@GetMapping("/category")
+	@GetMapping
 	public String categoryMain(
 			Model model,
 			Integer categoryNo,
 	        @RequestParam(value = "page", defaultValue = "1") Integer page
 			) {
 		UserVO userVO = authService.getUserVO();
+		
+		if ((Integer) model.getAttribute("menuType") == 1) {
+			model.addAttribute("menuType", "내 문제 풀기");
+		} else if ((Integer) model.getAttribute("menuType") == 2) {
+			model.addAttribute("menuType", "틀린 문제 복습");
+		}else if ((Integer) model.getAttribute("menuType") == 3) {
+			model.addAttribute("menuType", "맞춘 문제 복습");
+		}else if ((Integer) model.getAttribute("menuType") == 4) {
+			model.addAttribute("menuType", "오늘 본 문제 복습");
+		}else if ((Integer) model.getAttribute("menuType") == 5) {
+			model.addAttribute("menuType", "북마크 문제 복습");
+		}
 		
 		if (userVO == null) {
 			return "redirect:/login";

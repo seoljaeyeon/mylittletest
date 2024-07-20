@@ -41,42 +41,17 @@ public class NoteCategoryService {
 		return results;
 		}
 	
-	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo) {
+	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo, Integer menuType) {
+		
+		// menuType - 1 :: mytest, 내 문제 풀기
+		// menuType - 2 :: correctmytest, 틀린 문제 복습
+		// menuType - 3 :: reviewmytest, 맞춘 문제 복습
+		// menuType - 4 :: todayquestions, 오늘 본 문제 복습
 		Integer result = 0;
 		if (categoryTitle == null || categoryTitle.equals("")) {
 			System.out.println("categoryTitle is null. Empty List<NoteDTO> returned");
 			return result;
 		}
-		
-
-	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
-	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
-	    
-	    result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
-	    
-	    int attempts = 0;
-	    int maxAttempts = 10;
-	    
-	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
-	        result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
-	        attempts++;
-	    }
-	    
-	    if (result.equals(previousNoteNo)) {
-	    	result = 0;
-	    	return result;
-	    }
-	    
-	    return result;
-	}
-	
-	// 맞춘문제 랜덤 보기
-	public Integer getRandomNobyCorrectCategoryTitle(String categoryTitle, Integer userNo) {
-	    // 카테고리 제목이 유효한지 확인
-	    if (categoryTitle == null || categoryTitle.isEmpty()) {
-	        System.out.println("categoryTitle is null or empty");
-	        return 0;
-	    }
 
 	    // 카테고리 번호 가져오기
 	    System.out.println("Fetching category number for title: " + categoryTitle);
@@ -90,31 +65,46 @@ public class NoteCategoryService {
 
 	    // 이전에 본 노트 번호 가져오기
 	    System.out.println("Fetched category number: " + categoryNo);
-	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
+	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);	    
+    	
+    	int attempts = 0;
+    	int maxAttempts = 10;
+	    
+	    if (menuType == 1) {
+	    	result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
 
-	    // 랜덤 노트 번호 가져오기
-	    Integer result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 2) {
+	    	result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
 
-	    // 랜덤 노트 번호가 없을 경우 처리
-	    if (result == null) {
-	        System.out.println("No random note found. Returning 0.");
-	        return 0;
-	    }
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 3) {
+	    	result = noteCategoryMapper.getReviewRandomNoteNo(categoryTitle, userNo);
 
-	    System.out.println("Fetched random note number: " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getReviewRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 4) {
+	    	result = noteCategoryMapper.getTodayQuestionRandomNoteNo(categoryTitle, userNo);
 
-	    // 랜덤 노트 번호가 이전에 본 노트 번호와 같을 경우 재시도
-	    int attempts = 0;
-	    int maxAttempts = 10;
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getTodayQuestionRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 5) {
+	    	result = noteCategoryMapper.getBookmarkQuestionRandomNoteNo(categoryTitle, userNo);
 
-	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
-	        result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
-	        if (result == null) {
-	            System.out.println("No random note found on retry. Returning 0.");
-	            return 0;
-	        }
-	        attempts++;
-	        System.out.println("Retrying random note number: " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getBookmarkQuestionRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
 	    }
 
 	    // 재시도 후에도 같은 번호가 나오면 0 반환
@@ -124,7 +114,6 @@ public class NoteCategoryService {
 
 	    return result;
 	}
-	
 	
 	public CategoryDTO getCategorybyNoteNo(Integer noteNo) {
 		CategoryDTO dto = new CategoryDTO();
