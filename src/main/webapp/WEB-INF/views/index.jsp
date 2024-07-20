@@ -226,8 +226,8 @@
 			<div class="sub_box">
 				<div class="sub_menu" onclick="location.href='/mylittletest/write'">🤓문제 쓰기</div>
 				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📚내 문제 풀기</div>
-				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📘맞춘 문제 복습</div>
-				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📕틀린 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/correctmytest'">📘맞춘 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/incorrectmytest'">📕틀린 문제 복습</div>
 				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📖오늘 본 문제 복습</div>
 				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">❤북마크 문제 복습</div>
 			</div>

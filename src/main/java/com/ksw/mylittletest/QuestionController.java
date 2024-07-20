@@ -59,9 +59,9 @@ public class QuestionController {
 		model.addAttribute("userVO", userVO);
 		return "write";
 	}
- 	
-    @PostMapping(value = "/write", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
+
+  @PostMapping(value = "/write", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
 	public Map<String, String> notewrite(
 			@ModelAttribute NoteDTO noteDTO,
 			@ModelAttribute CategoryDTO categoryDTO,

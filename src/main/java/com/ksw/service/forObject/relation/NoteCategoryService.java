@@ -53,9 +53,19 @@ public class NoteCategoryService {
 			return result;
 		}
 
+	    // 카테고리 번호 가져오기
+	    System.out.println("Fetching category number for title: " + categoryTitle);
 	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
-	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
-	    
+
+	    // 카테고리 번호가 유효하지 않은 경우
+	    if (categoryNo == null) {
+	        System.out.println("No category found for title: " + categoryTitle);
+	        return 0;
+	    }
+
+	    // 이전에 본 노트 번호 가져오기
+	    System.out.println("Fetched category number: " + categoryNo);
+	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);	    
     	
     	int attempts = 0;
     	int maxAttempts = 10;
@@ -96,12 +106,12 @@ public class NoteCategoryService {
 	    		attempts++;
 	    	}
 	    }
-	    
+
+	    // 재시도 후에도 같은 번호가 나오면 0 반환
 	    if (result.equals(previousNoteNo)) {
-	    	result = 0;
-	    	return result;
+	        result = 0;
 	    }
-	    
+
 	    return result;
 	}
 	
