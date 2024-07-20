@@ -66,7 +66,7 @@
             if (inputValue.length > 0) {
                 $.ajax({
                     type: "POST",
-                    url: "/mylittletest/categories",
+                    url: "/mylittletest/category/categories",
                     data: { data: inputValue },
                     beforeSend: function(xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -512,7 +512,7 @@ textarea::placeholder {
 					placeholder="힌트를 입력해주세요">
 			</div>
 			<div class="file_container">
-				 <input type="file" id="mediaFiles" name="mediaFiles[]" accept="image/*,audio/*" multiple>
+				 <input type="file" id="file" name="file" accept="image/*,audio/*" multiple>
 			</div>
 		</div>
 		<div class="answer_container">

@@ -41,25 +41,60 @@ public class NoteCategoryService {
 		return results;
 		}
 	
-	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo) {
+	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo, Integer menuType) {
+		
+		// menuType - 1 :: mytest, 내 문제 풀기
+		// menuType - 2 :: correctmytest, 틀린 문제 복습
+		// menuType - 3 :: reviewmytest, 맞춘 문제 복습
+		// menuType - 4 :: todayquestions, 오늘 본 문제 복습
 		Integer result = 0;
 		if (categoryTitle == null || categoryTitle.equals("")) {
 			System.out.println("categoryTitle is null. Empty List<NoteDTO> returned");
 			return result;
 		}
-		
 
 	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
 	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
 	    
-	    result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+    	
+    	int attempts = 0;
+    	int maxAttempts = 10;
 	    
-	    int attempts = 0;
-	    int maxAttempts = 10;
-	    
-	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
-	        result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
-	        attempts++;
+	    if (menuType == 1) {
+	    	result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 2) {
+	    	result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 3) {
+	    	result = noteCategoryMapper.getReviewRandomNoteNo(categoryTitle, userNo);
+
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getReviewRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 4) {
+	    	result = noteCategoryMapper.getTodayQuestionRandomNoteNo(categoryTitle, userNo);
+
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getTodayQuestionRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 5) {
+	    	result = noteCategoryMapper.getBookmarkQuestionRandomNoteNo(categoryTitle, userNo);
+
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getBookmarkQuestionRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
 	    }
 	    
 	    if (result.equals(previousNoteNo)) {
@@ -69,37 +104,6 @@ public class NoteCategoryService {
 	    
 	    return result;
 	}
-	
-	// 맞춘문제
-	public Integer getRandomNobyCorrectCategoryTitle(String categoryTitle, Integer userNo) {
-		Integer result = 0;
-		if (categoryTitle == null || categoryTitle.equals("")) {
-			System.out.println("categoryTitle is null. Empty List<NoteDTO> returned");
-			return result;
-		}
-		
-
-	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
-	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
-	    
-	    result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
-	    
-	    int attempts = 0;
-	    int maxAttempts = 10;
-	    
-	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
-	        result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
-	        attempts++;
-	    }
-	    
-	    if (result.equals(previousNoteNo)) {
-	    	result = 0;
-	    	return result;
-	    }
-	    
-	    return result;
-	}
-	
 	
 	public CategoryDTO getCategorybyNoteNo(Integer noteNo) {
 		CategoryDTO dto = new CategoryDTO();
