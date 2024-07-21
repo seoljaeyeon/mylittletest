@@ -1,7 +1,9 @@
 package com.ksw.service.forObject.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.entity.AlarmRepository;
 import com.ksw.dto.forObject.entity.AlarmDTO;
 import com.ksw.object.entity.Alarm;
 import com.ksw.vo.forObject.entity.AlarmVO;
@@ -9,6 +11,16 @@ import com.ksw.vo.forObject.entity.AlarmVO;
 @Service
 public class AlarmService {
 
+	@Autowired
+	private AlarmRepository alarmRepository;
+	
+	public Alarm save(Integer alarmType) {
+		Alarm alarm = new Alarm();
+		alarm.setAlarmType(alarmType);
+		
+		return alarmRepository.save(alarm); 
+	}
+	
     // Entity -> DTO 변환 메소드
     public AlarmDTO convertToDTO(Alarm alarm) {
     	AlarmDTO dto = new AlarmDTO();

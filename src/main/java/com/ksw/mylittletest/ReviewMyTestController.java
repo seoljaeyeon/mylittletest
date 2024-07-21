@@ -1,5 +1,8 @@
 package com.ksw.mylittletest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
@@ -29,96 +36,94 @@ public class ReviewMyTestController {
 	private NoteCategoryService noteCategoryService;
 	@Autowired
 	private QuestionService questionService;
+	@Autowired
+	private CategoryService categoryService;
 
 	@GetMapping
-	public String toCategory() {
+	public String toCategory(RedirectAttributes redirectAttribute) {
+		Integer menuType = 3;
+		redirectAttribute.addFlashAttribute("menuType", menuType);
+
 		return "redirect:/reviewmytest/category";
 	}
-	
+
 	@GetMapping("/category")
 	public String viewCategoryPage(
-			Model model)
-	{
-		Integer menuType = 3;
-		model.addAttribute("menuType", menuType);
-		return "redirect:/category";
+			RedirectAttributes redirectAttributes,
+			@ModelAttribute("menuType") Integer menuType,
+            @RequestParam(value="page", required = false, defaultValue="1") Integer page,
+            Model model
+			){
+	    
+	    menuType = (Integer) model.asMap().get("menuType");
+
+	    // menuType이 null인 경우 처리
+	    if (menuType == null) {
+	        menuType = 3;
+	        redirectAttributes.addFlashAttribute("menuType", menuType);
+	        return "redirect:/category";
+	    }
+
+		UserVO userVO = authService.getUserVO();
+		if (userVO == null) {
+			return "redirect:/login";
+		}
+		
+		List<List<Map<String, Object>>> list = new ArrayList<>();
+		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
+	    model.addAttribute("list", list);
+		return "questionlist";
 	}
+
 	@GetMapping("/category/{categoryTitle}")
-	public String getRandom(
-			@PathVariable("categoryTitle") String categoryTitle, 
-			HttpSession session,
-			Model model) {
-		
-        Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
-        if (!auth.isPresent()) {
-            return "redirect:/login";
-        }
-		
+	public String getRandom(@PathVariable("categoryTitle") String categoryTitle, HttpSession session, Model model) {
+
+		Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
+		if (!auth.isPresent()) {
+			return "redirect:/login";
+		}
+
 		UserVO userVO = auth.get();
 		Integer menuType = 3;
-		
-		
+
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
-		
+
 		// 사용자가 작성한 문제 중, 사용자가 보지 못한 문제 중에서 랜덤문제 출제
 		// 보지 못한 문제가 없다면 본 문제 중에서 랜덤으로 출제
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트
 			return "redirect:/reviewmytest/category";
-		}		
-		
-		return "redirect:/reviewmytest/category/"+categoryTitle+"/"+random;
+		}
+
+		return "redirect:/reviewmytest/category/" + categoryTitle + "/" + random;
 	}
-	
+
 	@GetMapping("/category/{categoryTitle}/{noteNo}")
 	@Transactional
-	public String viewPage(
-			@PathVariable("noteNo") Integer noteNo,
-			@PathVariable("categoryTitle") String categoryTitle,
-			Model model,
-			HttpServletRequest request,
-			HttpSession session) { 
-		/*
-		 * 필요 기능 목록
-		 * - 조회 수 증가 시키기 (조회 이력 남기기) [구현 - 완] [테스트 - 완]
-		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완] [테스트 - 완]
-		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함 [구현 - 완] [테스트 - 완]
-		 * - 오늘 조회 목록 불러오기 - [완] [테스트 - 완]
-		 * - 다음 문제 보기 - 만들어야함 (randomview 수정마무리 완) [구현 - 완][테스트 - 완]
-		 * - 메뉴 이름 출력 [완]
-		 * - 수정 관련 컨트롤러 만들기  
-		 * - 비활성화 컨트롤러 만들기
-		 * - 덜보기 컨트롤러 만들기
-         * - 문제 전체 보기 목록
-         * - 신고 컨트롤러
-         * - 좋아요 버튼
-         * - 댓글 수정 
-         * - 댓글 삭제
-         * - 정답 입력  
-         * - 공유하기 
-		 */
-		
-        Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
-        if (!auth.isPresent()) {
-            return "redirect:/login";
-        }
-		
+	public String viewPage(@PathVariable("noteNo") Integer noteNo, @PathVariable("categoryTitle") String categoryTitle,
+			Model model, HttpServletRequest request, HttpSession session) {
+
+		Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
+		if (!auth.isPresent()) {
+			return "redirect:/login";
+		}
+
 		UserVO userVO = auth.get();
 		String menuName = "맞춘 문제 복습";
-		
+
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
-				
-		// DB에서 문제 정보 가져오기 
+
+		// DB에서 문제 정보 가져오기
 		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
 
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("menuName", menuName);
-		
-		return "questionsolve"; 
+
+		return "questionsolve";
 	}
-	
+
 }

@@ -32,6 +32,14 @@ public class NoteViewService {
 	@Autowired
 	private NoteViewMapper noteViewMapper;
 	
+	public List<Integer> getCategoryListOrderedByNoteView() {
+		return noteViewMapper.getCategoryListOrderedByNoteView();
+	}
+	
+	public List<Integer> getTodayCategoryListByUserNo(Integer userNo) {
+		return noteViewMapper.getTodayCategoryListByUserNo(userNo);
+	}
+	
 	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo){
 		List<Map<String, Object>> results = noteViewMapper.getNoteListByUserNo(userNo);
 		return results;

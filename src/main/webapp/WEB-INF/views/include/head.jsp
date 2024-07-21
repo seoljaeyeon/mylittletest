@@ -19,14 +19,7 @@
 	rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-   var csrfToken = $("meta[name='_csrf']").attr("content");
-   var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-   $(document).ajaxSend(function(e, xhr, options) {
-       xhr.setRequestHeader(csrfHeader, csrfToken);
-   });
-</script>
 
 </head>
 <body>
@@ -254,9 +247,33 @@ body {
 		            <div class="side_button manager_contact_button" onclick="location.href='/mylittletest/admin_dashboard'"  >
 		                관리자 메뉴
 		            </div>
-		             <div class="side_button manager_contact_button" >
+		             <div class="side_button manager_contact_button" id="logout_btn" name="logout_btn">
 		                로그아웃
 		            </div>
+		            <script>
+   var csrfToken = $("meta[name='_csrf']").attr("content");
+   var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+   
+   document.getElementById('logout_btn').addEventListener('click', function() {
+	    fetch('/mylittletest/logout', {
+	        method: 'POST',
+	        headers: {
+               'Content-Type': 'application/x-www-form-urlencoded',
+               [csrfHeader]: csrfToken
+	        }
+	    })
+	    .then(response => {
+	        if (response.ok) {
+	            window.location.href = '/mylittletest/login';
+	        } else {
+	            console.error('Logout failed:', response);
+	        }
+	    })
+	    .catch(error => {
+	        console.error('Error:', error);
+	    });
+	});
+</script>
 		            <hr style="width:100%; opacity:0.6; margin-top:auto">
 		            <div class="side_button">
 		                웹사이트 운영 정책

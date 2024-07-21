@@ -14,6 +14,17 @@ import com.ksw.object.relation.FavoriteNote;
 
 @Mapper
 public interface FavoriteNoteMapper {
+	
+	@Select("WITH temp_table AS ("
+			+ "	SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt FROM category c "
+			+ "	JOIN noteCategory nc ON c.categoryNo = nc.categoryNo "
+			+ "	JOIN favoriteNote fn ON nc.noteNo = fn.noteNo"
+			+ " JOIN favorite f ON fn.favoriteNo = f.favoriteNo "
+			+ " WHERE f.favoriteType = 1 ) "
+			+ "SELECT categoryNo "
+			+ "FROM temp_table "
+			+ "ORDER BY createdAt DESC")
+	List<Integer> getCategoryListByUserNoAndFavoriteType(@Param("userNo") Integer userNo, @Param("favoriteType") Integer favoriteType);
 
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
 	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "

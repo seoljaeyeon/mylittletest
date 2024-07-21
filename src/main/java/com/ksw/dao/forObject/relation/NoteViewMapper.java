@@ -9,6 +9,32 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 public interface NoteViewMapper {
+	
+	
+	@Select("WITH temp_table AS (" +
+	        "    SELECT c.categoryNo, COUNT(nv.viewNo) AS viewcount " +
+	        "    FROM category c " +
+	        "    JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+	        "    LEFT JOIN noteView nv ON nv.noteNo = nc.noteNo " +
+	        "    GROUP BY c.categoryNo " +
+	        ") " +
+	        "SELECT categoryNo " +
+	        "FROM temp_table " +
+	        "ORDER BY viewcount DESC")
+	List<Integer> getCategoryListOrderedByNoteView();
+
+	
+	@Select("WITH temp_table AS (" +
+			"    SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt "
+			+ "FROM category c " 
+			+ "JOIN noteCategory nc ON nc.categoryNo = c.categoryNo "
+			+ "JOIN noteView nv ON nv.noteNo = nc.noteNo "
+			+ "WHERE nv.userNo = #{userNo} AND DATE(nv.createdAt) = CURDATE()) " +
+            "SELECT categoryNo " +
+            "FROM temp_table " +
+            "ORDER BY createdAt DESC")
+	List<Integer> getTodayCategoryListByUserNo(@Param("userNo") Integer userNo);
+	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
 	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "

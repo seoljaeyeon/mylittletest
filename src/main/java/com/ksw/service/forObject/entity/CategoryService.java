@@ -26,6 +26,14 @@ public class CategoryService {
 	@Autowired
 	private NoteCategoryService noteCategoryService;
 	
+	public List<Integer> getTodayCategoryListByUserNo(Integer userNo) {
+		return null;
+	}
+	public List<Integer> getCategoryListByUserNoAndFavoriteType(Integer userNo, Integer favoriteType) {
+		return null;
+	}
+	
+	
 	public List<Map<String, Object>> search(String categoryTitle) {
 		
 		List<Map<String,Object>> results = noteCategoryService.findCategoryNoteCountsByTitle(categoryTitle);
@@ -36,16 +44,16 @@ public class CategoryService {
 		return categoryRepository.findByCategoryTitle(categoryTitle).getCategoryNo();
 	}
 	
-	public List<Map<String, Object>>getListByViewOrder(Integer categoryNo, Integer userNo, Integer page) {
+	public List<List<Map<String, Object>>> getListByViewOrder(Integer userNo, Integer menuType, Integer page) {
 		
-		if (categoryNo == null || userNo == null|| page == null) {
+		if (userNo == null|| page == null) {
 			System.out.println("One of parameters is null. getListByViewOrder failed");
 			return null;
 		}
 		
 		Integer limit = 20;
-		int offset = (page - 1) * limit;
-	    List<Map<String, Object>> list = categoryDetailMapper.getCategorySummary(categoryNo, userNo, limit, offset);
+		Integer offset = (page - 1) * limit;
+	    List<List<Map<String, Object>>> list = categoryDetailMapper.getCategorySummary(userNo, menuType, limit, offset);
 		
 		return list;
 	}

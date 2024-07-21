@@ -1,5 +1,6 @@
 package com.ksw.mylittletest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.AnswerHistoryService;
@@ -41,41 +44,59 @@ public class CategoryController {
 	@Autowired
 	private AuthService authService;
 	
-	@GetMapping
-	public String categoryMain(
-			Model model,
-			Integer categoryNo,
-	        @RequestParam(value = "page", defaultValue = "1") Integer page
-			) {
+	@GetMapping(value = "/allcategory")
+	public String toAllCategory(
+			RedirectAttributes redirectAttributes,
+            @RequestParam(value="page", required = false, defaultValue="1") Integer page
+			){
+
 		UserVO userVO = authService.getUserVO();
-		
-		if ((Integer) model.getAttribute("menuType") == 1) {
-			model.addAttribute("menuType", "내 문제 풀기");
-		} else if ((Integer) model.getAttribute("menuType") == 2) {
-			model.addAttribute("menuType", "틀린 문제 복습");
-		}else if ((Integer) model.getAttribute("menuType") == 3) {
-			model.addAttribute("menuType", "맞춘 문제 복습");
-		}else if ((Integer) model.getAttribute("menuType") == 4) {
-			model.addAttribute("menuType", "오늘 본 문제 복습");
-		}else if ((Integer) model.getAttribute("menuType") == 5) {
-			model.addAttribute("menuType", "북마크 문제 복습");
-		}
-		
 		if (userVO == null) {
 			return "redirect:/login";
 		}
 		
-		List<Map<String, Object>> list = categoryService.getListByViewOrder(categoryNo, userVO.getUserNo(), page);
-        model.addAttribute("categoryDetail", list);
-        
-//		글 목록
-//		- 4개씩 보이게 해야함
-//		- 카테고리 이름,카테고리번호 받아야함
-//		- 정답률,출제자수,좋아요수,문제수 가져와야함 (정답률,출제자수는 꼭 필요한가? 뺴야될건 빼야할거같음)
-		// 진행률?-> answerHistory? 출제자 수? -> categoryUser? 문제 수? -> NoteCategory
-//		- 드랍다운에 클릭했을떄 보여주는 주소적어놓음 (DB구현필요)
+		Integer menuType = 0;
 		
+		List<List<Map<String, Object>>> list = new ArrayList<>();
+		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
 		return "questionlist";
+	}
+	
+	
+	@GetMapping
+	public String categoryMain(
+			Model model,
+			@ModelAttribute("menuType") Integer menuType,
+	        @RequestParam(value = "page", defaultValue = "1") Integer page, 
+	        RedirectAttributes redirectAttributes
+			) {
+		UserVO userVO = authService.getUserVO();
+		String menuPath = "";
+
+		if (userVO == null) {
+			return "redirect:/login";
+		}
+		
+		if (menuType == null || menuType == 0) {
+			return "redirect:/category/allcategory";
+		}
+		
+        if (menuType != null) {
+            if (menuType == 1) {
+                menuPath = "mytest";
+            } else if (menuType == 2) {
+                menuPath = "correctmytest";
+            } else if (menuType == 3) {
+                menuPath = "reviewmytest";
+            } else if (menuType == 4) {
+                menuPath = "todayquestions";
+            } else if (menuType == 5) {
+                menuPath = "bookmarkquestions";
+            }
+            redirectAttributes.addFlashAttribute("menuType", menuType);
+        }
+		
+		return "redirect:/"+menuPath+"/category";
 	}
 	
 	@PostMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)

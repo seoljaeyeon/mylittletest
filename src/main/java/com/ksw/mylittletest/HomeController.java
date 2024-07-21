@@ -24,7 +24,7 @@ import com.ksw.service.function.AuthService;
 import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
-@RequestMapping("/index")
+@RequestMapping
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -36,7 +36,14 @@ public class HomeController {
 	@Autowired
 	private GoalService goalService;
 	
-    @GetMapping
+	
+	
+	@GetMapping("/")
+	public String toHome() {
+		return "redirect:/index";
+	}
+	
+    @GetMapping("/index")
 	public String home(
 			HttpSession session, 
 			Model model, 
@@ -49,6 +56,7 @@ public class HomeController {
             model.addAttribute("userVO", userVO);
         } else {
             System.out.println("No authenticated user found");
+            return "redirect:/login";
         }
         return "index";    	
 //	    // CSRF 토큰 확인

@@ -15,6 +15,22 @@ import com.ksw.object.relation.AnswerHistory;
 @Mapper
 public interface AnswerHistoryMapper {
 
+	@Select("WITH temp_table AS (" +
+            "    SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+            "    FROM category c " +
+            "    JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+            "    JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
+            "    JOIN answer a ON ah.answerNo = a.answerNo " +
+            "    LEFT JOIN noteView nv ON nv.noteNo = ah.noteNo " +
+            "    WHERE a.answerType = #{answerType} " +
+            "      AND ah.userNo = #{userNo} " +
+            ") " +
+            "SELECT categoryNo " +
+            "FROM temp_table " +
+            "ORDER BY createdAt DESC")
+    List<Integer> getCategoryListByUserNoAndAnswerType(@Param("userNo") Integer userNo, 
+                                                      @Param("answerType") Integer answerType);
+	
 	// 조인 순서도 중요
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
 	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "

@@ -27,6 +27,10 @@ public class AnswerHistoryService {
 	@Autowired
 	private AnswerHistoryMapper answerHistoryMapper;
 	
+	public List<Integer> getCategoryListByUserNoAndAnswerType(Integer userNo, Integer answerNo) {
+		return answerHistoryMapper.getCategoryListByUserNoAndAnswerType(userNo, answerNo);
+	}
+	
 	public List<Map<String, Object>> getNoteListByUserNoAndAnswerType(Integer userNo, Integer AnswerType) {
 		List<Map<String, Object>> result = answerHistoryMapper.getNoteListByUserNoAndAnswerType(userNo, AnswerType);
 		return result;

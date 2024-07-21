@@ -14,6 +14,13 @@ import com.ksw.object.relation.NoteUser;
 @Mapper
 public interface NoteUserMapper {
 	
+	@Select("SELECT DISTINCT(c.categoryNo) "
+			+ "FROM category c "
+			+ "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo "
+			+ "JOIN noteUser nu ON nu.noteNo = nc.noteNo "
+			+ "WHERE nu.userNo = #{userNo} ")
+	List<Integer> getCategoryListByUserNo(@Param("userNo") Integer userNo);
+	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
 	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 			+ "count(r.replyNo) as reply_count"

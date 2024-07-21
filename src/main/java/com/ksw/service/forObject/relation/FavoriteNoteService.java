@@ -28,6 +28,11 @@ public class FavoriteNoteService {
 	@Autowired
 	private FavoriteNoteMapper favoriteNoteMapper;
 	
+	public List<Integer> getCategoryListByUserNoAndFavoriteType(Integer userNo, Integer favoriteType){
+		
+		return favoriteNoteMapper.getCategoryListByUserNoAndFavoriteType(userNo, favoriteType);
+	}
+	
 	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo){
 		List<Map<String,Object>> results = favoriteNoteMapper.getNoteListByUserNo(userNo);
 		return results;
