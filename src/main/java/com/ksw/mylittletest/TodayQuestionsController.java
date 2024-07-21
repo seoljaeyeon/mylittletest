@@ -1,5 +1,8 @@
 package com.ksw.mylittletest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
@@ -29,20 +36,45 @@ public class TodayQuestionsController {
 	private NoteCategoryService noteCategoryService;
 	@Autowired
 	private QuestionService questionService;
+	@Autowired
+	private CategoryService categoryService;
 
 	@GetMapping
-	public String toCategory() {
+	public String toCategory(
+			RedirectAttributes redirectAttribute) {
+			Integer menuType = 4;
+			redirectAttribute.addFlashAttribute("menuType", menuType);
 		return "redirect:/todayquestions/category";
 	}
 	
 	@GetMapping("/category")
 	public String viewCategoryPage(
-			Model model)
-	{
-		Integer menuType = 4;
-		model.addAttribute("menuType", menuType);
-		return "redirect:/category";
+			RedirectAttributes redirectAttributes,
+			@ModelAttribute("menuType") Integer menuType,
+            @RequestParam(value="page", required = false, defaultValue="1") Integer page,
+            Model model
+			){
+	    
+	    menuType = (Integer) model.asMap().get("menuType");
+
+	    // menuType이 null인 경우 처리
+	    if (menuType == null) {
+	        menuType = 4;
+	        redirectAttributes.addFlashAttribute("menuType", menuType);
+	        return "redirect:/category";
+	    }
+
+		UserVO userVO = authService.getUserVO();
+		if (userVO == null) {
+			return "redirect:/login";
+		}
+		
+		List<List<Map<String, Object>>> list = new ArrayList<>();
+		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
+	    model.addAttribute("list", list);
+		return "questionlist";
 	}
+	
 	@GetMapping("/category/{categoryTitle}")
 	public String getRandom(
 			@PathVariable("categoryTitle") String categoryTitle, 

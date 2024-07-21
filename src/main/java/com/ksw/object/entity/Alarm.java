@@ -22,11 +22,11 @@ public class Alarm implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer alarmNo;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = true, length = 255)
     private String alarmNote;
 
     @Column(nullable = false)
-    private Integer alarmType;
+    private Integer alarmType; // 1 - 좋아요 | 2 - 댓글
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isRead = false;

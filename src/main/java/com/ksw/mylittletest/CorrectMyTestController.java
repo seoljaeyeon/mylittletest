@@ -1,5 +1,8 @@
 package com.ksw.mylittletest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
@@ -29,21 +36,45 @@ public class CorrectMyTestController {
 	private NoteCategoryService noteCategoryService;
 	@Autowired
 	private QuestionService questionService;
+	@Autowired
+	private CategoryService categoryService;
 	
-	// 맞춘문제
 	@GetMapping
-	public String Category() {
+	public String toCategory(
+			RedirectAttributes redirectAttribute) {
+			Integer menuType = 1;
+			redirectAttribute.addFlashAttribute("menuType", menuType);
 		return "redirect:/corretmytest/category";
 	}
 	
 	@GetMapping("/category")
 	public String viewCategoryPage(
-			Model model)
-	{
-		Integer menuType = 2;
-		model.addAttribute("menuType", menuType);
-		return "redirect:/category";
+			RedirectAttributes redirectAttributes,
+			@ModelAttribute("menuType") Integer menuType,
+            @RequestParam(value="page", required = false, defaultValue="1") Integer page,
+            Model model
+			){
+	    
+	    menuType = (Integer) model.asMap().get("menuType");
+
+	    // menuType이 null인 경우 처리
+	    if (menuType == null) {
+	        menuType = 2;
+	        redirectAttributes.addFlashAttribute("menuType", menuType);
+	        return "redirect:/category";
+	    }
+
+		UserVO userVO = authService.getUserVO();
+		if (userVO == null) {
+			return "redirect:/login";
+		}
+		
+		List<List<Map<String, Object>>> list = new ArrayList<>();
+		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
+	    model.addAttribute("list", list);
+		return "questionlist";
 	}
+	
 	@GetMapping("/category/{categoryTitle}")
 	public String getCorrectRandom(
 			@PathVariable("categoryTitle") String categoryTitle, 
@@ -79,25 +110,6 @@ public class CorrectMyTestController {
 			Model model,
 			HttpServletRequest request,
 			HttpSession session) { 
-		/*
-		 * 필요 기능 목록
-		 * - 조회 수 증가 시키기 (조회 이력 남기기) [구현 - 완] [테스트 - 완]
-		 * - 댓글 목록 로딩 --> questionService.Read에서 처리 [완] [테스트 - 완]
-		 * - 댓글 쓰기 기능(ReplyController에서 처리) - 만들어야함 [구현 - 완] [테스트 - 완]
-		 * - 오늘 조회 목록 불러오기 - [완] [테스트 - 완]
-		 * - 다음 문제 보기 - 만들어야함 (randomview 수정마무리 완) [구현 - 완][테스트 - 완]
-		 * - 메뉴 이름 출력 [완]
-		 * - 수정 관련 컨트롤러 만들기  
-		 * - 비활성화 컨트롤러 만들기
-		 * - 덜보기 컨트롤러 만들기
-         * - 문제 전체 보기 목록
-         * - 신고 컨트롤러
-         * - 좋아요 버튼
-         * - 댓글 수정 
-         * - 댓글 삭제
-         * - 정답 입력  
-         * - 공유하기 
-		 */
 		
         Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
         if (!auth.isPresent()) {

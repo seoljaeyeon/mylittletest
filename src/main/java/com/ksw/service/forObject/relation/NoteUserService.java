@@ -26,6 +26,10 @@ public class NoteUserService {
 	@Autowired
 	private NoteUserMapper noteUserMapper; 
 
+	public List<Integer> getCategoryListByUserNo(Integer userNo) {
+		return noteUserMapper.getCategoryListByUserNo(userNo);
+	}
+	
 	public List<Map<String,Object>> getNoteListByUserNo(Integer userNo){
 		List<Map<String,Object>> result = noteUserMapper.getNoteListByUserNo(userNo);
 		return result;

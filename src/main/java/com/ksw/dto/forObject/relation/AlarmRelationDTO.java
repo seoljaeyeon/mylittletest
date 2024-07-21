@@ -3,6 +3,8 @@ package com.ksw.dto.forObject.relation;
 import java.io.Serializable;
 
 import com.ksw.dto.forObject.entity.AlarmDTO;
+import com.ksw.dto.forObject.entity.NoteDTO;
+import com.ksw.dto.forObject.entity.ReplyDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
 
 public class AlarmRelationDTO implements Serializable{
@@ -13,8 +15,26 @@ public class AlarmRelationDTO implements Serializable{
     private AlarmDTO alarmDTO;
     private UserDTO receiverDTO;
     private UserDTO makerDTO;
+    private NoteDTO noteDTO;
+    private ReplyDTO replyDTO;
 
-    // 기본 생성자
+    public NoteDTO getNoteDTO() {
+		return noteDTO;
+	}
+
+	public void setNoteDTO(NoteDTO noteDTO) {
+		this.noteDTO = noteDTO;
+	}
+
+	public ReplyDTO getReplyDTO() {
+		return replyDTO;
+	}
+
+	public void setReplyDTO(ReplyDTO replyDTO) {
+		this.replyDTO = replyDTO;
+	}
+
+	// 기본 생성자
     public AlarmRelationDTO() {}
 
 	public AlarmDTO getAlarmDTO() {

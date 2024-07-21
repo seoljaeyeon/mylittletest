@@ -3,6 +3,7 @@ package com.ksw.service.forObject.relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.relation.AlarmRelationMapper;
 import com.ksw.dto.forObject.relation.AlarmRelationDTO;
 import com.ksw.object.relation.AlarmRelation;
 import com.ksw.service.forObject.entity.AlarmService;
@@ -17,6 +18,12 @@ public class AlarmRelationService {
 	private AlarmService alarmService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AlarmRelationMapper alarmRelationMapper;
+	
+	public Integer insert(Integer alarmNo, Integer receiverNo, Integer makerNo, Integer noteNo, Integer replyNo) {
+		return alarmRelationMapper.insert(alarmNo, receiverNo, makerNo, noteNo, replyNo); 
+	}
 	
     // Entity -> DTO 변환 메소드
     public AlarmRelationDTO convertToDTO(AlarmRelation entity) {

@@ -178,8 +178,6 @@
 	}
 </style>
 <!-- 비회원은 안보이게함   -->
-<c:choose>
-	<c:when test="${ userVO != null }"> 
 		<div class="main_container">
 			<div class="head_box">
 				<div class="goal_box">
@@ -232,14 +230,4 @@
 				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">❤북마크 문제 복습</div>
 			</div>
 		</div>
-	</c:when>
-	<c:otherwise>
-		<div>
-			<div style="text-align:center; font-size:30px; margin-top:20px;">⭐환영합니다⭐</div>
-			<div style="text-align:center; font-size:300px;">📖</div>
-			<div style="text-align:center; font-size:30px; margin-top:20px;">본 사이트는 회원일 때 이용이 가능합니다 회원이 아닐경우 회원가입 해주십시오.</div>
-			<div style="text-align:center; font-size:30px; margin-top:20px; cursor:pointer; color:yellow;" onclick="location.href='/mylittletest/join'">회원 가입하러가기</div>
-		</div>
-	</c:otherwise>
-</c:choose>
 <jsp:include page="./include/tail.jsp"></jsp:include>
