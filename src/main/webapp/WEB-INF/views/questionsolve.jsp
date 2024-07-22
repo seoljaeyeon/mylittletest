@@ -738,7 +738,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				<div class="tip" id="tip">💡팁 보기</div><div class="showtip" id="showtip">${questionVO.noteVO.noteHint}</div>
 			</div>
 				<div class="next_box">
-					<div class="next" onclick="/mylittletest/myTest/category/${questionVO.categoryVO.categoryTitle}">▷다음문제</div>
+					<div class="next" onclick="location.href='/mylittletest/mytest/category/${questionVO.categoryVO.categoryTitle}'">▷다음문제</div>
 					<div class="mini_box">
 						<div class="like_box">
 							<div class="like">❤ </div>

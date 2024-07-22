@@ -144,8 +144,8 @@
 			background-color: #474747;
 			padding: 1.5rem 2rem 2rem 2rem;
 			border-radius: 2rem;
-			height: calc(90vh - 8.8rem);
-			min-height: calc(90vh - 8.8rem);
+			height: 800px;
+			min-height:800px;
 			max-height: calc(90vh - 8.8rem);
 			min-width:800px;
 		  	display: inline-flex;
@@ -420,13 +420,6 @@
             color: yellow;
             transform: scale(1.5);
         }
-		
-		.square{
-			margin-top: 5px;
-			background-position: center;
-	    	background-size: cover;
-	    	height:fit-content;
-		}
 		.count_item{
 			margin-top: 20px;
 			display: flex;
@@ -437,7 +430,7 @@
 		 .item {
 		 	margin-right:auto;
             margin-top: 10px;
-            font-size: 1rdem;
+            font-size: 1rem;
             color: #666;
             flex:1 1 45%;
             display:flex;
