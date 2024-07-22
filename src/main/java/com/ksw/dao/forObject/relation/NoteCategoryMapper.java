@@ -26,10 +26,10 @@ public interface NoteCategoryMapper {
 	        + "LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo "
 	        + "LEFT JOIN noteReply nr ON nr.noteNo = n.noteNo "
 	        + "WHERE c.categoryTitle = #{categoryTitle} "
-	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt "
+	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
 	        + "ORDER BY n.createdAt DESC")
 	List<Map<String, Object>> getNoteListByUserNo(@Param("categoryTitle") String categoryTitle);
-	
+
 	@Select(""
 	        + "SELECT c.categoryTitle AS categoryTitle, "
 	        + "COUNT(nc.noteNo) AS noteCount " 
