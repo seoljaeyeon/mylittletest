@@ -36,7 +36,7 @@ public class CategoryDetailService {
 	public List<List<Map<String, Object>>> getCategorySummary(Integer userNo, Integer menuType, Integer limit, Integer offset) {
 		List<List<Map<String, Object>>> result = new ArrayList<>();
 		
-		List<Integer> categoryLists = new ArrayList<>();
+		List<Map<String,Object>> categoryLists = new ArrayList<>();
 		
 		if(menuType == 0) {
 			categoryLists = noteViewService.getCategoryListOrderedByNoteView();
@@ -52,8 +52,8 @@ public class CategoryDetailService {
         	categoryLists = favoriteNoteService.getCategoryListByUserNoAndFavoriteType(userNo, 2);
         }
 		
-	    for(Integer categoryNo : categoryLists) {
-	    	
+	    for(Map<String, Object> categorymap : categoryLists) {
+	    	Integer categoryNo = (Integer) categorymap.get("categoryNo");
 	    	List<Map<String, Object>> categoryList = categoryDetailMapper.getCategoryWithNoteCount(categoryNo, limit, offset);
 	    	
 	    	// 리스트의 각 map들에 대해서 

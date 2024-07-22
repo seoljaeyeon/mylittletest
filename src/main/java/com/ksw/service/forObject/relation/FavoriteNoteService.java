@@ -32,7 +32,7 @@ public class FavoriteNoteService {
 		return favoriteNoteMapper.getFavoriteListByUserNo(userNo, limit, offset);
 	}
 	
-	public List<Integer> getCategoryListByUserNoAndFavoriteType(Integer userNo, Integer favoriteType){
+	public List<Map<String, Object>> getCategoryListByUserNoAndFavoriteType(Integer userNo, Integer favoriteType){
 		
 		return favoriteNoteMapper.getCategoryListByUserNoAndFavoriteType(userNo, favoriteType);
 	}

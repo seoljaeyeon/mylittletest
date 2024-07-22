@@ -43,7 +43,7 @@ public class ReviewMyTestController {
 
 	@GetMapping
 	public String toCategory(RedirectAttributes redirectAttribute) {
-		Integer menuType = 3;
+		Integer menuType = 2;
 		redirectAttribute.addFlashAttribute("menuType", menuType);
 
 		return "redirect:/reviewmytest/category";
@@ -60,7 +60,7 @@ public class ReviewMyTestController {
 
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
-	        menuType = 3;
+	        menuType = 2;
 	        redirectAttributes.addFlashAttribute("menuType", menuType);
 	        return "redirect:/category";
 	    }
@@ -89,7 +89,7 @@ public class ReviewMyTestController {
 		}
 
 		UserVO userVO = auth.get();
-		Integer menuType = 3;
+		Integer menuType = 2;
 
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
