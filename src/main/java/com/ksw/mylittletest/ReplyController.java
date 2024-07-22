@@ -80,9 +80,12 @@ public class ReplyController {
 		replyUserService.writeReplyRelation(reply.getReplyNo(), user.getUserNo());
 		noteReplyService.writeReplyRelation(reply.getReplyNo(), noteNo);
 		
-		Alarm alarm = alarmService.save(2);
 		UserDTO writer = noteUserService.getUserByNoteNo(noteNo);
-		alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
+		if (writer.getUserNo() != userVO.getUserNo()) {
+			Alarm alarm = alarmService.save(2);
+			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
+		}
+		
 		
 		return "redirect:/myTest/category/"+categoryTitle+"/"+noteNo;
 	}
