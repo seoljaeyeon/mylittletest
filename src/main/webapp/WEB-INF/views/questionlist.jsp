@@ -659,7 +659,7 @@
 			  	<div class="swiper-wrapper">
 			  	<c:forEach  begin="0" end="5">
 					<div class="swiper-slide">
-						  <c:forEach var="question" items="${ question }" begin="0" end="3">
+						  <c:forEach var="question" items="${ list }" begin="0" end="3">
 						     	<div class="question_box">
 						     		<div class="question_item">
 						      			<div class="bookmark">
