@@ -57,6 +57,7 @@ public class MyTestController {
 			){
 	    
 	    Integer menuType = (Integer) model.asMap().get("menuType");
+	    String  menuName = "mytest";
 
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
@@ -70,9 +71,11 @@ public class MyTestController {
 			return "redirect:/login";
 		}
 		
+		
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
 	    model.addAttribute("list", list);
+	    model.addAttribute("menuName", menuName);
 		return "questionlist";
 	}
 	
@@ -89,7 +92,6 @@ public class MyTestController {
 		
 		UserVO userVO = auth.get();
 		Integer menuType = 1;
-		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
 		
@@ -119,7 +121,7 @@ public class MyTestController {
         }
 		
 		UserVO userVO = auth.get();
-		String menuName = "내 문제 풀기";
+		String menuName = "mytest";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);

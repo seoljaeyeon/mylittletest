@@ -674,11 +674,11 @@
 				                <div class="question_box">
 				                    <div class="question_item">
 				                        <div class="bookmark">★</div>
-				                        <div class="question_title" onclick="location.href='/mylittletest/mytest/category/${category.categoryTitle}'">${category.categoryTitle}</div>
+				                        <div class="question_title" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">${category.categoryTitle}</div>
 				                    </div>
 				                    <div class="question_mini">
 				                        <div class="question_mbox">
-				                            <div class="question_mtitle" onclick="location.href='/mylittletest/mytest/category/${category.categoryTitle}'">${category.categoryTitle}</div>
+				                            <div class="question_mtitle" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">${category.categoryTitle}</div>
 				                            <div class="question_answer">나의 정답률 ${category.correctRatio}%</div>
 				                        </div>
 				                    </div>
@@ -688,7 +688,7 @@
 				                                <div class="question_like">❤</div>
 				                                <div style="margin-left:10px;">${category.favoriteCount}</div>
 				                            </div>
-				                            <div class="question_question" onclick="location.href='/mylittletest/mytest/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
+				                            <div class="question_question" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
 				                            <div class="question_person">🧑 ${category.authorCount}출제자</div>
 				                        </div>
 				                        <div class="question_report" id="report_btn">🚨</div>

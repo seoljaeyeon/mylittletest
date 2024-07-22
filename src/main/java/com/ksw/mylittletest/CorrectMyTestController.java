@@ -44,7 +44,7 @@ public class CorrectMyTestController {
 			RedirectAttributes redirectAttribute) {
 			Integer menuType = 1;
 			redirectAttribute.addFlashAttribute("menuType", menuType);
-		return "redirect:/corretmytest/category";
+		return "redirect:/correctmytest/category";
 	}
 	
 	@GetMapping("/category")
@@ -55,7 +55,7 @@ public class CorrectMyTestController {
 			){
 	    
 	    Integer menuType = (Integer) model.asMap().get("menuType");
-
+	    String  menuName = "correctmytest";
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
 	        menuType = 2;
@@ -71,6 +71,7 @@ public class CorrectMyTestController {
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
 	    model.addAttribute("list", list);
+	    model.addAttribute("menuName", menuName);
 		return "questionlist";
 	}
 	
@@ -95,10 +96,10 @@ public class CorrectMyTestController {
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트
-			return "redirect:/corretmytest/category";
+			return "redirect:/correctmytest/category";
 		}		
 		
-		return "redirect:/corretmytest/category/"+categoryTitle+"/"+random;
+		return "redirect:/correctmytest/category/"+categoryTitle+"/"+random;
 	}
 	
 	@GetMapping("/category/{categoryTitle}/{noteNo}")
@@ -116,7 +117,7 @@ public class CorrectMyTestController {
         }
 		
 		UserVO userVO = auth.get();
-		String menuName = "틀린 문제 복습";
+		String menuName = "correctmytest";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);

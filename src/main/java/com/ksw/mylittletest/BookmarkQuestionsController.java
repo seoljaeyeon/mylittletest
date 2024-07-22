@@ -55,6 +55,7 @@ public class BookmarkQuestionsController {
 			){
 	    
 	    Integer menuType = (Integer) model.asMap().get("menuType");
+	    String  menuName = "bookmarkquestions";
 
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
@@ -62,7 +63,7 @@ public class BookmarkQuestionsController {
 	        redirectAttributes.addFlashAttribute("menuType", menuType);
 	        return "redirect:/category";
 	    }
-
+	    
 		UserVO userVO = authService.getUserVO();
 		if (userVO == null) {
 			return "redirect:/login";
@@ -71,6 +72,7 @@ public class BookmarkQuestionsController {
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
 	    model.addAttribute("list", list);
+	    model.addAttribute("menuName", menuName);
 		return "questionlist";
 	}
 	
@@ -118,7 +120,7 @@ public class BookmarkQuestionsController {
         }
 		
 		UserVO userVO = auth.get();
-		String menuName = "오늘 본 문제 복습";
+		String menuName = "bookmarkquestions";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);

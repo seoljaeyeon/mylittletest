@@ -229,7 +229,7 @@ body {
 		<aside class="side_container">
 			<c:choose>
 				<c:when test="${ userVO != null }">
-					 <div class="side_button" onclick="location.href='/mylittletest/mypage_alarm'">
+					 <div class="side_button" onclick="location.href='/mylittletest/mypage'">
 	                	마이페이지
 		           	 </div>
 		            <div class="side_button" onclick="location.href='/mylittletest/index'">
@@ -238,15 +238,6 @@ body {
 		            <div class="side_button" onclick="location.href='/mylittletest/category/allcategory'">
 		                문제 둘러보기
 		            </div>        
-		            <div class="side_button" onclick="location.href='/mylittletest/announcement_list'">
-		                공지사항
-		            </div>        
-		            <div class="side_button manager_contact_button" id="admin_btn" >
-		                관리자 연락
-		            </div>
-		            <div class="side_button manager_contact_button" onclick="location.href='/mylittletest/admin_dashboard'"  >
-		                관리자 메뉴
-		            </div>
 		             <div class="side_button manager_contact_button" id="logout_btn" name="logout_btn">
 		                로그아웃
 		            </div>
@@ -283,8 +274,6 @@ body {
 					<div class="side_button" onclick="location.href='/mylittletest/login'">로그인</div>
 					<div class="side_button" id="mystudy_btn">나의 학습</div>
 					<div class="side_button" onclick="location.href='/mylittletest/category/allcategory'">문제 둘러보기</div>
-					<div class="side_button" onclick="location.href='/mylittletest/announcement_list'">공지사항</div>
-					<div class="side_button manager_contact_button" id="admin_btn">관리자 연락</div>
 					<hr style="width: 100%; opacity: 0.6; margin-top: auto">
 					<div class="side_button">웹사이트 운영 정책</div>
 				</c:otherwise>
@@ -301,13 +290,6 @@ body {
 			</div>
 		</div>
 		<!-- 팝업 영역  -->
-		<!-- 관리자 연락 팝업창  -->
-		<div class="popup_wrap" id="popup_admin">
-			<div class="loginpopup_area">
-				<div class="close"><button class="btn_close" id="btn_close" type="button">X</button></div>
-				<div class="admin_title" style="color:black; font-size:20px; font-weight:bolder; margin-top:24px; margin-bottom:24px; text-align:center;">mailto 활용/<br>관리자메일주소로 이메일</div>
-			</div>
-		</div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
        

@@ -55,6 +55,7 @@ public class ReviewMyTestController {
 			){
 	    
 	    Integer menuType = (Integer) model.asMap().get("menuType");
+	    String  menuName = "reviewmytest";
 
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
@@ -71,6 +72,7 @@ public class ReviewMyTestController {
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
 	    model.addAttribute("list", list);
+	    model.addAttribute("menuName", menuName);
 		return "questionlist";
 	}
 
@@ -110,7 +112,7 @@ public class ReviewMyTestController {
 		}
 
 		UserVO userVO = auth.get();
-		String menuName = "맞춘 문제 복습";
+		String menuName = "reviewmytest";
 
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);

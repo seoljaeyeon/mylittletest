@@ -55,6 +55,7 @@ public class TodayQuestionsController {
 			){
 	    
 	    Integer menuType = (Integer) model.asMap().get("menuType");
+	    String  menuName = "todayquestions";
 
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
@@ -71,6 +72,7 @@ public class TodayQuestionsController {
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
 	    model.addAttribute("list", list);
+	    model.addAttribute("menuName", menuName);
 		return "questionlist";
 	}
 	
@@ -87,7 +89,7 @@ public class TodayQuestionsController {
 		
 		UserVO userVO = auth.get();
 		Integer menuType = 4;
-		
+	
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
@@ -118,7 +120,7 @@ public class TodayQuestionsController {
         }
 		
 		UserVO userVO = auth.get();
-		String menuName = "오늘 본 문제 복습";
+		String menuName = "todayquestions";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
