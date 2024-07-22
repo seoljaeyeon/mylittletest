@@ -635,10 +635,10 @@
 		</div>
 		<div class="sub_menu">
 			<div class="bookmark_list_btn"
-				onclick="location.href='/mylittletest/mypage_bookmark'">즐겨찾기 &
+				onclick="location.href='/mylittletest/mypage'">즐겨찾기 &
 				북마크 목록</div>
 			<div class="alarm_list_btn" style="margin-top: 50px;"
-				onclick="location.href='/mylittletest/mypage_alarm'">알림 목록</div>
+				onclick="location.href='/mylittletest/mypage'">알림 목록</div>
 		</div>
 	</div>
 	<div class="alarm_container">

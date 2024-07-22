@@ -225,9 +225,9 @@
 				<div class="sub_menu" onclick="location.href='/mylittletest/write'">🤓문제 쓰기</div>
 				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📚내 문제 풀기</div>
 				<div class="sub_menu" onclick="location.href='/mylittletest/reviewmytest'">📘맞춘 문제 복습</div>
-				<div class="sub_menu" onclick="location.href='/mylittletest/corretmytest'">📕틀린 문제 복습</div>
-				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📖오늘 본 문제 복습</div>
-				<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">❤북마크 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/correctmytest'">📕틀린 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/todayquestions'">📖오늘 본 문제 복습</div>
+				<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'">❤북마크 문제 복습</div>
 			</div>
 		</div>
 <jsp:include page="./include/tail.jsp"></jsp:include>
