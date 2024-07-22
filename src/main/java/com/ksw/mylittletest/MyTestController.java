@@ -139,9 +139,6 @@ public class MyTestController {
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
 				
-		// 최근 읽은 목록
-		
-		
 		// DB에서 문제 정보 가져오기 
 		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
 

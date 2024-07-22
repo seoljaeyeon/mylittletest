@@ -89,9 +89,9 @@ public class CategoryController {
             if (menuType == 1) {
                 menuPath = "mytest";
             } else if (menuType == 2) {
-                menuPath = "correctmytest";
-            } else if (menuType == 3) {
                 menuPath = "reviewmytest";
+            } else if (menuType == 3) {
+                menuPath = "correctmytest";
             } else if (menuType == 4) {
                 menuPath = "todayquestions";
             } else if (menuType == 5) {
