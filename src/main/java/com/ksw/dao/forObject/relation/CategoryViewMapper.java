@@ -55,7 +55,7 @@ public interface CategoryViewMapper {
 	        @Param("userNo") Integer userNo);
 	
 	@Insert("INSERT INTO categoryView (viewNo, categoryNo, userNo) "
-			+ "VALUES (#{viewNo}, #{categoryNo}, #{userNo}")
+			+ "VALUES (#{viewNo}, #{categoryNo}, #{userNo})")
 	void insert(
 			@Param("viewNo") Integer viewNo,
 			@Param("categoryNo") Integer categoryNo,
