@@ -27,7 +27,7 @@ public class AnswerHistoryService {
 	@Autowired
 	private AnswerHistoryMapper answerHistoryMapper;
 	
-	public List<Integer> getCategoryListByUserNoAndAnswerType(Integer userNo, Integer answerNo) {
+	public List<Map<String,Object>> getCategoryListByUserNoAndAnswerType(Integer userNo, Integer answerNo) {
 		return answerHistoryMapper.getCategoryListByUserNoAndAnswerType(userNo, answerNo);
 	}
 	

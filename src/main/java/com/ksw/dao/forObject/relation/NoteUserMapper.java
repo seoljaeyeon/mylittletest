@@ -19,7 +19,7 @@ public interface NoteUserMapper {
 			+ "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo "
 			+ "JOIN noteUser nu ON nu.noteNo = nc.noteNo "
 			+ "WHERE nu.userNo = #{userNo} ")
-	List<Integer> getCategoryListByUserNo(@Param("userNo") Integer userNo);
+	List<Map<String,Object>> getCategoryListByUserNo(@Param("userNo") Integer userNo);
 	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
