@@ -31,9 +31,8 @@ public interface AnswerHistoryMapper {
     List<Integer> getCategoryListByUserNoAndAnswerType(@Param("userNo") Integer userNo, 
                                                       @Param("answerType") Integer answerType);
 	
-	// 조인 순서도 중요
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
-	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
+	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "
 	        + "FROM note n "
 	        + "JOIN noteUser nu ON nu.noteNo = n.noteNo "
@@ -46,10 +45,9 @@ public interface AnswerHistoryMapper {
 	        + "JOIN answerHistory ah ON ah.noteNo = n.noteNo AND ah.userNo = nu.userNo " // answerHistory와 조인 조건 수정
 	        + "JOIN answer a ON a.answerNo = ah.answerNo "
 	        + "WHERE nu.userNo = #{userNo} AND a.answerType = #{answerType} "
-	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt "
+	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
 	        + "ORDER BY n.createdAt DESC")
 	List<Map<String, Object>> getNoteListByUserNoAndAnswerType(@Param("userNo") Integer userNo, @Param("answerType") Integer answerType);
-
 
 	@Update("UPDATE answerHistory "
 	        + "SET answerNo = #{answerNo} "
