@@ -140,6 +140,8 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             "    AND IFNULL(f.favoriteType, 0) <> -1 "
@@ -174,6 +176,8 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             "    AND IFNULL(f.favoriteType, 0) <> -1 "
@@ -206,6 +210,8 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             "    AND IFNULL(f.favoriteType, 0) <> -1 " +
@@ -218,6 +224,8 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
             "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
             "    AND DATE(nv.createdAt) = CURRENT_DATE " +
@@ -242,6 +250,4 @@ public interface NoteCategoryMapper {
             "LIMIT 1")
     Integer getBookmarkQuestionRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
                             @Param("userNo") Integer userNo);
-    
-    
 }
