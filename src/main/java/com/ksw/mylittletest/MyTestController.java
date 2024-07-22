@@ -13,15 +13,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.service.forObject.entity.CategoryService;
+import com.ksw.service.forObject.relation.CategoryViewService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
+import com.ksw.service.function.ClientInfoService;
 import com.ksw.service.function.QuestionService;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
@@ -38,6 +39,10 @@ public class MyTestController {
 	private QuestionService questionService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private ClientInfoService clientInfoService;
+	@Autowired
+	private CategoryViewService categoryViewService;
 	
 	
 	@GetMapping
@@ -70,6 +75,10 @@ public class MyTestController {
 		if (userVO == null) {
 			return "redirect:/login";
 		}
+				
+		//최근 조회한 카테고리 목록 (오늘)
+		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
+		model.addAttribute("recent_categories", recent_category);
 		
 		
 		List<List<Map<String, Object>>> list = new ArrayList<>();
@@ -83,7 +92,8 @@ public class MyTestController {
 	public String getRandom(
 			@PathVariable("categoryTitle") String categoryTitle, 
 			HttpSession session,
-			Model model) {
+			Model model,
+			HttpServletRequest request) {
 		
         Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
         if (!auth.isPresent()) {
@@ -92,9 +102,12 @@ public class MyTestController {
 		
 		UserVO userVO = auth.get();
 		Integer menuType = 1;
+
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
 		
+		//카테고리 조회 수 증가
+		categoryViewService.categoryViewIncrease(categoryTitle, request, session);
 		// 사용자가 작성한 문제 중, 사용자가 보지 못한 문제 중에서 랜덤문제 출제
 		// 보지 못한 문제가 없다면 본 문제 중에서 랜덤으로 출제
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
@@ -126,6 +139,9 @@ public class MyTestController {
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
 				
+		// 최근 읽은 목록
+		
+		
 		// DB에서 문제 정보 가져오기 
 		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
 

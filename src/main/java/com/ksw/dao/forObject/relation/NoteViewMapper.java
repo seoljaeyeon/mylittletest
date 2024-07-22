@@ -36,7 +36,7 @@ public interface NoteViewMapper {
 	List<Integer> getTodayCategoryListByUserNo(@Param("userNo") Integer userNo);
 	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
-	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
+	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "
 	        + "FROM note n "
 	        + "JOIN noteCategory nc ON nc.noteNo = n.noteNo "
@@ -47,7 +47,7 @@ public interface NoteViewMapper {
 	        + "JOIN noteView nv ON nv.noteNo = n.noteNo "
 	        + "JOIN view v ON v.viewNo = nv.viewNo "
 	        + "WHERE nv.userNo = #{userNo} "
-	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt "
+	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
 	        + "ORDER BY n.createdAt DESC")
 	List<Map<String, Object>> getNoteListByUserNo(@Param("userNo") Integer userNo);
 

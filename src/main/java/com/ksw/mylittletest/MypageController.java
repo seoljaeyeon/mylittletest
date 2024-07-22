@@ -88,7 +88,8 @@ public class MypageController {
 		
 		Integer limit = 10;
 		Integer offset = (page-1)*limit;
-//		List<List<Map<String,Object>>> result = noteListService.getFavoriteList(userVO, limit, offset);
+		List<Map<String,Object>> result = noteListService.getFavoriteList(userVO, limit, offset);
+		model.addAttribute("list", result);
 		
 		return "mypage_bookmark";
 	}

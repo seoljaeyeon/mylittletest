@@ -13,13 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.service.forObject.entity.CategoryService;
+import com.ksw.service.forObject.relation.CategoryViewService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
@@ -38,6 +38,8 @@ public class TodayQuestionsController {
 	private QuestionService questionService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private CategoryViewService categoryViewService;
 
 	@GetMapping
 	public String toCategory(
@@ -68,6 +70,11 @@ public class TodayQuestionsController {
 		if (userVO == null) {
 			return "redirect:/login";
 		}
+		
+		
+		//최근 조회한 카테고리 목록 (오늘)
+		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
+		model.addAttribute("recent_categories", recent_category);
 		
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);

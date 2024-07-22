@@ -128,6 +128,38 @@ public class ClientInfoService {
         
         session.setAttribute("clientInfos", clientInfos);
     }
+    
+    // 세션에 클라이언트 정보를 저장하는 메소드
+    public void saveCategoryViewHistoryClientInfoInSession(
+    		Integer categoryNo, 
+    		HttpServletRequest request, 
+    		HttpSession session) {
+        String clientIp = getClientIp(request);
+        String userAgent = getClientAgent(request);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+        HashMap<Integer, HashMap<String, String>> clientInfos = (HashMap<Integer, HashMap<String, String>>) session.getAttribute("clientInfos_category");
+        if (clientInfos == null) {
+        	clientInfos = new HashMap<>();
+        }
+        
+        HashMap<String, String> clientInfo = clientInfos.getOrDefault(categoryNo, new HashMap<>());
+        
+        if(clientInfo.get(categoryNo) == null || clientInfo.get(categoryNo).isEmpty()) {
+        	clientInfo.put("clientIp", clientIp);
+        	clientInfo.put("userAgent", userAgent);
+        	clientInfo.put("currentTime", currentTime.toString());
+        	
+        	clientInfos.put(categoryNo, clientInfo);
+        }
+        
+        // 기록이 50개가 넘어가면 가장 오래된 기록 삭제
+        if(clientInfos.size() > 50 ) {
+            removeOldestRecord(clientInfos);
+        }
+        
+        session.setAttribute("clientInfos_category", clientInfos);
+    }
 
 //    // 가장 오래된 기록을 삭제하는 메소드
 //    private void removeOldestRecord(HashMap<Integer, HashMap<String, String>> clientInfos) {
@@ -175,6 +207,33 @@ public class ClientInfoService {
     		return false;
     	}
     	sessionClientInfo = sessionClientInfos.get(noteNo);
+        
+        String sessionClientIp = sessionClientInfo.get("clientIp");
+        String sessionUserAgent = sessionClientInfo.get("userAgent");
+        Timestamp sessionTime = Timestamp.valueOf(sessionClientInfo.get("currentTime")); 
+        
+        String currentClientIp = getClientIp(request);
+        String currentUserAgent = getClientAgent(request);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis()); 
+
+        return (
+        		sessionClientIp.equals(currentClientIp) 
+        		&& currentTime.getTime() - sessionTime.getTime() <= 5 * 60 * 1000);
+    }
+    
+    // 세션에 해당 게시글을 본 기록이 있는 지 확인 후, 조회수를 올려도 될 지 말지 정해주는 메소드 -> false면 조회수 증가 O, true면 증가 X
+    public boolean getSessionClientCategoryViewHistory(Integer categoryNo, HttpSession session, HttpServletRequest request) {
+    	HashMap<Integer, HashMap<String, String>> sessionClientInfos = (HashMap<Integer, HashMap<String, String>>) session.getAttribute("clientInfos_category");
+    	
+    	HashMap<String, String> sessionClientInfo = new HashMap<String, String>();
+    	if (sessionClientInfos == null || sessionClientInfos.isEmpty()) {
+    		return false;
+    	}
+    	
+    	if (sessionClientInfos.get(categoryNo) == null || sessionClientInfos.get(categoryNo).isEmpty()) {
+    		return false;
+    	}
+    	sessionClientInfo = sessionClientInfos.get(categoryNo);
         
         String sessionClientIp = sessionClientInfo.get("clientIp");
         String sessionUserAgent = sessionClientInfo.get("userAgent");

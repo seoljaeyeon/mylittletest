@@ -20,14 +20,14 @@ public interface FavoriteNoteMapper {
 			+ "	JOIN noteCategory nc ON c.categoryNo = nc.categoryNo "
 			+ "	JOIN favoriteNote fn ON nc.noteNo = fn.noteNo"
 			+ " JOIN favorite f ON fn.favoriteNo = f.favoriteNo "
-			+ " WHERE f.favoriteType = 1 ) "
+			+ " WHERE f.favoriteType = 1 AND fn.userNo = #{userNo} ) "
 			+ "SELECT categoryNo "
 			+ "FROM temp_table "
 			+ "ORDER BY createdAt DESC")
 	List<Integer> getCategoryListByUserNoAndFavoriteType(@Param("userNo") Integer userNo, @Param("favoriteType") Integer favoriteType);
 
 	@Select("SELECT " +
-	        "CASE WHEN f.favoriteType = 1 THEN '즐겨찾기' ELSE '북마크' END AS favoriteType, " +
+	        "f.favoriteType, " +
 	        "c.categoryTitle, " +
 	        "n.noteTitle AS bookmarkNote, " +
 	        "f.createdAt, " +
@@ -38,7 +38,7 @@ public interface FavoriteNoteMapper {
 	        "LEFT JOIN noteCategory nc ON nc.categoryNo = c.categoryNo " +
 	        "LEFT JOIN note n ON n.noteNo = nc.noteNo " +
 	        "LEFT JOIN favoriteNote fn ON f.favoriteNo = fn.favoriteNo " +
-	        "WHERE fn.userNo = #{userNo} OR fc.userNo = #{userNo} " +
+	        "WHERE (fn.userNo = #{userNo} OR fc.userNo = #{userNo}) AND f.favoriteType = 1 " +
 	        "ORDER BY f.createdAt DESC " +
 	        "LIMIT #{limit} OFFSET #{offset}")
 	List<Map<String, Object>> getFavoriteListByUserNo(
@@ -47,21 +47,23 @@ public interface FavoriteNoteMapper {
 	        @Param("offset") Integer offset);
 
 	
-	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
-	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
+	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
+	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "
 	        + "FROM note n "
 	        + "JOIN noteCategory nc ON nc.noteNo = n.noteNo "
 	        + "JOIN category c ON c.categoryNo = nc.categoryNo "
 	        + "LEFT JOIN favoriteNote fn ON fn.noteNo = n.noteNo "
 	        + "LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo "
-	        + "LEFT JOIN reply r ON r.noteNo = n.noteNo "
+	        + "LEFT JOIN noteReply nr ON nr.noteNo = n.noteNo "
+	        + "LEFT JOIN reply r ON r.replyNo = nr.replyNo "
 	        + "JOIN noteView nv ON nv.noteNo = n.noteNo "
 	        + "JOIN view v ON v.viewNo = nv.viewNo "
 	        + "WHERE nv.userNo = #{userNo} "
-	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt "
+	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
 	        + "ORDER BY n.createdAt DESC")
 	List<Map<String,Object>> getNoteListByUserNo(@Param("userNo") Integer userNo);
+
 	
 	@Select(""
 			+ "SELECT f.*"
