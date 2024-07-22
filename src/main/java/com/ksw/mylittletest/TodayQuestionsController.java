@@ -50,12 +50,11 @@ public class TodayQuestionsController {
 	@GetMapping("/category")
 	public String viewCategoryPage(
 			RedirectAttributes redirectAttributes,
-			@ModelAttribute("menuType") Integer menuType,
             @RequestParam(value="page", required = false, defaultValue="1") Integer page,
             Model model
 			){
 	    
-	    menuType = (Integer) model.asMap().get("menuType");
+	    Integer menuType = (Integer) model.asMap().get("menuType");
 
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {

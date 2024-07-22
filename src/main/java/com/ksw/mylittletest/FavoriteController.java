@@ -101,9 +101,11 @@ public class FavoriteController {
 			response.put("status", "insert_failed");
 		};
 		
-		Alarm alarm = alarmService.save(1);
 		UserDTO writer = noteUserService.getUserByNoteNo(noteNo);
-		alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), targetType, noteNo, result);
+		if (writer.getUserNo() != userVO.getUserNo()) {
+			Alarm alarm = alarmService.save(1);
+			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
+		}
 		
     	return response;
     }

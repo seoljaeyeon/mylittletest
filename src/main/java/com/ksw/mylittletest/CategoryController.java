@@ -66,13 +66,15 @@ public class CategoryController {
 	@GetMapping
 	public String categoryMain(
 			Model model,
-			@ModelAttribute("menuType") Integer menuType,
 	        @RequestParam(value = "page", defaultValue = "1") Integer page, 
 	        RedirectAttributes redirectAttributes
 			) {
 		UserVO userVO = authService.getUserVO();
 		String menuPath = "";
 
+	    Integer menuType = (Integer) model.asMap().get("menuType");
+
+		
 		if (userVO == null) {
 			return "redirect:/login";
 		}
