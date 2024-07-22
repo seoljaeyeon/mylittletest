@@ -1,9 +1,5 @@
 package com.ksw.service.forObject.entity;
 
-import com.ksw.dto.forObject.entity.FileDTO;
-import com.ksw.object.entity.File;
-import com.ksw.vo.forObject.entity.FileVO;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,14 +11,22 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.util.StringUtils;
+
+import com.ksw.dao.forObject.entity.FileRepository;
+import com.ksw.dto.forObject.entity.FileDTO;
+import com.ksw.object.entity.File;
+import com.ksw.vo.forObject.entity.FileVO;
 
 @Service
 public class FileService {
 
+	@Autowired
+	private FileRepository fileRepository;
+	
     private Path fileStorageLocation;
 
     @Value("${file.upload-dir.linux:/var/www/uploads}")
@@ -51,7 +55,11 @@ public class FileService {
             throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
         }
     }
-	
+    
+    public File save(FileDTO fileDTO) {
+    	return fileRepository.save(this.convertToEntity(fileDTO));
+    }
+    
 	public FileDTO uploadFile(MultipartFile file) throws IOException {
 
 		// DTO에 저장될 필드명 미리 정의

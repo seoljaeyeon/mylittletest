@@ -10,8 +10,7 @@
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <!-- DispatcherServlet Context: defines this servlet's request-processing 
-        infrastructure -->
+    <context:property-placeholder location="classpath:application.properties" />
 
     <!-- Enables the Spring MVC @Controller programming model -->
     <annotation-driven />
@@ -37,6 +36,9 @@
         <beans:property name="maxUploadSize" value="10485760" />
         <beans:property name="defaultEncoding" value="utf-8" />
     </beans:bean>
+    
+            <!-- File upload directory mapping -->
+    <resources mapping="/uploads/**" location="file:${file.upload-dir.linux}/" />
     
         <!-- Default controller -->
     <mvc:view-controller path="/" view-name="index" />

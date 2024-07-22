@@ -3,7 +3,10 @@ package com.ksw.service.forObject.relation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.relation.FileUserMapper;
+import com.ksw.dto.forObject.entity.FileDTO;
 import com.ksw.dto.forObject.relation.FileUserDTO;
+import com.ksw.object.entity.File;
 import com.ksw.object.relation.FileUser;
 import com.ksw.service.forObject.entity.FileService;
 import com.ksw.service.forObject.entity.UserService;
@@ -16,7 +19,21 @@ public class FileUserService {
 	private FileService fileService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FileUserService fileUserService;
+	@Autowired
+	private FileUserMapper fileUserMapper;
 	
+	
+    public FileDTO getFileByUserNo(Integer userNo) {
+    	File file = fileUserMapper.getUserProfileFile(userNo);
+    	return fileService.convertToDTO(file);
+    }
+	
+	public Integer insert(Integer fileNo, Integer userNo) {
+		return fileUserMapper.insert(fileNo, userNo);
+	}
+    
     // Entity -> DTO 변환 메소드
     public FileUserDTO convertToDTO(FileUser fileUserEntity) {
     	FileUserDTO dto = new FileUserDTO();
