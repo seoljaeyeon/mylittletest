@@ -87,7 +87,7 @@ public class QuestionController {
             	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userVO);
             	model.addAttribute("questionVO", questionVO); // view에서 어떻게 쓸 지 아직 미정
                 response.put("status", "success");
-                response.put("url", "/mylittletest/myTest/category/" + questionVO.getCategoryVO().getCategoryTitle() + "/" + questionVO.getNoteVO().getNoteNo());
+                response.put("url", "/mylittletest/mytest/category/" + questionVO.getCategoryVO().getCategoryTitle() + "/" + questionVO.getNoteVO().getNoteNo());
                 return response;
                 
             } catch (Exception e) {
