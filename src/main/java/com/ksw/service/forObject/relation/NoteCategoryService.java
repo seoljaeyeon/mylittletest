@@ -54,8 +54,9 @@ public class NoteCategoryService {
 		}
 
 	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
+	    System.out.println("categoryNo: "+categoryNo);
 	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
-	    
+	    System.out.println("previeousNoteNo: "+categoryNo);
     	
     	int attempts = 0;
     	int maxAttempts = 10;
@@ -95,6 +96,9 @@ public class NoteCategoryService {
 	    		result = noteCategoryMapper.getBookmarkQuestionRandomNoteNo(categoryTitle, userNo);
 	    		attempts++;
 	    	}
+	    }
+	    if (attempts == 10 && result.equals(previousNoteNo)) {
+	    	return result;
 	    }
 	    
 	    if (result.equals(previousNoteNo)) {
