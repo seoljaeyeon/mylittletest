@@ -46,6 +46,7 @@ public class CategoryController {
 	
 	@GetMapping(value = "/allcategory")
 	public String toAllCategory(
+			Model model,
 			RedirectAttributes redirectAttributes,
             @RequestParam(value="page", required = false, defaultValue="1") Integer page
 			){
@@ -59,6 +60,7 @@ public class CategoryController {
 		
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
+		model.addAttribute("list", list);
 		return "questionlist";
 	}
 	

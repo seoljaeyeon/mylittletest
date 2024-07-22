@@ -26,7 +26,28 @@ public interface FavoriteNoteMapper {
 			+ "ORDER BY createdAt DESC")
 	List<Integer> getCategoryListByUserNoAndFavoriteType(@Param("userNo") Integer userNo, @Param("favoriteType") Integer favoriteType);
 
-	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
+	@Select("SELECT " +
+	        "CASE WHEN f.favoriteType = 1 THEN '즐겨찾기' ELSE '북마크' END AS favoriteType, " +
+	        "c.categoryTitle, " +
+	        "n.noteTitle AS bookmarkNote, " +
+	        "f.createdAt, " +
+	        "n.noteNo " +
+	        "FROM favorite f " +
+	        "LEFT JOIN favoriteCategory fc ON fc.favoriteNo = f.favoriteNo " +
+	        "LEFT JOIN category c ON fc.categoryNo = c.categoryNo " +
+	        "LEFT JOIN noteCategory nc ON nc.categoryNo = c.categoryNo " +
+	        "LEFT JOIN note n ON n.noteNo = nc.noteNo " +
+	        "LEFT JOIN favoriteNote fn ON f.favoriteNo = fn.favoriteNo " +
+	        "WHERE fn.userNo = #{userNo} OR fc.userNo = #{userNo} " +
+	        "ORDER BY f.createdAt DESC " +
+	        "LIMIT #{limit} OFFSET #{offset}")
+	List<Map<String, Object>> getFavoriteListByUserNo(
+	        @Param("userNo") Integer userNo,
+	        @Param("limit") Integer limit,
+	        @Param("offset") Integer offset);
+
+	
+	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
 	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "
 	        + "FROM note n "
