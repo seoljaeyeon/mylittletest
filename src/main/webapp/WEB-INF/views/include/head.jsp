@@ -235,7 +235,7 @@ body {
 		            <div class="side_button" onclick="location.href='/mylittletest/index'">
 		                나의 학습
 		            </div>        
-		            <div class="side_button" onclick="location.href='/mylittletest/questionlist'">
+		            <div class="side_button" onclick="location.href='/mylittletest/category/allcategory'">
 		                문제 둘러보기
 		            </div>        
 		            <div class="side_button" onclick="location.href='/mylittletest/announcement_list'">
@@ -282,7 +282,7 @@ body {
 				<c:otherwise>
 					<div class="side_button" onclick="location.href='/mylittletest/login'">로그인</div>
 					<div class="side_button" id="mystudy_btn">나의 학습</div>
-					<div class="side_button" onclick="location.href='/mylittletest/questionlist'">문제 둘러보기</div>
+					<div class="side_button" onclick="location.href='/mylittletest/category/allcategory'">문제 둘러보기</div>
 					<div class="side_button" onclick="location.href='/mylittletest/announcement_list'">공지사항</div>
 					<div class="side_button manager_contact_button" id="admin_btn">관리자 연락</div>
 					<hr style="width: 100%; opacity: 0.6; margin-top: auto">
