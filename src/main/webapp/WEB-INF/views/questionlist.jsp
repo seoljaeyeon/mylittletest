@@ -5,8 +5,22 @@
 <jsp:include page="./include/head.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
+		 
+		 // URL 쿼리 파라미터에서 'message' 값을 가져옵니다.
+        var params = new URLSearchParams(window.location.search);
+        var message = params.get('message');
+        
+        if (message) {
+            var alertMessage = "";
+            if (message === "NoSolvedQuestions") {
+                alertMessage = "푼 적이 없습니다.";
+            }
+            alert(alertMessage); // 브라우저 기본 알림 표시
+        }
+		
 		// 팝업요소를 가져온다
 	    var popup = document.getElementById("popup_report");
 
@@ -146,11 +160,12 @@
 			border-radius: 2rem;
 			height: calc(90vh - 8.8rem);
 			min-height: calc(90vh - 8.8rem);
-			max-height: calc(90vh - 8.8rem);
 			min-width:800px;
 		  	display: inline-flex;
 		    align-items: center;
 		    justify-content: center;
+		    height:800px;
+		    
 		}
 		.container{
 			display: inline-flex;
@@ -644,7 +659,7 @@
 			  	<div class="swiper-wrapper">
 			  	<c:forEach  begin="0" end="5">
 					<div class="swiper-slide">
-						  <c:forEach var="question" items="${ question }" begin="0" end="3">
+						  <c:forEach var="question" items="${ list }" begin="0" end="3">
 						     	<div class="question_box">
 						     		<div class="question_item">
 						      			<div class="bookmark">
