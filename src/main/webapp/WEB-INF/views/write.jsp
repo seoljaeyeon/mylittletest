@@ -76,7 +76,7 @@
                         if (response.status === "success" && response.data && response.data.length > 0) {
                             response.data.forEach(function(item) {
                                 const newItem = document.createElement('div');
-                                newItem.textContent = item.categoryTitle + ' | ' + item.noteCount;
+                                newItem.textContent = item.categoryTitle + ' | '+'(' + item.noteCount + '문제)';
                                 newItem.classList.add('dropdown-item');
                                 newItem.addEventListener('mousedown', function() {
                                     inputField.value = item.categoryTitle;

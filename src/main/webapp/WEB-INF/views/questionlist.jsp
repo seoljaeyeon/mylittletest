@@ -653,11 +653,11 @@
 		         </div>
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
-			              <c:forEach  var="categorylist" items="${categoryList }">
+			              <c:forEach  var="categorylists" items="${recent_categories}">
 				                	<li class="list1">
-				                    	<div class="list" onclick="location.href='/mylittletest/category">${category.categoryTitle}</div>
+				                    	<div class="list" onclick="location.href='/mylittletest/category/${categorylist.categoryNo}">${categorylists.categoryTitle}</div>
 				                	</li>
-			               	</c:forEach>
+			             </c:forEach>
 			            </ul>
 			      </div>
 			  </div>
