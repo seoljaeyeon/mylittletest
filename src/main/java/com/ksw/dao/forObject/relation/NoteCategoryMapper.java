@@ -16,7 +16,7 @@ import com.ksw.object.relation.NoteCategory;
 @Mapper
 public interface NoteCategoryMapper {
 
-	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
+	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(nr.replyNo) AS reply_count "
 	        + "FROM note n "

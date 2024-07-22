@@ -637,11 +637,11 @@
 			</div>
 			<div class="change" id="picture_btn">변경하기</div>
 			<div class="nickname">
-				${ Nickname }
+				${ userVO.nickname }
 			<div class="change" id="nicknamebtn">변경하기</div>
 			</div>
 			<div class="email">
-				${ email }
+				${ userVO.email }
 			<div class="change" id="email_btn">변경하기</div>
 			</div>
 			<div class="password" id="password_btn">비밀번호 변경</div>

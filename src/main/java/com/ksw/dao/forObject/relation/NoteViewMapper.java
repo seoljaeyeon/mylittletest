@@ -35,7 +35,7 @@ public interface NoteViewMapper {
             "ORDER BY createdAt DESC")
 	List<Integer> getTodayCategoryListByUserNo(@Param("userNo") Integer userNo);
 	
-	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
+	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "
 	        + "FROM note n "

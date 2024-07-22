@@ -32,7 +32,7 @@ public interface AnswerHistoryMapper {
                                                       @Param("answerType") Integer answerType);
 	
 	// 조인 순서도 중요
-	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, "
+	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN fn.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "
 	        + "FROM note n "
