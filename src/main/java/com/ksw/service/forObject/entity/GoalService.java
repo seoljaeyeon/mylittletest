@@ -13,7 +13,7 @@ public class GoalService {
 
 	@Autowired
 	private GoalRepository goalRepository;
-
+	
 	public Goal save(Integer target) {
 		Goal goal = new Goal();
 		goal.setGoalCount(target);

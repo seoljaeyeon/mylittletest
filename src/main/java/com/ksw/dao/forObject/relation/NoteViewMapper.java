@@ -11,6 +11,16 @@ import org.apache.ibatis.annotations.Select;
 public interface NoteViewMapper {
 	
 	
+	@Select("SELECT " +
+	        "DATE(createdAt) AS viewDate, " +
+	        "COUNT(*) AS viewCount " +
+	        "FROM noteView " +
+	        "WHERE userNo = #{userNo} " +
+	        "AND createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
+	        "GROUP BY DATE(createdAt) " +
+	        "ORDER BY viewDate DESC")
+	List<Map<String, Object>> getRecentViewCounts(@Param("userNo") Integer userNo);
+	
     @Select("SELECT c.categoryNo, MAX(n.createdAt) AS createdAt " +
             "FROM category c " +
             "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +

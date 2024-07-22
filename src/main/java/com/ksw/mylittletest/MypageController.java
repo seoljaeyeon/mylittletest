@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ksw.dto.forObject.entity.FileDTO;
 import com.ksw.service.forObject.entity.AlarmService;
 import com.ksw.service.forObject.relation.AlarmRelationService;
+import com.ksw.service.forObject.relation.FileUserService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.NoteListService;
 import com.ksw.vo.forObject.entity.UserVO;
@@ -28,6 +30,8 @@ public class MypageController {
 	private AuthService authService;
 	@Autowired
 	private NoteListService noteListService;
+	@Autowired
+	private FileUserService fileUserService;
 	
 	@GetMapping
 	public String myPageMain() {
@@ -67,6 +71,16 @@ public class MypageController {
 			return "redirect:/login";
 		}
 		
+		// 파일 정보를 가져오는 로직
+	    FileDTO fileDTO = fileUserService.getFileByUserNo(userVO.getUserNo());
+	    String profilePictureUrl = null;
+	    if (fileDTO != null && fileDTO.getSavedName() != null) {
+	        profilePictureUrl = "/mylittletest/uploads/" + fileDTO.getSavedName();
+	    } else {
+	        profilePictureUrl = "https://www.rollingstone.com/wp-content/uploads/2020/07/Screen-Shot-2020-07-15-at-11.24.37-AM.jpg"; // 기본 프로필 이미지
+	    }
+	    model.addAttribute("profileURL", profilePictureUrl);
+
 		// 분류, 내용, 시간
 		Integer limit = 10;
 		Integer offset = (page-1)*limit;
@@ -84,13 +98,19 @@ public class MypageController {
 	        @RequestParam(value = "page", defaultValue = "1") Integer page 
 ) {
 	
-		UserVO userVO  = authService.getUserVO();
+		UserVO userVO = authService.getUserVO();
+		if(userVO == null) {
+			return "redirect:/login";
+		}
 		
 		Integer limit = 10;
 		Integer offset = (page-1)*limit;
 		List<Map<String,Object>> result = noteListService.getFavoriteList(userVO, limit, offset);
-		model.addAttribute("list", result);
 		
+		
+		model.addAttribute("list", result);
+		model.addAttribute("userVO", userVO);
+
 		return "mypage_bookmark";
 	}
 	

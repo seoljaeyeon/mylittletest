@@ -55,30 +55,6 @@
         document.getElementById("btn_close_pw").addEventListener("click", function() {
             togglePopup('popup_password', 'hide');
         });
-        // 프로필 사진 변경
-        const profilePicture = document.getElementById("profilePicture");
-        const pictureBtn = document.getElementById("picture_btn");
-        const fileInput = document.getElementById("fileInput");
-        const profileImg = document.getElementById("profileImg");
-
-        const openFileDialog = () => {
-            fileInput.click();
-        };
-
-        profilePicture.addEventListener("click", openFileDialog);
-        pictureBtn.addEventListener("click", openFileDialog);
-
-        fileInput.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    profileImg.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-   	 
 });
 </script>
 <style>
@@ -99,6 +75,10 @@
 	height: 130px;
 	border-radius: 50%;
 	margin-top: 10px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	overflow:hidden;
 }
 
 .profile_box {
@@ -502,6 +482,11 @@
 .show {
 	display: block;
 }
+
+/* #profilePicture {
+	justify-content: center;
+    align-items: center;  
+} */
 </style>
 <!------------------------- 팝업영역 ----------------------------------->
 
@@ -619,8 +604,51 @@
 	<div class="profile_box">
 		<input type="file" id="fileInput" style="display: none;">
 		<div class="profile">
-			<div class="picture" id="profilePicture">${ profil }</div>
+			<div class="profile-img" id="profilePicture">
+				<img src="${profileURL}" alt="Profile Picture" />
+			</div>
 			<div class="change" id="picture_btn">변경하기</div>
+
+<script>
+    const profilePicture = document.getElementById("profilePicture");
+    const pictureBtn = document.getElementById("picture_btn");
+    const fileInput = document.getElementById("fileInput");
+
+    pictureBtn.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('userNo', ${userVO.userNo}); // userNo를 여기에 추가
+
+            fetch('/mylittletest/file/upload', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content') // CSRF 토큰 추가
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data != null) {
+                    alert("File uploaded successfully");
+                    profilePicture.querySelector('img').src = '/mylittletest/uploads/'+data.savedName; // 파일 업로드 후 이미지 경로 변경
+                } else {
+                    alert("File upload failed");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("File upload error");
+            });
+        }
+    });
+			</script>
+			
 			<div class="nickname">
 				${ userVO.nickname }
 				<div class="change" id="nicknamebtn">변경하기</div>
@@ -635,67 +663,65 @@
 		</div>
 		<div class="sub_menu">
 			<div class="bookmark_list_btn"
-				onclick="location.href='/mylittletest/mypage'">즐겨찾기 &
+				onclick="location.href='/mylittletest/mypage/bookmark'">즐겨찾기 &
 				북마크 목록</div>
 			<div class="alarm_list_btn" style="margin-top: 50px;"
-				onclick="location.href='/mylittletest/mypage'">알림 목록</div>
+				onclick="location.href='/mylittletest/mypage/alarm'">알림 목록</div>
 		</div>
 	</div>
 	<div class="alarm_container">
 		<div class="alarm_list">
 			<div class="alarm_title">알림 목록</div>
 			<c:if test="${result == null }">
-				<div>
-				 최근 알림이 없습니다.
-				</div>
+				<div>최근 알림이 없습니다.</div>
 			</c:if>
 			<c:if test="${result != null}">
-			<div class="alarm_main">
-				<div class="alarm">
-					<div class="sub"
-						style="width: 150px; font-size: 20px; font-weight: bold;">분류</div>
-					<div class="sub"
-						style="width: 450px; font-size: 20px; font-weight: bold;">알림
-						내용</div>
-					<div class="sub"
-						style="width: 300px; font-size: 20px; font-weight: bold;">시간</div>
-				</div>
-				<c:forEach var="alarm" items="${ AlarmList }">
+				<div class="alarm_main">
 					<div class="alarm">
-						<div class="sub" style="width: 150px; font-size: 18px;">
-							<c:choose>
-								<c:when test="${alarm.alarmType == 1}">
+						<div class="sub"
+							style="width: 150px; font-size: 20px; font-weight: bold;">분류</div>
+						<div class="sub"
+							style="width: 450px; font-size: 20px; font-weight: bold;">알림
+							내용</div>
+						<div class="sub"
+							style="width: 300px; font-size: 20px; font-weight: bold;">시간</div>
+					</div>
+					<c:forEach var="alarm" items="${ AlarmList }">
+						<div class="alarm">
+							<div class="sub" style="width: 150px; font-size: 18px;">
+								<c:choose>
+									<c:when test="${alarm.alarmType == 1}">
             						좋아요
         						</c:when>
-								<c:otherwise>
+									<c:otherwise>
             						댓글
         						</c:otherwise>
-							</c:choose>
+								</c:choose>
+							</div>
+							<div class="sub"
+								style="width: 450px; overflow: hidden; font-size: 18px;">${alarm.alarmNote}</div>
+							<div class="sub" style="width: 300px; font-size: 18px;">${alarm.createdAt }</div>
 						</div>
-						<div class="sub"
-							style="width: 450px; overflow: hidden; font-size: 18px;">${alarm.alarmNote}</div>
-						<div class="sub" style="width: 300px; font-size: 18px;">${alarm.createdAt }</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
 
-			</div>
-			<div class="page" style="text-align: center;">
-				<c:if test="${startBK > 10 }">
-					<a href="index.do?page=${startBK - 1}">◀</a>
-				</c:if>
-				<c:forEach var="page" begin="${startBK}" end="${endBK}">
-					<c:if test="${ page == pageno }">
-						<a style="color: red; font-weight: bold;"
-							href="index.do?page=${ page }">${ page }</a>
+				</div>
+				<div class="page" style="text-align: center;">
+					<c:if test="${startBK > 10 }">
+						<a href="index.do?page=${startBK - 1}">◀</a>
 					</c:if>
-					<c:if test="${ page != pageno }">
-						<a href="index.do?page=${ page }">${ page }</a>
+					<c:forEach var="page" begin="${startBK}" end="${endBK}">
+						<c:if test="${ page == pageno }">
+							<a style="color: red; font-weight: bold;"
+								href="index.do?page=${ page }">${ page }</a>
+						</c:if>
+						<c:if test="${ page != pageno }">
+							<a href="index.do?page=${ page }">${ page }</a>
+						</c:if>
+					</c:forEach>
+					<c:if test="${endBK <  maxpage }">
+						<a href="index.do?page=${endBK + 1}">▶</a>
 					</c:if>
-				</c:forEach>
-				<c:if test="${endBK <  maxpage }">
-					<a href="index.do?page=${endBK + 1}">▶</a>
-				</c:if>
-			</div>
+				</div>
 			</c:if>
 		</div>
 	</div>
