@@ -58,6 +58,7 @@ public class ReplyController {
 			@ModelAttribute ReplyDTO replyDTO,
 			@RequestParam("noteNo") Integer noteNo,
 			@RequestParam("categoryTitle") String categoryTitle,
+			@RequestParam("menuName") String menuName,
 			Model model,
 			HttpServletRequest request) {
 		
@@ -68,7 +69,7 @@ public class ReplyController {
 	    }
 	    
 		if(noteNo == null || categoryTitle == null) {
-			return "redirect:/myTest/category";
+			return "redirect:/"+ menuName +"/category";
 		}
 		
 		Reply reply = replyService.convertToEntity(replyDTO);
@@ -87,6 +88,6 @@ public class ReplyController {
 		}
 		
 		
-		return "redirect:/myTest/category/"+categoryTitle+"/"+noteNo;
+		return "redirect:/"+ menuName +"/category/"+categoryTitle+"/"+noteNo;
 	}
 }

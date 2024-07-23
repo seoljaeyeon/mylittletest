@@ -772,6 +772,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	    	<sec:csrfInput/>
 	    	<input type="hidden" name="noteNo" id="noteNo" value="${questionVO.noteVO.noteNo}">
 	    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
+	    	<input type="hidden" name="menuName" id="menuName" value="${menuName}">
 			<div class="reply_box">
 				<div class="reply_profile" style="font-size:30px; margin-top:5px;">😃</div>
 				<div class="replyinput"><input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요"></div>
@@ -782,10 +783,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="reply">
 		<c:forEach var="reply" items="${ questionVO.replies }">
 			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">${ questionVO.replies[0].userVO.nickname }</div>
+				<div class="reply_profiles" style="font-size:30px;">${ reply.userVO.nickname }</div>
 				<div class="replynote">
-					${questionVO.replies[0].replyVO.replyContent}
-					<div class="reply_date" id="reply_report">🚨신고 <span>${questionVO.replies[0].replyVO.createdAt}</span></div>
+					${reply.replyVO.replyContent}
+					<div class="reply_date" id="reply_report">🚨신고 <span>${reply.replyVO.createdAt}</span></div>
 				</div>
 				<c:if test="${ login != null and login.userno ==  reply.ruserno }">
 					<div class="replycheck">
