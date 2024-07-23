@@ -11,17 +11,25 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface AlarmRelationMapper {
 	
-	@Select("SELECT u.nickname, a.makerNo, a.noteNo, a.replyNo, "
-			+ "b.alarmType, b.createdAt, b.isRead " +
-	        "FROM alarmRelation a " +
-	        "JOIN alarm b ON a.alarmNo = b.alarmNo "
-	        + "JOIN user u ON a.makerNo = u.userNo " +
-	        "WHERE a.receiverNo = #{userNo} " +
-	        "LIMIT #{limit} OFFSET #{offset}")
+	@Select("SELECT u.nickname, "
+	        + "ar.makerNo, "
+	        + "ar.noteNo, "
+	        + "ar.replyNo, "
+	        + "b.alarmType, "
+	        + "b.createdAt, "
+	        + "b.isRead "
+	        + "FROM alarmRelation ar "
+	        + "JOIN alarm b ON ar.alarmNo = b.alarmNo "
+	        + "JOIN user u ON ar.makerNo = u.userNo "
+	        + "WHERE ar.receiverNo = #{userNo} "
+	        + "AND ar.receiverNo != ar.makerNo "
+	        + "ORDER BY b.createdAt "
+	        + "LIMIT #{limit} OFFSET #{offset}")
 	List<Map<String, Object>> getAlarmDetail(
 	        @Param("userNo") Integer userNo, 
 	        @Param("limit") Integer limit,
 	        @Param("offset") Integer offset);
+
 
 
 	@Select("SELECT ar.alarmNo FROM alarmRelation ar " +

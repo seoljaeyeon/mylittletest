@@ -3,6 +3,7 @@ package com.ksw.service.function;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,7 +28,6 @@ import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.forObject.relation.FileNoteDTO;
 import com.ksw.dto.forObject.relation.NoteCategoryDTO;
 import com.ksw.dto.forObject.relation.NoteUserDTO;
-import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.File;
@@ -105,7 +105,7 @@ public class QuestionService {
 				.writerVO(userService.convertToVO(questionDTO.getWriterDTO()))
 				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()))
 				.fileVO(fileService.convertToVO(questionDTO.getFileDTO()))
-				.replies(replyUserService.convertToVOList(questionDTO.getReplies()))
+				.replies(questionDTO.getReplies())
 				.todayNoteViewInCategory(questionDTO.getTodayNoteViewInCategory())
 				.viewCount(questionDTO.getViewCount())
 				.favoriteCount(questionDTO.getFavoriteCount())
@@ -214,7 +214,7 @@ public class QuestionService {
 		};
 		
 		//문제 댓글 목록 로딩 
-		List<ReplyUserDTO> replyList = replyUserService.getRepliesByNoteNo(noteNo);
+		List<Map<String, Object>> replyList = replyUserService.getRepliesByNoteNo(noteNo);
 		
 		//해당 게시글 조회 수 로딩 
 		int viewCount = questionMapper.getViewCountByNoteNo(noteNo);

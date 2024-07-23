@@ -1,18 +1,15 @@
 package com.ksw.dao.forObject.relation;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.ksw.dto.forObject.entity.ReplyDTO;
-import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.object.entity.Reply;
 import com.ksw.object.relation.ReplyUser;
 
@@ -20,36 +17,24 @@ import com.ksw.object.relation.ReplyUser;
 public interface ReplyUserMapper {
 
 	@Select("SELECT "
-	        + "r.replyNo AS r_replyNo, "
-	        + "r.createdAt AS r_createdAt, "
-	        + "r.isActive AS r_isActive, " 
-	        + "r.parentReply AS r_parentReply, "
-	        + "r.replyContent AS r_replyContent, "
-	        + "r.updatedAt AS r_updatedAt, " 
-	        + "u.userNo AS u_userNo, "
-	        + "u.createdAt AS u_createdAt, "
-	        + "u.isActive AS u_isActive, " 
-	        + "u.nickname AS u_nickname, "
-	        + "u.type AS u_type " 
+	        + "r.replyNo, "
+	        + "r.createdAt, "
+	        + "r.isActive, " 
+	        + "r.parentReply, "
+	        + "r.replyContent, "
+	        + "r.updatedAt, " 
+	        + "u.userNo, "
+	        + "u.createdAt AS userCreatedAt, "
+	        + "u.isActive, " 
+	        + "u.nickname, "
+	        + "u.type " 
 	        + "FROM reply r "
 	        + "JOIN noteReply nr ON r.replyNo = nr.replyNo "
 	        + "JOIN replyUser ru ON r.replyNo = ru.replyNo "
 	        + "JOIN user u ON ru.userNo = u.userNo "
-	        + "WHERE nr.noteNo = #{noteNo} AND (r.isActive IS NULL OR r.isActive != 0)")
-	@Results({
-	    @Result(property = "replyDTO.replyNo", column = "r_replyNo"),
-	    @Result(property = "replyDTO.createdAt", column = "r_createdAt"),
-	    @Result(property = "replyDTO.isActive", column = "r_isActive"),
-	    @Result(property = "replyDTO.parentReply", column = "r_parentReply"),
-	    @Result(property = "replyDTO.replyContent", column = "r_replyContent"),
-	    @Result(property = "replyDTO.updatedAt", column = "r_updatedAt"),
-	    @Result(property = "userDTO.userNo", column = "u_userNo"),
-	    @Result(property = "userDTO.createdAt", column = "u_createdAt"),
-	    @Result(property = "userDTO.isActive", column = "u_isActive"),
-	    @Result(property = "userDTO.nickname", column = "u_nickname"),
-	    @Result(property = "userDTO.type", column = "u_type")
-	})
-	List<ReplyUserDTO> getRepliesAndWriterByNoteNo(@Param("noteNo") Integer noteNo);
+	        + "WHERE nr.noteNo = #{noteNo} AND (r.isActive IS NULL OR r.isActive != 0) "
+	        + "ORDER BY CASE WHEN r.updatedAt IS NULL THEN r.createdAt ELSE r.updatedAt END DESC")
+	List<Map<String, Object>> getRepliesAndWriterByNoteNo(@Param("noteNo") Integer noteNo);
 
     
     @Insert("INSERT INTO replyUser (userNo, replyNo) VALUES (#{userNo}, #{replyNo})")

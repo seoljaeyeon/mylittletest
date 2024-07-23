@@ -26,7 +26,7 @@ public class Reply implements Serializable{
     @Column(nullable = false, length = 255)
     private String replyContent;
 
-    @Column
+    @Column(nullable = true)
     private Integer parentReply;
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")

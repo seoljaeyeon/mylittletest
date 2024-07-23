@@ -6,6 +6,7 @@
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <jsp:include page="./include/head.jsp"></jsp:include>
+<meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -772,6 +773,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	    	<sec:csrfInput/>
 	    	<input type="hidden" name="noteNo" id="noteNo" value="${questionVO.noteVO.noteNo}">
 	    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
+	    	<input type="hidden" name="menuPath" id="menuPath" value="${menuName}">
 			<div class="reply_box">
 				<div class="reply_profile" style="font-size:30px; margin-top:5px;">😃</div>
 				<div class="replyinput"><input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요"></div>
@@ -782,12 +784,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="reply">
 		<c:forEach var="reply" items="${ questionVO.replies }">
 			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">${ questionVO.replies[0].userVO.nickname }</div>
+				<div class="reply_profiles" style="font-size:30px;">${ reply.nickname}</div>
 				<div class="replynote">
-					${questionVO.replies[0].replyVO.replyContent}
-					<div class="reply_date" id="reply_report">🚨신고 <span>${questionVO.replies[0].replyVO.createdAt}</span></div>
+					${reply.replyContent}
+					<div class="reply_date" id="reply_report">🚨신고 <span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span></div>
 				</div>
-				<c:if test="${ login != null and login.userno ==  reply.ruserno }">
+				<c:if test="${ userVO != null and userVO.userNo == reply.userNo }">
 					<div class="replycheck">
 						<div class="reply_modify_btn">수정</div>
 						<div class="reply_modify_btn">삭제</div>

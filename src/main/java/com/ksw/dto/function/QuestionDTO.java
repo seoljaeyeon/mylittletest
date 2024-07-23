@@ -2,13 +2,12 @@ package com.ksw.dto.function;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FileDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.forObject.relation.NoteViewDTO;
-import com.ksw.dto.forObject.relation.ReplyUserDTO;
 
 public class QuestionDTO implements Serializable{
 
@@ -19,7 +18,7 @@ public class QuestionDTO implements Serializable{
 	private NoteDTO noteDTO;
 	private CategoryDTO categoryDTO;
 	private FileDTO fileDTO;
-	private List<ReplyUserDTO> replies;
+	private List<Map<String, Object>> replies;
 	private Integer viewCount;
 	private Integer favoriteCount;
 	private Integer answerType;
@@ -32,7 +31,7 @@ public class QuestionDTO implements Serializable{
 	public void setTodayNoteViewInCategory(Integer todayNoteViewInCategory) {
 		this.todayNoteViewInCategory = todayNoteViewInCategory;
 	}
-	public List<ReplyUserDTO> getReplies() {
+	public List<Map<String, Object>> getReplies() {
 		return replies;
 	}
 	public UserDTO getWriterDTO() {
@@ -47,7 +46,7 @@ public class QuestionDTO implements Serializable{
 	public void setIsFavorite(Boolean isFavorite) {
 		this.isFavorite = isFavorite;
 	}
-	public void setReplies(List<ReplyUserDTO> replies) {
+	public void setReplies(List<Map<String, Object>> replies) {
 		this.replies = replies;
 	}
 	public Integer getViewCount() {
