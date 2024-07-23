@@ -58,14 +58,14 @@ public class FavoriteController {
     @PostMapping(value = "/favorite", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, String> doFavorite(
-			@RequestParam Integer noteNo,
-			@RequestParam Integer requestType, 
-			@RequestParam Integer targetType
+			@RequestParam("noteNo") Integer noteNo,
+	        @RequestParam("requestType") Integer requestType,
+	        @RequestParam("targetType") Integer targetType
 			) {
 		UserVO userVO = authService.getUserVO();
 		
 		Map<String, String> response = new HashMap<>();
-		
+	try {
 		// 사용자 권한 체크 한번 더
 		if (userVO == null || userVO.getUserNo() == null) {
 			response.put("status", "loing_needed");
@@ -83,21 +83,23 @@ public class FavoriteController {
 		
 		
 		if (!Arrays.asList(requestTypes).contains(requestType)) {
-			response.put("status", "wrong request");
+			response.put("status", "wrong_request");
 			return response;
 		}
 		
 		if (targetType != 1 ) {
-			response.put("status", "wrong request");
+			response.put("status", "wrong_request");
 			return response;
 		}
 		
 		// 삽입 성공 - requestType과 같은 숫자 반환 / 실패 - 100 반환
 		Integer result = favoriteNoteService.updateFavorite(noteNo, userVO.getUserNo(), requestType);
 		if(result<100) {
+			   System.out.println("Favorite update result: " + result);
 			response.put("status", "insert_success");
 			response.put("favorite_status", result.toString());
 		} else {
+			System.out.println("Favorite update failed");
 			response.put("status", "insert_failed");
 		};
 		
@@ -106,6 +108,11 @@ public class FavoriteController {
 			Alarm alarm = alarmService.save(1);
 			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
 		}
+	 	} catch (Exception e) {
+	        e.printStackTrace();
+	        response.put("status", "error");
+	        response.put("message", e.getMessage());
+	    }
 		
     	return response;
     }

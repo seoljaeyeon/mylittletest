@@ -80,6 +80,8 @@ public class AllNoteController {
 			return "redirect:/login";
 		}
 		
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
 		
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);

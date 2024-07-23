@@ -97,6 +97,10 @@
 	text-align: center;
 	border: 1px solid black;
 	border-radius: 30px;
+	display:flex;
+	align-items:center;
+	justify-content: center;
+	flex-direction: column;
 }
 
 .change {
@@ -110,7 +114,6 @@
 }
 
 .password {
-	appearance: none;
 	background-color: #333333;
 	color: #ffffff;
 	border-radius: 10px;
@@ -123,8 +126,7 @@
 	display: flex;
 	cursor: pointer;
 	border: none;
-	margin-top: 30px;
-	margin-left: 75px;
+	margin-top:20px;
 }
 
 .sub_menu {

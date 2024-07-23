@@ -90,43 +90,40 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         
     }
-   
-    // 팝업요소를 가져온다
-    var popup = document.getElementById("popup_report");
-
-    // 팝업 오픈버튼을 가져옴
-    var popupOpenButton = document.getElementById("reportbtn");
-
-    // 버튼에 클릭이벤트 추가
-    popupOpenButton.addEventListener("click", function() {
-        // 팝업 표시 여부를 전환
-        popup.classList.toggle("show");
-    });
-    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-    var popupCloseButton = document.getElementById("delete");
-    popupCloseButton.addEventListener("click", function() {
-        popup.classList.remove("show");
+    
+    // 좋아요 
+    document.getElementById("like").addEventListener("click", function() {
+        sendFavorite();
     });
 
-    // 댓글 신고 팝업요소를 가져온다
-    var popupReply = document.getElementById("popup_reply");
-
-    // 댓글 신고 팝업 오픈버튼을 가져옴
-    var popupOpenButtonsReply = document.querySelectorAll(".reply_date");
-
-    // 모든 버튼에 클릭 이벤트 추가
-    popupOpenButtonsReply.forEach(function(btn) {
-        btn.addEventListener("click", function() {
-            // 팝업 표시 여부를 전환
-            popupReply.classList.toggle("show");
+ 
+    function sendFavorite() {
+        $.ajax({
+            type: "POST",
+            url: "/mylittletest/favorite",
+            data: {
+                noteNo: document.getElementById("noteNo").value,
+                requestType: 0,
+                targetType: 1
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function(response) {
+                if (response.status === "insert_success") {
+                    console.log("Favorite recorded successfully.");
+                } else if (response.status === "login_needed") {
+                    window.location.href = response.url;
+                } else {
+                    console.error("Failed to record favorite.");
+                }
+            },
+            error: function(e) {
+                console.error("Error recording favorite: ", e);
+            }
         });
-    });
-
-    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-    var popupCloseButtonReply = document.getElementById("reply_delete");
-    popupCloseButtonReply.addEventListener("click", function() {
-        popupReply.classList.remove("show");
-    });
+    }
+   
 
     // 북마크 버튼 애니메이션
     const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
@@ -585,126 +582,7 @@ document.addEventListener("DOMContentLoaded", function() {
     	float:right;
     	cursor:pointer;
     }
-    /*************************** 팝업 스타일  **************************************/
-    .popup_wrap {
-		    display: none; 
-		    position: fixed;
-		    top: 0;
-		    left: 0;
-		    width: 100%;
-		 	height: 100%;
-		   	background-color: rgba(0, 0, 0, 0.5); 
-		   	z-index: 1000; 
-		    overflow: auto; 
-		}
-		.report_area {
-			background-color: #ffffff;
-			width: 300px;
-			max-width: 40rem;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			padding: 1rem;
-			border-radius: 1rem;
-			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-		}
-		.report_list{
-			display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		.report_note{
-		 	display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		
-
-	.report_btn{
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
-		box-shadow: 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #dedede;
-		background-color: #000000;
-		color: #ffffff;
-		border-radius: 1rem;
-		height: 3rem;
-		width: 100px;
-		padding: auto;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 1rem;
-		text-align:center;
-		margin-left:1rem;
-		font-weight:bold;
-	}		
-	#reportnote{
-		width:220px;
-		resize:vertical;
-		height:122px;
-		font-size: 15px;
-		border-radius:5px;
-	    background-color:#ffffff;
-	    color:#000000;
-	}   
-	.show{
-		display:block;
-	}
-			    
 </style>
-<!-- 팝업영역  -->
-<div class="popup_wrap" id="popup_report">
-		<div class="report_area">
-			<h1 class="report_title" style="color:black;">신고하기</h1>
-			<div class="report_list">
-				<span style="font-weight:bold; color:black;">신고분류</span>
-				<div class=report_choice style="margin-left:8px;">
-					<select id="reportlist" class="reportlist">
-							<option value="1">욕설/반말/부적절한 언어</option>
-							<option value="2">저작권 침해</option>
-							<option value="3">도배성 게시글</option>
-							<option value="4">광고성 게시물</option>
-							<option value="5">회원 비방</option>
-						</select>
-				</div>
-			</div>
-			<div class="report_note">
-				<span style="font-weight:bold; font-size:15px; color:black;">신고내용</span>
-				<div class=report_box style="margin-left:0.8rem"><textarea id="reportnote"></textarea></div>
-			</div>
-			<div class="reportbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-	            <div class="report_btn" id="report">신고</div>
-	            <div class="report_btn" id="delete" style="background-color:#ffffff;color:black; ">취소</div>
-	        </div>
-		</div>
-	</div>
-	<!-- 댓글 신고 팝업 -->
-	<div class="popup_wrap" id="popup_reply">
-		<div class="report_area">
-			<h1 class="report_title" style="color:black;">신고하기</h1>
-			<div class="report_list">
-				<span style="font-weight:bold; color:black;">신고분류</span>
-				<div class=report_choice style="margin-left:8px;">
-					<select id="reportlist" class="reportlist">
-							<option value="1">욕설/반말/부적절한 언어</option>
-							<option value="2">저작권 침해</option>
-							<option value="3">도배성 게시글</option>
-							<option value="4">광고성 게시물</option>
-							<option value="5">회원 비방</option>
-						</select>
-				</div>
-			</div>
-			<div class="report_note">
-				<span style="font-weight:bold; font-size:15px; color:black;">신고내용</span>
-				<div class=report_box style="margin-left:0.8rem"><textarea id="reportnote"></textarea></div>
-			</div>
-			<div class="reportbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-	            <div class="report_btn" id="report">신고</div>
-	            <div class="report_btn" id="reply_delete" style="background-color:#ffffff;color:black; ">취소</div>
-	        </div>
-		</div>
-	</div>
-<!-- 팝업영역 -->
 <div class="solve_container">
 	<div class="solve_header">
 		<div class="solve_title">▷<span name="categoryTitleName" id="categoryTitleName">${questionVO.categoryVO.categoryTitle}</span></div>
@@ -719,7 +597,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="modify_btn" onclick="location.href='/mylittletest/modify/${questionVO.noteVO.noteNo}?menuName=${menuName}'">수정 </div>
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
-		<div class="reportbtn" id="reportbtn">🚨</div>
 		<div class="bookmark_btn">★</div>
 	</div>
 	<div class="solve_main">
@@ -742,7 +619,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					<div class="next" onclick="location.href='/mylittletest/${menuName}/category/${questionVO.categoryVO.categoryTitle}'">▷다음문제</div>
 					<div class="mini_box">
 						<div class="like_box">
-							<div class="like">❤ </div>
+							<div class="like" id="like">❤</div>
 							<div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
 						</div>
 						<div class="share" id="sharebtn">📤공유하기</div>
@@ -787,7 +664,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				<div class="reply_profiles" style="font-size:30px;">${ reply.nickname}</div>
 				<div class="replynote">
 					${reply.replyContent}
-					<div class="reply_date" id="reply_report">🚨신고 <span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span></div>
+					<div class="reply_date" id="reply_report"><span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span></div>
 				</div>
 				<c:if test="${ userVO != null and userVO.userNo == reply.userNo }">
 					<div class="replycheck">
