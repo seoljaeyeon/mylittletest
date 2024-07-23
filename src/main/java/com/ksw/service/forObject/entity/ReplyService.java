@@ -19,10 +19,22 @@ public class ReplyService {
 	@Autowired
 	private ReplyRepository replyRepository;
 	
-	@Transactional
 	public Reply writeReply(String replyContent) {
 		Reply reply = new Reply();
 		reply.setReplyContent(replyContent);
+		if (replyContent != null) {
+			reply = replyRepository.save(reply);
+			System.out.println("reply 삽입 후 no 반환 : "+reply.getReplyNo());
+			return reply;
+		}
+		System.out.println("Insert Reply failed. Empty ReplyDTO returned");
+		return reply;
+	}
+	
+	public Reply updateReply(String replyContent, Integer replyNo) {
+		Reply reply = new Reply();
+		reply.setReplyContent(replyContent);
+		reply.setReplyNo(replyNo);
 		if (replyContent != null) {
 			reply = replyRepository.save(reply);
 			System.out.println("reply 삽입 후 no 반환 : "+reply.getReplyNo());

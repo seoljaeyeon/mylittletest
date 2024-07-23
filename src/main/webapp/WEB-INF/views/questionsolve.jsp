@@ -64,67 +64,6 @@ document.addEventListener("DOMContentLoaded", function() {
         sendAnswer(1);
     });
 
-    function sendAnswer(answerType) {
-        $.ajax({
-            type: "POST",
-            url: "/mylittletest/answer",
-            data: {
-                noteNo: noteNo,
-                answerType: answerType
-            },
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function(response) {
-                if (response.status === "success") {
-                    console.log("Answer recorded successfully.");
-                } else if (response.status === "login_needed") {
-                    window.location.href = response.url;
-                } else {
-                    console.error("Failed to record answer.");
-                }
-            },
-            error: function(e) {
-                console.error("Error recording answer: ", e);
-            }
-        });
-        
-    }
-    
-    // 좋아요 
-    document.getElementById("like").addEventListener("click", function() {
-        sendFavorite();
-    });
-
- 
-    function sendFavorite() {
-        $.ajax({
-            type: "POST",
-            url: "/mylittletest/favorite",
-            data: {
-                noteNo: document.getElementById("noteNo").value,
-                requestType: 0,
-                targetType: 1
-            },
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function(response) {
-                if (response.status === "insert_success") {
-                    console.log("Favorite recorded successfully.");
-                } else if (response.status === "login_needed") {
-                    window.location.href = response.url;
-                } else {
-                    console.error("Failed to record favorite.");
-                }
-            },
-            error: function(e) {
-                console.error("Error recording favorite: ", e);
-            }
-        });
-    }
-   
-
     // 북마크 버튼 애니메이션
     const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
 
@@ -134,14 +73,26 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // 좋아요 버튼 애니메이션
-    const likeBtns = document.querySelectorAll('.like');
-
-    likeBtns.forEach(function(Btn) {
-        Btn.addEventListener('click', function() {
-            this.classList.toggle('liked');
-        });
-    });
+    // 5초마다 updateLikeCount 함수 호출
+    setInterval(updateLikeCount, 5000);
+    
+    function updateLikeCount() {
+        const likeCountSpan = document.querySelector('.like_count span');
+        const noteNo = document.querySelector('.like').dataset.noteNo;
+        fetch(`/mylittletest/getLikeCount?noteNo=${noteNo}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+        	if (data.success) {
+    	        likeCountSpan.textContent = data.count;
+        	} 
+        })
+        .catch(error => console.error('Error fetching like count:', error));
+    }
 
     // 공유하기 버튼 기능 추가
     const shareBtn = document.getElementById('sharebtn');
@@ -619,9 +570,48 @@ document.addEventListener("DOMContentLoaded", function() {
 					<div class="next" onclick="location.href='/mylittletest/${menuName}/category/${questionVO.categoryVO.categoryTitle}'">▷다음문제</div>
 					<div class="mini_box">
 						<div class="like_box">
-							<div class="like" id="like">❤</div>
-							<div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
+						    <div class="like ${questionVO.isFavorite? 'liked':'' }" id="like" data-note-no="${questionVO.noteVO.noteNo}" onclick="toggleLike(this)">❤</div>
+						    <div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
 						</div>
+						<script>
+						function toggleLike(btn) {
+						    const noteNo = btn.dataset.noteNo; // noteNo를 버튼의 data-note-no 속성에서 가져옴
+						    const likeCountSpan = btn.nextElementSibling.querySelector('span');
+						    let requestType = btn.classList.contains('liked') ? 0 : 1;
+
+						    fetch('/mylittletest/favorite', {
+						        method: 'POST',
+						        headers: {
+						            'Content-Type': 'application/json',
+						            [csrfHeader]: csrfToken
+						        },
+						        body: JSON.stringify({
+						            noteNo: noteNo,
+						            requestType: requestType,
+						            targetType: 1
+						        })
+						    })
+						    .then(response => response.json())
+						    .then(data => {
+						        if (data.status === 'insert_success') {
+						            if (requestType === 1) {
+						                likeCountSpan.textContent = parseInt(likeCountSpan.textContent) + 1;
+						                btn.classList.add('liked');
+						            } else {
+						                likeCountSpan.textContent = parseInt(likeCountSpan.textContent) - 1;
+						                btn.classList.remove('liked');
+						            }
+						        } else if (data.status === 'login_needed') {
+						            window.location.href = data.url;
+						        } else {
+						            console.error('Request failed:', data);
+						        }
+						    })
+						    .catch(error => {
+						        console.error('Error:', error);
+						    });
+						}
+						</script>
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
 					<div class="media">
@@ -653,28 +643,112 @@ document.addEventListener("DOMContentLoaded", function() {
 	    	<input type="hidden" name="menuPath" id="menuPath" value="${menuName}">
 			<div class="reply_box">
 				<div class="reply_profile" style="font-size:30px; margin-top:5px;">😃</div>
-				<div class="replyinput"><input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요"></div>
-				<div class="replybtn"><button type="submit" class="reply_btn">작성</button></div>
+				<div class="replyinput">
+					<input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요">
+				</div>
+				<div class="replybtn">
+					<button type="submit" class="reply_btn">작성</button>
+				</div>
 			</div>
 		</form>
 		</c:if>
 		<div class="reply">
-		<c:forEach var="reply" items="${ questionVO.replies }">
-			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">${ reply.nickname}</div>
-				<div class="replynote">
-					${reply.replyContent}
-					<div class="reply_date" id="reply_report"><span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span></div>
-				</div>
-				<c:if test="${ userVO != null and userVO.userNo == reply.userNo }">
-					<div class="replycheck">
-						<div class="reply_modify_btn">수정</div>
-						<div class="reply_modify_btn">삭제</div>
-					</div>
-				</c:if>
-			</div>
-		</c:forEach>
+			<c:forEach var="reply" items="${ questionVO.replies }">
+			    <c:choose>
+			        <c:when test="${ userVO != null and userVO.userNo == reply.userNo }">
+			            <div class="reply_show" id="reply_show_${reply.replyNo}">
+			                <div class="reply_profiles" style="font-size:30px;">${ reply.nickname}</div>
+			                <div class="replynote">
+			                    ${reply.replyContent}
+			                    <div class="reply_date" id="reply_report">
+			                        <span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span>
+			                    </div>
+			                </div>
+			                <div class="replycheck">
+			                    <div class="reply_modify_btn" onclick="toggleEditForm(${reply.replyNo})">수정</div>
+			                    <div class="reply_modify_btn">삭제</div>
+			                </div>
+			            </div>
+			            <form id="editReplyForm_${reply.replyNo}" class="editReplyForm" style="display:none;" method="post" action="/mylittletest/replyModify">
+			                <input type="hidden" name="noteNo" value="${questionVO.noteVO.noteNo}">
+			                <input type="hidden" name="replyNo" value="${reply.replyNo}">
+		                	    	<input type="hidden" name="menuPath" id="menuPath" value="${menuName}">
+                	    		    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
+			                <sec:csrfInput />
+			                <input type="text" class="reply_input" name="replyContent" value="${reply.replyContent}">
+			                <div class="modifycheck">
+			                    <button type="submit" class="reply_btn">수정 완료</button>
+			                    <button type="button" class="reply_cancel_btn" onclick="toggleEditForm(${reply.replyNo})">취소</button>
+			                </div>
+			            </form>
+			        </c:when>
+			        <c:otherwise>
+			            <div class="reply_show">
+			                <div class="reply_profiles" style="font-size:30px;">${ reply.nickname}</div>
+			                <div class="replynote">
+			                    ${reply.replyContent}
+			                    <div class="reply_date" id="reply_date">
+			                        <span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span>
+			                    </div>
+			                </div>
+			                <div id="reply_report" onclick="reportReply(${reply.replyNo})">
+			                		 🚨
+			                </div>
+			            </div>
+			        </c:otherwise>
+			    </c:choose>
+			</c:forEach>
 		</div>
+		<script type="text/javascript">
+		function toggleEditForm(replyNo) {
+		    var replyShow = document.getElementById('reply_show_' + replyNo);
+		    var editForm = document.getElementById('editReplyForm_' + replyNo);
+		    if (replyShow.style.display === 'none') {
+		        replyShow.style.display = 'block';
+		        editForm.style.display = 'none';
+		    } else {
+		        replyShow.style.display = 'none';
+		        editForm.style.display = 'block';
+		    }
+		}
+		
+		function reportReply(replyNo) {
+		    const targetType = 3;
+		    const requestType = -2;
+
+		    const data = {
+		        replyNo: replyNo,
+		        requestType: requestType,
+		        targetType: targetType
+		    };
+
+		    // Send the POST request
+		    fetch('/mylittletest/replyBlock', {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/json',
+	                [csrfHeader]: csrfToken
+		        },
+		        body: JSON.stringify(data)
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+		        if (data.status === 'insert_success') {
+		            alert('댓글이 성공적으로 차단되었습니다.');
+		            window.location.reload();
+		        } else if (data.status === 'login_needed') {
+		            alert('로그인이 필요합니다.');
+		            window.location.href = data.url;
+		        } else {
+		            alert('요청 처리 중 오류가 발생했습니다.');
+		        }
+		    })
+		    .catch(error => {
+		        console.error('Error:', error);
+		        alert('요청 처리 중 오류가 발생했습니다.');
+		    });
+		}
+		</script>
 	</div>
 </div>
 

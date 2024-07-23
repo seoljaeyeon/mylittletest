@@ -32,10 +32,12 @@ public interface ReplyUserMapper {
 	        + "JOIN noteReply nr ON r.replyNo = nr.replyNo "
 	        + "JOIN replyUser ru ON r.replyNo = ru.replyNo "
 	        + "JOIN user u ON ru.userNo = u.userNo "
+	        + "LEFT JOIN favoriteReply fr ON fr.replyNo = r.replyNo AND fr.userNo = #{userNo} "
+	        + "LEFT JOIN favorite f ON f.favoriteNo = fr.favoriteNo "
 	        + "WHERE nr.noteNo = #{noteNo} AND (r.isActive IS NULL OR r.isActive != 0) "
+	        + "AND (f.favoriteType <> -2 OR f.favoriteType IS NULL) "
 	        + "ORDER BY CASE WHEN r.updatedAt IS NULL THEN r.createdAt ELSE r.updatedAt END DESC")
-	List<Map<String, Object>> getRepliesAndWriterByNoteNo(@Param("noteNo") Integer noteNo);
-
+	List<Map<String, Object>> getRepliesAndWriterByNoteNo(@Param("noteNo") Integer noteNo, @Param("userNo") Integer userNo);
     
     @Insert("INSERT INTO replyUser (userNo, replyNo) VALUES (#{userNo}, #{replyNo})")
     void insert(@Param("replyNo") Integer replyNo, @Param("userNo") Integer userNo);
@@ -50,7 +52,7 @@ public interface ReplyUserMapper {
     List<ReplyUser> findAll();
 
     @Update("UPDATE replyUser SET userNo = #{userNo} WHERE replyNo = #{replyNo}")
-    void update(ReplyUser replyUser);
+    void update(@Param("replyNo") Integer replyNo, @Param("userNo") Integer userNo);
 
     @Delete("DELETE FROM replyUser WHERE replyNo = #{replyNo}")
     void deleteByReplyNo(@Param("replyNo") Integer replyNo);

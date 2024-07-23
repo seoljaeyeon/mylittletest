@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.ksw.object.entity.File;
-import com.ksw.object.relation.FileNote;
 
 @Mapper
 public interface FileNoteMapper {
@@ -16,13 +16,13 @@ public interface FileNoteMapper {
             + "INSERT INTO fileNote "
             + "(fileNo, noteNo) "
             + "VALUES "
-            + "(#{file.fileNo}, #{note.noteNo})")
-    void insert(FileNote fileNote);
+            + "(#{fileNo}, #{userNo})")
+    void insert(@Param("fileNo") Integer fileNo, @Param("userNo") Integer userNo);
     
     @Select(""
     		+ "SELECT f.* FROM file f JOIN fileNote n "
     		+ "ON f.fileNo = n.fileNo "
-    		+ "WHERE n.noteNo = #{noteNo}")
+    		+ "WHERE n.noteNo = #{noteNo} ")
     List<File> getFileByNoteNo(Integer noteNo);
 	
 }

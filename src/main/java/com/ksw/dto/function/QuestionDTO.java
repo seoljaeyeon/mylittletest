@@ -82,7 +82,7 @@ public class QuestionDTO implements Serializable{
 	public List<FileDTO> getFileList() {
 		return filelist;
 	}
-	public void setFileList(List<FileDTO> fillist) {
+	public void setFileList(List<FileDTO> filelist) {
 		this.filelist = filelist;
 	}
 }

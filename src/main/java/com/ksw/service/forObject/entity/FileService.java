@@ -59,6 +59,10 @@ public class FileService {
         }
     }
     
+    public File save(File file) {
+    	return fileRepository.save(file);
+    }
+    
     public File save(FileDTO fileDTO) {
     	return fileRepository.save(this.convertToEntity(fileDTO));
     }
@@ -102,6 +106,7 @@ public class FileService {
 		    fileDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
 			filelist.add(fileDTO);
+			System.out.println("변환 성공완료" + "  "+originalFileName);
 		}
 	    return filelist;
 	}
@@ -114,6 +119,7 @@ public class FileService {
     		return dto;
     	}
     	dto.setFileNo(file.getFileNo());
+    	System.out.println("fileNo DTO세팅 성공"+file.getFileNo());
     	dto.setSavedName(file.getSavedName());
     	dto.setUploadName(file.getUploadName());
     	dto.setCreatedAt(file.getCreatedAt());
@@ -141,6 +147,7 @@ public class FileService {
     		System.out.println("FileDTO to FileVO failed. Empty FileVO created. FileDTO is null");
             return new FileVO.Builder().build();
         }
+        System.out.println("fileDTO-VO 전환 시도"+fileDTO.getFileNo());
         return new FileVO.Builder()
                 .fileNo(fileDTO.getFileNo())
                 .savedName(fileDTO.getSavedName())

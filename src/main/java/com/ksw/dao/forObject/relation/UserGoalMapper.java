@@ -23,18 +23,26 @@ public interface UserGoalMapper {
 			+ "")
 	Integer insert(@Param("userNo") Integer userNo, @Param("goalNo") Integer goalNo);
 	
-	@Select("SELECT nv.createdAt, COALESCE(nv.answerCount, 0) as answerCount, g.*, ug.userNo " +
-	        "FROM ( " +
-	        "    SELECT DATE(createdAt) as createdAt, COUNT(answerNo) as answerCount, userNo " +
-	        "    FROM answerHistory " +
-	        "    WHERE userNo = #{userNo} " +
-	        "    AND createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
-	        "    GROUP BY DATE(createdAt), userNo " +
-	        ") nv " +
-	        "LEFT JOIN userGoal ug ON DATE(ug.createdAt) = nv.createdAt AND ug.userNo = nv.userNo " +
-	        "LEFT JOIN goal g ON ug.goalNo = g.goalNo " +
-	        "WHERE nv.userNo = #{userNo} " +
-	        "ORDER BY nv.createdAt DESC")
+	@Select("SELECT " +
+	        "    COALESCE(nv.createdAt, DATE(ug.createdAt)) AS createdAt, " +
+	        "    COALESCE(nv.answerCount, 0) AS answerCount, " +
+	        "    g.*, " +
+	        "    ug.userNo " +
+	        "FROM " +
+	        "    ( " +
+	        "        SELECT DATE(createdAt) AS createdAt, COUNT(answerNo) AS answerCount, userNo " +
+	        "        FROM answerHistory " +
+	        "        WHERE userNo = #{userNo} " +
+	        "        AND createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
+	        "        GROUP BY DATE(createdAt), userNo " +
+	        "    ) nv " +
+	        "RIGHT JOIN userGoal ug " +
+	        "ON DATE(ug.createdAt) = nv.createdAt " +
+	        "AND ug.userNo = nv.userNo " +
+	        "LEFT JOIN goal g " +
+	        "ON ug.goalNo = g.goalNo " +
+	        "WHERE ug.userNo = #{userNo} " +
+	        "ORDER BY createdAt DESC")
 	List<Map<String, Object>> getRecentGoalsWithAnswerCounts(@Param("userNo") Integer userNo);
 
 

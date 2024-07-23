@@ -26,6 +26,7 @@ import com.ksw.service.forObject.relation.CategoryViewService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
+import com.ksw.service.function.SearchService;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
 
@@ -43,6 +44,8 @@ public class MyTestController {
 	private CategoryService categoryService;
 	@Autowired
 	private CategoryViewService categoryViewService;
+	@Autowired
+	private SearchService searchService;
 	
 	
 	@GetMapping
@@ -61,16 +64,16 @@ public class MyTestController {
             Model model
 			){
 	    
-	    Integer menuType = (Integer) model.asMap().get("menuType");
-	    String  menuName = "mytest";
-
-	    // menuType이 null인 경우 처리
-	    if (menuType == null) {
-	        menuType = 1;
-	        redirectAttributes.addFlashAttribute("menuType", menuType);
-	        return "redirect:/category";
-	    }
-
+		Integer menuType = (Integer) model.asMap().get("menuType");
+		String  menuName = "mytest";
+		
+		// menuType이 null인 경우 처리
+		if (menuType == null) {
+			menuType = 1;
+			redirectAttributes.addFlashAttribute("menuType", menuType);
+			return "redirect:/category";
+		}
+		
 		UserVO userVO = authService.getUserVO();
 		if (userVO == null) {
 			return "redirect:/login";
@@ -83,11 +86,20 @@ public class MyTestController {
 		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
 		model.addAttribute("recent_categories", recent_category);
 		
-		
-		List<List<Map<String, Object>>> list = new ArrayList<>();
-		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
-	    model.addAttribute("list", list);
-	    model.addAttribute("menuName", menuName);
+	    Boolean search = (Boolean) model.asMap().get("search");
+	    String searchInput = "";
+	    List<List<Map<String, Object>>> list = new ArrayList<>();
+	    if((search != null) ? (Boolean) search : false) {
+	    	searchInput = (String) model.asMap().get("searchInput");
+	    	list = searchService.search(userVO.getUserNo(), menuType, page, searchInput);
+	    	model.addAttribute("list", list);
+	    	model.addAttribute("menuName", menuName);
+	    } else {
+	    	list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
+	    	model.addAttribute("list", list);
+	    	model.addAttribute("menuName", menuName);
+	    };
+				
 		return "questionlist";
 	}
 	

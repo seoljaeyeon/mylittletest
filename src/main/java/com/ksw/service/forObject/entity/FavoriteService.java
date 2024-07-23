@@ -16,15 +16,19 @@ public class FavoriteService {
 	@Autowired
 	private FavoriteRepository favoriteRepository;
 	
-	public Favorite insert(Integer favoriteNo, Integer requestType) {
+	public Integer insert(Integer favoriteNo, Integer requestType) {
 		Favorite favorite = new Favorite();
 		
-		// 등록된 적이 있다면
+		// 등록된 적이 있다면 null 반환
 	    if (favoriteNo != null) {
 	        favorite.setFavoriteNo(favoriteNo); // 기존 엔티티 업데이트
+	        favorite.setFavoriteType(requestType); 
+	        favoriteRepository.save(favorite); 
+	        return null;
 	    }
 	    favorite.setFavoriteType(requestType);
-		return favoriteRepository.save(favorite);
+		favorite = favoriteRepository.save(favorite);
+		return favorite.getFavoriteNo();
 	}
 	
     // Entity -> DTO 변환 메소드

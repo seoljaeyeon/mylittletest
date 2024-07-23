@@ -125,7 +125,7 @@ public class QuestionController {
 			return "redirect:/login";
 		}
 		
-		session.setAttribute("fromModify", true);
+		session.setAttribute("no_view_increase", true);
 		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
 		
 		// 사용자 정보 저장

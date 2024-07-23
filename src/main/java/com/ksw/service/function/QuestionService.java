@@ -145,8 +145,7 @@ public class QuestionService {
 					File file = fileService.convertToEntity(fileDTO); // DTO -> Entity 변환
 					file = fileRepository.save(file); // JPA 기본 문법으로 file 데이터 저장
 					// 관계형 테이블 데이터 삽입
-					FileNoteDTO fileNoteDTO = new FileNoteDTO(noteDTO, fileDTO); // 관계 테이블 DTO 생성
-					fileNoteMapper.insert(fileNoteService.convertToEntity(fileNoteDTO)); // 엔티티로 변환 & 데이터 삽입
+					fileNoteMapper.insert(file.getFileNo(), note.getNoteNo()); // 엔티티로 변환 & 데이터 삽입
 				}
 			}
 			// 관계형 테이블 데이터 삽입 - note+category 관계테이블
@@ -198,8 +197,8 @@ public class QuestionService {
 		
 		// 조회 이력 확인 및 등록
 		if(!clientInfoService.getSessionClientViewHistory(noteNo, session, request) || 
-				(session.getAttribute("fromModify") == null || 
-				!(Boolean) session.getAttribute("fromModify"))) {
+				(session.getAttribute("no_view_increase") == null || 
+				!(Boolean) session.getAttribute("no_view_increase"))) {
 			// 세션에 조회 이력 등
 			System.out.println("session 체크 통과? "+clientInfoService.getSessionClientViewHistory(noteNo, session, request));
 			clientInfoService.saveClientInfoInSession(noteNo, request, session);
@@ -215,10 +214,10 @@ public class QuestionService {
 			}
 		};
 		
-		session.removeAttribute("fromModify");
+		session.removeAttribute("no_view_increase");
 		
 		//문제 댓글 목록 로딩 
-		List<Map<String, Object>> replyList = replyUserService.getRepliesByNoteNo(noteNo);
+		List<Map<String, Object>> replyList = replyUserService.getRepliesByNoteNo(noteNo, userVO.getUserNo());
 		
 		//해당 게시글 조회 수 로딩 
 		int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
@@ -234,9 +233,7 @@ public class QuestionService {
 		
 		//QuestionDTO에 모든 정보 담고 VO 반환
 		QuestionDTO questionDTO = new QuestionDTO(); 
-		System.out.println("글쓴이" + writerDTO.getNickname());
 		questionDTO.setWriterDTO(writerDTO); 
-		System.out.println("글쓴이세팅 완료" +questionDTO.getWriterDTO().getNickname());
 		questionDTO.setCategoryDTO(categoryDTO);
 		questionDTO.setNoteDTO(noteDTO); 
 		questionDTO.setFileList(fileDTO);
