@@ -68,7 +68,7 @@
         // 프로필 사진 변경
         const profilePicture = document.getElementById("profilePicture");
         const pictureBtn = document.getElementById("picture_btn");
-        const fileInput = document.getElementById("fileInput");
+        const fileInput = document.getElementById("profile");
         const profileImg = document.getElementById("profileImg");
 
         const openFileDialog = () => {
@@ -630,27 +630,29 @@
 
 <div class="mypage_container">
 	<div class="profile_box">
-		 <input type="file" id="fileInput" style="display:none;">
+		<input type="file" id="fileInput" style="display: none;">
 		<div class="profile">
-			<div class="picture" id="profilePicture">
-				${ profil }
-			</div>
+			<div class="picture" id="profilePicture">${ profil }</div>
 			<div class="change" id="picture_btn">변경하기</div>
 			<div class="nickname">
-				${ Nickname }
-			<div class="change" id="nicknamebtn">변경하기</div>
+				${ userVO.nickname }
+				<div class="change" id="nicknamebtn">변경하기</div>
 			</div>
 			<div class="email">
-				${ email }
-			<div class="change" id="email_btn">변경하기</div>
+				${ userVO.email }
+				<div class="change" id="email_btn">변경하기</div>
 			</div>
 			<div class="password" id="password_btn">비밀번호 변경</div>
-			<div class="change" id="idstopbtn" style="margin-top:15px; margin-bottom:15px;">계정 비활성화</div>
+			<div class="change" id="idstopbtn"
+				style="margin-top: 15px; margin-bottom: 15px;">계정 비활성화</div>
 		</div>
 		<div class="sub_menu">
-			<div class="bookmark_list_btn" onclick="location.href='mypage_bookmark.jsp'">즐겨찾기 & 북마크 목록</div>
-			<div class="alarm_list_btn" style="margin-top:50px;" onclick="location.href='mypage_alarm.jsp'">알림 목록</div>
-		</div>	
+			<div class="bookmark_list_btn"
+				onclick="location.href='/mylittletest/mypage/bookmark'">즐겨찾기 &
+				북마크 목록</div>
+			<div class="alarm_list_btn" style="margin-top: 50px;"
+				onclick="location.href='/mylittletest/mypage/alarm'">알림 목록</div>
+		</div>
 	</div>
 	<div class="bookmark_container">
 		<div class="bookmark_list">

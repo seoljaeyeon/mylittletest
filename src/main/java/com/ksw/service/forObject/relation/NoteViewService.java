@@ -3,6 +3,7 @@ package com.ksw.service.forObject.relation;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,23 @@ public class NoteViewService {
 	private UserService userService;
 	@Autowired
 	private NoteViewMapper noteViewMapper;
+	
+	public List<Map<String, Object>> getRecentViewCounts(Integer userNo){
+		return noteViewMapper.getRecentViewCounts(userNo);
+	}
+	
+	public List<Map<String,Object>> getCategoryListOrderedByNoteView() {
+		return noteViewMapper.getCategoryListOrderedByNoteView();
+	}
+	
+	public List<Map<String,Object>> getTodayCategoryListByUserNo(Integer userNo) {
+		return noteViewMapper.getTodayCategoryListByUserNo(userNo);
+	}
+	
+	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo){
+		List<Map<String, Object>> results = noteViewMapper.getNoteListByUserNo(userNo);
+		return results;
+	}
 	
 	public Integer getPreviousNoteNo(Integer categoryNo, Integer userNo) {
 		return noteViewMapper.getPreviousNoteNo(categoryNo, userNo);

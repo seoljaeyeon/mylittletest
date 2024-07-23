@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ksw.dto.forObject.entity.AnswerDTO;
@@ -32,13 +33,16 @@ public class AnswerController {
     @ResponseBody
     @Transactional
 	public Map<String, String> answerInsert(
-			@ModelAttribute AnswerDTO answerDTO, // 2 - 정답으로 체크한 것 / 1 - 오답으로 체크한 것 
-			@ModelAttribute Integer noteNo,
+	        @RequestParam("answerType") Integer answerType, // 2 - 정답으로 체크한 것 / 1 - 오답으로 체크한 것 
+			@RequestParam("noteNo") Integer noteNo,
 			Model model
 			) {
 		Map<String, String> response = new HashMap<>();
 		
 		UserVO userVO = authService.getUserVO();
+		
+	    System.out.println("Received noteNo: " + noteNo + ", answerType: " + answerType);
+
 		
 		if (userVO == null || userVO.getUserNo() == null) {
 			response.put("status", "loing_needed");
@@ -46,7 +50,7 @@ public class AnswerController {
 			return response;
 		}
 		
-		if(answerDTO == null) {
+		if(answerType == null) {
 			response.put("status", "input_null");
 			return response;
 		}
@@ -54,14 +58,22 @@ public class AnswerController {
 		model.addAttribute("userVO", userVO);
 		
 		try {
-			// answerHistory createdAt 지우
-			AnswerDTO answer = answerService.save(answerService.convertToEntity(answerDTO));
-			Integer result = answerHistoryService.insertHistory(noteNo, answer.getAnswerNo(), userVO.getUserNo());
-			model.addAttribute("stauts", "success");
-		} catch (Exception e) {
-			model.addAttribute("status", "failed");
-		}
-		return response;
+			AnswerDTO answerDTO = new AnswerDTO();
+			Integer answerNo = answerHistoryService.getAnswerNoByNoteNoAndUserNo(noteNo, userVO.getUserNo());
+			if (answerNo != null) {
+				answerDTO.setAnswerNo(answerNo);
+			}
+	        answerDTO.setAnswerType(answerType);
+	        AnswerDTO answer = answerService.save(answerService.convertToEntity(answerDTO));
+	        Integer result = (answerNo == null)
+	                ? answerHistoryService.insertHistory(noteNo, answer.getAnswerNo(), userVO.getUserNo())
+	                : answerHistoryService.updateHistory(noteNo, answer.getAnswerNo(), userVO.getUserNo());
+	        response.put("status", "success");
+	    } catch (Exception e) {
+	        response.put("status", "failed");
+	        e.printStackTrace();
+	        System.out.println("문제있음");
+	    }
+	    return response;
 	}
-	
 }

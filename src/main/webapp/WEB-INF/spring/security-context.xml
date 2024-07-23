@@ -36,21 +36,40 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 
-    <security:http  auto-config="true" use-expressions="true">
-        <security:csrf />
-        <security:logout logout-success-url="/login?logout" />
-   		<security:intercept-url pattern="/write"
+	<security:http auto-config="true" use-expressions="true">
+		<security:csrf />
+		<security:logout logout-url="/logout"
+			logout-success-url="/login" />
+		<security:intercept-url pattern="/write"
 			access="hasRole('ROLE_USER')" />
-		<security:intercept-url pattern="/myTest/**"
+		<security:intercept-url pattern="/mytest/**"
 			access="hasRole('ROLE_USER')" />
+		<security:intercept-url
+			pattern="/correctmytest/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url
+			pattern="/bookmarkquestions/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url
+			pattern="/reviewmytest/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url
+			pattern="/todayquestions/**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/replyWrite"
-			access="hasRole('ROLE_USER')" />			
-        <security:form-login login-page="/login"
-            default-target-url="/index" 
-            username-parameter="userId"
-            password-parameter="password"
-            always-use-default-target="false" />
-    </security:http>
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/favorite"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/category"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/index"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/goalsetting"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/allcategory"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url
+			pattern="/mypage/notelist/**" access="hasRole('ROLE_USER')" />
+		<security:form-login login-page="/login"
+			default-target-url="/index" username-parameter="userId"
+			password-parameter="password" always-use-default-target="false" />
+	</security:http>
 
 	<beans:bean id="authenticationService"
 		class="com.ksw.service.function.AuthService" />

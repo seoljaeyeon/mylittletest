@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.object.entity.Alarm;
+import com.ksw.service.forObject.entity.AlarmService;
 import com.ksw.service.forObject.entity.FavoriteService;
+import com.ksw.service.forObject.relation.AlarmRelationService;
 import com.ksw.service.forObject.relation.FavoriteCategoryService;
 import com.ksw.service.forObject.relation.FavoriteNoteService;
 import com.ksw.service.forObject.relation.FavoriteReplyService;
+import com.ksw.service.forObject.relation.NoteUserService;
 import com.ksw.service.function.AuthService;
 import com.ksw.vo.forObject.entity.UserVO;
 
@@ -31,6 +36,12 @@ public class FavoriteController {
 	private FavoriteCategoryService favoriteCategoryService;
 	@Autowired
 	private FavoriteReplyService favoriteReplyService;
+	@Autowired
+	private AlarmService alarmService;
+	@Autowired
+	private AlarmRelationService alarmRelationService;
+	@Autowired
+	private NoteUserService noteUserService; 
 	
 	/*
 	 * 요청하는 페이지에서 좋아요/북마크/댓글신고 버튼 ajax에서 보내야 하는 값
@@ -89,6 +100,13 @@ public class FavoriteController {
 		} else {
 			response.put("status", "insert_failed");
 		};
+		
+		UserDTO writer = noteUserService.getUserByNoteNo(noteNo);
+		if (writer.getUserNo() != userVO.getUserNo()) {
+			Alarm alarm = alarmService.save(1);
+			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
+		}
+		
     	return response;
     }
     

@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ksw.dao.forObject.entity.ReplyRepository;
 import com.ksw.dao.forObject.entity.UserRepository;
 import com.ksw.dto.forObject.entity.ReplyDTO;
+import com.ksw.dto.forObject.entity.UserDTO;
+import com.ksw.object.entity.Alarm;
 import com.ksw.object.entity.Reply;
 import com.ksw.object.entity.User;
+import com.ksw.service.forObject.entity.AlarmService;
 import com.ksw.service.forObject.entity.ReplyService;
-import com.ksw.service.forObject.entity.UserService;
+import com.ksw.service.forObject.relation.AlarmRelationService;
 import com.ksw.service.forObject.relation.NoteReplyService;
+import com.ksw.service.forObject.relation.NoteUserService;
 import com.ksw.service.forObject.relation.ReplyUserService;
 import com.ksw.service.function.AuthService;
 import com.ksw.vo.forObject.entity.UserVO;
@@ -31,24 +35,22 @@ public class ReplyController {
 	
 	@Autowired
 	private ReplyService replyService;
-	
-	@Autowired
-	private UserService userService;
-	
 	@Autowired 
 	private ReplyUserService replyUserService;
-
 	@Autowired
 	private AuthService authService;
-	
 	@Autowired
 	private NoteReplyService noteReplyService;
-	
 	@Autowired
 	private ReplyRepository replyRepository;
-	
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private AlarmService alarmService;
+	@Autowired
+	private AlarmRelationService alarmRelationService;
+	@Autowired
+	private NoteUserService noteUserService;
 	
 	@PostMapping("/replyWrite") 
 	@Transactional
@@ -69,26 +71,21 @@ public class ReplyController {
 			return "redirect:/myTest/category";
 		}
 		
-		System.out.println("/replyWrite 진입. replyDTO 정보 확인 : " + replyDTO.getReplyContent());
-		System.out.println("/replyWrite 진입. noteNo 정보 확인 : " + noteNo);
-		System.out.println("/replyWrite 진입. categoryTitle 정보 확인 : " + categoryTitle);
-		
-		
 		Reply reply = replyService.convertToEntity(replyDTO);
 		replyDTO = replyService.writeReply(replyDTO);
-		System.out.println("replyDTO 값이 비었는가?"+replyDTO.getReplyNo());
-		System.out.println("UserVO 값이 비었는가? "+userVO.getUserNo());
 		
 		reply = replyRepository.getById(replyDTO.getReplyNo());
 		User user = userRepository.getById(userVO.getUserNo());
 		
-		System.out.println("reply 값이 비었는가?"+reply.getReplyNo());
-		System.out.println("user 값이 비었는가?"+user.getUserNo());
-		
-		logger.error(this.getClass().getName() + "works");
-		
 		replyUserService.writeReplyRelation(reply.getReplyNo(), user.getUserNo());
 		noteReplyService.writeReplyRelation(reply.getReplyNo(), noteNo);
+		
+		UserDTO writer = noteUserService.getUserByNoteNo(noteNo);
+		if (writer.getUserNo() != userVO.getUserNo()) {
+			Alarm alarm = alarmService.save(2);
+			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
+		}
+		
 		
 		return "redirect:/myTest/category/"+categoryTitle+"/"+noteNo;
 	}

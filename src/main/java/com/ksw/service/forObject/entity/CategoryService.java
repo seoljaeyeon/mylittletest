@@ -1,6 +1,6 @@
 package com.ksw.service.forObject.entity;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ksw.dao.forObject.entity.CategoryRepository;
 import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.object.entity.Category;
+import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.CategoryDetailService;
 import com.ksw.vo.forObject.entity.CategoryVO;
 
@@ -22,21 +23,37 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private CategoryDetailService categoryDetailMapper;
+	@Autowired
+	private NoteCategoryService noteCategoryService;
 	
+	public List<Integer> getTodayCategoryListByUserNo(Integer userNo) {
+		return null;
+	}
+	public List<Integer> getCategoryListByUserNoAndFavoriteType(Integer userNo, Integer favoriteType) {
+		return null;
+	}
+	
+	
+	public List<Map<String, Object>> search(String categoryTitle) {
+		
+		List<Map<String,Object>> results = noteCategoryService.findCategoryNoteCountsByTitle(categoryTitle);
+		
+		return results;
+	}
 	public Integer getCategoryNoByTitle(String categoryTitle) {
 		return categoryRepository.findByCategoryTitle(categoryTitle).getCategoryNo();
 	}
 	
-	public List<Map<String, Object>>getListByViewOrder(Integer categoryNo, Integer userNo, Integer page) {
+	public List<List<Map<String, Object>>> getListByViewOrder(Integer userNo, Integer menuType, Integer page) {
 		
-		if (categoryNo == null || userNo == null|| page == null) {
+		if (userNo == null|| page == null) {
 			System.out.println("One of parameters is null. getListByViewOrder failed");
 			return null;
 		}
 		
 		Integer limit = 20;
-		int offset = (page - 1) * limit;
-	    List<Map<String, Object>> list = categoryDetailMapper.getCategorySummary(categoryNo, userNo, limit, offset);
+		Integer offset = (page - 1) * limit;
+	    List<List<Map<String, Object>>> list = categoryDetailMapper.getCategorySummary(userNo, menuType, limit, offset);
 		
 		return list;
 	}

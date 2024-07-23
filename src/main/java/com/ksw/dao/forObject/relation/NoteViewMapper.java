@@ -1,16 +1,61 @@
 package com.ksw.dao.forObject.relation;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.ksw.object.relation.NoteView;
-
 public interface NoteViewMapper {
+	
+	
+	@Select("SELECT " +
+	        "DATE(createdAt) AS viewDate, " +
+	        "COUNT(*) AS viewCount " +
+	        "FROM noteView " +
+	        "WHERE userNo = #{userNo} " +
+	        "AND createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
+	        "GROUP BY DATE(createdAt) " +
+	        "ORDER BY viewDate DESC")
+	List<Map<String, Object>> getRecentViewCounts(@Param("userNo") Integer userNo);
+	
+    @Select("SELECT c.categoryNo, MAX(n.createdAt) AS createdAt " +
+            "FROM category c " +
+            "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+            "JOIN note n ON nc.noteNo = n.noteNo " +
+            "GROUP BY c.categoryNo " +
+            "ORDER BY createdAt DESC")
+    List<Map<String, Object>> getCategoryListOrderedByNoteView();
+	//allcategory
 
 	
+	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	        "FROM category c " +
+	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+	        "JOIN noteView nv ON nv.noteNo = nc.noteNo " +
+	        "WHERE nv.userNo = #{userNo} AND DATE(nv.createdAt) = CURDATE() " +
+	        "GROUP BY c.categoryNo " +
+	        "ORDER BY createdAt DESC")
+	List<Map<String, Object>> getTodayCategoryListByUserNo(@Param("userNo") Integer userNo);
+	
+	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
+	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
+	        + "COUNT(r.replyNo) AS reply_count "
+	        + "FROM note n "
+	        + "JOIN noteCategory nc ON nc.noteNo = n.noteNo "
+	        + "JOIN category c ON c.categoryNo = nc.categoryNo "
+	        + "LEFT JOIN favoriteNote fn ON fn.noteNo = n.noteNo "
+	        + "LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo "
+	        + "LEFT JOIN reply r ON r.noteNo = n.noteNo "
+	        + "JOIN noteView nv ON nv.noteNo = n.noteNo "
+	        + "JOIN view v ON v.viewNo = nv.viewNo "
+	        + "WHERE nv.userNo = #{userNo} "
+	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
+	        + "ORDER BY n.createdAt DESC")
+	List<Map<String, Object>> getNoteListByUserNo(@Param("userNo") Integer userNo);
+
 	
 	@Select(""
 			+ "SELECT n.noteNo, nv.createdAt FROM note n JOIN noteCategory nc ON n.noteNo = nc.noteNo "

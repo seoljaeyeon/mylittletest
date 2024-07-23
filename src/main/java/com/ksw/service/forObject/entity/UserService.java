@@ -1,13 +1,22 @@
 package com.ksw.service.forObject.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ksw.dao.forObject.entity.UserRepository;
 import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.object.entity.User;
 import com.ksw.vo.forObject.entity.UserVO;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	public User getUser(Integer userNo) {
+		return userRepository.getById(userNo);
+	}
 	
     // DTO -> Entity 변환 메소드
     public User convertToEntity(UserDTO userDTO) {

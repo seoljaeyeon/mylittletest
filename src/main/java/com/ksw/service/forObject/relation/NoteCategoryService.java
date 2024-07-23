@@ -1,15 +1,14 @@
 package com.ksw.service.forObject.relation;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ksw.dao.forObject.relation.NoteCategoryMapper;
 import com.ksw.dto.forObject.entity.CategoryDTO;
-import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.relation.NoteCategoryDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.Note;
@@ -30,26 +29,87 @@ public class NoteCategoryService {
 	private NoteCategoryMapper noteCategoryMapper;
 	@Autowired
 	private NoteViewService noteViewservice;
+
 	
-	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo) {
+	public List<Map<String, Object>> getNoteListByCategoryTitle(String categoryTitle) {
+		List<Map<String, Object>> results = noteCategoryMapper.getNoteListByUserNo(categoryTitle);
+		return results;
+	}
+	
+	public List<Map<String, Object>> findCategoryNoteCountsByTitle(String categoryTitle){
+		System.out.println(categoryTitle);
+		List<Map<String, Object>> results = noteCategoryMapper.findCategoryNoteCountsByTitle(categoryTitle);
+		return results;
+		}
+	
+	@Transactional
+	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo, Integer menuType) {
+		
+		// menuType - 1 :: mytest, 내 문제 풀기
+		// menuType - 2 :: reviewmytest, 맞춘 문제 복
+		// menuType - 3 :: correctmytest, 틀린 문제 복습
+		// menuType - 4 :: todayquestions, 오늘 본 문제 복습
 		Integer result = 0;
 		if (categoryTitle == null || categoryTitle.equals("")) {
 			System.out.println("categoryTitle is null. Empty List<NoteDTO> returned");
 			return result;
 		}
-		
 
 	    Integer categoryNo = categoryService.getCategoryNoByTitle(categoryTitle);
+	    System.out.println("categoryNo: "+categoryNo);
 	    Integer previousNoteNo = noteViewservice.getPreviousNoteNo(categoryNo, userNo);
+	    System.out.println("previeousNoteNo: "+previousNoteNo);
+    	
+    	int attempts = 0;
+    	int maxAttempts = 10;
 	    
-	    result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+	    if (menuType == 1) {
+	    	result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+	    	System.out.println("실행 메뉴 타입: "+menuType+" , result = " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 2) {
+	    	result = noteCategoryMapper.getReviewRandomNoteNo(categoryTitle, userNo);
+	    	System.out.println("실행 메뉴 타입: "+menuType+" , result = " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getReviewRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 3) {
+	    	result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	    	System.out.println("실행 메뉴 타입: "+menuType+" , result = " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getCorrectRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 4) {
+	    	result = noteCategoryMapper.getTodayQuestionRandomNoteNo(categoryTitle, userNo);
+	    	System.out.println("실행 메뉴 타입: "+menuType+" , result = " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getTodayQuestionRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 5) {
+	    	result = noteCategoryMapper.getBookmarkQuestionRandomNoteNo(categoryTitle, userNo);
+	    	System.out.println("실행 메뉴 타입: "+menuType+" , result = " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getBookmarkQuestionRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    } else if(menuType == 0) {
+	    	result = noteCategoryMapper.getAllQuestionRandomNoteNo(categoryTitle, userNo);
+	    	System.out.println("실행 메뉴 타입: "+menuType+" , result = " + result);
+	    	while (result.equals(previousNoteNo) && attempts < maxAttempts) {
+	    		result = noteCategoryMapper.getAllQuestionRandomNoteNo(categoryTitle, userNo);
+	    		attempts++;
+	    	}
+	    }
 	    
-	    int attempts = 0;
-	    int maxAttempts = 10;
 	    
-	    while (result.equals(previousNoteNo) && attempts < maxAttempts) {
-	        result = noteCategoryMapper.getRandomNoteNo(categoryTitle, userNo);
-	        attempts++;
+	    if (attempts == 10 && result.equals(previousNoteNo)) {
+	    	return result;
 	    }
 	    
 	    if (result.equals(previousNoteNo)) {

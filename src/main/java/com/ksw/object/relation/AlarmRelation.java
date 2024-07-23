@@ -3,6 +3,8 @@ package com.ksw.object.relation;
 import java.io.Serializable;
 
 import com.ksw.object.entity.Alarm;
+import com.ksw.object.entity.Note;
+import com.ksw.object.entity.Reply;
 import com.ksw.object.entity.User;
 
 public class AlarmRelation implements Serializable
@@ -13,8 +15,26 @@ public class AlarmRelation implements Serializable
     private Alarm alarm;
     private User receiver;
     private User maker;
+    private Note note;
+    private Reply reply;
 
-    // 기본 생성자
+    public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
+	public Reply getReply() {
+		return reply;
+	}
+
+	public void setReply(Reply reply) {
+		this.reply = reply;
+	}
+
+	// 기본 생성자
     public AlarmRelation() {}
 
 	public Alarm getAlarm() {

@@ -31,10 +31,11 @@ public interface CategoryDetailMapper {
                                                        @Param("offset") Integer offset);
 
     @Select("SELECT nc.categoryNo, " +
-            "SUM(CASE WHEN ah.answerType = 2 THEN 1 ELSE 0 END) / "
+            "SUM(CASE WHEN a.answerType = 2 THEN 1 ELSE 0 END) / "
             + "COUNT(CASE WHEN ah.answerNo IS NOT NULL THEN 1 END) AS correctRatio " +
             "FROM noteCategory nc " +
-            "JOIN answerHistory ah ON nc.noteNo = ah.noteNo " +
+            "JOIN answerHistory ah ON nc.noteNo = ah.noteNo "
+            + "JOIN answer a ON ah.answerNo = a.answerNo " +
             "WHERE nc.categoryNo = #{categoryNo} AND ah.userNo = #{userNo} " +
             "GROUP BY nc.categoryNo")
     Map<String, Object> getCorrectRatio(@Param("categoryNo") Integer categoryNo,
