@@ -1,5 +1,8 @@
 package com.ksw.mylittletest;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +25,6 @@ import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.CategoryViewService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
-import com.ksw.service.function.ClientInfoService;
 import com.ksw.service.function.QuestionService;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
@@ -39,8 +41,6 @@ public class MyTestController {
 	private QuestionService questionService;
 	@Autowired
 	private CategoryService categoryService;
-	@Autowired
-	private ClientInfoService clientInfoService;
 	@Autowired
 	private CategoryViewService categoryViewService;
 	
@@ -102,6 +102,8 @@ public class MyTestController {
 		
 		UserVO userVO = auth.get();
 		Integer menuType = 1;
+	    String  menuName = "mytest";
+
 
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
@@ -113,10 +115,15 @@ public class MyTestController {
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트
-			return "redirect:/mytest/category";
+			return "redirect:/"+menuName+"/category";
 		}		
-		
-		return "redirect:/mytest/category/"+categoryTitle+"/"+random;
+        try {
+			categoryTitle = URLEncoder.encode(categoryTitle, StandardCharsets.UTF_8.toString());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "redirect:/"+menuName+"/category";
+		}
+		return "redirect:/"+menuName+"/category/"+categoryTitle+"/"+random;
 	}
 	
 	@GetMapping("/category/{categoryTitle}/{noteNo}")

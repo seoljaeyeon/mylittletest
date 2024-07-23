@@ -54,6 +54,23 @@ public class QuestionController {
 			Model model
 			) {
 		UserVO userVO = authService.getUserVO();
+		if (userVO == null) {
+			return "redirect:/login";
+		}
+		
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
+		return "write";
+	}
+	
+	@GetMapping("/modify")
+	public String toModifyPage(
+			Model model
+			) {
+		UserVO userVO = authService.getUserVO();
+		if (userVO == null) {
+			return "redirect:/login";
+		}
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);

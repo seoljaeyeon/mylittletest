@@ -44,27 +44,6 @@ public class CategoryController {
 	@Autowired
 	private AuthService authService;
 	
-	@GetMapping(value = "/allcategory")
-	public String toAllCategory(
-			Model model,
-			RedirectAttributes redirectAttributes,
-            @RequestParam(value="page", required = false, defaultValue="1") Integer page
-			){
-
-		UserVO userVO = authService.getUserVO();
-		if (userVO == null) {
-			return "redirect:/login";
-		}
-		
-		Integer menuType = 0;
-		
-		List<List<Map<String, Object>>> list = new ArrayList<>();
-		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
-		model.addAttribute("list", list);
-		return "questionlist";
-	}
-	
-	
 	@GetMapping
 	public String categoryMain(
 			Model model,
@@ -82,7 +61,9 @@ public class CategoryController {
 		}
 		
 		if (menuType == null || menuType == 0) {
-			return "redirect:/category/allcategory";
+			menuType = 0;
+			menuPath = "allcategory";
+            redirectAttributes.addFlashAttribute("menuType", menuType);
 		}
 		
         if (menuType != null) {

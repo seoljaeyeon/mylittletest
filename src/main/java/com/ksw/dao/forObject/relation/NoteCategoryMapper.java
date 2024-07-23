@@ -15,6 +15,57 @@ import com.ksw.object.relation.NoteCategory;
 
 @Mapper
 public interface NoteCategoryMapper {
+	
+    @Select("(" +
+            "SELECT noteNo FROM (" +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  LEFT JOIN noteView nv ON nc.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
+            "  LEFT JOIN favoriteNote fn ON nc.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
+            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  WHERE c.categoryTitle = #{categoryTitle} " +
+            "    AND nv.noteNo IS NULL " +
+            "    AND IFNULL(f.favoriteType, 0) <> -1 " +
+            "  UNION ALL " +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  LEFT JOIN noteView nv ON nc.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
+            "  LEFT JOIN favoriteNote fn ON nc.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
+            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  WHERE c.categoryTitle = #{categoryTitle} " +
+            "    AND nv.noteNo IS NULL " +
+            ") AS subquery " +
+            "ORDER BY RAND() " +
+            "LIMIT 1" +
+            ") " +
+            "UNION " +
+            "(" +
+            "SELECT noteNo FROM (" +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  LEFT JOIN noteView nv ON nc.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
+            "  LEFT JOIN favoriteNote fn ON nc.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
+            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  WHERE c.categoryTitle = #{categoryTitle} " +
+            "    AND IFNULL(f.favoriteType, 0) <> -1 " +
+            "  UNION ALL " +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  LEFT JOIN noteView nv ON nc.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
+            "  LEFT JOIN favoriteNote fn ON nc.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
+            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  WHERE c.categoryTitle = #{categoryTitle} " +
+            ") AS subquery " +
+            "ORDER BY RAND() " +
+            "LIMIT 1" +
+            ") " +
+            "LIMIT 1")
+	Integer getAllQuestionRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
+                            @Param("userNo") Integer userNo);
 
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
@@ -129,71 +180,61 @@ public interface NoteCategoryMapper {
     Integer getRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
                             @Param("userNo") Integer userNo);
 	//틀린문제
-    @Select(
-            "SELECT noteNo FROM (" +
-            "  SELECT nu.noteNo " +
-            "  FROM noteUser nu " +
-            "  JOIN noteCategory nc ON nu.noteNo = nc.noteNo " +
-            "  JOIN category c ON nc.categoryNo = c.categoryNo "+
-            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
+    @Select("SELECT noteNo FROM (" +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
             "  JOIN answer a ON ah.answerNo = a.answerNo " +
-            "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
-            "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
+            "  LEFT JOIN favoriteNote fn ON ah.noteNo = fn.noteNo " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
-            "  WHERE nu.userNo = #{userNo} " +
+            "  WHERE ah.userNo = #{userNo} " +
+            "    AND IFNULL(f.favoriteType, 0) <> -1 " +
+            "    AND a.answerType = 1 " +
             "    AND c.categoryTitle = #{categoryTitle} " +
-            "    AND IFNULL(f.favoriteType, 0) <> -1 "
-            + "  AND a.answerType = 1 " +
             "  UNION ALL " +
-            "  SELECT nu.noteNo " +
-            "  FROM noteUser nu " +
-            "  JOIN noteCategory nc ON nu.noteNo = nc.noteNo " +
-            "  JOIN category c ON nc.categoryNo = c.categoryNo " 
-            + "JOIN answerHistory ah ON ah.noteNo = nu.noteNo " 
-            + "JOIN answer a ON a.answerNo = ah.answerNo " +
-            "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
-            "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
+            "  LEFT JOIN favoriteNote fn ON ah.noteNo = fn.noteNo " +
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
-            "  WHERE nu.userNo = #{userNo} " +
-            "    AND c.categoryTitle = #{categoryTitle} "
-            + "  AND a.answerType = 1 " +
+            "  WHERE ah.userNo = #{userNo} " +
+            "    AND a.answerType = 1 " +
+            "    AND c.categoryTitle = #{categoryTitle} " +
             ") AS subquery " +
             "ORDER BY RAND() " +
             "LIMIT 1")
     Integer getCorrectRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
                             @Param("userNo") Integer userNo);
-    //맞춘문제
-    @Select(
-		  "SELECT noteNo FROM (" +
-		            "  SELECT nu.noteNo " +
-		            "  FROM noteUser nu " +
-		            "  JOIN noteCategory nc ON nu.noteNo = nc.noteNo " +
-		            "  JOIN category c ON nc.categoryNo = c.categoryNo "+
-		            "  JOIN answerHistory ah ON nu.noteNo = ah.noteNo AND ah.userNo = #{userNo} " +
-		            "  JOIN answer a ON ah.answerNo = a.answerNo " +
-		            "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
-		            "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
-		            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
-		            "  WHERE nu.userNo = #{userNo} " +
-		            "    AND c.categoryTitle = #{categoryTitle} " +
-		            "    AND IFNULL(f.favoriteType, 0) <> -1 "
-		            + "  AND a.answerType = 2 " +
-		            "  UNION ALL " +
-		            "  SELECT nu.noteNo " +
-		            "  FROM noteUser nu " +
-		            "  JOIN noteCategory nc ON nu.noteNo = nc.noteNo " +
-		            "  JOIN category c ON nc.categoryNo = c.categoryNo " 
-		            + "JOIN answerHistory ah ON ah.noteNo = nu.noteNo " 
-		            + "JOIN answer a ON a.answerNo = ah.answerNo " +
-		            "  LEFT JOIN noteView nv ON nu.noteNo = nv.noteNo AND nv.userNo = #{userNo} " +
-		            "  LEFT JOIN favoriteNote fn ON nu.noteNo = fn.noteNo AND fn.userNo = #{userNo} " +
-		            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
-		            "  WHERE nu.userNo = #{userNo} " +
-		            "    AND c.categoryTitle = #{categoryTitle} "
-		            + "  AND a.answerType = 2 " +
-		            ") AS subquery " +
-		            "ORDER BY RAND() " +
-		            "LIMIT 1")
+    // 맞춘 문제
+    @Select("SELECT noteNo FROM (" +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
+            "  LEFT JOIN favoriteNote fn ON ah.noteNo = fn.noteNo " +
+            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  WHERE ah.userNo = #{userNo} " +
+            "    AND IFNULL(f.favoriteType, 0) <> -1 " +
+            "    AND a.answerType = 2 " +
+            "    AND c.categoryTitle = #{categoryTitle} " +
+            "  UNION ALL " +
+            "  SELECT nc.noteNo " +
+            "  FROM noteCategory nc " +
+            "  JOIN category c ON nc.categoryNo = c.categoryNo " +
+            "  JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
+            "  JOIN answer a ON ah.answerNo = a.answerNo " +
+            "  LEFT JOIN favoriteNote fn ON ah.noteNo = fn.noteNo " +
+            "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+            "  WHERE ah.userNo = #{userNo} " +
+            "    AND a.answerType = 2 " +
+            "    AND c.categoryTitle = #{categoryTitle} " +
+            ") AS subquery " +
+            "ORDER BY RAND() " +
+            "LIMIT 1")
     Integer getReviewRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
                             @Param("userNo") Integer userNo);
     //오늘 본 문제
