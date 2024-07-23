@@ -3,7 +3,6 @@ package com.ksw.mylittletest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -63,26 +61,12 @@ public class QuestionController {
 		return "write";
 	}
 	
-	@GetMapping("/modify")
-	public String toModifyPage(
-			Model model
-			) {
-		UserVO userVO = authService.getUserVO();
-		if (userVO == null) {
-			return "redirect:/login";
-		}
-		
-		// 사용자 정보 저장
-		model.addAttribute("userVO", userVO);
-		return "write";
-	}
-
   @PostMapping(value = "/write", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
 	public Map<String, String> notewrite(
 			@ModelAttribute NoteDTO noteDTO,
 			@ModelAttribute CategoryDTO categoryDTO,
-			@RequestParam("file") MultipartFile file,
+            @RequestParam(value = "file", required = false) List<MultipartFile> files,
 			HttpSession session,
 			RedirectAttributes redirectAttributes,
 	        HttpServletRequest request,
@@ -101,7 +85,7 @@ public class QuestionController {
 			// 사용자 정보model에 추가
 			model.addAttribute("userVO", userVO);
             try {
-            	QuestionVO questionVO = questionService.Write(noteDTO, file, categoryDTO, userVO);
+            	QuestionVO questionVO = questionService.Write(noteDTO, files, categoryDTO, userVO);
             	model.addAttribute("questionVO", questionVO); // view에서 어떻게 쓸 지 아직 미정
                 response.put("status", "success");
                 response.put("url", "/mylittletest/mytest/category/" + questionVO.getCategoryVO().getCategoryTitle() + "/" + questionVO.getNoteVO().getNoteNo());
@@ -112,5 +96,44 @@ public class QuestionController {
                 response.put("url", "/mylittletest/write");
             	return response;
             }	
+	}
+  
+	@GetMapping("/modify")
+	public String noParameter()
+	{
+		return "redirect:/login";
+	}
+	
+	@GetMapping("/modify/{noteNo}")
+	public String toModifyPage(
+			@PathVariable Integer noteNo,
+			@RequestParam(value = "menuName", required  = false ) String menuName,
+			Model model,
+			HttpServletRequest request,
+			HttpSession session
+			) {
+		UserVO userVO = authService.getUserVO();
+		if (userVO == null) {
+			return "redirect:/login";
+		}
+		
+		if (noteNo == null) {
+			return "redirect:/login";
+		}
+		
+		if (menuName == null) {
+			return "redirect:/login";
+		}
+		
+		session.setAttribute("fromModify", true);
+		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
+		
+		// 사용자 정보 저장
+		model.addAttribute("modify", true);
+		model.addAttribute("userVO", userVO);
+		model.addAttribute("menuName", menuName);
+		model.addAttribute("questionVO", questionVO);
+		
+		return "write";
 	}
 }

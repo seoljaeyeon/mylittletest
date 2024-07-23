@@ -17,7 +17,7 @@ public class QuestionDTO implements Serializable{
 	private UserDTO writerDTO;
 	private NoteDTO noteDTO;
 	private CategoryDTO categoryDTO;
-	private FileDTO fileDTO;
+	private List<FileDTO> filelist;
 	private List<Map<String, Object>> replies;
 	private Integer viewCount;
 	private Integer favoriteCount;
@@ -79,10 +79,10 @@ public class QuestionDTO implements Serializable{
 	public void setCategoryDTO(CategoryDTO categoryDTO) {
 		this.categoryDTO = categoryDTO;
 	}
-	public FileDTO getFileDTO() {
-		return fileDTO;
+	public List<FileDTO> getFileList() {
+		return filelist;
 	}
-	public void setFileDTO(FileDTO fileDTO) {
-		this.fileDTO = fileDTO;
+	public void setFileList(List<FileDTO> fillist) {
+		this.filelist = filelist;
 	}
 }

@@ -1,5 +1,7 @@
 package com.ksw.dao.forObject.relation;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -21,6 +23,6 @@ public interface FileNoteMapper {
     		+ "SELECT f.* FROM file f JOIN fileNote n "
     		+ "ON f.fileNo = n.fileNo "
     		+ "WHERE n.noteNo = #{noteNo}")
-    File getFileByNoteNo(Integer noteNo);
+    List<File> getFileByNoteNo(Integer noteNo);
 	
 }

@@ -7,7 +7,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -60,42 +63,47 @@ public class FileService {
     	return fileRepository.save(this.convertToEntity(fileDTO));
     }
     
-	public FileDTO uploadFile(MultipartFile file) throws IOException {
+	public List<FileDTO> uploadFile(List<MultipartFile> file) throws IOException {
 
-		// DTO에 저장될 필드명 미리 정의
-		String originalFileName = "";
-		String extension = "";
-		String savedFileName = "";
-		
-		// 반환할 DTO 미리 정의 (null 처리 위해서)
-		FileDTO fileDTO = new FileDTO();
+		List<FileDTO> filelist = new ArrayList<>();
 		
 		// file이 null일 경우, 빈 fileDTO 반환
 		if (file == null || file.isEmpty()) {
-			return fileDTO;
+			return filelist;
 		}
 		
-		// file 업로드 당시 이름 가져오기
-		originalFileName = file.getOriginalFilename();
-		
-		// file 확장자 가져오기
-	    extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-	    
-	    // UUID 통해서 랜덤한 이름 생성 (중복으로 저장됐을 때 피하기 위해서)
-	    savedFileName = UUID.randomUUID().toString() + extension;
-	    
-	    // 파일이 저장될 경로 정의
-        Path filePath = fileStorageLocation.resolve(savedFileName);
-        
-        // 파일 저장
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+		for (MultipartFile fileitem : file ) {
+			// DTO에 저장될 필드명 미리 정의
+			String originalFileName = "";
+			String extension = "";
+			String savedFileName = "";
+			
+			// 반환할 DTO 미리 정의 (null 처리 위해서)
+			FileDTO fileDTO = new FileDTO();
+			
+			// file 업로드 당시 이름 가져오기
+			originalFileName = fileitem.getOriginalFilename();
+			
+			// file 확장자 가져오기
+		    extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+		    
+		    // UUID 통해서 랜덤한 이름 생성 (중복으로 저장됐을 때 피하기 위해서)
+		    savedFileName = UUID.randomUUID().toString() + extension;
+		    
+		    // 파일이 저장될 경로 정의
+	        Path filePath = fileStorageLocation.resolve(savedFileName);
+	        
+	        // 파일 저장
+	        Files.copy(fileitem.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // DTO 필드 채우
-	    fileDTO.setSavedName(savedFileName);
-	    fileDTO.setUploadName(originalFileName);
-	    fileDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+	        // DTO 필드 채우기 
+		    fileDTO.setSavedName(savedFileName);
+		    fileDTO.setUploadName(originalFileName);
+		    fileDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
-	    return fileDTO;
+			filelist.add(fileDTO);
+		}
+	    return filelist;
 	}
 	
     // Entity -> DTO 변환 메소드
@@ -139,5 +147,21 @@ public class FileService {
                 .uploadName(fileDTO.getUploadName())
                 .createdAt(fileDTO.getCreatedAt())
                 .build();
+    }
+    
+    public List<FileDTO> convertToDTOList(List<File> filelist) {
+    	if(filelist == null || filelist.isEmpty()) {
+    		System.out.println("List<File> filelist is null");
+    		return new ArrayList<FileDTO>();
+    	}
+    	return filelist.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+    
+    public List<FileVO> convertToVOList(List<FileDTO> filelist) {
+    	if (filelist == null || filelist.isEmpty()) {
+    		System.out.println("FileDTO to fileVO failed. Empty FileList created.");
+    		return new ArrayList<FileVO>();
+    	}
+    	return filelist.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 }

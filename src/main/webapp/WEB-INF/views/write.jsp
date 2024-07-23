@@ -481,14 +481,14 @@ textarea::placeholder {
 
 <div class="container">
 	<form id="writeFrm" class="writeFrm" name="writeFrm"
-		action="/mylittletest/write" method="post" enctype="multipart/form-data">
+		action="${modify ? '/mylittletest/modify' : '/mylittletest/write'}" method="post" enctype="multipart/form-data">
     	<sec:csrfInput/>
 		<div class="subject-input-container">
 			<div class="subject-input-shadow">
 				<input type="hidden" name="userNo" id="userNo" value="${userVO.userNo}">
 				<div class="subject-container">
 					<input class="subject_input" type="text" id="categoryTitle"
-						name="categoryTitle" placeholder="과목 입력" spellcheck="false"
+						name="categoryTitle" placeholder="과목 입력" spellcheck="false" value="${modify ? questionVO.categoryVO.categoryTitle:'' }"
 						maxlength="20" autocomplete="off">
 				</div>
 			</div>
@@ -499,16 +499,16 @@ textarea::placeholder {
 		</div>
 		<div class="title_container">
 			<input class="title_input" type="text" id="noteTitle"
-				name="noteTitle" placeholder="제목을 입력해주세요" spellcheck="false"
+				name="noteTitle" placeholder="제목을 입력해주세요" spellcheck="false" value="${modify ? questionVO.noteVO.noteTitle:'' }"
 				autocomplete="off"> <span class="title_underline"
 				id="title_underline"></span>
 		</div>
-		<div id="editor" class="editor" data-placeholder="내용을 입력해주세요"></div>
+		<div id="editor" class="editor" data-placeholder="내용을 입력해주세요">${modify ? questionVO.noteVO.noteContent:'' }</div>
 		<input type="hidden" name="editorContent" id="editorContent">
 		<input type="hidden" name="noteContent" id="noteContent">
 		<div class="box">
 			<div class="hint_container">
-				<input class="hint_input" type="text" id="noteHint" name="noteHint"
+				<input class="hint_input" type="text" id="noteHint" name="noteHint" value="${modify ? questionVO.noteVO.noteHint:'' }"
 					placeholder="힌트를 입력해주세요">
 			</div>
 			<div class="file_container">
@@ -516,10 +516,10 @@ textarea::placeholder {
 			</div>
 		</div>
 		<div class="answer_container">
-			<textarea id="noteAnswer" name="noteAnswer" placeholder="정답을 입력해주세요"></textarea>
+			<textarea id="noteAnswer" name="noteAnswer" placeholder="정답을 입력해주세요">${modify ? questionVO.noteVO.noteAnswer:'' }</textarea>
 		</div>
 		<div id="commentary_editor" class="commentary_editor"
-			data-placeholder="해설을 입력해주세요"></div>
+			data-placeholder="해설을 입력해주세요">${modify ? questionVO.noteVO.noteCommentary:'' }</div>
 		<input type="hidden" name="commentary_editorContent"
 			id="commentary_editorContent"> <input type="hidden"
 			name="noteCommentary" id="noteCommentary">

@@ -16,7 +16,7 @@ public final class QuestionVO implements Serializable {
     private final NoteVO noteVO;
     private final UserVO writerVO;
     private final CategoryVO categoryVO;
-	private final FileVO fileVO;
+	private final List<FileVO> filelist;
     private final List<Map<String, Object>> replies;
     private final Integer todayNoteViewInCategory;
     private final Integer viewCount;
@@ -28,7 +28,7 @@ public final class QuestionVO implements Serializable {
         this.noteVO = builder.noteVO;
 		this.writerVO = builder.writerVO;
         this.categoryVO = builder.categoryVO;
-        this.fileVO = builder.fileVO;
+        this.filelist = builder.filelist;
         this.replies = builder.replies;
         this.viewCount = builder.viewCount;
         this.favoriteCount = builder.favoriteCount;
@@ -57,8 +57,8 @@ public final class QuestionVO implements Serializable {
         return categoryVO;
     }
 
-    public FileVO getFileVO() {
-        return fileVO;
+    public List<FileVO> getFileVO() {
+        return filelist;
     }
 
     public List<Map<String, Object>> getReplies() {
@@ -83,7 +83,7 @@ public final class QuestionVO implements Serializable {
         private UserVO writerVO;
 		private NoteVO noteVO;
         private CategoryVO categoryVO;
-        private FileVO fileVO;
+        private List<FileVO> filelist;
         private List<Map<String, Object>> replies;
         private Integer viewCount;
         private Integer favoriteCount;
@@ -106,8 +106,8 @@ public final class QuestionVO implements Serializable {
             return this;
         }
 
-        public Builder fileVO(FileVO fileVO) {
-            this.fileVO = fileVO;
+        public Builder filelist(List<FileVO> filelist) {
+            this.filelist = filelist;
             return this;
         }
         
@@ -138,7 +138,7 @@ public final class QuestionVO implements Serializable {
         
         @Override
 		public int hashCode() {
-			return Objects.hash(answerType, categoryVO, favoriteCount, fileVO, isFavorite, noteVO, todayNoteViewInCategory,
+			return Objects.hash(answerType, categoryVO, favoriteCount, filelist, isFavorite, noteVO, todayNoteViewInCategory,
 					replies, viewCount, writerVO);
 		}
 
@@ -152,7 +152,7 @@ public final class QuestionVO implements Serializable {
 				return false;
 			Builder other = (Builder) obj;
 			return Objects.equals(answerType, other.answerType) && Objects.equals(categoryVO, other.categoryVO)
-					&& Objects.equals(favoriteCount, other.favoriteCount) && Objects.equals(fileVO, other.fileVO)
+					&& Objects.equals(favoriteCount, other.favoriteCount) && Objects.equals(filelist, other.filelist)
 					&& Objects.equals(isFavorite, other.isFavorite) && Objects.equals(noteVO, other.noteVO)
 					&& Objects.equals(todayNoteViewInCategory, other.todayNoteViewInCategory) && Objects.equals(replies, other.replies)
 					&& Objects.equals(viewCount, other.viewCount) && Objects.equals(writerVO, other.writerVO);
@@ -161,7 +161,7 @@ public final class QuestionVO implements Serializable {
 		@Override
 		public String toString() {
 			return "Builder [writerVO=" + writerVO + ", noteVO=" + noteVO + ", categoryVO=" + categoryVO + ", fileVO="
-					+ fileVO + ", replies=" + replies + ", viewCount=" + viewCount + ", favoriteCount=" + favoriteCount
+					+ filelist + ", replies=" + replies + ", viewCount=" + viewCount + ", favoriteCount=" + favoriteCount
 					+ ", answerType=" + answerType + ", isFavorite=" + isFavorite + ", todayNoteViewInCategory=" + todayNoteViewInCategory
 					+ "]";
 		}

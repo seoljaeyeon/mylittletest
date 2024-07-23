@@ -716,7 +716,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			<div class="today_question"><span>오늘 본 문제수 </span></div>
     <div class="today_count"><span style="font-size:20px;">${questionVO.todayNoteViewInCategory}</span></div>
 		</div>
-		<div class="modify_btn" onclick="location.href='/mylittletest/modify'">수정 </div>
+		<div class="modify_btn" onclick="location.href='/mylittletest/modify/${questionVO.noteVO.noteNo}?menuName=${menuName}'">수정 </div>
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
 		<div class="reportbtn" id="reportbtn">🚨</div>
