@@ -20,15 +20,16 @@ public class ReplyService {
 	private ReplyRepository replyRepository;
 	
 	@Transactional
-	public ReplyDTO writeReply(ReplyDTO replyDTO) {
+	public Reply writeReply(String replyContent) {
 		Reply reply = new Reply();
-		if (replyDTO != null) {
-			reply = replyRepository.save(this.convertToEntity(replyDTO));
+		reply.setReplyContent(replyContent);
+		if (replyContent != null) {
+			reply = replyRepository.save(reply);
 			System.out.println("reply 삽입 후 no 반환 : "+reply.getReplyNo());
-			return this.convertToDTO(reply);
+			return reply;
 		}
 		System.out.println("Insert Reply failed. Empty ReplyDTO returned");
-		return this.convertToDTO(reply);
+		return reply;
 	}
 	
 	// List<ReplyDTO> -> List<ReplyVO> 변환 메소드

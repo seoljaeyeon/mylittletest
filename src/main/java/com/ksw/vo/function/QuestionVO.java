@@ -2,14 +2,13 @@ package com.ksw.vo.function;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.ksw.vo.forObject.entity.CategoryVO;
 import com.ksw.vo.forObject.entity.FileVO;
 import com.ksw.vo.forObject.entity.NoteVO;
 import com.ksw.vo.forObject.entity.UserVO;
-import com.ksw.vo.forObject.relation.NoteViewVO;
-import com.ksw.vo.forObject.relation.ReplyUserVO;
 
 public final class QuestionVO implements Serializable {
 
@@ -18,7 +17,7 @@ public final class QuestionVO implements Serializable {
     private final UserVO writerVO;
     private final CategoryVO categoryVO;
 	private final FileVO fileVO;
-    private final List<ReplyUserVO> replies;
+    private final List<Map<String, Object>> replies;
     private final Integer todayNoteViewInCategory;
     private final Integer viewCount;
     private final Integer favoriteCount;
@@ -62,7 +61,7 @@ public final class QuestionVO implements Serializable {
         return fileVO;
     }
 
-    public List<ReplyUserVO> getReplies() {
+    public List<Map<String, Object>> getReplies() {
 		return replies;
 	}
 
@@ -85,7 +84,7 @@ public final class QuestionVO implements Serializable {
 		private NoteVO noteVO;
         private CategoryVO categoryVO;
         private FileVO fileVO;
-        private List<ReplyUserVO> replies;
+        private List<Map<String, Object>> replies;
         private Integer viewCount;
         private Integer favoriteCount;
         private Integer answerType;
@@ -112,7 +111,7 @@ public final class QuestionVO implements Serializable {
             return this;
         }
         
-        public Builder replies(List<ReplyUserVO> replies) {
+        public Builder replies(List<Map<String, Object>> replies) {
             this.replies = replies;
             return this;
         }
