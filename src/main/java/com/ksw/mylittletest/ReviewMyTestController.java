@@ -1,5 +1,8 @@
 package com.ksw.mylittletest;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +95,8 @@ public class ReviewMyTestController {
 
 		UserVO userVO = auth.get();
 		Integer menuType = 2;
+	    String  menuName = "reviewmytest";
+
 
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
@@ -101,10 +106,15 @@ public class ReviewMyTestController {
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트
-			return "redirect:/reviewmytest/category";
+			return "redirect:/"+menuName+"/category";
+		}		
+        try {
+			categoryTitle = URLEncoder.encode(categoryTitle, StandardCharsets.UTF_8.toString());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "redirect:/"+menuName+"/category";
 		}
-
-		return "redirect:/reviewmytest/category/" + categoryTitle + "/" + random;
+		return "redirect:/"+menuName+"/category/"+categoryTitle+"/"+random;
 	}
 
 	@GetMapping("/category/{categoryTitle}/{noteNo}")

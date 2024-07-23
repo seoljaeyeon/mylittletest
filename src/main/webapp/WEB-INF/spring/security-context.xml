@@ -62,6 +62,8 @@
 			access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/goalsetting"
 			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/allcategory"
+			access="hasRole('ROLE_USER')" />
 		<security:intercept-url
 			pattern="/mypage/notelist/**" access="hasRole('ROLE_USER')" />
 		<security:form-login login-page="/login"

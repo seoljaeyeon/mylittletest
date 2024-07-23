@@ -29,66 +29,72 @@ import com.ksw.service.function.QuestionService;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
 
+
 @Controller
-@RequestMapping("/correctmytest")
-public class CorrectMyTestController {
+@RequestMapping("/allcategory")
+public class AllNoteController {
 
 	@Autowired
 	private AuthService authService;
 	@Autowired
-	private NoteCategoryService noteCategoryService;
-	@Autowired
-	private QuestionService questionService;
-	@Autowired
 	private CategoryService categoryService;
 	@Autowired
 	private CategoryViewService categoryViewService;
+	@Autowired
+	private QuestionService questionService;
+	@Autowired
+	private NoteCategoryService noteCategoryService;
+	
 	
 	@GetMapping
 	public String toCategory(
 			RedirectAttributes redirectAttribute) {
-			Integer menuType = 3;
+			Integer menuType = 0;
+		    String  menuName = "allcategory";
+
 			redirectAttribute.addFlashAttribute("menuType", menuType);
-		return "redirect:/correctmytest/category";
+		
+		return "redirect:"+menuName+"/category";
 	}
 	
-	@GetMapping("/category")
-	public String viewCategoryPage(
+	// /{menuName}/category/
+	@GetMapping(value = "/category")
+	public String toAllCategory(
+			Model model,
 			RedirectAttributes redirectAttributes,
-            @RequestParam(value="page", required = false, defaultValue="1") Integer page,
-            Model model
+            @RequestParam(value="page", required = false, defaultValue="1") Integer page
 			){
-	    
+
 	    Integer menuType = (Integer) model.asMap().get("menuType");
-	    String  menuName = "correctmytest";
+	    String  menuName = "allcategory";
+
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
-	        menuType = 3;
+	        menuType = 0;
 	        redirectAttributes.addFlashAttribute("menuType", menuType);
 	        return "redirect:/category";
 	    }
-
+		
 		UserVO userVO = authService.getUserVO();
 		if (userVO == null) {
 			return "redirect:/login";
 		}
 		
-		//최근 조회한 카테고리 목록 (오늘)
-		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
-		model.addAttribute("recent_categories", recent_category);
 		
 		List<List<Map<String, Object>>> list = new ArrayList<>();
 		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
-	    model.addAttribute("list", list);
+		
+		model.addAttribute("list", list);
 	    model.addAttribute("menuName", menuName);
 		return "questionlist";
 	}
 	
 	@GetMapping("/category/{categoryTitle}")
-	public String getCorrectRandom(
+	public String getRandom(
 			@PathVariable("categoryTitle") String categoryTitle, 
 			HttpSession session,
-			Model model) {
+			Model model,
+			HttpServletRequest request) {
 		
         Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
         if (!auth.isPresent()) {
@@ -96,14 +102,16 @@ public class CorrectMyTestController {
         }
 		
 		UserVO userVO = auth.get();
-		Integer menuType = 3;
-	    String  menuName = "correctmytest";
+		Integer menuType = 0;
+	    String  menuName = "allcategory";
 
-		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
 		
-		// 사용자가 푼 문제 중, 사용자가 맞춘 문제 중에서 랜덤문제 출제
+		//카테고리 조회 수 증가
+		categoryViewService.categoryViewIncrease(categoryTitle, request, session);
+		// 사용자가 작성한 문제 중, 사용자가 보지 못한 문제 중에서 랜덤문제 출제
+		// 보지 못한 문제가 없다면 본 문제 중에서 랜덤으로 출제
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트
@@ -114,7 +122,9 @@ public class CorrectMyTestController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return "redirect:/"+menuName+"/category";
+
 		}
+
 		return "redirect:/"+menuName+"/category/"+categoryTitle+"/"+random;
 	}
 	
@@ -133,7 +143,7 @@ public class CorrectMyTestController {
         }
 		
 		UserVO userVO = auth.get();
-		String menuName = "correctmytest";
+	    String  menuName = "allcategory";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
@@ -147,5 +157,4 @@ public class CorrectMyTestController {
 		
 		return "questionsolve"; 
 	}
-	
 }

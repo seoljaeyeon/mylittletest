@@ -43,9 +43,9 @@ public class CategoryDetailService {
 		}else if (menuType == 1) {
         	categoryLists = noteUserService.getCategoryListByUserNo(userNo);
         } else if (menuType == 2) {
-        	categoryLists = answerHistoryService.getCategoryListByUserNoAndAnswerType(userNo, 1);
-        } else if (menuType == 3) {
         	categoryLists = answerHistoryService.getCategoryListByUserNoAndAnswerType(userNo, 2);
+        } else if (menuType == 3) {
+        	categoryLists = answerHistoryService.getCategoryListByUserNoAndAnswerType(userNo, 1);
         } else if (menuType == 4) {
         	categoryLists = noteViewService.getTodayCategoryListByUserNo(userNo);
         } else if (menuType == 5) {

@@ -1,5 +1,8 @@
 package com.ksw.mylittletest;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +99,8 @@ public class TodayQuestionsController {
 		
 		UserVO userVO = auth.get();
 		Integer menuType = 4;
+	    String  menuName = "todayquestions";
+
 	
 		
 		// 사용자 정보 저장
@@ -106,10 +111,15 @@ public class TodayQuestionsController {
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트
-			return "redirect:/todayquestions/category";
+			return "redirect:/"+menuName+"/category";
 		}		
-		
-		return "redirect:/todayquestions/category/"+categoryTitle+"/"+random;
+        try {
+			categoryTitle = URLEncoder.encode(categoryTitle, StandardCharsets.UTF_8.toString());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "redirect:/"+menuName+"/category";
+		}
+		return "redirect:/"+menuName+"/category/"+categoryTitle+"/"+random;
 	}
 	
 	@GetMapping("/category/{categoryTitle}/{noteNo}")

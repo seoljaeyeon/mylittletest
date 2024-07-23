@@ -61,7 +61,7 @@ public interface AnswerHistoryMapper {
     		+ "JOIN answer a ON ah.answerNo = a.answerNo "
     		+ "WHERE ah.noteNo = #{noteNo} "
     		+ "AND ah.userNo = #{userNo} "
-    		+ "ORDER BY a.createdat DESC LIMIT 1")
+    		+ "ORDER BY ah.createdAt DESC LIMIT 1")
     Integer findAnswerByNoteNoAndUserNo(@Param("noteNo") Integer noteNo, @Param("userNo") Integer userNo);
     
     @Select("SELECT answerNo "
