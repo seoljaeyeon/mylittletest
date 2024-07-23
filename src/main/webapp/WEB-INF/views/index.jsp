@@ -178,7 +178,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	flex-wrap: wrap;
 	font-size: 40px;
 	margin-left: 30px;
-	margin-top: 10px;
+	margin-top: 40px;
 }
 
 .sub_menu {
@@ -275,11 +275,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		            </div>
 				</div>
 			</div>
-		</div>
-		<div class="list_box">
-			<div class="list_set"
-				onclick="location.href='/mylittletest/questionlist'">⏳문제 목록 관리</div>
-			<div class="list_set" onclick="location.href=''">⏳오늘 본 문제 목록</div>
 		</div>
 		<div class="sub_box">
 			<div class="sub_menu" onclick="location.href='/mylittletest/write'">🤓문제쓰기</div>

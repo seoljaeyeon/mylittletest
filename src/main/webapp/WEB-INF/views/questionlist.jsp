@@ -8,7 +8,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
-		 
 	
 		// 팝업요소를 가져온다
 	    var popup = document.getElementById("popup_report");
@@ -671,13 +670,12 @@
 				                    <div class="question_count">
 				                        <div class="count_box">
 				                            <div class="likebox">
-				                                <div class="question_like">❤</div>
+				                                <div class="question_like" id="like">❤</div>
 				                                <div style="margin-left:10px;">${category.favoriteCount}</div>
 				                            </div>
 				                            <div class="question_question" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
 				                            <div class="question_person">🧑 ${category.authorCount}출제자</div>
 				                        </div>
-				                        <div class="question_report" id="report_btn">🚨</div>
 				                    </div>
 				                </div>
 				            </c:forEach>
