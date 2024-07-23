@@ -4,7 +4,94 @@
 <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    var pwBtn = document.getElementById('PwBtn');
+	  var joinBtn = document.querySelector(".join_btn");
+
+	  function isValidEmail(email) {
+	      // 이메일 형식을 검증하기 위한 정규 표현식
+	      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	      return emailPattern.test(email);
+	  }
+
+	  function isPasswordComplex(password) {
+	      const minLength = 8; // 비밀번호 최소 길이
+	      const hasUpperCase = /[A-Z]/.test(password); // 대문자가 포함되었는지 검사
+	      const hasLowerCase = /[a-z]/.test(password); // 소문자가 포함되었는지 검사
+	      const hasDigit = /\d/.test(password); // 숫자가 포함되었는지 검사
+	      const hasSpecialChar = /[!@#$%^&*(),.?:{}|<>]/.test(password); // 특수문자가 포함되었는지 검사
+
+	      // 비밀번호가 모든 요구 사항을 충족하는지 확인
+	      return password.length >= minLength && hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
+	  }
+
+	  function isValidUserId(userId) {
+	      // 사용자 ID의 형식을 검증하기 위한 정규 표현식
+	      const userIdPattern = /^[a-zA-Z0-9_]{5,20}$/;
+	      return userIdPattern.test(userId);
+	  }
+
+      function isValidNickname(nickname) {
+          // 한글, 영문자, 숫자를 허용하며, 길이는 3자 이상 15자 이하
+          const nicknamePattern = /^[가-힣a-zA-Z0-9]{3,15}$/;
+          return nicknamePattern.test(nickname);
+      }
+
+      function checkValidity() {
+          var userId = document.getElementById("userId").value.trim();
+          var password = document.getElementById("password").value.trim();
+          var pwc = document.getElementById("Pwc").value.trim();
+          var nickname = document.getElementById("nickname").value.trim();
+          var email = document.getElementById("email").value.trim();
+          var code = document.getElementById("code").value.trim();
+
+          // 기본 검증
+          if (!userId) {
+              alert("계정 ID를 입력해 주세요.");
+              return false;
+          }
+          if (!isValidUserId(userId)) {
+              alert("계정 ID는 알파벳, 숫자, 밑줄만 허용되며, 5자 이상 20자 이하로 입력해 주세요.");
+              return false;
+          }
+          if (!password) {
+              alert("비밀번호를 입력해 주세요.");
+              return false;
+          }
+          if (!isPasswordComplex(password)) {
+              alert("비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.");
+              return false;
+          }
+          if (password !== pwc) {
+              alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+              return false;
+          }
+          if (!nickname) {
+              alert("닉네임을 입력해 주세요.");
+              return false;
+          }
+          if (!isValidNickname(nickname)) {
+              alert("닉네임은 한글, 영문자, 숫자만 허용되며, 3자 이상 15자 이하로 입력해 주세요.");
+              return false;
+          }
+          if (!isValidEmail(email)) {
+              alert("유효한 이메일 주소를 입력해 주세요.");
+              return false;
+          }
+          if (!code) {
+              alert("이메일 확인 코드를 입력해 주세요.");
+              return false;
+          }
+
+          // 모든 검증 통과
+          return true;
+      }
+
+      joinBtn.addEventListener("click", function () {
+          if (checkValidity()) {
+              document.getElementById("join").submit(); // 검증 통과 시 폼 제출
+          }
+      });
+	
+	var pwBtn = document.getElementById('PwBtn');
     var pwcBtn = document.getElementById('PwcBtn');
     var pwInput = document.getElementById('userPw');
     var pwcInput = document.getElementById('Pwc');
