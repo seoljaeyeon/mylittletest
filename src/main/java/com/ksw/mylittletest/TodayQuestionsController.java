@@ -103,8 +103,6 @@ public class TodayQuestionsController {
 		UserVO userVO = auth.get();
 		Integer menuType = 4;
 	    String  menuName = "todayquestions";
-
-	
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
@@ -118,8 +116,10 @@ public class TodayQuestionsController {
 		}		
         try {
 			categoryTitle = URLEncoder.encode(categoryTitle, StandardCharsets.UTF_8.toString());
+			System.out.println("인코딩: " + categoryTitle);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			System.out.println("인코딩에러");
 			return "redirect:/"+menuName+"/category";
 		}
 		return "redirect:/"+menuName+"/category/"+categoryTitle+"/"+random;

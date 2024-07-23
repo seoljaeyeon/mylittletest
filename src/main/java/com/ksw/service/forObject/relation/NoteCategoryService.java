@@ -131,7 +131,6 @@ public class NoteCategoryService {
 	    	}
 	    }
 	    
-	    
 	    if (attempts == 10 && result.equals(previousNoteNo)) {
 	    	return result;
 	    }

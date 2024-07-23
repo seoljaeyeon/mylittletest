@@ -25,7 +25,7 @@ public class FavoriteCategoryService {
 	private FavoriteCategoryMapper favoriteCategoryMapper;
 	
 	
-	public Integer updateBookmark(
+	public Integer updateFavorite(
 			Integer categoryNo,
 			Integer userNo,
 			Integer requestType) {
@@ -39,12 +39,17 @@ public class FavoriteCategoryService {
 			return 100;
 		};
 		
-		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
-		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteCategoryMapper.insert(categoryNo, userNo, favoriteNo);
+		favoriteNo = favoriteCategoryMapper.getFavorite(categoryNo, userNo);
+		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등록
+		Integer newFavoriteNo = favoriteService.insert(favoriteNo, requestType);
+		if (newFavoriteNo != null) {
+			favoriteCategoryMapper.insert(categoryNo, userNo, newFavoriteNo);
+		} else {
+			favoriteCategoryMapper.update(categoryNo, userNo, favoriteNo);
+		}
 		
 		// 등록 후 변경된 타입 반환
-		return favorite.getFavoriteType();
+		return requestType;
 	}
 	
     // Entity -> DTO 변환 메소드

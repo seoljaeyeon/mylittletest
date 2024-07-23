@@ -36,21 +36,20 @@ public class ReplyUserService {
 		return replyUserMapper.insertReply(reply); 
 	}
 	
-	public List<Map<String, Object>> getRepliesByNoteNo(Integer noteNo) {
+	public List<Map<String, Object>> getRepliesByNoteNo(Integer noteNo, Integer userNo) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		if(noteNo == null) {
 			return result;
 		}
-		result = replyUserMapper.getRepliesAndWriterByNoteNo(noteNo);
+		result = replyUserMapper.getRepliesAndWriterByNoteNo(noteNo, userNo);
 	    return result; 
 	}
 	
-	@Transactional
+	public void updateReplyRelation(Integer replyNo, Integer userNo) {
+	  replyUserMapper.update(replyNo, userNo);
+	}
+	
 	public void writeReplyRelation(Integer replyNo, Integer userNo) {
-		ReplyUserDTO replyUserDTO = new ReplyUserDTO();
-		if (replyNo == null || userNo == null) {
-    		System.out.println("Writting ReplyRelation failed. One of parameters is empty. Empty ReplyUserDTO returned");   	
-		}
 		replyUserMapper.insert(replyNo, userNo);
 		System.out.println("replyUser insert  성공 결과값 확인 ");
 	}

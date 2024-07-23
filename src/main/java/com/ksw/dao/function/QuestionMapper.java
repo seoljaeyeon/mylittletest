@@ -78,12 +78,12 @@ public interface QuestionMapper {
     
     @Select("SELECT COUNT(*) FROM favorite fv JOIN favoriteNote fvn "
     		+ "ON fv.favoriteNo = fvn.favoriteNo "
-    		+ "WHERE fvn.noteNo = #{noteNo}")
+    		+ "WHERE fvn.noteNo = #{noteNo} AND fv.favoriteType = 1 ")
     int getfavoriteCountByNoteNo(int noteNo);
 
-    @Select("SELECT COUNT(*) > 0 " +
-            "FROM favoriteNote " +
-            "WHERE userNo = #{userNo} AND noteNo = #{noteNo}")
+    @Select("SELECT COUNT(f.favoriteType) > 0 " +
+            "FROM favoriteNote fn JOIN favorite f ON fn.favoriteNo = f.favoriteNo AND f.favoriteType = 1 " +
+            "WHERE userNo = #{userNo} AND noteNo = #{noteNo} ")
     Boolean getIsFavoriteByNoteNoAndUserNo(
     		@Param("noteNo") Integer noteNo, 
     		@Param("userNo") Integer userNo);

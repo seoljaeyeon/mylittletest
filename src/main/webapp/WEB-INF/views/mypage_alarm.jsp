@@ -604,7 +604,7 @@
 <!------------------------- 팝업영역 끝 ----------------------------------->
 <div class="mypage_container">
 	<div class="profile_box">
-		<input type="file" id="fileInput" style="display: none;">
+		<input type="file" id="fileInput" style="display: none;" multiple>
 		<div class="profile">
 			<div class="profile-img" id="profilePicture">
 				<img src="${profileURL}" alt="Profile Picture" />
@@ -638,7 +638,7 @@
             .then(data => {
                 if (data != null) {
                     alert("File uploaded successfully");
-                    profilePicture.querySelector('img').src = '/mylittletest/uploads/'+data.savedName; // 파일 업로드 후 이미지 경로 변경
+                    profilePicture.querySelector('img').src = '/mylittletest/uploads/'+data[0].savedName; // 파일 업로드 후 이미지 경로 변경
                 } else {
                     alert("File upload failed");
                 }

@@ -8,12 +8,17 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
-import com.ksw.dto.forObject.entity.FavoriteDTO;
 import com.ksw.object.relation.FavoriteNote;
 
 @Mapper
 public interface FavoriteNoteMapper {
+	
+    @Select("SELECT COUNT(*) FROM favorite fv JOIN favoriteNote fvn "
+    		+ "ON fv.favoriteNo = fvn.favoriteNo "
+    		+ "WHERE fvn.noteNo = #{noteNo} AND fv.favoriteType = 1 ")
+	Integer countFavoriteByNoteNo(@Param("noteNo") Integer noteNo);
 	
 	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
 	        "FROM category c " +
@@ -66,18 +71,29 @@ public interface FavoriteNoteMapper {
 
 	
 	@Select(""
-			+ "SELECT f.*"
+			+ "SELECT f.favoriteNo "
 			+ "FROM favorite f JOIN favoriteNote fu ON f.favoriteNo = fu.favoriteNo "
 			+ "WHERE fu.noteNo = #{noteNo} AND fu.userNo = #{userNo} "
-			+ "AND TIMESTAMPDIFF(SECOND, f.createdAt, NOW()) <= 5"
+			+ "AND TIMESTAMPDIFF(SECOND, f.createdAt, NOW()) <= 2"
 			+ "")
-	FavoriteDTO checkRecentFavoriteRequest(@Param("noteNo")Integer noteNo, @Param("userNo")Integer userNo);
+	Integer checkRecentFavoriteRequest(@Param("noteNo")Integer noteNo, @Param("userNo")Integer userNo);
+	
+	@Select(""
+			+ "SELECT f.favoriteNo "
+			+ "FROM favorite f JOIN favoriteNote fu ON f.favoriteNo = fu.favoriteNo "
+			+ "WHERE fu.noteNo = #{noteNo} AND fu.userNo = #{userNo} "
+			+ "")
+	Integer getFavoriteNo(@Param("noteNo")Integer noteNo, @Param("userNo")Integer userNo);
 
     @Insert("INSERT INTO favoriteNote "
     		+ "(userNo, noteNo, favoriteNo) "
     		+ "VALUES "
     		+ "(#{userNo}, #{noteNo}, #{favoriteNo})")
-    void insert(@Param("userNo") Integer userNo, @Param("noteNo") Integer noteNo, @Param("favoriteNo") Integer favoriteNo);
+    void insert(@Param("noteNo") Integer noteNo, @Param("userNo") Integer userNo, @Param("favoriteNo") Integer favoriteNo);
+    
+    @Update("UPDATE favoriteNote "
+    		+ "SET favoriteNo = #{favoriteNo} WHERE noteNo = #{noteNo} AND userNo = #{userNo} ")
+    void update(@Param("noteNo") Integer noteNo, @Param("userNo") Integer userNo, @Param("favoriteNo") Integer favoriteNo);
 
     @Select("SELECT * FROM favoriteNote WHERE userNo = #{userNo} AND noteNo = #{noteNo}")
     FavoriteNote findByUserNoAndNoteNo(@Param("userNo") Integer userNo, @Param("noteNo") Integer noteNo);
