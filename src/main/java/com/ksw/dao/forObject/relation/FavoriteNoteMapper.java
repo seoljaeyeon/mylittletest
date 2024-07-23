@@ -73,7 +73,10 @@ public interface FavoriteNoteMapper {
 			+ "")
 	FavoriteDTO checkRecentFavoriteRequest(@Param("noteNo")Integer noteNo, @Param("userNo")Integer userNo);
 
-    @Insert("INSERT INTO favoriteNote (userNo, noteNo, favoriteNo) VALUES (#{userNo}, #{noteNo}, #{favoriteNo})")
+    @Insert("INSERT INTO favoriteNote "
+    		+ "(userNo, noteNo, favoriteNo) "
+    		+ "VALUES "
+    		+ "(#{userNo}, #{noteNo}, #{favoriteNo})")
     void insert(@Param("userNo") Integer userNo, @Param("noteNo") Integer noteNo, @Param("favoriteNo") Integer favoriteNo);
 
     @Select("SELECT * FROM favoriteNote WHERE userNo = #{userNo} AND noteNo = #{noteNo}")
