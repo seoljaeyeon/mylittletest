@@ -84,7 +84,7 @@ public class MypageController {
 		// 분류, 내용, 시간
 		Integer limit = 10;
 		Integer offset = (page-1)*limit;
-		List<List<Map<String,Object>>> result = alarmRelationService.getAlarmSummary(userVO.getUserNo(), limit, offset);
+		List<Map<String,Object>> result = alarmRelationService.getAlarmSummary(userVO.getUserNo(), limit, offset);
 		
 		model.addAttribute("userVO", userVO);
 		model.addAttribute("AlarmList", result);
