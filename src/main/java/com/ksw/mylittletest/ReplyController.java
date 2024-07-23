@@ -55,10 +55,10 @@ public class ReplyController {
 	@PostMapping("/replyWrite") 
 	@Transactional
 	public String replyWrite(
-			@ModelAttribute ReplyDTO replyDTO,
+			@RequestParam("replyContent") String replyContent,
 			@RequestParam("noteNo") Integer noteNo,
 			@RequestParam("categoryTitle") String categoryTitle,
-			@RequestParam("menuName") String menuName,
+			@RequestParam("menuPath") String menuPath, 
 			Model model,
 			HttpServletRequest request) {
 		
@@ -69,25 +69,25 @@ public class ReplyController {
 	    }
 	    
 		if(noteNo == null || categoryTitle == null) {
-			return "redirect:/"+ menuName +"/category";
+			return "redirect:/"+menuPath+"/category";
 		}
 		
-		Reply reply = replyService.convertToEntity(replyDTO);
-		replyDTO = replyService.writeReply(replyDTO);
+		System.out.println(replyContent);
 		
-		reply = replyRepository.getById(replyDTO.getReplyNo());
+		Reply reply = replyService.writeReply(replyContent);
+		
 		User user = userRepository.getById(userVO.getUserNo());
 		
 		replyUserService.writeReplyRelation(reply.getReplyNo(), user.getUserNo());
 		noteReplyService.writeReplyRelation(reply.getReplyNo(), noteNo);
 		
 		UserDTO writer = noteUserService.getUserByNoteNo(noteNo);
-		if (writer.getUserNo() != userVO.getUserNo()) {
+		System.out.println("댓글쓰기 writer체크:"+writer.getUserNo());
+		if (!writer.getUserNo().equals(userVO.getUserNo())) {
 			Alarm alarm = alarmService.save(2);
 			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
 		}
 		
-		
-		return "redirect:/"+ menuName +"/category/"+categoryTitle+"/"+noteNo;
+		return "redirect:/"+menuPath+"/category/"+categoryTitle+"/"+noteNo;
 	}
 }

@@ -102,7 +102,7 @@ public class FavoriteController {
 		};
 		
 		UserDTO writer = noteUserService.getUserByNoteNo(noteNo);
-		if (writer.getUserNo() != userVO.getUserNo()) {
+		if (!writer.getUserNo().equals(userVO.getUserNo())) {
 			Alarm alarm = alarmService.save(1);
 			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
 		}

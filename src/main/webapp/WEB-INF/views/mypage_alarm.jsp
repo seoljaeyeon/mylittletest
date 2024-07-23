@@ -674,10 +674,10 @@
 	<div class="alarm_container">
 		<div class="alarm_list">
 			<div class="alarm_title">알림 목록</div>
-			<c:if test="${result == null }">
+			<c:if test="${AlarmList == null }">
 				<div>최근 알림이 없습니다.</div>
 			</c:if>
-			<c:if test="${result != null}">
+			<c:if test="${AlarmList != null}">
 				<div class="alarm_main">
 					<div class="alarm">
 						<div class="sub"
@@ -701,7 +701,7 @@
 								</c:choose>
 							</div>
 							<div class="sub"
-								style="width: 450px; overflow: hidden; font-size: 18px;">${alarm.alarmNote}</div>
+								style="width: 450px; overflow: hidden; font-size: 18px;">${alarm.nickname}</div>
 							<div class="sub" style="width: 300px; font-size: 18px;">${alarm.createdAt }</div>
 						</div>
 					</c:forEach>
