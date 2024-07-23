@@ -74,6 +74,9 @@ public class ReviewMyTestController {
 			return "redirect:/login";
 		}
 		
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
+		
 		//최근 조회한 카테고리 목록 (오늘)
 		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
 		model.addAttribute("recent_categories", recent_category);

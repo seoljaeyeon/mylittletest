@@ -8,19 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
-		 
-		 // URL 쿼리 파라미터에서 'message' 값을 가져옵니다.
-        var params = new URLSearchParams(window.location.search);
-        var message = params.get('message');
-        
-        if (message) {
-            var alertMessage = "";
-            if (message === "NoSolvedQuestions") {
-                alertMessage = "푼 적이 없습니다.";
-            }
-            alert(alertMessage); // 브라우저 기본 알림 표시
-        }
-		
+	
 		// 팝업요소를 가져온다
 	    var popup = document.getElementById("popup_report");
 
@@ -127,8 +115,6 @@
         var swiper = new Swiper(".swiper-container", {
 		      slidesPerView: 1,
 		      spaceBetween: 0, // 슬라이드 간의 간격 설정
-		      //centeredSlides: true,
-		      //loop: true, // 무한 루프 설정
 		      initialSlide: 0,
 		      observer: true, // 변경된 슬라이드 감지
 		      observeParents: true, // 변경된 슬라이드 감지
@@ -161,7 +147,6 @@
         	swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
         });
         
-		swiper.slideNext();
 		
 		
     
@@ -685,13 +670,12 @@
 				                    <div class="question_count">
 				                        <div class="count_box">
 				                            <div class="likebox">
-				                                <div class="question_like">❤</div>
+				                                <div class="question_like" id="like">❤</div>
 				                                <div style="margin-left:10px;">${category.favoriteCount}</div>
 				                            </div>
 				                            <div class="question_question" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
 				                            <div class="question_person">🧑 ${category.authorCount}출제자</div>
 				                        </div>
-				                        <div class="question_report" id="report_btn">🚨</div>
 				                    </div>
 				                </div>
 				            </c:forEach>

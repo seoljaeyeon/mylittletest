@@ -63,7 +63,7 @@ public class FavoriteNoteService {
 		
 		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
 		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteNoteMapper.insert(noteNo, userNo, favorite.getFavoriteNo());
+		favoriteNoteMapper.insert(userNo, noteNo, favorite.getFavoriteNo());
 		
 		// 등록 후 변경된 타입 반환
 		return favorite.getFavoriteType();

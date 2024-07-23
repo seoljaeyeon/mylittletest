@@ -64,6 +64,10 @@ body {
 	cursor:pointer;
 }
 
+.side_button:hover {
+	color:#000000;
+	background-color:#ffffff;
+}
 .logo {
 	min-width: 10rem;
 	width: 10rem;
@@ -235,13 +239,19 @@ body {
 		            <div class="side_button" onclick="location.href='/mylittletest/index'">
 		                나의 학습
 		            </div>        
-		            <div class="side_button" onclick="location.href='/mylittletest/category/allcategory'">
+		            <div class="side_button" onclick="location.href='/mylittletest/allcategory'">
 		                문제 둘러보기
-		            </div>        
+		            </div>
+		            <div class="side_button" onclick="location.href='/mylittletest/'">
+		                문제 목록보기
+		            </div>    
+		            <div class="side_button" onclick="location.href='/mylittletest/'">
+		                오늘 본 문제 목록
+		            </div>            
 		             <div class="side_button manager_contact_button" id="logout_btn" name="logout_btn">
 		                로그아웃
 		            </div>
-		            <script>
+<script>
    var csrfToken = $("meta[name='_csrf']").attr("content");
    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
    
