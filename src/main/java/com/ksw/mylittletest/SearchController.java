@@ -34,12 +34,6 @@ public class SearchController {
 	        return "redirect:" + urlPath;
 	    }
 		
-		try {
-			searchInput = URLEncoder.encode(searchInput, StandardCharsets.UTF_8.toString());
-		} catch (UnsupportedEncodingException e) {
-			return "redirect:"+urlPath;
-		}
-		
 		System.out.println(searchInput);
 		
 		redirectAttribute.addFlashAttribute("search", true);
