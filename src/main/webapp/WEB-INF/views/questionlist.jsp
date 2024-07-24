@@ -693,7 +693,7 @@
 				                    <div class="question_count">
 				                        <div class="count_box">
 				                            <div class="likebox">
-				                                <div class="question_like" id="like">❤</div>
+				                                <div class="question_like" id="like" style="color:red;">❤</div>
 				                                <div style="margin-left:10px;">${category.favoriteCount}</div>
 				                            </div>
 				                            <div class="question_question" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
