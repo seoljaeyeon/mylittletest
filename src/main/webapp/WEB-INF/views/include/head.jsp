@@ -93,6 +93,7 @@ body {
 	padding: 0.6rem 4rem 0.6rem 2rem;
 	gap: 2rem;
 	overflow: hidden;
+	min-width:100wh;
 }
 
 .ad-container {
@@ -124,14 +125,14 @@ body {
 }
 
 .main-content {
-	width: calc(100% - 14rem);
+	width: 1570px;
 	background-color: #474747;
 	padding: 1.5rem 2rem 2rem 2rem;
 	border-radius: 2rem;
 	height: calc(90vh - 8.8rem);
 	min-height: calc(90vh - 8.8rem);
 	max-height: calc(90vh - 8.8rem);
-	min-width:800px;
+	min-width:1570px;
 }
   /* 팝업스타일  */
         .popup_wrap {
