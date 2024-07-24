@@ -36,8 +36,8 @@ public class AnswerHistoryService {
 		return answerHistoryMapper.getSimilarCategoryListByUserNoAndAnswerType(userNo, answerType, searchInput);
 	}
 	
-	public List<Map<String, Object>> getNoteListByUserNoAndAnswerType(Integer userNo, Integer AnswerType) {
-		List<Map<String, Object>> result = answerHistoryMapper.getNoteListByUserNoAndAnswerType(userNo, AnswerType);
+	public List<Map<String, Object>> getNoteListByUserNoAndAnswerType(Integer userNo, Integer answerType, String sort, Integer limit, Integer offset, Integer searchType, String searchInput) {
+		List<Map<String, Object>> result = answerHistoryMapper.getNoteListByUserNoAndAnswerType(userNo, answerType, sort, limit, offset, searchType, searchInput);
 		return result;
 	}
 	

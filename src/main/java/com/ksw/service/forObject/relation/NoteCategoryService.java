@@ -31,8 +31,8 @@ public class NoteCategoryService {
 	private NoteViewService noteViewservice;
 
 	
-	public List<Map<String, Object>> getNoteListByCategoryTitle(String categoryTitle) {
-		List<Map<String, Object>> results = noteCategoryMapper.getNoteListByUserNo(categoryTitle);
+	public List<Map<String, Object>> getNoteListByCategoryTitle(String categoryTitle, String sort, Integer limit, Integer offset, Integer searchType, String searchInput) {
+		List<Map<String, Object>> results = noteCategoryMapper.getNoteListByCategoryTitle(categoryTitle, sort, limit, offset, searchType, searchInput);
 		return results;
 	}
 	

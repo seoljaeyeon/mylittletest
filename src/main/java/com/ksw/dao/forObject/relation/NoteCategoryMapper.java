@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 
 import com.ksw.object.entity.Category;
 import com.ksw.object.relation.NoteCategory;
@@ -71,20 +72,87 @@ public interface NoteCategoryMapper {
 	Integer getAllQuestionRandomNoteNo(@Param("categoryTitle") String categoryTitle, 
                             @Param("userNo") Integer userNo);
 
-	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
-	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
-	        + "COUNT(nr.replyNo) AS reply_count "
-	        + "FROM note n "
-	        + "JOIN noteCategory nc ON nc.noteNo = n.noteNo "
-	        + "JOIN category c ON c.categoryNo = nc.categoryNo "
-	        + "LEFT JOIN favoriteNote fn ON fn.noteNo = n.noteNo "
-	        + "LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo "
-	        + "LEFT JOIN noteReply nr ON nr.noteNo = n.noteNo "
-	        + "WHERE c.categoryTitle = #{categoryTitle} "
-	        + "GROUP BY c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo "
-	        + "ORDER BY n.createdAt DESC")
-	List<Map<String, Object>> getNoteListByUserNo(@Param("categoryTitle") String categoryTitle);
+	@SelectProvider(type = SqlBuilder.class, method = "buildGetNoteListByCategoryTitle")
+    List<Map<String, Object>> getNoteListByCategoryTitle(
+            @Param("categoryTitle") String categoryTitle,
+            @Param("sort") String sort,
+            @Param("limit") Integer limit,
+            @Param("offset") Integer offset,
+            @Param("searchType") Integer searchType,
+            @Param("searchInput") String searchInput);
+	class SqlBuilder {
+	    public String buildGetNoteListByCategoryTitle(Map<String, Object> params) {
+	        String categoryTitle = (String) params.get("categoryTitle");
+	        String sort = (String) params.get("sort");
+	        Integer limit = (Integer) params.get("limit");
+	        Integer offset = (Integer) params.get("offset");
+	        Integer searchType = (Integer) params.get("searchType");
+	        String searchInput = (String) params.get("searchInput");
 
+	        String orderByClause = getOrderByClause(sort);
+
+	        StringBuilder sql = new StringBuilder();
+	        sql.append("WITH BaseQuery AS (");
+	        sql.append("SELECT c.categoryTitle, n.noteTitle, n.createdAt AS noteCreatedAt, n.noteNo, ");
+	        sql.append("COUNT(DISTINCT CASE WHEN f.favoriteType = 1 THEN f.favoriteNo ELSE NULL END) AS favorite_count, ");
+	        sql.append("COUNT(DISTINCT nr.replyNo) AS reply_count ");
+	        sql.append("FROM note n ");
+	        sql.append("JOIN noteCategory nc ON nc.noteNo = n.noteNo ");
+	        sql.append("JOIN category c ON c.categoryNo = nc.categoryNo ");
+	        sql.append("LEFT JOIN favoriteNote fn ON fn.noteNo = n.noteNo ");
+	        sql.append("LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo ");
+	        sql.append("LEFT JOIN noteReply nr ON nr.noteNo = n.noteNo ");
+
+	        if (categoryTitle != null && !categoryTitle.isEmpty()) {
+	            sql.append("WHERE c.categoryTitle = #{categoryTitle} ");
+	        }
+
+	        if (searchInput != null && !searchInput.isEmpty()) {
+	            if (categoryTitle != null && !categoryTitle.isEmpty()) {
+	                sql.append("AND ");
+	            } else {
+	                sql.append("WHERE ");
+	            }
+
+	            switch (searchType) {
+	                case 1:
+	                    sql.append("c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') ");
+	                    break;
+	                case 2:
+	                    sql.append("n.noteTitle LIKE CONCAT('%', #{searchInput}, '%') ");
+	                    break;
+	                case 3:
+	                    sql.append("(c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') OR n.noteTitle LIKE CONCAT('%', #{searchInput}, '%')) ");
+	                    break;
+	            }
+	        }
+
+	        sql.append("GROUP BY c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo ");
+	        sql.append("), OrderedNotes AS (");
+	        sql.append("SELECT categoryTitle, noteTitle, noteCreatedAt, noteNo, favorite_count, reply_count, ");
+	        sql.append("ROW_NUMBER() OVER (ORDER BY ").append(orderByClause).append(") AS row_num ");
+	        sql.append("FROM BaseQuery ");
+	        sql.append(") ");
+	        sql.append("SELECT categoryTitle, noteTitle, noteCreatedAt, noteNo, favorite_count, reply_count ");
+	        sql.append("FROM OrderedNotes ");
+	        sql.append("WHERE row_num BETWEEN #{offset} + 1 AND #{offset} + #{limit}");
+
+	        return sql.toString();
+	    }
+
+	    private String getOrderByClause(String sort) {
+	        switch (sort) {
+	            case "favorite":
+	                return "favorite_count DESC";
+	            case "reply":
+	                return "reply_count DESC";
+	            default:
+	                return "noteCreatedAt DESC";
+	        }
+	    }
+	}
+
+    
 	@Select(""
 	        + "SELECT c.categoryTitle AS categoryTitle, "
 	        + "COUNT(nc.noteNo) AS noteCount " 
@@ -293,7 +361,7 @@ public interface NoteCategoryMapper {
             "  LEFT JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
             "  WHERE nu.userNo = #{userNo} " +
             "    AND c.categoryTitle = #{categoryTitle} " +
-            "    AND f.favoriteType = 2 " +
+            "    AND (f.favoriteType = 2 OR f.favoriteType = 1) " +
             "ORDER BY RAND() " +
             "LIMIT 1")
     Integer getBookmarkQuestionRandomNoteNo(@Param("categoryTitle") String categoryTitle, 

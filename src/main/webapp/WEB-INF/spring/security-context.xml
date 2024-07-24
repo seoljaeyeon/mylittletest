@@ -76,8 +76,8 @@
 			access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/answer"
 			access="hasRole('ROLE_USER')" />
-		<security:intercept-url
-			pattern="/mypage/notelist/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="notelist"
+			access="hasRole('ROLE_USER')" />
 		<security:form-login login-page="/login"
 			default-target-url="/index" username-parameter="userId"
 			password-parameter="password" always-use-default-target="false" />
