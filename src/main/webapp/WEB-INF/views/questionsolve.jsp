@@ -82,24 +82,10 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
         }, 500);
     });
-
-    // 오디오 재생
-    const audioPlayer = document.getElementById('audioPlayer');
-
-    // 오디오 요소 클릭 이벤트 핸들러
-    audioPlayer.addEventListener('click', function (event) {
-        const rect = audioPlayer.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-        const playerWidth = rect.width;
-        const duration = audioPlayer.duration;
-        const newTime = (clickX / playerWidth) * duration;
-
-        // currentTime 설정 전 확인
-        if (!isNaN(newTime) && newTime >= 0 && newTime <= duration) {
-            audioPlayer.currentTime = newTime;
-        }
-    });
 });
+function goBack() {
+    window.history.back();
+}
 </script>
 <style>
 	.solve_container{
@@ -313,10 +299,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		gap:10px;
 		height:40px;		
 	}
-	.audioPlayer{
-		width:250px;
-		height:40px;
-	}
 	.success_btn{
 		background-color: #333333;
 		color: #ffffff;
@@ -347,6 +329,9 @@ document.addEventListener("DOMContentLoaded", function() {
 	    transform: scale(1.1);
 	}
 		
+	.media{
+		align-content:flex-end;
+	}
 	.answer-container {
     position: relative;
     width: 542px;
@@ -492,8 +477,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	<div class="solve_header">
 		<div class="solve_title">▷<span name="categoryTitleName" id="categoryTitleName">${questionVO.categoryVO.categoryTitle}</span></div>
 		<div class="solve_list">
-			<div class="solve_question" style="margin-top:5px;"><span>내 문제 풀기</span></div>
-			<div class="solve_all" style="margin-top:15px;"><span style="font-size:12px;">문제 전체 보기</span></div>
+			<div class="solve_question" style="margin-top:5px; cursor:pointer;"onclick="location.href='/mylittletest/mytest'"><span>내 문제 풀기</span></div>
+			<div class="solve_all" style="margin-top:15px; cursor:pointer;" onclick="location.href='/mylittletest/allcategory'"><span style="font-size:12px;">문제 전체 보기</span></div>
 		</div>
 		<div class="today_box">
 			<div class="today_question"><span>오늘 본 문제수 </span></div>
@@ -502,6 +487,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		<div class="modify_btn" onclick="location.href='/mylittletest/modify/${questionVO.noteVO.noteNo}?menuName=${menuName}'">수정 </div>
 		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
 		<div class="modify_btn">덜보기</div>
+		<div class="modify_btn" onclick="goBack();" >돌아가기</div>
 		<div class="bookmark_btn">★</div>
 	</div>
 	<div class="solve_main">
@@ -569,14 +555,11 @@ document.addEventListener("DOMContentLoaded", function() {
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
 					<div class="media">
-						<audio id="audioPlayer" class="audioPlayer" controls="controls" loop="loop">
-						  <source src="https://t1.daumcdn.net/cfile/tistory/9945CE425CE45B920A"  type="audio/mpeg"/>
-						</audio>					    
 						<div>
 						    <!-- Your existing HTML content here... -->
 						    <div class="check">
-            <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO" onclick="handleClick(2)">O</div>
-            <div class="success_btn ${questionVO.answerType == 1 ? 'clicked2' : ''}" id="btnX" onclick="handleClick(1)">X</div>
+					            <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO" onclick="handleClick(2)">O</div>
+					            <div class="success_btn ${questionVO.answerType == 1 ? 'clicked2' : ''}" id="btnX" onclick="handleClick(1)">X</div>
 						    </div>
 						    <!-- More of your existing HTML content... -->
 						</div>

@@ -192,6 +192,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	background-color: #333333;
 	border-radius: 10px;
 	cursor: pointer;
+	font-size:2.3rem;
 }
 
 .sub_menu:hover {
@@ -213,29 +214,29 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 <div class="main_container">
 	<div class="head_box">
 		<div class="goal_box">
-			<div class="goal_title">😀 오늘의 목표</div>
+			<div class="goal_title">💯​ 오늘의 목표</div>
 			<div class="count_setting" style="margin-top: 30px">
 				<div class="goal_btn" onclick="saveSetting()">목표 설정</div>
 								<div class="goal_set">
 					<div
 						style="width: 20px; height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-						<span class="arrow_btn" style="font-size: 20px;"
+						<span class="arrow_btn" style="font-size: 1.2rem;"
 							onclick="increase()">&#x25B2;</span> <span class="arrow_btn"
-							style="font-size: 20px;" onclick="decrease()">&#x25BC;</span>
+							style="font-size: 1.2rem;" onclick="decrease()">&#x25BC;</span>
 					</div>
 					<input type="number" id="Total" name="Total" value="100" min="0">
 					<span
-						style="font-size: 13px; margin-top: 25px; height: fit-content;">(문제)</span>
+						style="font-size: 0.8rem; margin-top: 25px; height: fit-content;">(문제)</span>
 				</div>
 			</div>
 		</div>
 		<div class="goal_box">
 			<div class="goal_title">🎯 오늘 달성률</div>
 			<div class="setting">
-				<div class="goal_achieve" style="font-size: 30px; margin-top: 20px; display:flex;">
-					<div><span style="font-size: 30px;"> <!-- 오늘푼 문제수 -->
+				<div class="goal_achieve" style="font-size: 1.8rem; margin-top: 20px; display:flex;">
+					<div><span style="font-size: 1.8rem;"> <!-- 오늘푼 문제수 -->
 						${(GoalDetails[0].answerCount > 0) ?  GoalDetails[0].answerCount : 0 }</span>
-						/ <!-- 사용자가 설정한 목표 문제수 --> <span id="todayGoal" style="font-size:30px;">${(GoalDetails[0].goalCount > 0) ?  GoalDetails[0].goalCount : 0 }</span>
+						/ <!-- 사용자가 설정한 목표 문제수 --> <span id="todayGoal" style="font-size:1.8rem;">${(GoalDetails[0].goalCount > 0) ?  GoalDetails[0].goalCount : 0 }</span>
 					</div>
 					<%-- 오늘푼 문제수 / 사용자가 설정한 목표 문제수 * 100을 계산한값 --%>
 					<div id="goalAchivement" data-value="${(GoalDetails[0].goalCount > 0) ? GoalDetails[0].answerCount * 100 / GoalDetails[0].goalCount : 0}"></div>
@@ -247,7 +248,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	        <div class="setting">    
 		            <div class="goal_success" ">
 		                <c:forEach var="goal" items="${GoalDetails}" varStatus="status">
-		                    <div class="success_count" style="display:inline-flex; gap:0.5rem; font-size:11px;">
+		                    <div class="success_count" style="display:inline-flex; gap:0.5rem; font-size:0.7rem;">
 		                        ${status.index }일전  
 		                      <c:choose>
 		                        <c:when test="${goal.goalCount > 0}">
@@ -282,7 +283,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div class="sub_menu" onclick="location.href='/mylittletest/reviewmytest'">📘맞춘 문제 복습</div>
 			<div class="sub_menu" onclick="location.href='/mylittletest/correctmytest'">📕틀린 문제 복습</div>
 			<div class="sub_menu" onclick="location.href='/mylittletest/todayquestions'">📖오늘 본 문제 복습</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'">❤좋아요 & 북마크 문제 복습</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'"><span style="color:red;">❤</span>좋아요 & 북마크 문제 복습</div>
 		</div>
 	</div>
 <script>

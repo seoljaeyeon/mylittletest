@@ -61,15 +61,15 @@
 </script>
 <style>
 .mypage_container {
-	display: inline-flex;
-	margin-left: 120px;
+	display: flex;
 	width: fit-content;
 	background-color: #474747;
-	padding: 1.5rem 2rem 2rem 2rem;
 	height: 750px;
-	gap: 50px;
+	gap: 80px;
 	justify-content: center;
 	align-items: center;
+	min-width:800px;
+	margin-left:100px;
 }
 
 .profile-img {
@@ -112,7 +112,7 @@
 
 .change {
 	color: #cccccc;
-	font-size: 12px;
+	font-size: 0.8rem;
 	cursor: pointer;
 }
 
@@ -167,9 +167,7 @@
 
 .alarm_list {
 	border: 1px solid black;
-	margin: 20px;
 	width: 950px;
-	margin-top: 0px;
 	border-radius: 20px;
 }
 

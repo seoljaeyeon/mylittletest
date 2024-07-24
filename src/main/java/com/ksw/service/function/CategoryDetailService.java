@@ -72,10 +72,9 @@ public class CategoryDetailService {
 	    		Integer noteCount = ((Number) categoryMap.get("noteCount")).intValue();
 	    		categoryMap.put("noteCount", noteCount);
 	    		
-	    		// 정답 수/문제 수
-	    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio(catNo, userNo);
+	    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio(categoryNo, userNo);
 
-	    		// 값이 null이 아니고 BigDecimal 타입이면 double로 변환
+
 	    		Double correctRatio = 0.0;
 	    		if (correctRatioMap != null && correctRatioMap.get("correctRatio") != null) {
 	    		    Object correctRatioObj = correctRatioMap.get("correctRatio");
@@ -85,6 +84,8 @@ public class CategoryDetailService {
 	    		        correctRatio = ((Number) correctRatioObj).doubleValue();
 	    		    }
 	    		}
+	    		
+	    		categoryMap.put("correctRatio", correctRatio);
 	    		
 	    		// 작성자 수
 	    		Map<String, Object> authorCountMap = categoryDetailMapper.getAuthorCount(catNo);
