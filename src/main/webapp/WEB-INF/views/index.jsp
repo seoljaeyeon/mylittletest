@@ -214,7 +214,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 <div class="main_container">
 	<div class="head_box">
 		<div class="goal_box">
-			<div class="goal_title">😀 오늘의 목표</div>
+			<div class="goal_title">💯​ 오늘의 목표</div>
 			<div class="count_setting" style="margin-top: 30px">
 				<div class="goal_btn" onclick="saveSetting()">목표 설정</div>
 								<div class="goal_set">
@@ -283,7 +283,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div class="sub_menu" onclick="location.href='/mylittletest/reviewmytest'">📘맞춘 문제 복습</div>
 			<div class="sub_menu" onclick="location.href='/mylittletest/correctmytest'">📕틀린 문제 복습</div>
 			<div class="sub_menu" onclick="location.href='/mylittletest/todayquestions'">📖오늘 본 문제 복습</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'">❤좋아요 & 북마크 문제 복습</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'"><span style="color:red;">❤</span>좋아요 & 북마크 문제 복습</div>
 		</div>
 	</div>
 <script>
