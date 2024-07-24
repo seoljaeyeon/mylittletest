@@ -21,6 +21,16 @@ public interface NoteViewMapper {
 	        "ORDER BY viewDate DESC")
 	List<Map<String, Object>> getRecentViewCounts(@Param("userNo") Integer userNo);
 	
+	
+    @Select("SELECT c.categoryNo, MAX(n.createdAt) AS createdAt " +
+            "FROM category c " +
+            "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+            "JOIN note n ON nc.noteNo = n.noteNo " + 
+            "WHERE c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') " +
+            "GROUP BY c.categoryNo " +
+            "ORDER BY createdAt DESC ")
+	List<Map<String, Object>> getSimilarCategoryListOrderedByNoteView(@Param("searchInput") String searchInput);
+	
     @Select("SELECT c.categoryNo, MAX(n.createdAt) AS createdAt " +
             "FROM category c " +
             "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
@@ -30,7 +40,19 @@ public interface NoteViewMapper {
     List<Map<String, Object>> getCategoryListOrderedByNoteView();
 	//allcategory
 
-	
+
+	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	        "FROM category c " +
+	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+	        "JOIN noteView nv ON nv.noteNo = nc.noteNo " +
+	        "WHERE nv.userNo = #{userNo} AND DATE(nv.createdAt) = CURDATE() "
+	        + " AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') " +
+	        "GROUP BY c.categoryNo " +
+	        "ORDER BY createdAt DESC")
+	List<Map<String, Object>> getTodaySimilarCategoryListByUserNo(
+			@Param("userNo") Integer userNo,
+			@Param("searchInput") String searchInput);
+    
 	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
 	        "FROM category c " +
 	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +

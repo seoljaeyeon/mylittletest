@@ -30,6 +30,10 @@ public class NoteUserService {
 		return noteUserMapper.getCategoryListByUserNo(userNo);
 	}
 	
+	public List<Map<String, Object>> getSimilarCategoryListByUserNo(Integer userNo, String searchInput) {
+		return noteUserMapper.getSimilarCategoryListByUserNo(userNo, searchInput);
+	}
+	
 	public List<Map<String,Object>> getNoteListByUserNo(Integer userNo){
 		List<Map<String,Object>> result = noteUserMapper.getNoteListByUserNo(userNo);
 		return result;

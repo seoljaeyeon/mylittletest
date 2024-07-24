@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
@@ -608,10 +609,17 @@
 			<div class="search_box">
 				<div class="list_container">
 					<div class="search_area">
-	            		<form class="search_items">
-	               		 	<input class="search_input" type="text" placeholder="Search" spellcheck="false">
-	               		 	<button class="search_button">🔍</button>
-	            		</form>
+						<form class="search_items" method="post" action="/mylittletest/search">
+					    	<sec:csrfInput/>
+						    <input class="search_input" type="text" name="searchInput" placeholder="Search" spellcheck="false">
+						    <input type="hidden" name="urlPath" id="urlPath">
+						    <button class="search_button" type="submit">🔍</button>
+						</form>
+						<script>
+						    var urlPathInput = document.getElementById("urlPath");
+							var currentUrl = window.location.pathname;
+							urlPathInput.value = currentUrl;
+						</script>
 	       			</div>
 	       			<div class="order_box">
 			       		<div class="order_question">

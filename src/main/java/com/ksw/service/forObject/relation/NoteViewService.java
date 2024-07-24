@@ -40,8 +40,16 @@ public class NoteViewService {
 		return noteViewMapper.getCategoryListOrderedByNoteView();
 	}
 	
+	public List<Map<String,Object>> getSimilarCategoryListOrderedByNoteView(String searchInput) {
+		return noteViewMapper.getSimilarCategoryListOrderedByNoteView(searchInput);
+	}
+	
 	public List<Map<String,Object>> getTodayCategoryListByUserNo(Integer userNo) {
 		return noteViewMapper.getTodayCategoryListByUserNo(userNo);
+	}
+	
+	public List<Map<String,Object>> getTodaySimilarCategoryListByUserNo(Integer userNo, String searchInput) {
+		return noteViewMapper.getTodaySimilarCategoryListByUserNo(userNo, searchInput);
 	}
 	
 	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo){

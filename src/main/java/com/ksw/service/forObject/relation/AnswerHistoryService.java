@@ -1,5 +1,6 @@
 package com.ksw.service.forObject.relation;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,10 @@ public class AnswerHistoryService {
 		return answerHistoryMapper.getCategoryListByUserNoAndAnswerType(userNo, answerType);
 	}
 	
+	public List<Map<String,Object>> getSimilarCategoryListByUserNoAndAnswerType(Integer userNo, Integer answerType, String searchInput) {
+		return answerHistoryMapper.getSimilarCategoryListByUserNoAndAnswerType(userNo, answerType, searchInput);
+	}
+	
 	public List<Map<String, Object>> getNoteListByUserNoAndAnswerType(Integer userNo, Integer AnswerType) {
 		List<Map<String, Object>> result = answerHistoryMapper.getNoteListByUserNoAndAnswerType(userNo, AnswerType);
 		return result;
@@ -45,12 +50,12 @@ public class AnswerHistoryService {
 		return result;	
 	}
 	
-	public Integer insertHistory(Integer noteNo, Integer answerNo, Integer userNo) {
+	public Integer insertHistory(Integer noteNo, Integer answerNo, Integer userNo, Timestamp createdAt) {
 		if (noteNo == null || answerNo == null || userNo == null) {
 			return -1;
 		}
 		
-		Integer result = answerHistoryMapper.insertHistory(noteNo, answerNo, userNo);
+		Integer result = answerHistoryMapper.insertHistory(noteNo, answerNo, userNo, createdAt);
 		return result;
 	}
 		

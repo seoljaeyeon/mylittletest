@@ -1,5 +1,6 @@
 package com.ksw.dao.forObject.relation;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,21 @@ public interface AnswerHistoryMapper {
 	        "ORDER BY createdAt DESC")
 	List<Map<String, Object>> getCategoryListByUserNoAndAnswerType(@Param("userNo") Integer userNo, @Param("answerType") Integer answerType);
 
+	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	        "FROM category c " +
+	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+	        "JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
+	        "JOIN answer a ON ah.answerNo = a.answerNo " +
+	        "JOIN noteView nv ON nv.noteNo = ah.noteNo " +
+	        "WHERE a.answerType = #{answerType} " +
+	        "AND ah.userNo = #{userNo} AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%')  " +
+	        "GROUP BY c.categoryNo " +
+	        "ORDER BY createdAt DESC")
+	List<Map<String, Object>> getSimilarCategoryListByUserNoAndAnswerType(
+			@Param("userNo") Integer userNo, 
+			@Param("answerType") Integer answerType,
+			@Param("searchInput") String searchInput);
+	
 	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
@@ -47,14 +63,14 @@ public interface AnswerHistoryMapper {
 	List<Map<String, Object>> getNoteListByUserNoAndAnswerType(@Param("userNo") Integer userNo, @Param("answerType") Integer answerType);
 
 	@Update("UPDATE answerHistory "
-	        + "SET answerNo = #{answerNo} "
+	        + "SET answerNo = #{answerNo}, createdAt = NOW() "
 	        + "WHERE noteNo = #{noteNo} AND userNo = #{userNo}")
 	Integer updateHistory(@Param("noteNo") Integer noteNo, @Param("answerNo") Integer answerNo, @Param("userNo") Integer userNo);
 
 	@Insert("INSERT INTO answerHistory "
-			+ "(noteNo, answerNo, userNo) "
-			+ "VALUES (#{noteNo}, #{answerNo}, #{userNo})")
-	Integer insertHistory(@Param("noteNo") Integer noteNo, @Param("answerNo") Integer answerNo, @Param("userNo") Integer userNo);
+			+ "(noteNo, answerNo, userNo, createdAt) "
+			+ "VALUES (#{noteNo}, #{answerNo}, #{userNo}, #{createdAt})")
+	Integer insertHistory(@Param("noteNo") Integer noteNo, @Param("answerNo") Integer answerNo, @Param("userNo") Integer userNo, @Param("createdAt") Timestamp createdAt);
 	
     @Select("SELECT a.answerType "
     		+ "FROM answerHistory ah "

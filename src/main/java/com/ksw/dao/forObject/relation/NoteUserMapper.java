@@ -21,6 +21,13 @@ public interface NoteUserMapper {
 			+ "WHERE nu.userNo = #{userNo} ")
 	List<Map<String,Object>> getCategoryListByUserNo(@Param("userNo") Integer userNo);
 	
+	@Select("SELECT DISTINCT(c.categoryNo) "
+			+ "FROM category c "
+			+ "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo "
+			+ "JOIN noteUser nu ON nu.noteNo = nc.noteNo "
+			+ "WHERE nu.userNo = #{userNo} AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') ")
+	List<Map<String,Object>> getSimilarCategoryListByUserNo(@Param("userNo") Integer userNo, @Param("searchInput") String searchInput);
+	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
 	        + "COUNT(r.replyNo) AS reply_count "

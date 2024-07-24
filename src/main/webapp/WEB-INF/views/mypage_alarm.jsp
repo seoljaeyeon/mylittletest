@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="./include/head.jsp"></jsp:include>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
@@ -75,10 +77,15 @@
 	height: 130px;
 	border-radius: 50%;
 	margin-top: 10px;
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	overflow:hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+.profile-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .profile_box {
@@ -97,8 +104,8 @@
 	text-align: center;
 	border: 1px solid black;
 	border-radius: 30px;
-	display:flex;
-	align-items:center;
+	display: flex;
+	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 }
@@ -126,7 +133,7 @@
 	display: flex;
 	cursor: pointer;
 	border: none;
-	margin-top:20px;
+	margin-top: 20px;
 }
 
 .sub_menu {
@@ -611,46 +618,46 @@
 			</div>
 			<div class="change" id="picture_btn">변경하기</div>
 
-<script>
-    const profilePicture = document.getElementById("profilePicture");
-    const pictureBtn = document.getElementById("picture_btn");
-    const fileInput = document.getElementById("fileInput");
-
-    pictureBtn.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener('change', () => {
-        const file = fileInput.files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('userNo', ${userVO.userNo}); // userNo를 여기에 추가
-
-            fetch('/mylittletest/file/upload', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content') // CSRF 토큰 추가
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data != null) {
-                    alert("File uploaded successfully");
-                    profilePicture.querySelector('img').src = '/mylittletest/uploads/'+data[0].savedName; // 파일 업로드 후 이미지 경로 변경
-                } else {
-                    alert("File upload failed");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("File upload error");
-            });
-        }
-    });
-			</script>
+			<script>
+			    const profilePicture = document.getElementById("profilePicture");
+			    const pictureBtn = document.getElementById("picture_btn");
+			    const fileInput = document.getElementById("fileInput");
 			
+			    pictureBtn.addEventListener('click', () => {
+			        fileInput.click();
+			    });
+			
+			    fileInput.addEventListener('change', () => {
+			        const file = fileInput.files[0];
+			        if (file) {
+			            const formData = new FormData();
+			            formData.append('file', file);
+			            formData.append('userNo', ${userVO.userNo}); // userNo를 여기에 추가
+			
+			            fetch('/mylittletest/file/upload', {
+			                method: 'POST',
+			                body: formData,
+			                headers: {
+			                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content') // CSRF 토큰 추가
+			                }
+			            })
+			            .then(response => response.json())
+			            .then(data => {
+			                if (data != null) {
+			                    alert("File uploaded successfully");
+			                    profilePicture.querySelector('img').src = '/mylittletest/uploads/'+data[0].savedName; // 파일 업로드 후 이미지 경로 변경
+			                } else {
+			                    alert("File upload failed");
+			                }
+			            })
+			            .catch(error => {
+			                console.error('Error:', error);
+			                alert("File upload error");
+			            });
+			        }
+			    });
+			</script>
+
 			<div class="nickname">
 				${ userVO.nickname }
 				<div class="change" id="nicknamebtn">변경하기</div>
@@ -665,7 +672,7 @@
 		</div>
 		<div class="sub_menu">
 			<div class="bookmark_list_btn"
-				onclick="location.href='/mylittletest/mypage/bookmark'">즐겨찾기 &
+				onclick="location.href='/mylittletest/mypage/bookmark'">좋아요 &
 				북마크 목록</div>
 			<div class="alarm_list_btn" style="margin-top: 50px;"
 				onclick="location.href='/mylittletest/mypage/alarm'">알림 목록</div>

@@ -26,10 +26,25 @@ public interface FavoriteNoteMapper {
 	        "JOIN favoriteNote fn ON nc.noteNo = fn.noteNo " +
 	        "JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
 	        "JOIN noteView nv ON nv.noteNo = nc.noteNo " +
-	        "WHERE f.favoriteType = #{favoriteType} AND fn.userNo = #{userNo} " +
+	        "WHERE (f.favoriteType = #{favoriteType} OR f.favoriteType = 1) AND fn.userNo = #{userNo} " +
 	        "GROUP BY c.categoryNo " +
 	        "ORDER BY createdAt DESC")
 	List<Map<String, Object>> getCategoryListByUserNoAndFavoriteType(@Param("userNo") Integer userNo, @Param("favoriteType") Integer favoriteType);
+	
+	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	        "FROM category c " +
+	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+	        "JOIN favoriteNote fn ON nc.noteNo = fn.noteNo " +
+	        "JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
+	        "JOIN noteView nv ON nv.noteNo = nc.noteNo " +
+	        "WHERE f.favoriteType = #{favoriteType} AND fn.userNo = #{userNo} "
+	        + "AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') " +
+	        "GROUP BY c.categoryNo " +
+	        "ORDER BY createdAt DESC")
+	List<Map<String, Object>> getSimilarCategoryListByUserNoAndFavoriteType(
+			@Param("userNo") Integer userNo, 
+			@Param("favoriteType") Integer favoriteType,
+			@Param("searchInput") String searchInput);
 
 	@Select("SELECT " +
 	        "f.favoriteType, " +
@@ -38,19 +53,42 @@ public interface FavoriteNoteMapper {
 	        "f.createdAt, " +
 	        "n.noteNo " +
 	        "FROM favorite f " +
-	        "LEFT JOIN favoriteCategory fc ON fc.favoriteNo = f.favoriteNo " +
-	        "LEFT JOIN category c ON fc.categoryNo = c.categoryNo " +
-	        "LEFT JOIN noteCategory nc ON nc.categoryNo = c.categoryNo " +
-	        "LEFT JOIN note n ON n.noteNo = nc.noteNo " +
-	        "LEFT JOIN favoriteNote fn ON f.favoriteNo = fn.favoriteNo " +
-	        "WHERE (fn.userNo = #{userNo} OR fc.userNo = #{userNo}) AND f.favoriteType = 1 " +
+	        "LEFT JOIN favoriteNote fn ON f.favoriteNo = fn.favoriteNo AND fn.userNo = #{userNo} " +
+	        "LEFT JOIN note n ON fn.noteNo = n.noteNo " +
+	        "LEFT JOIN noteCategory nc ON n.noteNo = nc.noteNo " +
+	        "LEFT JOIN category c ON nc.categoryNo = c.categoryNo " +
+	        "LEFT JOIN favoriteCategory fc ON f.favoriteNo = fc.favoriteNo AND fc.userNo = #{userNo} " +
+	        "LEFT JOIN category c2 ON fc.categoryNo = c2.categoryNo " +
+	        "WHERE (fn.userNo = #{userNo} OR fc.userNo = #{userNo}) AND (f.favoriteType = 1 OR f.favoriteType = 2) " +
 	        "ORDER BY f.createdAt DESC " +
 	        "LIMIT #{limit} OFFSET #{offset}")
 	List<Map<String, Object>> getFavoriteListByUserNo(
 	        @Param("userNo") Integer userNo,
 	        @Param("limit") Integer limit,
 	        @Param("offset") Integer offset);
-
+	
+	@Select("SELECT " +
+	        "f.favoriteType, " +
+	        "c.categoryTitle, " +
+	        "n.noteTitle AS bookmarkNote, " +
+	        "f.createdAt, " +
+	        "n.noteNo " +
+	        "FROM favorite f " +
+	        "LEFT JOIN favoriteNote fn ON f.favoriteNo = fn.favoriteNo AND fn.userNo = #{userNo} " +
+	        "LEFT JOIN note n ON fn.noteNo = n.noteNo " +
+	        "LEFT JOIN noteCategory nc ON n.noteNo = nc.noteNo " +
+	        "LEFT JOIN category c ON nc.categoryNo = c.categoryNo " +
+	        "LEFT JOIN favoriteCategory fc ON f.favoriteNo = fc.favoriteNo AND fc.userNo = #{userNo} " +
+	        "LEFT JOIN category c2 ON fc.categoryNo = c2.categoryNo " +
+	        "WHERE (fn.userNo = #{userNo} OR fc.userNo = #{userNo}) AND (f.favoriteType = 1 OR f.favoriteType = 2) " +
+	        "AND (c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') OR n.noteTitle LIKE CONCAT('%', #{searchInput}, '%')) " +
+	        "ORDER BY f.createdAt DESC " +
+	        "LIMIT #{limit} OFFSET #{offset}")
+	List<Map<String, Object>> getFavoriteSimilarListByUserNo(
+	        @Param("userNo") Integer userNo,
+	        @Param("limit") Integer limit,
+	        @Param("offset") Integer offset,
+	        @Param("searchInput") String searchInput);
 	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "
 	        + "COUNT(CASE WHEN f.favoriteType = 2 THEN 1 ELSE NULL END) AS favorite_count, "
