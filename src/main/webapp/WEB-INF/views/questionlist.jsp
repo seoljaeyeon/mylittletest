@@ -10,6 +10,21 @@
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
 	
+		  var correctRatioStr = '${category.correctRatio}';
+	        console.log('Raw correctRatio value:', correctRatioStr);
+
+	        // 문자열을 숫자로 변환
+	        var correctRatio = parseFloat(correctRatioStr);
+	        console.log('Parsed correctRatio value:', correctRatio);
+
+	        // 올바른 값이 아닌 경우, 'N/A'로 처리
+	        if (!isNaN(correctRatio)) {
+	            var correctRatioDisplay = (correctRatio * 100).toFixed(2) + '%';
+	            document.getElementById('correctRatioDisplay').textContent = correctRatioDisplay;
+	        } else {
+	            document.getElementById('correctRatioDisplay').textContent = 'N/A';
+	        }
+			
 		// 팝업요소를 가져온다
 	    var popup = document.getElementById("popup_report");
 
@@ -147,15 +162,15 @@
         goToFirstButton.addEventListener('click', function () {
         	swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
         });
-        
-		
-		
     
 	});
+	function goBack() {
+	    window.history.back();
+	}
 </script>
 <style>
 		.maincontainer{
-			width: calc(100% - 14rem);
+			width: 1600px;
 			background-color: #474747;
 			border-radius: 2rem;
 			height: 800px;
@@ -369,7 +384,7 @@
 		    color:black;
 		}
 		
-		.goto{
+		.goto,.back{
 			color: #ffffff;
 		    display: inline-flex;
 		    align-items: center;
@@ -672,7 +687,7 @@
 				                    <div class="question_mini">
 				                        <div class="question_mbox">
 				                            <div class="question_mtitle" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">${category.categoryTitle}</div>
-				                            <div class="question_answer">나의 정답률 ${category.correctRatio}%</div>
+				                            <div class="question_answer">나의 정답률 <span id="correctRatioDisplay">${category.correctRatio * 100}%</span></div>
 				                        </div>
 				                    </div>
 				                    <div class="question_count">
@@ -696,8 +711,10 @@
 				    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
 				    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
 				</div>
-				<div class="goto">처음으로</div>
-
+				<div style="gap:30px; display:flex;">
+					<div class="goto">처음으로</div>
+					<div class="back" onclick="goBack();">돌아가기</div>
+				</div>
 		</div>
 	</div>
 <!-- 컨텐츠 영역  -->
