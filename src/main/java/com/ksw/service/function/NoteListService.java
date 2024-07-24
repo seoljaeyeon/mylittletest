@@ -19,16 +19,6 @@ import com.ksw.vo.forObject.entity.UserVO;
 
 @Service
 public class NoteListService {
-//	——
-//	문제 리스트 컨트롤러 만들기
-//	- 내 문제 / 조회한 문제 / 카테고리 내 문제 리스트 (요청 타입) 받아야함
-//	- 카테고리 이름 출력
-//	- 제목 출력
-//	- 작성 시간출력
-//	- 좋아요 수 출력
-//	- 댓글 수 출력
-//	- 페이징
-//	- 검색바 구현
 	
 	@Autowired
 	private NoteUserService noteUserService;
@@ -50,13 +40,24 @@ public class NoteListService {
 		return result;
 	}
 	
-	
-	// noteType : 1 - 나의 문제 / 2 - 틀린 문제 / 3 - 맞은 문제 / 4 - 특정 카테고리 문제 / 5 - 조회한 문제 / 6 - 북마크한 문제 / 7 - 즐겨찾기 목록
 	public List<Map<String, Object>> getNoteList(
 			UserVO userVO,
-			Integer noteType, 
-	        String categoryTitle
+			String menuPath, 
+			String sort,
+	        String categoryTitle,
+	        Integer page,
+	        Integer limit,
+	        Integer searchType,
+	        String searchInput
 			){
+		
+		// 메뉴path 종류
+			// 내가 쓴 문제 : mytest
+			// 전체 문제 : allcategory
+			// 틀린 문제 : correctmytest
+			// 맞은 문제 : reviewmytest
+			// 오늘 본 문제 : todayquestions
+			// 북마크&좋아요 문제 : - 일단 나중에
 		
 		// 나의 문제 -> noteUser 
 		// 틀린 문제 -> noteAnswer
@@ -65,34 +66,28 @@ public class NoteListService {
 		// 조회한 문제 -> noteView
 		// 북크한 문제 -> favoriteNote
 		
-		// 각각 항목 필요 요소	
-		//	    - 카테고리 이름 출력
-		//		- 제목 출력
-		//		- 작성 시간출력
-		//		- 좋아요 수 출력
-		//		- 댓글 수 출력
-		//		- 페이징
-		//		- 검색바 구현
-		
 	    List<Map<String, Object>> result;
-	    switch (noteType) {
-	        case 1:
-	            result = noteUserService.getNoteListByUserNo(userVO.getUserNo());
+	    
+	    Integer offset = (page-1)*limit;
+	    
+	    switch (menuPath) {
+	        case "mytest": // 내가 쓴 게시글 전부 다 가져오기
+	            result = noteUserService.getNoteList(userVO.getUserNo(), sort, limit, offset, searchType, searchInput);
 	            break;
-	        case 2:
-	            result = answerHistoryService.getNoteListByUserNoAndAnswerType(userVO.getUserNo(), 1);
+	        case "reviewmytest": // 내가 맞은 게시물 다 가져오기
+	            result = answerHistoryService.getNoteListByUserNoAndAnswerType(userVO.getUserNo(), 2, sort, limit, offset, searchType, searchInput);
 	            break;
-	        case 3:
-	            result = answerHistoryService.getNoteListByUserNoAndAnswerType(userVO.getUserNo(), 2);
+	        case "correctmytest":
+	            result = answerHistoryService.getNoteListByUserNoAndAnswerType(userVO.getUserNo(), 1, sort, limit, offset, searchType, searchInput);
 	            break;
-	        case 4:
-	            result = noteCategoryService.getNoteListByCategoryTitle(categoryTitle);
+	        case "allcategory":
+	            result = noteCategoryService.getNoteListByCategoryTitle(categoryTitle, sort, limit, offset, searchType, searchInput);
 	            break;
-	        case 5:
-	            result = noteViewService.getNoteListByUserNo(userVO.getUserNo());
+	        case "todayquestions":
+	            result = noteViewService.getNoteListByUserNo(userVO.getUserNo(), sort, limit, offset, searchType, searchInput);
 	            break;
-	        case 6:
-	            result = favoriteNoteService.getNoteListByUserNo(userVO.getUserNo());
+	        case "bookmarkquestions":
+	            result = favoriteNoteService.getFavoritedNoteListByUserNo(userVO.getUserNo(), sort, limit, offset, searchType, searchInput);
 	            break;
 	        default:
 	        	result = null;

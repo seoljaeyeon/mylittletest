@@ -49,8 +49,8 @@ public class FavoriteNoteService {
 		return favoriteNoteMapper.getSimilarCategoryListByUserNoAndFavoriteType(userNo, favoriteType, searchInput);
 	}
 	
-	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo){
-		List<Map<String,Object>> results = favoriteNoteMapper.getNoteListByUserNo(userNo);
+	public List<Map<String, Object>> getFavoritedNoteListByUserNo(Integer userNo, String sort, Integer limit, Integer offset, Integer searchType, String searchInput){
+		List<Map<String,Object>> results = favoriteNoteMapper.getFavoritedNoteListByUserNo(userNo, sort, limit, offset, searchType, searchInput);
 		return results;
 	}
 	

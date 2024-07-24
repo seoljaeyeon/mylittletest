@@ -242,7 +242,7 @@ body {
 		            <div class="side_button" onclick="location.href='/mylittletest/allcategory'">
 		                문제 둘러보기
 		            </div>
-		            <div class="side_button" onclick="location.href='/mylittletest/'">
+		            <div class="side_button" onclick="location.href='/mylittletest/notelist'">
 		                문제 목록보기
 		            </div>    
 		            <div class="side_button" onclick="location.href='/mylittletest/'">
@@ -308,14 +308,14 @@ document.addEventListener("DOMContentLoaded", function() {
            }
        }
        
-       document.getElementById("admin_btn").addEventListener("click", function() {
+/*        document.getElementById("admin_btn").addEventListener("click", function() {
            togglePopup('popup_admin', 'toggle');
        });
-
-       // 관리자 팝업 닫기 버튼에 클릭 이벤트 추가
+ */
+/*        // 관리자 팝업 닫기 버튼에 클릭 이벤트 추가
        document.getElementById("btn_close").addEventListener("click", function() {
            togglePopup('popup_admin', 'hide');
-       });
+       }); */
 
        // 로그인 팝업 열기 버튼에 클릭 이벤트 추가
        document.getElementById("mystudy_btn").addEventListener("click", function() {

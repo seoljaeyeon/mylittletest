@@ -128,6 +128,7 @@ public class BookmarkQuestionsController {
 		
 		// 사용자가 작성한 문제 중, 사용자가 보지 못한 문제 중에서 랜덤문제 출제
 		// 보지 못한 문제가 없다면 본 문제 중에서 랜덤으로 출제
+		
 		Integer random = noteCategoryService.getRandomNobyCategoryTitle(categoryTitle, userVO.getUserNo(), menuType);
 		if (random == null || random == 0) {
 			// 추가적인 처리 또는 오류 페이지로 리다이렉트

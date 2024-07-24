@@ -85,28 +85,31 @@ public class FileService {
 			// 반환할 DTO 미리 정의 (null 처리 위해서)
 			FileDTO fileDTO = new FileDTO();
 			
-			// file 업로드 당시 이름 가져오기
-			originalFileName = fileitem.getOriginalFilename();
 			
-			// file 확장자 가져오기
-		    extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-		    
-		    // UUID 통해서 랜덤한 이름 생성 (중복으로 저장됐을 때 피하기 위해서)
-		    savedFileName = UUID.randomUUID().toString() + extension;
-		    
-		    // 파일이 저장될 경로 정의
-	        Path filePath = fileStorageLocation.resolve(savedFileName);
-	        
-	        // 파일 저장
-	        Files.copy(fileitem.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-	        // DTO 필드 채우기 
-		    fileDTO.setSavedName(savedFileName);
-		    fileDTO.setUploadName(originalFileName);
-		    fileDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-
-			filelist.add(fileDTO);
-			System.out.println("변환 성공완료" + "  "+originalFileName);
+			originalFileName = fileitem.getOriginalFilename();
+			if (originalFileName !=  null && !originalFileName.isEmpty()) {
+				// file 업로드 당시 이름 가져오기
+				System.out.println(originalFileName);
+				// file 확장자 가져오기
+				extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				
+				// UUID 통해서 랜덤한 이름 생성 (중복으로 저장됐을 때 피하기 위해서)
+				savedFileName = UUID.randomUUID().toString() + extension;
+				
+				// 파일이 저장될 경로 정의
+				Path filePath = fileStorageLocation.resolve(savedFileName);
+				
+				// 파일 저장
+				Files.copy(fileitem.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+				
+				// DTO 필드 채우기 
+				fileDTO.setSavedName(savedFileName);
+				fileDTO.setUploadName(originalFileName);
+				fileDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+				
+				filelist.add(fileDTO);
+				System.out.println("변환 성공완료" + "  "+originalFileName);
+			}
 		}
 	    return filelist;
 	}

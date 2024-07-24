@@ -52,8 +52,8 @@ public class NoteViewService {
 		return noteViewMapper.getTodaySimilarCategoryListByUserNo(userNo, searchInput);
 	}
 	
-	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo){
-		List<Map<String, Object>> results = noteViewMapper.getNoteListByUserNo(userNo);
+	public List<Map<String, Object>> getNoteListByUserNo(Integer userNo, String sort, Integer limit, Integer offset, Integer searchType, String searchInput){
+		List<Map<String, Object>> results = noteViewMapper.getNoteListByUserNo(userNo, sort, limit, offset, searchType, searchInput);
 		return results;
 	}
 	

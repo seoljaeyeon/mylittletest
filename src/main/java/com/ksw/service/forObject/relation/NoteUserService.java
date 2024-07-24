@@ -3,6 +3,7 @@ package com.ksw.service.forObject.relation;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,17 @@ public class NoteUserService {
 	public List<Map<String,Object>> getNoteListByUserNo(Integer userNo){
 		List<Map<String,Object>> result = noteUserMapper.getNoteListByUserNo(userNo);
 		return result;
+	}	
+	
+	public List<Map<String,Object>> getNoteList(    		
+			Integer userNo, 
+    		String sort,
+    		Integer limit,
+    		Integer offset,
+    		Integer searchType,
+    		String searchInput){
+		List<Map<String,Object>> result = noteUserMapper.getNoteList(userNo, sort, limit, offset, searchType, searchInput);
+		return result;
 	}
 	
 	public UserDTO getUserByNoteNo(Integer noteNo) {
@@ -64,7 +76,6 @@ public class NoteUserService {
     	NoteUser noteUser = new NoteUser();
     	if (noteUserDTO == null) {
     		System.out.println("NoteUserDTO to NoteUser failed. Empty NoteUser created. NoteUserDTO is null");   	
-
     		return noteUser;
     	}
     	Note note = noteService.convertToEntity(noteUserDTO.getNoteDTO());
@@ -79,7 +90,6 @@ public class NoteUserService {
     public NoteUserVO convertToVO(NoteUserDTO noteUserDTO) {
     	if (noteUserDTO == null) {
     		System.out.println("NoteUserDTO to NoteUserVO failed. Empty NoteUserVO created. NoteUserDTO is null");   	
-
     		return new NoteUserVO.Builder().build();
     	}
         return new NoteUserVO.Builder()

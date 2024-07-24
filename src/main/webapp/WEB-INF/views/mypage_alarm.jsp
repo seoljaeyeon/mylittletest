@@ -708,7 +708,7 @@
 								</c:choose>
 							</div>
 							<div class="sub"
-								style="width: 450px; overflow: hidden; font-size: 18px;">${alarm.nickname}</div>
+								style="width: 450px; overflow: hidden; font-size: 18px;">${alarm.nickname}님이 내 게시물에 ${alarm.alarmType == 1 ? '좋아요를 눌렀습니다.' : '댓글을 남겼습니다.' }</div>
 							<div class="sub" style="width: 300px; font-size: 18px;">${alarm.createdAt }</div>
 						</div>
 					</c:forEach>
