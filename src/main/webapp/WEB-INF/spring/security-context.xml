@@ -45,13 +45,17 @@
 		<security:intercept-url pattern="/mytest/**"
 			access="hasRole('ROLE_USER')" />
 		<security:intercept-url
-			pattern="/correctmytest/**" access="hasRole('ROLE_USER')" />
+			pattern="/correctmytest/**" 
+			access="hasRole('ROLE_USER')" />
 		<security:intercept-url
-			pattern="/bookmarkquestions/**" access="hasRole('ROLE_USER')" />
+			pattern="/bookmarkquestions/**" 
+			access="hasRole('ROLE_USER')" />
 		<security:intercept-url
-			pattern="/reviewmytest/**" access="hasRole('ROLE_USER')" />
+			pattern="/reviewmytest/**" 
+			access="hasRole('ROLE_USER')" />
 		<security:intercept-url
-			pattern="/todayquestions/**" access="hasRole('ROLE_USER')" />
+			pattern="/todayquestions/**" 
+			access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/replyWrite"
 			access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/favorite"
@@ -63,6 +67,14 @@
 		<security:intercept-url pattern="/goalsetting"
 			access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/allcategory"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/search"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/modify"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/replyModify"
+			access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/answer"
 			access="hasRole('ROLE_USER')" />
 		<security:intercept-url
 			pattern="/mypage/notelist/**" access="hasRole('ROLE_USER')" />

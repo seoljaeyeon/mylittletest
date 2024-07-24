@@ -234,8 +234,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div class="setting">
 				<div class="goal_achieve" style="font-size: 30px; margin-top: 20px; display:flex;">
 					<div><span style="font-size: 30px;"> <!-- 오늘푼 문제수 -->
-						${(GoalDetails[0].answerCount > 0) ?  GoalDetails[0].answerCount : "목표" }</span>
-						/ <!-- 사용자가 설정한 목표 문제수 --> <span id="todayGoal" style="font-size:30px;">${(GoalDetails[0].goalCount > 0) ?  GoalDetails[0].goalCount : "설정" }</span>
+						${(GoalDetails[0].answerCount > 0) ?  GoalDetails[0].answerCount : 0 }</span>
+						/ <!-- 사용자가 설정한 목표 문제수 --> <span id="todayGoal" style="font-size:30px;">${(GoalDetails[0].goalCount > 0) ?  GoalDetails[0].goalCount : 0 }</span>
 					</div>
 					<%-- 오늘푼 문제수 / 사용자가 설정한 목표 문제수 * 100을 계산한값 --%>
 					<div id="goalAchivement" data-value="${(GoalDetails[0].goalCount > 0) ? GoalDetails[0].answerCount * 100 / GoalDetails[0].goalCount : 0}"></div>
@@ -282,7 +282,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			<div class="sub_menu" onclick="location.href='/mylittletest/reviewmytest'">📘맞춘 문제 복습</div>
 			<div class="sub_menu" onclick="location.href='/mylittletest/correctmytest'">📕틀린 문제 복습</div>
 			<div class="sub_menu" onclick="location.href='/mylittletest/todayquestions'">📖오늘 본 문제 복습</div>
-			<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'">❤북마크 문제 복습</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'">❤좋아요 & 북마크 문제 복습</div>
 		</div>
 	</div>
 <script>

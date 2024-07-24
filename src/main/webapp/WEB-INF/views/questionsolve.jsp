@@ -13,56 +13,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	// CSRF token 설정
     var csrfToken = $("meta[name='_csrf']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
-    const solveAllBtn = document.querySelector(".solve_all");
-    const categoryTitleElement = document.getElementById("categoryTitleName");
-
-    solveAllBtn.addEventListener("click", function() {
-        const noteType = 4; // category에 포함되는 notelist 페이지 코
-        const categoryTitle = categoryTitleElement.innerText;
-
-        fetch('/mylittletest/notelist/'+noteType, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                [csrfHeader]: csrfToken
-            },
-            body: JSON.stringify({
-                noteType: noteType,
-                categoryTitle: categoryTitle,
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                // 리다이렉트
-                window.location.href = data.url;
-            } else if (data.status === "login_needed") {
-                window.location.href = data.url;
-            } else {
-                console.error("Failed to get notes.");
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching notes:", error);
-        });
-    });
     
     const btnO = document.getElementById("btnO");
     const btnX = document.getElementById("btnX");
     const noteNo = document.getElementById("noteNo").value; // 숨겨진 필드에서 값 가져오기
-
-    btnO.addEventListener("click", () => {
-        btnO.classList.add("clicked");
-        btnX.classList.remove("clicked2");
-        sendAnswer(2);
-    });
-
-    btnX.addEventListener("click", () => {
-        btnX.classList.add("clicked2");
-        btnO.classList.remove("clicked");
-        sendAnswer(1);
-    });
 
     // 북마크 버튼 애니메이션
     const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
@@ -621,8 +575,8 @@ document.addEventListener("DOMContentLoaded", function() {
 						<div>
 						    <!-- Your existing HTML content here... -->
 						    <div class="check">
-						        <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO">O</div>
-						        <div class="success_btn ${questionVO.answerType == 1 ? 'clicked2' : ''}" id="btnX">X</div>
+            <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO" onclick="handleClick(2)">O</div>
+            <div class="success_btn ${questionVO.answerType == 1 ? 'clicked2' : ''}" id="btnX" onclick="handleClick(1)">X</div>
 						    </div>
 						    <!-- More of your existing HTML content... -->
 						</div>
@@ -748,6 +702,49 @@ document.addEventListener("DOMContentLoaded", function() {
 		        alert('요청 처리 중 오류가 발생했습니다.');
 		    });
 		}
+		
+        function handleClick(answerType) {
+            const noteNo = document.getElementById("noteNo").value; // 숨겨진 필드에서 값 가져오기
+            const data = {
+                    noteNo: parseInt(noteNo, 10),
+                    answerType: parseInt(answerType, 10)
+                };
+        	
+            fetch('/mylittletest/answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+	                [csrfHeader]: csrfToken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateButtonStyles(answerType);
+                } else if (data.status === 'login_needed') {
+                    window.location.href = data.url;
+                } else {
+                    console.error('Failed to submit answer:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function updateButtonStyles(answerType) {
+            const btnO = document.getElementById('btnO');
+            const btnX = document.getElementById('btnX');
+
+            if (answerType === 2) {
+                btnO.classList.add('clicked');
+                btnX.classList.remove('clicked2');
+            } else if (answerType === 1) {
+                btnX.classList.add('clicked2');
+                btnO.classList.remove('clicked');
+            }
+        }
 		</script>
 	</div>
 </div>

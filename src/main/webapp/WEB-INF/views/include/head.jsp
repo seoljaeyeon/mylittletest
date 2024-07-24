@@ -275,17 +275,11 @@ body {
 	    });
 	});
 </script>
-		            <hr style="width:100%; opacity:0.6; margin-top:auto">
-		            <div class="side_button">
-		                웹사이트 운영 정책
-		            </div>
 				</c:when>
 				<c:otherwise>
 					<div class="side_button" onclick="location.href='/mylittletest/login'">로그인</div>
 					<div class="side_button" id="mystudy_btn">나의 학습</div>
 					<div class="side_button" onclick="location.href='/mylittletest/allcategory'">문제 둘러보기</div>
-					<hr style="width: 100%; opacity: 0.6; margin-top: auto">
-					<div class="side_button">웹사이트 운영 정책</div>
 				</c:otherwise>
 			</c:choose>
 		</aside>

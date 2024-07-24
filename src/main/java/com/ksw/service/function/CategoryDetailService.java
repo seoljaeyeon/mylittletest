@@ -35,7 +35,6 @@ public class CategoryDetailService {
 	
 	public List<List<Map<String, Object>>> getCategorySummary(Integer userNo, Integer menuType, Integer limit, Integer offset) {
 		List<List<Map<String, Object>>> result = new ArrayList<>();
-		
 		List<Map<String,Object>> categoryLists = new ArrayList<>();
 		
 		if(menuType == 0) {

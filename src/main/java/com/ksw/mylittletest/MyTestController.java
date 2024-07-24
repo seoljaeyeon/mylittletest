@@ -67,10 +67,19 @@ public class MyTestController {
 		Integer menuType = (Integer) model.asMap().get("menuType");
 		String  menuName = "mytest";
 		
-		// menuType이 null인 경우 처리
+	    Boolean search = (Boolean) model.asMap().get("search");
+	    String searchInput = (String) model.asMap().get("searchInput");
+	    
+		if (search != null || searchInput != null) {
+			redirectAttributes.addFlashAttribute("search", search);
+			redirectAttributes.addFlashAttribute("searchInput", searchInput);
+		}
+		
+		// menuType이 null인 경우 처리			
 		if (menuType == null) {
 			menuType = 1;
 			redirectAttributes.addFlashAttribute("menuType", menuType);
+			
 			return "redirect:/category";
 		}
 		
@@ -86,11 +95,10 @@ public class MyTestController {
 		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
 		model.addAttribute("recent_categories", recent_category);
 		
-	    Boolean search = (Boolean) model.asMap().get("search");
-	    String searchInput = "";
+	    System.out.println("from Search? " + search );
+	    
 	    List<List<Map<String, Object>>> list = new ArrayList<>();
 	    if((search != null) ? (Boolean) search : false) {
-	    	searchInput = (String) model.asMap().get("searchInput");
 	    	list = searchService.search(userVO.getUserNo(), menuType, page, searchInput);
 	    	model.addAttribute("list", list);
 	    	model.addAttribute("menuName", menuName);

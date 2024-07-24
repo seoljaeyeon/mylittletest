@@ -15,7 +15,7 @@ public interface CategoryViewMapper {
 			+ "FROM category c JOIN categoryView cv ON c.categoryNo = cv.categoryNo "
 			+ "JOIN favoriteNote fn ON fn.userNo = cv.userNo "
 			+ "JOIN favorite f ON f.favoriteNo = fn.favoriteNo "
-			+ "WHERE f.favoriteType = #{favoriteType} AND fn.userNo = #{userNo} AND "
+			+ "WHERE (f.favoriteType = #{favoriteType} OR f.favoriteType = 2) AND fn.userNo = #{userNo} AND "
 			+ "DATE(cv.createdAt) = CURDATE() "
 			+ "GROUP BY c.categoryTitle "
 			+ "ORDER BY createdAt DESC")

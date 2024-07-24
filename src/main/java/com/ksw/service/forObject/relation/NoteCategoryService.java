@@ -42,7 +42,6 @@ public class NoteCategoryService {
 		return results;
 		}
 	
-	@Transactional
 	public Integer getRandomNobyCategoryTitle(String categoryTitle, Integer userNo, Integer menuType) {
 		
 		// menuType - 1 :: mytest, 내 문제 풀기
