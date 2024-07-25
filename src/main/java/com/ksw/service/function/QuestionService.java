@@ -1,5 +1,7 @@
 package com.ksw.service.function;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +27,6 @@ import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FileDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.forObject.relation.FileNoteDTO;
 import com.ksw.dto.forObject.relation.NoteCategoryDTO;
 import com.ksw.dto.forObject.relation.NoteUserDTO;
 import com.ksw.dto.function.QuestionDTO;
@@ -44,7 +45,6 @@ import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.forObject.relation.NoteUserService;
 import com.ksw.service.forObject.relation.NoteViewService;
 import com.ksw.service.forObject.relation.ReplyUserService;
-import com.ksw.vo.forObject.entity.FileVO;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
 
@@ -129,6 +129,7 @@ public class QuestionService {
 			// 사용자 정보 활용을 위해 DTO로 변환 (작성자)
 			UserDTO userDTO = userService.convertVOToDTO(authService.getUserVO());
 
+			
 			// note 데이터 DTO로 변환
 			Note note = noteService.convertToEntity(noteDTO);
 			// category 데이터 DTO로 변환

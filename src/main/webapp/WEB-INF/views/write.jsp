@@ -21,8 +21,12 @@
         console.log("CSRF Header:", csrfHeader);
 
         $("#writeFrm").submit(function(event) {
+            document.getElementById('noteContent').value = document.getElementById('editor').innerText; 
+            document.getElementById('noteCommentary').value = document.getElementById('commentary_editor').innerText;   
             var form = $(this)[0];
             var data = new FormData(form);
+           
+         
 
             $.ajax({
                 type: "POST",
@@ -481,7 +485,7 @@ textarea::placeholder {
 
 <div class="container">
 	<form id="writeFrm" class="writeFrm" name="writeFrm"
-		action="${modify ? '/mylittletest/modify' : '/mylittletest/write'}" method="post" enctype="multipart/form-data">
+		action="${modify ? '/mylittletest/modify' : '/mylittletest/write'}" on method="post" enctype="multipart/form-data">
     	<sec:csrfInput/>
 		<div class="subject-input-container">
 			<div class="subject-input-shadow">

@@ -245,10 +245,7 @@ body {
 		            </div>
 		            <div class="side_button" onclick="location.href='/mylittletest/notelist'">
 		                문제 목록보기
-		            </div>    
-		            <div class="side_button" onclick="location.href='/mylittletest/'">
-		                오늘 본 문제 목록
-		            </div>            
+		            </div>    		         
 		             <div class="side_button manager_contact_button" id="logout_btn" name="logout_btn">
 		                로그아웃
 		            </div>
