@@ -54,7 +54,6 @@ public class CategoryDetailService {
 				categoryMap -> {
 		    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio((Integer)categoryMap.get("categoryNo"), userNo);
 
-
 		    		Double correctRatio = 0.0;
 		    		if (correctRatioMap != null && correctRatioMap.get("correctRatio") != null) {
 		    		    Object correctRatioObj = correctRatioMap.get("correctRatio");

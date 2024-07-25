@@ -132,7 +132,6 @@ public class FavoriteController {
 			Alarm alarm = alarmService.save(1);
 			alarmRelationService.insert(alarm.getAlarmNo(), writer.getUserNo(), userVO.getUserNo(), noteNo, null);
 		}
-		
     	return response;
     }
     

@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec"
     uri="http://www.springframework.org/security/tags"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <jsp:include page="./include/head.jsp"></jsp:include>
 <!-- CSRF 메타 태그 추가 -->
 <meta name="_csrf" content="${_csrf.token}" />
@@ -485,10 +487,13 @@ textarea::placeholder {
 
 <div class="container">
 	<form id="writeFrm" class="writeFrm" name="writeFrm"
-		action="${modify ? '/mylittletest/modify' : '/mylittletest/write'}" on method="post" enctype="multipart/form-data">
+		action="${modify ? '/mylittletest/modify' : '/mylittletest/write'}" method="post" enctype="multipart/form-data">
     	<sec:csrfInput/>
 		<div class="subject-input-container">
 			<div class="subject-input-shadow">
+				<c:if test="${questionVO.noteVO.noteNo!=null}">
+					<input type="hidden" name="noteNo" id="noteNo" value="${questionVO.noteVO.noteNo}">
+				</c:if>
 				<input type="hidden" name="userNo" id="userNo" value="${userVO.userNo}">
 				<div class="subject-container">
 					<input class="subject_input" type="text" id="categoryTitle"

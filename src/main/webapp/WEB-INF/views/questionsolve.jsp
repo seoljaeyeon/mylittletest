@@ -18,6 +18,8 @@ $(document).ready(function() {
     const btnX = document.getElementById("btnX");
     const noteNo = document.getElementById("noteNo").value; // 숨겨진 필드에서 값 가져오기
 
+    
+    
     // 북마크 버튼 애니메이션
     const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
 
@@ -27,6 +29,34 @@ $(document).ready(function() {
         });
     });
 
+    document.getElementById('modify_btn').addEventListener('click', function() {
+        const noteNo = parseInt(${questionVO.noteVO.noteNo}, 10);
+        const menuName = '${menuName}'; // menuName 인코딩
+
+        const requestData = {
+            noteNo: noteNo,
+            menuName: menuName
+        };
+
+        fetch('/mylittletest/modify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.text())
+        .then(url => {
+            if (url) {
+                window.location.href = url; // 응답 받은 URL로 이동
+            } else {
+                console.error('Invalid response from server');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+    
     // 5초마다 updateLikeCount 함수 호출
     setInterval(updateLikeCount, 5000);
     
@@ -113,6 +143,7 @@ $(document).ready(function() {
                 button.textContent = '비활성화됨';
                 button.classList.add('disabled'); 
                 button.disabled = true; 
+               	window.location.href = "/mylittletest/index"
             } else if (data.status === 'insert_failed') {
                 alert('차단 처리 실패');
             } else if (data.status === 'parameter_null') {
@@ -634,7 +665,7 @@ function goBack() {
 			<div class="today_question"><span>오늘 본 문제수 </span></div>
     <div class="today_count"><span style="font-size:20px;">${questionVO.todayNoteViewInCategory}</span></div>
 		</div>
-		<div class="modify_btn" onclick="location.href='/mylittletest/modify/${questionVO.noteVO.noteNo}?menuName=${menuName}'">수정 </div>
+		<div class="modify_btn" id="modify_btn">수정 </div>
 		<div class="delete_btn" data-note-no="${questionVO.noteVO.noteNo}" >비활성화</div>
 		<div class="showless_btn" data-note-no="${questionVO.noteVO.noteNo}">덜보기</div>
 		<div class="modify_btn" onclick="goBack();" >돌아가기</div>

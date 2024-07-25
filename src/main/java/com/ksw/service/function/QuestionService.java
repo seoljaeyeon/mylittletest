@@ -129,7 +129,11 @@ public class QuestionService {
 			// 사용자 정보 활용을 위해 DTO로 변환 (작성자)
 			UserDTO userDTO = userService.convertVOToDTO(authService.getUserVO());
 
+			Boolean relationIgnore = false;
 			
+			if(noteDTO.getNoteNo() != null) {
+				relationIgnore = true;
+			}
 			// note 데이터 DTO로 변환
 			Note note = noteService.convertToEntity(noteDTO);
 			// category 데이터 DTO로 변환
@@ -143,21 +147,30 @@ public class QuestionService {
 			if (filelist != null && !filelist.isEmpty()) {
 				
 				for (FileDTO fileDTO : filelist) {
+					
+					if(relationIgnore) {
+						fileNoteMapper.delete(noteDTO.getNoteNo());
+						fileNoteMapper.deleteFile(noteDTO.getNoteNo());
+					}
+					
 					File file = fileService.convertToEntity(fileDTO); // DTO -> Entity 변환
 					file = fileRepository.save(file); // JPA 기본 문법으로 file 데이터 저장
 					// 관계형 테이블 데이터 삽입
 					fileNoteMapper.insert(file.getFileNo(), note.getNoteNo()); // 엔티티로 변환 & 데이터 삽입
 				}
 			}
-			// 관계형 테이블 데이터 삽입 - note+category 관계테이블
-			noteDTO = noteService.convertToDTO(note);
-			categoryDTO = categoryService.convertToDTO(category);
-			NoteCategoryDTO noteCategoryDTO = new NoteCategoryDTO(noteDTO, categoryDTO);
-			noteCategoryMapper.insert(noteCategoryService.convertToEntity(noteCategoryDTO));
-
-			// 관계형 테이블 데이터 삽입 - note+user 관계테이블 
-			NoteUserDTO noteUserDTO = new NoteUserDTO(noteDTO, userDTO);
-			noteUserMapper.insert(noteUserService.convertToEntity(noteUserDTO));
+			
+			if(!relationIgnore) {
+				// 관계형 테이블 데이터 삽입 - note+category 관계테이블
+				noteDTO = noteService.convertToDTO(note);
+				categoryDTO = categoryService.convertToDTO(category);
+				NoteCategoryDTO noteCategoryDTO = new NoteCategoryDTO(noteDTO, categoryDTO);
+				noteCategoryMapper.insert(noteCategoryService.convertToEntity(noteCategoryDTO));
+				
+				// 관계형 테이블 데이터 삽입 - note+user 관계테이블 
+				NoteUserDTO noteUserDTO = new NoteUserDTO(noteDTO, userDTO);
+				noteUserMapper.insert(noteUserService.convertToEntity(noteUserDTO));
+			}
 
 			// QuestionVO 빌더 패턴으로 생성 후 반환 (원래는 DTO 세팅하고 VO로 변환)
 			questionVO = new QuestionVO.Builder()

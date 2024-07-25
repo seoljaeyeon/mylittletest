@@ -173,6 +173,13 @@ public class MyTestController {
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
+		boolean isBlocked = favoriteNoteService.isBlocked(userVO.getUserNo(), noteNo);
+		if (isBlocked) {
+			// 차단된 상태일 때 처리	
+			redirectAttributes.addFlashAttribute("isBlocked", true);
+			redirectAttributes.addFlashAttribute("message", "비활성화된 문제입니다");
+			return "redirect:/index";
+		}
 				
 		// DB에서 문제 정보 가져오기 
 		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
@@ -181,13 +188,6 @@ public class MyTestController {
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("menuName", menuName);
 		
-		boolean isBlocked = favoriteNoteService.isBlocked(userVO.getUserNo(), noteNo);
-		if (isBlocked) {
-	        // 차단된 상태일 때 처리	
-	        redirectAttributes.addFlashAttribute("isBlocked", true);
-	        redirectAttributes.addFlashAttribute("message", "비활성화된 문제입니다");
-	        return "redirect:/index";
-	    }
 		return "questionsolve"; 
 	}
 }

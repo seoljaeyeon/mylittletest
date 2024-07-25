@@ -13,8 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,12 +49,21 @@ public class QuestionController {
 	
 	@GetMapping("/write")
 	public String toWritePage(
-			Model model
+			Model model,
+			HttpSession session
 			) {
 		UserVO userVO = authService.getUserVO();
 		if (userVO == null) {
 			return "redirect:/login";
 		}
+		
+		model.addAttribute("modify", (Boolean) session.getAttribute("modify"));
+		model.addAttribute("menuName", (String) session.getAttribute("menuName"));
+		model.addAttribute("questionVO", (QuestionVO) session.getAttribute("questionVO"));
+		
+		session.removeAttribute("modify");
+		session.removeAttribute("menuName");
+		session.removeAttribute("questionVO");
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
@@ -85,6 +94,7 @@ public class QuestionController {
 				
 			// 사용자 정보model에 추가
 			model.addAttribute("userVO", userVO);
+			
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, files, categoryDTO, userVO);
             	
@@ -100,42 +110,44 @@ public class QuestionController {
             }	
 	}
   
-	@GetMapping("/modify")
-	public String noParameter()
-	{
-		return "redirect:/login";
-	}
-	
-	@GetMapping("/modify/{noteNo}")
+	@PostMapping("/modify")
+	@ResponseBody
 	public String toModifyPage(
-			@PathVariable Integer noteNo,
-			@RequestParam(value = "menuName", required  = false ) String menuName,
+			@RequestBody Map<String, Object> requestData,
 			Model model,
 			HttpServletRequest request,
 			HttpSession session
 			) {
+		
+	    System.out.println("Request Data: " + requestData);
+
 		UserVO userVO = authService.getUserVO();
+		
 		if (userVO == null) {
-			return "redirect:/login";
+			return "/mylittletest/login";
 		}
+		
+		Integer noteNo = (Integer) requestData.get("noteNo");
+		
 		
 		if (noteNo == null) {
-			return "redirect:/login";
+			return "/mylittletest/login";
 		}
 		
+		String menuName = (String) requestData.get("menuName");
+		
 		if (menuName == null) {
-			return "redirect:/login";
+			return "/mylittletest/login";
 		}
 		
 		session.setAttribute("no_view_increase", true);
 		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);
 		
 		// 사용자 정보 저장
-		model.addAttribute("modify", true);
-		model.addAttribute("userVO", userVO);
-		model.addAttribute("menuName", menuName);
-		model.addAttribute("questionVO", questionVO);
+		session.setAttribute("modify", true);
+		session.setAttribute("menuName", menuName);
+		session.setAttribute("questionVO", questionVO);
 		
-		return "write";
+		return "/mylittletest/write";
 	}
 }
