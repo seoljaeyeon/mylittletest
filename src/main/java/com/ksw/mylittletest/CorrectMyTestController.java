@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.CategoryViewService;
+import com.ksw.service.forObject.relation.FavoriteNoteService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
@@ -46,6 +47,8 @@ public class CorrectMyTestController {
 	private CategoryViewService categoryViewService;
 	@Autowired
 	private SearchService searchService;
+	@Autowired
+	private FavoriteNoteService favoriteNoteService;
 	
 	@GetMapping
 	public String toCategory(
@@ -145,6 +148,7 @@ public class CorrectMyTestController {
 			@PathVariable("categoryTitle") String categoryTitle,
 			Model model,
 			HttpServletRequest request,
+			RedirectAttributes redirectAttributes,
 			HttpSession session) { 
 		
         Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
@@ -164,6 +168,14 @@ public class CorrectMyTestController {
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("menuName", menuName);
+		
+		boolean isBlocked = favoriteNoteService.isBlocked(userVO.getUserNo(), noteNo);
+		if (isBlocked) {
+	        // 차단된 상태일 때 처리	
+	        redirectAttributes.addFlashAttribute("isBlocked", true);
+	        redirectAttributes.addFlashAttribute("message", "비활성화된 문제입니다");
+	        return "redirect:/index";
+	    }
 		
 		return "questionsolve"; 
 	}

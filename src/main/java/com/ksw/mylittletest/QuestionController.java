@@ -74,6 +74,7 @@ public class QuestionController {
 			// 인증 서비스로부터 사용자 정보 로딩
 			UserVO userVO = authService.getUserVO();
 			
+			System.out.println(noteDTO.getNoteContent());
 			// 응답용 Map생성 (Json)
 			Map<String, String> response = new HashMap<String, String>();
 			if (userVO == null || userVO.getUserNo() == null) {
@@ -86,6 +87,7 @@ public class QuestionController {
 			model.addAttribute("userVO", userVO);
             try {
             	QuestionVO questionVO = questionService.Write(noteDTO, files, categoryDTO, userVO);
+            	
             	model.addAttribute("questionVO", questionVO); // view에서 어떻게 쓸 지 아직 미정
                 response.put("status", "success");
                 response.put("url", "/mylittletest/mytest/category/" + questionVO.getCategoryVO().getCategoryTitle() + "/" + questionVO.getNoteVO().getNoteNo());

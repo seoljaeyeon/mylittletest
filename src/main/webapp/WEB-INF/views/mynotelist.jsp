@@ -221,7 +221,6 @@ a {
 	padding: 10px;
 	display: block;
 	border-radius: 17px;
-	margin-left: 495px;
 }
 
 .search-bar input[type="text"] {
@@ -250,9 +249,18 @@ a {
 .content-section.active {
 	display: block;
 }
+.menucontainer{
+	display:inline-flex;
+	width:1800px;
+	gap:10px;
+}
+.notelist{
+	width:fit-content;
+	height:fit-content;
+}
 </style>
 <div class="a">
-	<div>
+	<div class="menucontainer">
 		<div class="notelist ${menuPath == 'mytest' ? 'active' : ''}"
 			style="display: inline-block; font-size: 15px; font-weight: bolder; margin-left: 20px;"
 			id="mytest">내 문제</div>
@@ -272,15 +280,17 @@ a {
 			class="notelist ${menuPath == 'bookmarkquestions' ? 'active' : ''}"
 			style="display: inline-block; font-size: 15px; font-weight: bolder; margin-left: 20px;"
 			id="bookmarkquestions">북마크 & 좋아요 문제</div>
-		<select id="sortSelect">
-			<option value="createdAt"
-				<c:out value="${sort == 'createdAt' ? 'selected' : ''}"/>>최신순</option>
-			<option value="reply"
-				<c:out value="${sort == 'reply' ? 'selected' : ''}"/>>댓글순</option>
-			<option value="favorite"
-				<c:out value="${sort == 'favorite' ? 'selected' : ''}"/>>좋아요순</option>
-		</select>
-		<div align="right" style="display: inline-block;">
+		<div>
+			<select id="sortSelect">
+				<option value="createdAt"
+					<c:out value="${sort == 'createdAt' ? 'selected' : ''}"/>>최신순</option>
+				<option value="reply"
+					<c:out value="${sort == 'reply' ? 'selected' : ''}"/>>댓글순</option>
+				<option value="favorite"
+					<c:out value="${sort == 'favorite' ? 'selected' : ''}"/>>좋아요순</option>
+			</select>
+		</div>
+		<div align="right" style="display: inline-block; width:fit-content; margin-left:150px;">
 			<form class="search-bar" id="searchForm">
 				<sec:csrfInput />
 				<input type="text" placeholder="Search" spellcheck="false"

@@ -24,58 +24,6 @@
 	        } else {
 	            document.getElementById('correctRatioDisplay').textContent = 'N/A';
 	        }
-			
-		// 팝업요소를 가져온다
-	    var popup = document.getElementById("popup_report");
-
-	    // 버튼들을 가져온다
-	    var reportButtons = document.querySelectorAll(".question_report");
-
-	    // 모든 버튼에 클릭 이벤트 추가
-	    reportButtons.forEach(function(button) {
-	        button.addEventListener("click", function() {
-	            // 팝업 표시 여부를 전환
-	            popup.classList.toggle("show");
-	        });
-	    });
-
-	    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-	    var popupCloseButton = document.getElementById("reportdelete");
-	    popupCloseButton.addEventListener("click", function() {
-	        popup.classList.remove("show");
-	    });
-        
-        // 모든 문제 드롭다운 기능
-        var questionDropdown = document.querySelector('.order_question .order_main');
-        var questionList = document.querySelector('.order_question .list_order');
-        var questionDisplay = document.getElementById('questionDisplay');
-
-        questionDropdown.addEventListener('click', function() {
-            questionList.classList.toggle('show');
-        });
-
-        questionList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('order_option')) {
-                questionDisplay.textContent = event.target.textContent;
-                questionList.classList.remove('show');
-            }
-        });
-
-        // 정렬 기준 드롭다운 기능
-        var orderDropdown = document.querySelector('.order_dropdown .order_main');
-        var orderList = document.querySelector('.order_dropdown .list_order');
-        var orderDisplay = document.getElementById('orderDisplay');
-
-        orderDropdown.addEventListener('click', function() {
-            orderList.classList.toggle('show');
-        });
-
-        orderList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('order_option')) {
-                orderDisplay.textContent = event.target.textContent;
-                orderList.classList.remove('show');
-            }
-        });
         
         // 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
         function setupListSlider() {
@@ -191,7 +139,10 @@
 		}
 		.list_container{
 			display:flex;
+			gap:150px;		
+			width:fit-content;	
 		}
+	
 		.search_box{
 			margin-left: 32px;
 		}
@@ -520,103 +471,8 @@
 		 .question_question{
 		 	cursor:pointer;
 		 }
-		  /* 팝업 창 스타일  */
-		 .popup_wrap {
-		    display: none; 
-		    position: fixed;
-		    top: 0;
-		    left: 0;
-		    width: 100%;
-		 	height: 100%;
-		   	background-color: rgba(0, 0, 0, 0.5); 
-		   	z-index: 1000; 
-		    overflow: auto; 
-		}
-		.report_area {
-			background-color: #ffffff;
-			width: 300px;
-			max-width: 40rem;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			padding: 2rem;
-			border-radius: 1rem;
-			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-		}
-		.report_title{
-			color:black;
-		}
-		.report_list{
-			display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		.report_note{
-		 	display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		
-	
-		.report_btn,.delete_btn{
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-			box-shadow: 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #dedede;
-			background-color: #000000;
-			color: #ffffff;
-			border-radius: 1rem;
-			height: 3rem;
-			width: 100px;
-			padding: auto;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-size: 1rem;
-			text-align:center;
-			margin-left:1rem;
-			font-weight:bold;
-			cursor:pointer;
-		}		
-		#reportnote{
-			width:220px;
-			resize:vertical;
-			height:122px;
-			font-size: 15px;
-			border-radius:5px;
-		    background-color:#ffffff;
-		    color:#000000;
-		}  
-		.show{
-			display: block;
-		} 	
 	</style>
-	<!--팝업 영역  -->
-		<div class="popup_wrap" id="popup_report">
-			<div class="report_area">
-				<h1 class="report_title">신고하기</h1>
-				<div class="report_list">
-					<span style="font-weight:bold; color:black;">신고분류</span>
-					<div class=report_choice style="margin-left:8px;">
-						<select id="reportlist" class="reportlist">
-								<option value="1">욕설/반말/부적절한 언어</option>
-								<option value="2">저작권 침해</option>
-								<option value="3">도배성 게시글</option>
-								<option value="4">광고성 게시물</option>
-								<option value="5">회원 비방</option>
-							</select>
-					</div>
-				</div>
-				<div class="report_note">
-					<span style="font-weight:bold; font-size:15px; color:black;">신고내용</span>
-					<div class=report_box style="margin-left:0.8rem"><textarea id="reportnote"></textarea></div>
-				</div>
-				<div class="reportbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-		            <div class="report_btn" id="reportok">신고</div>
-		            <div class="delete_btn" id="reportdelete" style="background-color:#ffffff;color:black; ">취소</div>
-		        </div>
-			</div>
-		</div>
-		<!--팝업 영역  -->
+
 	
 	<!-- 컨텐츠 영역  -->
 	<div class = maincontainer>
@@ -636,29 +492,8 @@
 							urlPathInput.value = currentUrl;
 						</script>
 	       			</div>
-	       			<div class="order_box">
-			       		<div class="order_question">
-			            	<div class="order_main">
-			                	<span style="font-weight:bold" id="questionDisplay">모든 문제</span>
-			            	</div>
-							<div class="list_order">   
-			                	<div class="order_option"  onclick="location.href='questionlist?type=all'">모든문제</div>
-			                	<div class="order_option"  onclick="location.href='questionlist?type=my'">내문제</div>
-			                	<div class="order_option"  onclick="location.href='questionlist?type=other'">다른유저문제</div>
-			            	</div>
-			            </div>
-			            <div class="order_dropdown">
-			            	<div class="order_main">
-			                	<span style="font-weight:bold" id="orderDisplay">정렬기준</span>
-			            	</div>
-							<div class="list_order">   
-			                	<div class="order_option" onclick="location.href='questionlist?sort=latest'">최신순</div>
-			                	<div class="order_option" onclick="location.href='questionlist?sort=likes'">좋아요순</div>
-			                	<div class="order_option" onclick="location.href='questionlist?sort=views'">조회순</div>
-			            	</div>
-			         	</div>
-		         	</div>
-		         </div>
+	       			<div class="back" onclick="goBack();" style="align-items:flex-end">돌아가기</div>
+	       		</div>
 		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
 			            <ul class="list_items">
 			              <c:forEach  var="categorylists" items="${recent_categories}">
@@ -713,7 +548,6 @@
 				</div>
 				<div style="gap:30px; display:flex;">
 					<div class="goto">처음으로</div>
-					<div class="back" onclick="goBack();">돌아가기</div>
 				</div>
 		</div>
 	</div>

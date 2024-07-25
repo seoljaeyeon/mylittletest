@@ -6,44 +6,64 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <script>
-	function formatPercentage(value) {
-	    return value.toFixed(1);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+	var isBlocked = ${isBlocked}; // 서버에서 이 값을 동적으로 삽입할 수 있습니다
+	var message = "${message}"; // 문자열을 삽입할 때는 템플릿 리터럴을 사용할 수 있습니다
+
+	console.log(`isBlocked: ${isBlocked}`); // 콘솔에서 값 확인
+	console.log(`message: ${message}`); // 콘솔에서 값 확인
+
+	// isBlocked가 true일 경우 alert을 통해 메시지 표시
+	if (isBlocked) {
+	    alert(message);
 	}
 	
-	function updateGoalAchivement() {
-	    const todayGoalElement = document.getElementById('todayGoal');
-	    const goalAchivementElements = document.querySelectorAll('#goalAchivement');
-	    
-	    goalAchivementElements.forEach(el => {
-	        const percentage = parseFloat(el.getAttribute('data-value'));
-	        if (!isNaN(percentage)) {
-	            el.textContent = '('+ formatPercentage(percentage) + '%)';
-	        }
-	    });
-	}
-	
-	document.addEventListener('DOMContentLoaded', (event) => {
-	    updateGoalAchivement();
-	});
-	function increase() {
-	    let numberInput = document.getElementById('Total');
-	    numberInput.value = parseInt(numberInput.value) + 1;
-	    document.querySelector('.arrow_btn:nth-child(1)').classList.add('active');
-	    setTimeout(() => {
-	        document.querySelector('.arrow_btn:nth-child(1)').classList.remove('active');
-	    }, 500);
-	}
-	
-	function decrease() {
-	    let numberInput = document.getElementById('Total');
-	    if (parseInt(numberInput.value) > 0) {
-	        numberInput.value = parseInt(numberInput.value) - 1;
-	        document.querySelector('.arrow_btn:nth-child(2)').classList.add('active');
-	        setTimeout(() => {
-	            document.querySelector('.arrow_btn:nth-child(2)').classList.remove('active');
-	        }, 500);
-	    }
-	}
+    function formatPercentage(value) {
+        return value.toFixed(1);
+    }
+
+    function updateGoalAchivement() {
+        const todayGoalElement = document.getElementById('todayGoal');
+        const goalAchivementElements = document.querySelectorAll('#goalAchivement');
+
+        goalAchivementElements.forEach(el => {
+            const percentage = parseFloat(el.getAttribute('data-value'));
+            if (!isNaN(percentage)) {
+                el.textContent = '(' + formatPercentage(percentage) + '%)';
+            }
+        });
+    }
+
+    updateGoalAchivement(); // 이 함수가 호출되기 전에 DOM이 준비되어야 함
+
+    function increase() {
+        let numberInput = document.getElementById('Total');
+        if (numberInput) {
+            numberInput.value = parseInt(numberInput.value) + 1;
+            document.querySelector('.arrow_btn:nth-child(1)').classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.arrow_btn:nth-child(1)').classList.remove('active');
+            }, 500);
+        }
+    }
+
+    function decrease() {
+        let numberInput = document.getElementById('Total');
+        if (numberInput && parseInt(numberInput.value) > 0) {
+            numberInput.value = parseInt(numberInput.value) - 1;
+            document.querySelector('.arrow_btn:nth-child(2)').classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.arrow_btn:nth-child(2)').classList.remove('active');
+            }, 500);
+        }
+    }
+
+    // 이벤트 리스너가 DOM 요소를 찾을 수 있도록 보장
+    document.querySelector('.arrow_btn:nth-child(1)').addEventListener('click', increase);
+    document.querySelector('.arrow_btn:nth-child(2)').addEventListener('click', decrease);
+});
 </script>
 <style>
 .main_container {
@@ -209,6 +229,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	transform: scale(1.3); /* 활성화 상태일 때 크기를 좀 더 크게 스케일링 */
 	color: #000000;
 }
+
 </style>
 <!-- 비회원은 안보이게함   -->
 <div class="main_container">
