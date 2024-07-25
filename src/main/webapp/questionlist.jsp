@@ -5,57 +5,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
-		// 팝업요소를 가져온다
-	    var popup = document.getElementById("popup_report");
-
-	    // 버튼들을 가져온다
-	    var reportButtons = document.querySelectorAll(".question_report");
-
-	    // 모든 버튼에 클릭 이벤트 추가
-	    reportButtons.forEach(function(button) {
-	        button.addEventListener("click", function() {
-	            // 팝업 표시 여부를 전환
-	            popup.classList.toggle("show");
-	        });
-	    });
-
-	    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-	    var popupCloseButton = document.getElementById("reportdelete");
-	    popupCloseButton.addEventListener("click", function() {
-	        popup.classList.remove("show");
-	    });
-        
-        // 모든 문제 드롭다운 기능
-        var questionDropdown = document.querySelector('.order_question .order_main');
-        var questionList = document.querySelector('.order_question .list_order');
-        var questionDisplay = document.getElementById('questionDisplay');
-
-        questionDropdown.addEventListener('click', function() {
-            questionList.classList.toggle('show');
-        });
-
-        questionList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('order_option')) {
-                questionDisplay.textContent = event.target.textContent;
-                questionList.classList.remove('show');
-            }
-        });
-
-        // 정렬 기준 드롭다운 기능
-        var orderDropdown = document.querySelector('.order_dropdown .order_main');
-        var orderList = document.querySelector('.order_dropdown .list_order');
-        var orderDisplay = document.getElementById('orderDisplay');
-
-        orderDropdown.addEventListener('click', function() {
-            orderList.classList.toggle('show');
-        });
-
-        orderList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('order_option')) {
-                orderDisplay.textContent = event.target.textContent;
-                orderList.classList.remove('show');
-            }
-        });
         
         // 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
         function setupListSlider() {

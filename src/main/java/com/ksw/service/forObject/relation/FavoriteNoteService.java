@@ -81,6 +81,11 @@ public class FavoriteNoteService {
 		return requestType;
 	}
 	
+	 // 차단 상태 확인
+    public boolean isBlocked(Integer userNo, Integer noteNo) {
+        return favoriteNoteMapper.isBlocked(userNo, noteNo);
+    }
+	
     // Entity -> DTO 변환 메소드
     public FavoriteNoteDTO convertToDTO(FavoriteNote favoriteNoteEntity) {
     	FavoriteNoteDTO dto = new FavoriteNoteDTO();

@@ -94,4 +94,13 @@ public class NoteDTO implements Serializable{
 		this.noteCommentary = noteCommentary;
 	}
 
+	@Override
+	public String toString() {
+		return "NoteDTO [noteNo=" + noteNo + ", noteTitle=" + noteTitle + ", noteContent=" + noteContent
+				+ ", noteCommentary=" + noteCommentary + ", noteHint=" + noteHint + ", noteAnswer=" + noteAnswer
+				+ ", isActive=" + isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	}
+	
+	
+
 }

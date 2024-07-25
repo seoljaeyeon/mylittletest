@@ -17,10 +17,13 @@ public interface AlarmRelationMapper {
 	        + "ar.replyNo, "
 	        + "b.alarmType, "
 	        + "b.createdAt, "
-	        + "b.isRead "
+	        + "b.isRead, "
+	        + "c.categoryTitle "
 	        + "FROM alarmRelation ar "
 	        + "JOIN alarm b ON ar.alarmNo = b.alarmNo "
 	        + "JOIN user u ON ar.makerNo = u.userNo "
+	        + "LEFT JOIN noteCategory nc ON ar.noteNo = nc.noteNo "
+	        + "LEFT JOIN category c ON nc.categoryNo = c.categoryNo "
 	        + "WHERE ar.receiverNo = #{userNo} "
 	        + "AND ar.receiverNo != ar.makerNo "
 	        + "ORDER BY b.createdAt "
@@ -29,7 +32,6 @@ public interface AlarmRelationMapper {
 	        @Param("userNo") Integer userNo, 
 	        @Param("limit") Integer limit,
 	        @Param("offset") Integer offset);
-
 
 
 	@Select("SELECT ar.alarmNo FROM alarmRelation ar " +

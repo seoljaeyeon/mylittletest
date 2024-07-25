@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function() {
 	// CSRF token 설정
     var csrfToken = $("meta[name='_csrf']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
@@ -82,12 +82,120 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
         }, 500);
     });
+    
+    function deleteclick(event) {
+        const button = event.target;
+        const noteNo = button.getAttribute('data-note-no');
+
+        fetch('/mylittletest/favorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                [csrfHeader]: csrfToken 
+            },
+            body: JSON.stringify({
+                noteNo: parseInt(noteNo),
+                requestType: -2, // 차단 요청
+                targetType: 1   
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Server response:', data); 
+            if (data.status === 'insert_success') {
+                alert('차단 처리 성공');
+                button.textContent = '비활성화됨';
+                button.classList.add('disabled'); 
+                button.disabled = true; 
+            } else if (data.status === 'insert_failed') {
+                alert('차단 처리 실패');
+            } else if (data.status === 'parameter_null') {
+                alert('파라미터가 누락되었습니다');
+            } else if (data.status === 'wrong_request') {
+                alert('잘못된 요청입니다');
+            } else if (data.status === 'login_needed') { 
+                window.location.href = data.url;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); 
+            alert('서버 오류가 발생했습니다');
+        });
+    }
+    
+    function showLessClick(event) {
+        const button = event.target;
+        const noteNo = button.getAttribute('data-note-no');
+
+        fetch('/mylittletest/favorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify({
+                noteNo: parseInt(noteNo, 10), // 문자열을 정수로 변환
+                requestType: -1, // 덜보기 요청
+                targetType: 1   // 문제
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Server response:', data);
+            if (data.status === 'insert_success') {
+                alert('덜보기 처리 성공');
+                button.textContent = '덜보기됨'; // 버튼 텍스트 변경
+                button.classList.add('disabled'); // 'disabled' 클래스 추가
+                button.disabled = true; // 버튼 비활성화
+            } else if (data.status === 'insert_failed') {
+                alert('덜보기 처리 실패');
+            } else if (data.status === 'parameter_null') {
+                alert('파라미터가 누락되었습니다');
+            } else if (data.status === 'wrong_request') {
+                alert('잘못된 요청입니다');
+            } else if (data.status === 'login_needed') {
+                window.location.href = data.url;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            alert('서버 오류가 발생했습니다');
+        });
+    }
+
+    const deleteButtons = document.querySelectorAll('.delete_btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', deleteclick);
+    });
+    
+    const showLessButtons = document.querySelectorAll('.showless_btn');
+    showLessButtons.forEach(button => {
+        button.addEventListener('click', showLessClick);
+    }); 
 });
 function goBack() {
     window.history.back();
 }
 </script>
 <style>
+.delete_btn.disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 	.solve_container{
 		display: inline-flex;
     	flex-direction:column;
@@ -129,7 +237,7 @@ function goBack() {
 		text-align:center;
 		margin-top:10px;
 	}
-	.modify_btn{
+	.modify_btn,.delete_btn,.showless_btn{
 		background-position: center;
 		appearance: none;
 		background-color: #333333;
@@ -338,13 +446,55 @@ function goBack() {
     height: 175px;
     margin: 0 auto;
 	}
+	.commentary-container {
+    position: relative;
+    width: 542px;
+    height: 175px;
+    margin: 0 auto;
+	}
+	
+	.commentary, .showcommentary {
+	    background-color: #333333;
+	    color: #ffffff;
+	    border-radius: 10px;
+	    height: 175px;
+	    width: 271px;
+	    padding: auto;
+	    justify-content: center;
+	    align-items: center;
+	    font-size: 25px;
+	    text-align: center;
+	    display: flex;
+	    cursor: pointer;
+	    border: none;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    transition: opacity 0.5s ease;
+	}
+	.commentary {
+	    z-index: 1;
+	}
+	
+	.showcommentary {
+	    z-index: 0;
+	    opacity: 0;
+	}
+	
+	.commentary.clicked {
+	    opacity: 0;
+	}
+	
+	.showcommentary.clicked {
+	    opacity: 1;
+	}
 	
 	.answer, .showanswer {
 	    background-color: #333333;
 	    color: #ffffff;
 	    border-radius: 10px;
 	    height: 175px;
-	    width: 542px;
+	    width: 271px;
 	    padding: auto;
 	    justify-content: center;
 	    align-items: center;
@@ -485,8 +635,8 @@ function goBack() {
     <div class="today_count"><span style="font-size:20px;">${questionVO.todayNoteViewInCategory}</span></div>
 		</div>
 		<div class="modify_btn" onclick="location.href='/mylittletest/modify/${questionVO.noteVO.noteNo}?menuName=${menuName}'">수정 </div>
-		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
-		<div class="modify_btn">덜보기</div>
+		<div class="delete_btn" data-note-no="${questionVO.noteVO.noteNo}" >비활성화</div>
+		<div class="showless_btn" data-note-no="${questionVO.noteVO.noteNo}">덜보기</div>
 		<div class="modify_btn" onclick="goBack();" >돌아가기</div>
 		<div class="bookmark_btn">★</div>
 	</div>
@@ -567,7 +717,10 @@ function goBack() {
 				</div>	
 			</div>
 			<div class="answer-container">
-				<div class="answer" id="answer">🔒정답 & 해설보기</div><div class="showanswer" id="showanswer">${questionVO.noteVO.noteAnswer}</div>
+				<div class="answer" id="answer">🔒정답보기</div><div class="showanswer" id="showanswer">${questionVO.noteVO.noteAnswer}</div>
+			</div>
+			<div class="commentary-container">
+				<div class="commentary" id="commentary">🔒해설보기</div><div class="showcommentary" id="showcommentary">${questionVO.noteVO.noteCommentary}</div>
 			</div>
 		</div>
 	</div>
@@ -613,8 +766,8 @@ function goBack() {
                 	    		    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
 			                <sec:csrfInput />
 			                <input type="text" class="reply_input" name="replyContent" value="${reply.replyContent}">
-			                <div class="modifycheck">
-			                    <button type="submit" class="reply_btn">수정 완료</button>
+			                <div class="modifycheck"style="display:flex;">
+			                    <button type="submit" class="reply_btn" style="font-size:0.5rem">수정 완료</button>
 			                    <button type="button" class="reply_cancel_btn" onclick="toggleEditForm(${reply.replyNo})">취소</button>
 			                </div>
 			            </form>

@@ -197,5 +197,11 @@ public interface FavoriteNoteMapper {
 
     @Delete("DELETE FROM favoriteNote WHERE userNo = #{userNo} AND noteNo = #{noteNo}")
     void delete(@Param("userNo") Integer userNo, @Param("noteNo") Integer noteNo);
+    
+    @Select("SELECT COUNT(*) > 0 " +
+            "FROM favoriteNote " +
+            "WHERE userNo = #{userNo} AND noteNo = #{noteNo} AND favoriteNo IN " +
+            "(SELECT favoriteNo FROM favorite WHERE favoriteType = -2)")
+    boolean isBlocked(@Param("userNo") Integer userNo, @Param("noteNo") Integer noteNo);
 
 }
