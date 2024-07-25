@@ -95,7 +95,7 @@ public class BookmarkQuestionsController {
 		//최근 조회한 카테고리 목록 (오늘)
 		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
 		model.addAttribute("recent_categories", recent_category);
-	    List<List<Map<String, Object>>> list = new ArrayList<>();
+	    List<Map<String, Object>> list = new ArrayList<>();
 	    if((search != null) ? (Boolean) search : false) {
 	    	searchInput = (String) model.asMap().get("searchInput");
 	    	list = searchService.search(userVO.getUserNo(), menuType, page, searchInput);

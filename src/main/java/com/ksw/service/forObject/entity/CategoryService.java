@@ -44,7 +44,7 @@ public class CategoryService {
 		return categoryRepository.findByCategoryTitle(categoryTitle).getCategoryNo();
 	}
 	
-	public List<List<Map<String, Object>>> getListByViewOrder(Integer userNo, Integer menuType, Integer page) {
+	public List<Map<String, Object>> getListByViewOrder(Integer userNo, Integer menuType, Integer page) {
 		
 		if (userNo == null|| page == null) {
 			System.out.println("One of parameters is null. getListByViewOrder failed");
@@ -53,7 +53,7 @@ public class CategoryService {
 		
 		Integer limit = 20;
 		Integer offset = (page - 1) * limit;
-	    List<List<Map<String, Object>>> list = categoryDetailMapper.getCategorySummary(userNo, menuType, limit, offset);
+	    List<Map<String, Object>> list = categoryDetailMapper.getCategorySummary(userNo, menuType, limit, offset);
 		
 		return list;
 	}

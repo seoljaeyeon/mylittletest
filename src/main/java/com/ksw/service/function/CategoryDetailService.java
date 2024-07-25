@@ -33,8 +33,7 @@ public class CategoryDetailService {
 	@Autowired
 	private FavoriteNoteService favoriteNoteService;
 	
-	public List<List<Map<String, Object>>> getCategorySummary(Integer userNo, Integer menuType, Integer limit, Integer offset) {
-		List<List<Map<String, Object>>> result = new ArrayList<>();
+	public List<Map<String, Object>> getCategorySummary(Integer userNo, Integer menuType, Integer limit, Integer offset) {
 		List<Map<String,Object>> categoryLists = new ArrayList<>();
 		
 		if(menuType == 0) {
@@ -51,56 +50,89 @@ public class CategoryDetailService {
         	categoryLists = favoriteNoteService.getCategoryListByUserNoAndFavoriteType(userNo, 2);
         }
 		
-	    for(Map<String, Object> categorymap : categoryLists) {
-	    	Integer categoryNo = (Integer) categorymap.get("categoryNo");
-	    	List<Map<String, Object>> categoryList = categoryDetailMapper.getCategoryWithNoteCount(categoryNo, limit, offset);
-	    	
-	    	// 리스트의 각 map들에 대해서 
-	    	categoryList.stream()
-	    	.map(categoryMap -> {
-	    		Integer catNo = (Integer) categoryMap.get("categoryNo");
-	    		
-	    		// Category 객체를 직접 저장
-	    		Category category = new Category();
-	    		category.setCategoryNo((Integer) categoryMap.get("categoryNo"));
-	    		category.setCategoryTitle((String) categoryMap.get("categoryTitle"));
-	    		category.setCreatedAt((Timestamp) categoryMap.get("createdAt"));
-	    		category.setIsActive((Boolean) categoryMap.get("isActive"));
-	    		categoryMap.put("category", categoryService.convertToVO(categoryService.convertToDTO(category)));
-	    		
-	    		// 문제 수
-	    		Integer noteCount = ((Number) categoryMap.get("noteCount")).intValue();
-	    		categoryMap.put("noteCount", noteCount);
-	    		
-	    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio(categoryNo, userNo);
+		categoryLists.stream().map(
+				categoryMap -> {
+		    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio((Integer)categoryMap.get("categoryNo"), userNo);
 
 
-	    		Double correctRatio = 0.0;
-	    		if (correctRatioMap != null && correctRatioMap.get("correctRatio") != null) {
-	    		    Object correctRatioObj = correctRatioMap.get("correctRatio");
-	    		    if (correctRatioObj instanceof BigDecimal) {
-	    		        correctRatio = ((BigDecimal) correctRatioObj).doubleValue();
-	    		    } else if (correctRatioObj instanceof Number) {
-	    		        correctRatio = ((Number) correctRatioObj).doubleValue();
-	    		    }
-	    		}
-	    		
-	    		categoryMap.put("correctRatio", correctRatio);
-	    		
-	    		// 작성자 수
-	    		Map<String, Object> authorCountMap = categoryDetailMapper.getAuthorCount(catNo);
-	    		Integer authorCount = (authorCountMap != null) ? ((Number) authorCountMap.get("authorCount")).intValue() : 0;
-	    		categoryMap.put("authorCount", authorCount);
-	    		
-	    		// 좋아요 수
-	    		Map<String, Object> favoriteCountMap = categoryDetailMapper.getFavoriteCount(catNo);
-	    		Integer favoriteCount = (favoriteCountMap != null) ? ((Number) favoriteCountMap.get("favoriteCount")).intValue() : 0;
-	    		categoryMap.put("favoriteCount", favoriteCount);
-	    		
-	    		return categoryMap;
-	    	}).collect(Collectors.toList());
-	        result.add(categoryList); // 결과 리스트에 추가
-	    }
-	    return result;
+		    		Double correctRatio = 0.0;
+		    		if (correctRatioMap != null && correctRatioMap.get("correctRatio") != null) {
+		    		    Object correctRatioObj = correctRatioMap.get("correctRatio");
+		    		    if (correctRatioObj instanceof BigDecimal) {
+		    		        correctRatio = ((BigDecimal) correctRatioObj).doubleValue();
+		    		    } else if (correctRatioObj instanceof Number) {
+		    		        correctRatio = ((Number) correctRatioObj).doubleValue();
+		    		    }
+		    		}
+		    		
+		    		categoryMap.put("correctRatio", correctRatio);
+		    		
+		    		// 작성자 수
+		    		Map<String, Object> authorCountMap = categoryDetailMapper.getAuthorCount((Integer)categoryMap.get("categoryNo"));
+		    		Integer authorCount = (authorCountMap != null) ? ((Number) authorCountMap.get("authorCount")).intValue() : 0;
+		    		categoryMap.put("authorCount", authorCount);
+		    		
+		    		// 좋아요 수
+		    		Map<String, Object> favoriteCountMap = categoryDetailMapper.getFavoriteCount((Integer)categoryMap.get("categoryNo"));
+		    		Integer favoriteCount = (favoriteCountMap != null) ? ((Number) favoriteCountMap.get("favoriteCount")).intValue() : 0;
+		    		categoryMap.put("favoriteCount", favoriteCount);
+
+		    		return categoryMap;
+				}).collect(Collectors.toList());
+		
+		return categoryLists;
+		
+//	    for(Map<String, Object> categorymap : categoryLists) {
+//	    	Integer categoryNo = (Integer) categorymap.get("categoryNo");
+//	    	List<Map<String, Object>> categoryList = categoryDetailMapper.getCategoryWithNoteCount(categoryNo, limit, offset);
+//	    	
+//	    	// 리스트의 각 map들에 대해서 
+//	    	categoryList.stream()
+//	    	.map(categoryMap -> {
+//	    		Integer catNo = (Integer) categoryMap.get("categoryNo");
+//	    		
+//	    		// Category 객체를 직접 저장
+//	    		Category category = new Category();
+//	    		category.setCategoryNo((Integer) categoryMap.get("categoryNo"));
+//	    		category.setCategoryTitle((String) categoryMap.get("categoryTitle"));
+//	    		category.setCreatedAt((Timestamp) categoryMap.get("createdAt"));
+//	    		category.setIsActive((Boolean) categoryMap.get("isActive"));
+//	    		categoryMap.put("category", categoryService.convertToVO(categoryService.convertToDTO(category)));
+//	    		
+//	    		// 문제 수
+//	    		Integer noteCount = ((Number) categoryMap.get("noteCount")).intValue();
+//	    		categoryMap.put("noteCount", noteCount);
+//	    		
+//	    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio(categoryNo, userNo);
+//
+//
+//	    		Double correctRatio = 0.0;
+//	    		if (correctRatioMap != null && correctRatioMap.get("correctRatio") != null) {
+//	    		    Object correctRatioObj = correctRatioMap.get("correctRatio");
+//	    		    if (correctRatioObj instanceof BigDecimal) {
+//	    		        correctRatio = ((BigDecimal) correctRatioObj).doubleValue();
+//	    		    } else if (correctRatioObj instanceof Number) {
+//	    		        correctRatio = ((Number) correctRatioObj).doubleValue();
+//	    		    }
+//	    		}
+//	    		
+//	    		categoryMap.put("correctRatio", correctRatio);
+//	    		
+//	    		// 작성자 수
+//	    		Map<String, Object> authorCountMap = categoryDetailMapper.getAuthorCount(catNo);
+//	    		Integer authorCount = (authorCountMap != null) ? ((Number) authorCountMap.get("authorCount")).intValue() : 0;
+//	    		categoryMap.put("authorCount", authorCount);
+//	    		
+//	    		// 좋아요 수
+//	    		Map<String, Object> favoriteCountMap = categoryDetailMapper.getFavoriteCount(catNo);
+//	    		Integer favoriteCount = (favoriteCountMap != null) ? ((Number) favoriteCountMap.get("favoriteCount")).intValue() : 0;
+//	    		categoryMap.put("favoriteCount", favoriteCount);
+//	    		
+//	    		return categoryMap;
+//	    	}).collect(Collectors.toList());
+//	    }
+//	    return categoryList;
+		
+		
 	}
 }

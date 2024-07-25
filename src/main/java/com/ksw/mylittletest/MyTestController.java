@@ -100,7 +100,7 @@ public class MyTestController {
 		
 	    System.out.println("from Search? " + search );
 	    
-	    List<List<Map<String, Object>>> list = new ArrayList<>();
+	    List<Map<String, Object>> list = new ArrayList<>();
 	    if((search != null) ? (Boolean) search : false) {
 	    	list = searchService.search(userVO.getUserNo(), menuType, page, searchInput);
 	    	model.addAttribute("list", list);

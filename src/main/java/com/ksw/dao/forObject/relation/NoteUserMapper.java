@@ -17,18 +17,24 @@ import com.ksw.object.relation.NoteUser;
 @Mapper
 public interface NoteUserMapper {
 	
-	@Select("SELECT DISTINCT(c.categoryNo) "
-			+ "FROM category c "
-			+ "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo "
-			+ "JOIN noteUser nu ON nu.noteNo = nc.noteNo "
-			+ "WHERE nu.userNo = #{userNo} ")
-	List<Map<String,Object>> getCategoryListByUserNo(@Param("userNo") Integer userNo);
-	
-	@Select("SELECT DISTINCT(c.categoryNo) "
-			+ "FROM category c "
-			+ "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo "
-			+ "JOIN noteUser nu ON nu.noteNo = nc.noteNo "
-			+ "WHERE nu.userNo = #{userNo} AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') ")
+	@Select("SELECT c.*, MAX(n.createdAt) AS createdAt, COUNT(nc.categoryNo) AS noteCount " +
+	        "FROM category c " +
+	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+	        "JOIN noteUser nu ON nu.noteNo = nc.noteNo " +
+	        "JOIN note n ON nc.noteNo = n.noteNo " +
+	        "WHERE nu.userNo = #{userNo} " +
+	        "GROUP BY c.categoryNo, c.categoryTitle, c.createdAt, c.isActive " +
+	        "ORDER BY createdAt DESC")
+	List<Map<String, Object>> getCategoryListByUserNo(@Param("userNo") Integer userNo);
+
+	@Select("SELECT c.*, MAX(n.createdAt) AS createdAt, COUNT(nc.categoryNo) AS noteCount " +
+	        "FROM category c " +
+	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
+	        "JOIN noteUser nu ON nu.noteNo = nc.noteNo " +
+	        "JOIN note n ON nc.noteNo = n.noteNo " +
+			"WHERE nu.userNo = #{userNo} AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') " +
+	        "GROUP BY c.categoryNo, c.categoryTitle, c.createdAt, c.isActive " +
+	        "ORDER BY createdAt DESC")
 	List<Map<String,Object>> getSimilarCategoryListByUserNo(@Param("userNo") Integer userNo, @Param("searchInput") String searchInput);
 	
 	@Select("SELECT c.categoryTitle, n.noteTitle, n.createdAt, n.noteNo, "

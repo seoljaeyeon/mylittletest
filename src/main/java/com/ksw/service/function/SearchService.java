@@ -42,14 +42,11 @@ public class SearchService {
 		return result;
 	}
 	
-	public List<List<Map<String, Object>>> search(Integer userNo, Integer menuType, Integer page, String searchInput) {
-		
-		List<List<Map<String,Object>>> result = new ArrayList<>();
+	public List<Map<String, Object>> search(Integer userNo, Integer menuType, Integer page, String searchInput) {
 		
 		Integer limit = 10;
 		Integer offset = (page-1)*limit;
 		
-		// 각 메뉴마다 정렬기준 달라서, 구분하기 위해 데이터 List로 한번 더 감쌈
 		List<Map<String,Object>> categoryLists = new ArrayList<>();
 
 		if(menuType == 0) {
@@ -66,56 +63,37 @@ public class SearchService {
         	categoryLists = favoriteNoteService.getSimilarCategoryListByUserNoAndFavoriteType(userNo, 2, searchInput);
         }
 		
-		for(Map<String, Object> categorymap : categoryLists) {
-	    	Integer categoryNo = (Integer) categorymap.get("categoryNo");
-	    	List<Map<String, Object>> categoryList = categoryDetailMapper.getCategoryWithNoteCount(categoryNo, limit, offset);
-	    	
-	    	// 리스트의 각 map들에 대해서 
-	    	categoryList.stream()
-	    	.map(categoryMap -> {
-	    		Integer catNo = (Integer) categoryMap.get("categoryNo");
-	    		
-	    		// Category 객체를 직접 저장
-	    		Category category = new Category();
-	    		category.setCategoryNo((Integer) categoryMap.get("categoryNo"));
-	    		category.setCategoryTitle((String) categoryMap.get("categoryTitle"));
-	    		category.setCreatedAt((Timestamp) categoryMap.get("createdAt"));
-	    		category.setIsActive((Boolean) categoryMap.get("isActive"));
-	    		categoryMap.put("category", categoryService.convertToVO(categoryService.convertToDTO(category)));
-	    		
-	    		// 문제 수
-	    		Integer noteCount = ((Number) categoryMap.get("noteCount")).intValue();
-	    		categoryMap.put("noteCount", noteCount);
-	    		
-	    		// 정답 수/문제 수
-	    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio(catNo, userNo);
+		categoryLists.stream().map(
+				categoryMap -> {
+		    		Map<String, Object> correctRatioMap = categoryDetailMapper.getCorrectRatio((Integer)categoryMap.get("categoryNo"), userNo);
 
-	    		// 값이 null이 아니고 BigDecimal 타입이면 double로 변환
-	    		Double correctRatio = 0.0;
-	    		if (correctRatioMap != null && correctRatioMap.get("correctRatio") != null) {
-	    		    Object correctRatioObj = correctRatioMap.get("correctRatio");
-	    		    if (correctRatioObj instanceof BigDecimal) {
-	    		        correctRatio = ((BigDecimal) correctRatioObj).doubleValue();
-	    		    } else if (correctRatioObj instanceof Number) {
-	    		        correctRatio = ((Number) correctRatioObj).doubleValue();
-	    		    }
-	    		}
-	    		
-	    		// 작성자 수
-	    		Map<String, Object> authorCountMap = categoryDetailMapper.getAuthorCount(catNo);
-	    		Integer authorCount = (authorCountMap != null) ? ((Number) authorCountMap.get("authorCount")).intValue() : 0;
-	    		categoryMap.put("authorCount", authorCount);
-	    		
-	    		// 좋아요 수
-	    		Map<String, Object> favoriteCountMap = categoryDetailMapper.getFavoriteCount(catNo);
-	    		Integer favoriteCount = (favoriteCountMap != null) ? ((Number) favoriteCountMap.get("favoriteCount")).intValue() : 0;
-	    		categoryMap.put("favoriteCount", favoriteCount);
-	    		
-	    		return categoryMap;
-	    	}).collect(Collectors.toList());
-	        result.add(categoryList); // 결과 리스트에 추가
-	    }
-	    return result;
+
+		    		Double correctRatio = 0.0;
+		    		if (correctRatioMap != null && correctRatioMap.get("correctRatio") != null) {
+		    		    Object correctRatioObj = correctRatioMap.get("correctRatio");
+		    		    if (correctRatioObj instanceof BigDecimal) {
+		    		        correctRatio = ((BigDecimal) correctRatioObj).doubleValue();
+		    		    } else if (correctRatioObj instanceof Number) {
+		    		        correctRatio = ((Number) correctRatioObj).doubleValue();
+		    		    }
+		    		}
+		    		
+		    		categoryMap.put("correctRatio", correctRatio);
+		    		
+		    		// 작성자 수
+		    		Map<String, Object> authorCountMap = categoryDetailMapper.getAuthorCount((Integer)categoryMap.get("categoryNo"));
+		    		Integer authorCount = (authorCountMap != null) ? ((Number) authorCountMap.get("authorCount")).intValue() : 0;
+		    		categoryMap.put("authorCount", authorCount);
+		    		
+		    		// 좋아요 수
+		    		Map<String, Object> favoriteCountMap = categoryDetailMapper.getFavoriteCount((Integer)categoryMap.get("categoryNo"));
+		    		Integer favoriteCount = (favoriteCountMap != null) ? ((Number) favoriteCountMap.get("favoriteCount")).intValue() : 0;
+		    		categoryMap.put("favoriteCount", favoriteCount);
+
+		    		return categoryMap;
+				}).collect(Collectors.toList());
+		
+		return categoryLists;
 	}
 	
 }

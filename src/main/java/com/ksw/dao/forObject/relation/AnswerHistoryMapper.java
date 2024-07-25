@@ -17,7 +17,7 @@ import com.ksw.object.relation.AnswerHistory;
 @Mapper
 public interface AnswerHistoryMapper {
 
-	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	@Select("SELECT c.*, MAX(nv.createdAt) AS createdAt, COUNT(nc.categoryNo) AS noteCount " +
 	        "FROM category c " +
 	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
 	        "JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
@@ -25,11 +25,11 @@ public interface AnswerHistoryMapper {
 	        "JOIN noteView nv ON nv.noteNo = ah.noteNo " +
 	        "WHERE a.answerType = #{answerType} " +
 	        "AND ah.userNo = #{userNo} " +
-	        "GROUP BY c.categoryNo " +
+	        "GROUP BY c.categoryNo, c.categoryTitle, c.createdAt, c.isActive " +
 	        "ORDER BY createdAt DESC")
 	List<Map<String, Object>> getCategoryListByUserNoAndAnswerType(@Param("userNo") Integer userNo, @Param("answerType") Integer answerType);
 
-	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	@Select("SELECT c.*, MAX(nv.createdAt) AS createdAt, COUNT(nc.categoryNo) AS noteCount " +
 	        "FROM category c " +
 	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
 	        "JOIN answerHistory ah ON ah.noteNo = nc.noteNo " +
@@ -37,13 +37,12 @@ public interface AnswerHistoryMapper {
 	        "JOIN noteView nv ON nv.noteNo = ah.noteNo " +
 	        "WHERE a.answerType = #{answerType} " +
 	        "AND ah.userNo = #{userNo} AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%')  " +
-	        "GROUP BY c.categoryNo " +
+	        "GROUP BY c.categoryNo, c.categoryTitle, c.createdAt, c.isActive " +
 	        "ORDER BY createdAt DESC")
 	List<Map<String, Object>> getSimilarCategoryListByUserNoAndAnswerType(
 			@Param("userNo") Integer userNo, 
 			@Param("answerType") Integer answerType,
-			@Param("searchInput") String searchInput);
-	
+			@Param("searchInput") String searchInput);	
 	
     @SelectProvider(type = SqlBuilder.class, method = "buildGetNoteListByUserNoAndAnswerType")
     List<Map<String, Object>> getNoteListByUserNoAndAnswerType(

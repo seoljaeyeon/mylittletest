@@ -3,118 +3,147 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <jsp:include page="./include/head.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
-	
-		  var correctRatioStr = '${category.correctRatio}';
-	        console.log('Raw correctRatio value:', correctRatioStr);
+		var correctRatioStr = '${category.correctRatio}';
+		console.log('Raw correctRatio value:', correctRatioStr);
 
-	        // 문자열을 숫자로 변환
-	        var correctRatio = parseFloat(correctRatioStr);
-	        console.log('Parsed correctRatio value:', correctRatio);
+		// 문자열을 숫자로 변환
+		var correctRatio = parseFloat(correctRatioStr);
+		console.log('Parsed correctRatio value:', correctRatio);
 
-	        // 올바른 값이 아닌 경우, 'N/A'로 처리
-	        if (!isNaN(correctRatio)) {
-	            var correctRatioDisplay = (correctRatio * 100).toFixed(2) + '%';
-	            document.getElementById('correctRatioDisplay').textContent = correctRatioDisplay;
-	        } else {
-	            document.getElementById('correctRatioDisplay').textContent = 'N/A';
-	        }
-        
-        // 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
-        function setupListSlider() {
-            var listItems = document.querySelector('.list_items');
-            if (!listItems) return; // 요소가 없으면 함수 종료
+		// 올바른 값이 아닌 경우, 'N/A'로 처리
+		if (!isNaN(correctRatio)) {
+			var correctRatioDisplay = (correctRatio * 100).toFixed(2) + '%';
+			document.getElementById('correctRatioDisplay').textContent = correctRatioDisplay;
+		} else {
+			document.getElementById('correctRatioDisplay').textContent = 'N/A';
+		}
 
-            var isMouseDown = false;
-            var startX, scrollLeft;
+		// 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
+		function setupListSlider() {
+			var listItems = document.querySelector('.list_items');
+			if (!listItems) return; // 요소가 없으면 함수 종료
 
-            listItems.addEventListener('mousedown', function(e) {
-                isMouseDown = true;
-                startX = e.pageX - listItems.offsetLeft;
-                scrollLeft = listItems.scrollLeft;
-            });
+			var isMouseDown = false;
+			var startX, scrollLeft;
 
-            listItems.addEventListener('mouseleave', function() {
-                isMouseDown = false;
-            });
+			listItems.addEventListener('mousedown', function(e) {
+				isMouseDown = true;
+				startX = e.pageX - listItems.offsetLeft;
+				scrollLeft = listItems.scrollLeft;
+			});
 
-            listItems.addEventListener('mouseup', function() {
-                isMouseDown = false;
-            });
+			listItems.addEventListener('mouseleave', function() {
+				isMouseDown = false;
+			});
 
-            listItems.addEventListener('mousemove', function(e) {
-                if (!isMouseDown) return;
-                e.preventDefault();
-                var x = e.pageX - listItems.offsetLeft;
-                var walk = (x - startX) * 1.2; // 스크롤 속도 조절
-                listItems.scrollLeft = scrollLeft - walk;
-            });
-        }
+			listItems.addEventListener('mouseup', function() {
+				isMouseDown = false;
+			});
 
-        // 문서가 로드되면 슬라이더 기능 설정
-        setupListSlider();
-        
-        // 북마크 버튼 애니메이션
-        var bookmarks = document.querySelectorAll('.bookmark');
+			listItems.addEventListener('mousemove', function(e) {
+				if (!isMouseDown) return;
+				e.preventDefault();
+				var x = e.pageX - listItems.offsetLeft;
+				var walk = (x - startX) * 1.2; // 스크롤 속도 조절
+				listItems.scrollLeft = scrollLeft - walk;
+			});
+		}
 
-        bookmarks.forEach(function(bookmark) {
-            bookmark.addEventListener('click', function() {
-                bookmark.classList.toggle('liked');
-            });
-        });
-        // 좋아요 버튼 애니메이션
-        const likeBtns = document.querySelectorAll('.question_like');
+		// 문서가 로드되면 슬라이더 기능 설정
+		setupListSlider();
 
-        likeBtns.forEach(function(Btn) {
-        	Btn.addEventListener('click', function() {
-                this.classList.toggle('liked');
-            });
-        });
-        // 화살표 슬라이더
-        var swiper = new Swiper(".swiper-container", {
-		      slidesPerView: 1,
-		      spaceBetween: 0, // 슬라이드 간의 간격 설정
-		      initialSlide: 0,
-		      observer: true, // 변경된 슬라이드 감지
-		      observeParents: true, // 변경된 슬라이드 감지
-		      pagination: {
-		        el: ".swiper-pagination",
-		        clickable: true,
-		      },
-		      navigation: {
-		        nextEl: ".swiper-button-next",
-		        prevEl: ".swiper-button-prev",
-		      },
-		      breakpoints: {
-		          640: {
-		              slidesPerView: 1,
-		              spaceBetween: 20
-		          },
-		          768: {
-		              slidesPerView: 2,
-		              spaceBetween: 40
-		          },
-		          1024: {
-		              slidesPerView: 4,
-		              spaceBetween: 50
-		          }
-		      }
-		    });
-        
-        var goToFirstButton = document.querySelector('.goto');
-        goToFirstButton.addEventListener('click', function () {
-        	swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
-        });
-    
+		// 북마크 버튼 애니메이션
+		var bookmarks = document.querySelectorAll('.bookmark');
+
+		bookmarks.forEach(function(bookmark) {
+			bookmark.addEventListener('click', function() {
+				bookmark.classList.toggle('liked');
+			});
+		});
+		// 좋아요 버튼 애니메이션
+		const likeBtns = document.querySelectorAll('.question_like');
+
+		likeBtns.forEach(function(Btn) {
+			Btn.addEventListener('click', function() {
+				this.classList.toggle('liked');
+			});
+		});
+		// 화살표 슬라이더
+		var swiper = new Swiper(".swiper-container", {
+			slidesPerView: 1,
+			spaceBetween: 0, // 슬라이드 간의 간격 설정
+			initialSlide: 0,
+			observer: true, // 변경된 슬라이드 감지
+			observeParents: true, // 변경된 슬라이드 감지
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+			breakpoints: {
+				640: {
+					slidesPerView: 1,
+					spaceBetween: 20
+				},
+				768: {
+					slidesPerView: 2,
+					spaceBetween: 40
+				},
+				1024: {
+					slidesPerView: 4,
+					spaceBetween: 50
+				}
+			}
+		});
+
+		var goToFirstButton = document.querySelector('.goto');
+		goToFirstButton.addEventListener('click', function () {
+			swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
+		});
+
 	});
 	function goBack() {
-	    window.history.back();
+		window.history.back();
 	}
+    function handleCategoryClick(categoryTitle) {
+        const data = {
+            menuPath: "allcategory",
+            categoryTitle: categoryTitle,
+        };
+
+        fetch('/mylittletest/notelist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken 
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            if (data.status === 'login_needed') {
+                window.location.href = data.url;
+            } else {
+                // Handle successful response
+                window.location.href = data.url;
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 </script>
 <style>
 		.maincontainer{
@@ -474,82 +503,80 @@
 	</style>
 
 	
-	<!-- 컨텐츠 영역  -->
-	<div class = maincontainer>
-		<div class="container">
-			<div class="search_box">
-				<div class="list_container">
-					<div class="search_area">
-						<form class="search_items" method="post" action="/mylittletest/search">
-					    	<sec:csrfInput/>
-						    <input class="search_input" type="text" name="searchInput" placeholder="Search" spellcheck="false">
-						    <input type="hidden" name="urlPath" id="urlPath">
-						    <button class="search_button" type="submit">🔍</button>
-						</form>
-						<script>
-						    var urlPathInput = document.getElementById("urlPath");
-							var currentUrl = window.location.pathname;
-							urlPathInput.value = currentUrl;
-						</script>
-	       			</div>
-	       			<div class="back" onclick="goBack();" style="align-items:flex-end">돌아가기</div>
-	       		</div>
-		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
-			            <ul class="list_items">
-			              <c:forEach  var="categorylists" items="${recent_categories}">
-				                	<li class="list1">
-				                    	<div class="list" onclick="location.href='/mylittletest/category/${categorylist.categoryNo}">${categorylists.categoryTitle}</div>
-				                	</li>
-			             </c:forEach>
-			            </ul>
-			      </div>
-			  </div>
-			  <!-- 슬라이드 할 요소 -->
-				<div class="swiper-container">
-				    <div class="swiper-wrapper">
-				        <!-- 카테고리 리스트를 4개씩 나누어 슬라이드를 생성합니다. -->
-				        <c:forEach items="${list}" var="categoryList" varStatus="outerStatus">
-				            <c:if test="${outerStatus.index % 4 == 0}">
-				                <div class="swiper-slide">
-				            </c:if>
-				            <!-- 카테고리 항목을 슬라이드에 추가합니다. -->
-				            <c:forEach items="${categoryList}" var="category">
-				                <div class="question_box">
-				                    <div class="question_item">
-				                        <div class="bookmark">★</div>
-				                        <div class="question_title" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">${category.categoryTitle}</div>
-				                    </div>
-				                    <div class="question_mini">
-				                        <div class="question_mbox">
-				                            <div class="question_mtitle" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">${category.categoryTitle}</div>
-				                            <div class="question_answer">나의 정답률 <span id="correctRatioDisplay">${category.correctRatio * 100}%</span></div>
-				                        </div>
-				                    </div>
-				                    <div class="question_count">
-				                        <div class="count_box">
-				                            <div class="likebox">
-				                                <div class="question_like" id="like" style="color:red;">❤</div>
-				                                <div style="margin-left:10px;">${category.favoriteCount}</div>
-				                            </div>
-				                            <div class="question_question" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
-				                            <div class="question_person">🧑 ${category.authorCount}출제자</div>
-				                        </div>
-				                    </div>
-				                </div>
-				            </c:forEach>
-				            <c:if test="${(outerStatus.index + 1) % 4 == 0 || outerStatus.index == fn:length(list) - 1}">
-				                </div>
-				            </c:if>
-				        </c:forEach>
-				    </div>
-				    <!-- 네비게이션 버튼 -->
-				    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-				    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+<!-- 컨텐츠 영역  -->
+<div class="maincontainer">
+	<div class="container">
+		<div class="search_box">
+			<div class="list_container">
+				<div class="search_area">
+					<form class="search_items" method="post" action="/mylittletest/search">
+						<sec:csrfInput/>
+						<input class="search_input" type="text" name="searchInput" placeholder="Search" spellcheck="false">
+						<input type="hidden" name="urlPath" id="urlPath">
+						<button class="search_button" type="submit">🔍</button>
+					</form>
+					<script>
+						var urlPathInput = document.getElementById("urlPath");
+						var currentUrl = window.location.pathname;
+						urlPathInput.value = currentUrl;
+					</script>
 				</div>
-				<div style="gap:30px; display:flex;">
-					<div class="goto">처음으로</div>
-				</div>
+				<div class="back" onclick="goBack();" style="align-items:flex-end">돌아가기</div>
+			</div>
+			<div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
+				<ul class="list_items">
+					<c:forEach var="category" items="${recent_categories}">
+						<li class="list1">
+							        <div class="list" onclick="handleCategoryClick('${category.categoryTitle}')">
+									${category.categoryTitle}
+									</div>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+		<!-- 슬라이드 할 요소 -->
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<c:forEach items="${list}" var="category" varStatus="status">
+					<c:if test="${status.index % 4 == 0}">
+						<div class="swiper-slide">
+					</c:if>
+					<!-- 카테고리 항목을 슬라이드에 추가합니다. -->
+					<div class="question_box">
+						<div class="question_item">
+							<div class="bookmark">★</div>
+							<div class="question_title" onclick="location.href='/mylittletest/${menuName}/category/${category.categoryTitle}'">${category.categoryTitle}</div>
+						</div>
+						<div class="question_mini">
+							<div class="question_mbox">
+								<div class="question_mtitle" onclick="location.href='/mylittletest/${menuName}/category/${category.categoryTitle}'">${category.categoryTitle}</div>
+								<div class="question_answer">나의 정답률 <span id="correctRatioDisplay">${category.correctRatio * 100}%</span></div>
+							</div>
+						</div>
+						<div class="question_count">
+							<div class="count_box">
+								<div class="likebox">
+									<div class="question_like" id="like" style="color:red;">❤</div>
+									<div style="margin-left:10px;">${category.favoriteCount}</div>
+								</div>
+								<div class="question_question" onclick="location.href='/mylittletest/${menuName}/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
+								<div class="question_person">🧑 ${category.authorCount}출제자</div>
+							</div>
+						</div>
+					</div>
+					<c:if test="${(status.index + 1) % 4 == 0 || status.index == fn:length(list) - 1}">
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+			<!-- 네비게이션 버튼 -->
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+		</div>
+		<div style="gap:30px; display:flex;">
+			<div class="goto">처음으로</div>
 		</div>
 	</div>
-<!-- 컨텐츠 영역  -->
+</div>
 <jsp:include page="./include/tail.jsp"></jsp:include>

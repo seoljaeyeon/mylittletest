@@ -21,26 +21,26 @@ public interface FavoriteNoteMapper {
     		+ "WHERE fvn.noteNo = #{noteNo} AND fv.favoriteType = 1 ")
 	Integer countFavoriteByNoteNo(@Param("noteNo") Integer noteNo);
 	
-	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	@Select("SELECT c.*, MAX(nv.createdAt) AS createdAt, COUNT(nc.categoryNo) AS noteCount  " +
 	        "FROM category c " +
 	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
 	        "JOIN favoriteNote fn ON nc.noteNo = fn.noteNo " +
 	        "JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
 	        "JOIN noteView nv ON nv.noteNo = nc.noteNo " +
 	        "WHERE (f.favoriteType = #{favoriteType} OR f.favoriteType = 1) AND fn.userNo = #{userNo} " +
-	        "GROUP BY c.categoryNo " +
+	        "GROUP BY c.categoryNo, c.categoryTitle, c.createdAt, c.isActive " +
 	        "ORDER BY createdAt DESC")
 	List<Map<String, Object>> getCategoryListByUserNoAndFavoriteType(@Param("userNo") Integer userNo, @Param("favoriteType") Integer favoriteType);
 	
-	@Select("SELECT c.categoryNo, MAX(nv.createdAt) AS createdAt " +
+	@Select("SELECT c.*, MAX(nv.createdAt) AS createdAt, COUNT(nc.categoryNo) AS noteCount  " +
 	        "FROM category c " +
 	        "JOIN noteCategory nc ON c.categoryNo = nc.categoryNo " +
 	        "JOIN favoriteNote fn ON nc.noteNo = fn.noteNo " +
 	        "JOIN favorite f ON fn.favoriteNo = f.favoriteNo " +
 	        "JOIN noteView nv ON nv.noteNo = nc.noteNo " +
-	        "WHERE f.favoriteType = #{favoriteType} AND fn.userNo = #{userNo} "
-	        + "AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') " +
-	        "GROUP BY c.categoryNo " +
+	        "WHERE (f.favoriteType = #{favoriteType} OR f.favoriteType = 1) AND fn.userNo = #{userNo} " +
+	        "AND c.categoryTitle LIKE CONCAT('%', #{searchInput}, '%') " +
+	        "GROUP BY c.categoryNo, c.categoryTitle, c.createdAt, c.isActive " +
 	        "ORDER BY createdAt DESC")
 	List<Map<String, Object>> getSimilarCategoryListByUserNoAndFavoriteType(
 			@Param("userNo") Integer userNo, 
