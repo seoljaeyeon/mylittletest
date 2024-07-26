@@ -364,7 +364,7 @@
 		    color:black;
 		}
 		
-		.goto,.back{
+		.goto{
 			color: #ffffff;
 		    display: inline-flex;
 		    align-items: center;
@@ -375,7 +375,17 @@
 		    border-radius: 5px 5px 5px 5px;
 		    cursor: pointer;
 		}
-		
+		.back{
+			display: inline-flex;
+		    align-items: center;
+		    justify-content: center;
+		    width:7rem;
+		    background-color: #333333;
+		    padding: 0.5rem 0.5rem;
+		    border-radius: 5px 5px 5px 5px;
+		    cursor: pointer;
+		    height:20px;
+		}
 		.question_box{
             width:45%;
 			height:fit-content;
