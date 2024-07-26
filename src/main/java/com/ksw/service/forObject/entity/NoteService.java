@@ -113,6 +113,7 @@ public class NoteService {
                 .noteContent(noteDTO.getNoteContent())
                 .noteHint(noteDTO.getNoteHint())
                 .noteAnswer(noteDTO.getNoteAnswer())
+                .noteCommentary(noteDTO.getNoteCommentary())
                 .isActive(noteDTO.getIsActive())
                 .createdAt(noteDTO.getCreatedAt())
                 .updatedAt(noteDTO.getUpdatedAt())

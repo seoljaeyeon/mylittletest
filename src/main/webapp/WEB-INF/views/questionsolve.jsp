@@ -112,6 +112,13 @@ $(document).ready(function() {
             document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
         }, 500);
     });
+    // 정답박스보기
+    document.getElementById("commentary").addEventListener("click", function() {
+        this.classList.add("clicked"); // answer 클릭 시 opacity 0으로 변환
+        setTimeout(() => {
+            document.getElementById("showcommentary").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
+        }, 500);
+    });
     
     function deleteclick(event) {
         const button = event.target;
