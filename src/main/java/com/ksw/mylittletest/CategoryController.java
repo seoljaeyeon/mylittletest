@@ -54,7 +54,13 @@ public class CategoryController {
 		String menuPath = "";
 
 	    Integer menuType = (Integer) model.asMap().get("menuType");
-
+	    Boolean search = (Boolean) model.asMap().get("search");
+	    String searchInput = (String) model.asMap().get("searchInput");
+	    
+	    if (search != null || searchInput != null) {
+			redirectAttributes.addFlashAttribute("search", search);
+			redirectAttributes.addFlashAttribute("searchInput", searchInput);
+	    }
 		
 		if (userVO == null) {
 			return "redirect:/login";

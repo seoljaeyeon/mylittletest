@@ -1,8 +1,11 @@
 package com.ksw.service.function;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,10 +27,8 @@ import com.ksw.dto.forObject.entity.CategoryDTO;
 import com.ksw.dto.forObject.entity.FileDTO;
 import com.ksw.dto.forObject.entity.NoteDTO;
 import com.ksw.dto.forObject.entity.UserDTO;
-import com.ksw.dto.forObject.relation.FileNoteDTO;
 import com.ksw.dto.forObject.relation.NoteCategoryDTO;
 import com.ksw.dto.forObject.relation.NoteUserDTO;
-import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.dto.function.QuestionDTO;
 import com.ksw.object.entity.Category;
 import com.ksw.object.entity.File;
@@ -44,7 +45,6 @@ import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.forObject.relation.NoteUserService;
 import com.ksw.service.forObject.relation.NoteViewService;
 import com.ksw.service.forObject.relation.ReplyUserService;
-import com.ksw.vo.forObject.entity.FileVO;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
 
@@ -104,8 +104,8 @@ public class QuestionService {
 		builder.noteVO(noteService.convertToVO(questionDTO.getNoteDTO()))
 				.writerVO(userService.convertToVO(questionDTO.getWriterDTO()))
 				.categoryVO(categoryService.convertToVO(questionDTO.getCategoryDTO()))
-				.fileVO(fileService.convertToVO(questionDTO.getFileDTO()))
-				.replies(replyUserService.convertToVOList(questionDTO.getReplies()))
+				.filelist(fileService.convertToVOList(questionDTO.getFileList()))
+				.replies(questionDTO.getReplies())
 				.todayNoteViewInCategory(questionDTO.getTodayNoteViewInCategory())
 				.viewCount(questionDTO.getViewCount())
 				.favoriteCount(questionDTO.getFavoriteCount())
@@ -117,21 +117,23 @@ public class QuestionService {
 
 	// CertifiedDetails -> 사용자 정보를 담고 있는 인증 객체. .getUserVO로 VO 얻을 수 있음.
 	@Transactional
-	public QuestionVO Write(NoteDTO noteDTO, MultipartFile notefile, CategoryDTO categoryDTO,
+	public QuestionVO Write(NoteDTO noteDTO, List<MultipartFile> notefile, CategoryDTO categoryDTO,
 			UserVO userVO) {
 		// 반환할 QuestionVO 객체 준비
 		QuestionVO questionVO = null;
-
-		// QuestionVO에 포함시킬 FileVO를 위한 file entity 준비 (null 대비)
-		File file = null;
-
+		List<FileDTO> filelist = null;
 		try {
 			// MultipartFile file 객체 DTO로 변환
-			FileDTO fileDTO = fileService.uploadFile(notefile);
+			filelist = fileService.uploadFile(notefile);
 
 			// 사용자 정보 활용을 위해 DTO로 변환 (작성자)
 			UserDTO userDTO = userService.convertVOToDTO(authService.getUserVO());
 
+			Boolean relationIgnore = false;
+			
+			if(noteDTO.getNoteNo() != null) {
+				relationIgnore = true;
+			}
 			// note 데이터 DTO로 변환
 			Note note = noteService.convertToEntity(noteDTO);
 			// category 데이터 DTO로 변환
@@ -142,28 +144,39 @@ public class QuestionService {
 			category = categoryService.saveCategory(category);
 
 			// DTO로 바뀐 파일이 null이 아니면, 데이터를 저장
-			if (fileDTO.getUploadName() != null && !fileDTO.getUploadName().isEmpty()) {
-				file = fileService.convertToEntity(fileDTO); // DTO -> Entity 변환
-				file = fileRepository.save(file); // JPA 기본 문법으로 file 데이터 저장
-				// 관계형 테이블 데이터 삽입
-				FileNoteDTO fileNoteDTO = new FileNoteDTO(noteDTO, fileDTO); // 관계 테이블 DTO 생성
-				fileNoteMapper.insert(fileNoteService.convertToEntity(fileNoteDTO)); // 엔티티로 변환 & 데이터 삽입
+			if (filelist != null && !filelist.isEmpty()) {
+				
+				for (FileDTO fileDTO : filelist) {
+					
+					if(relationIgnore) {
+						fileNoteMapper.delete(noteDTO.getNoteNo());
+						fileNoteMapper.deleteFile(noteDTO.getNoteNo());
+					}
+					
+					File file = fileService.convertToEntity(fileDTO); // DTO -> Entity 변환
+					file = fileRepository.save(file); // JPA 기본 문법으로 file 데이터 저장
+					// 관계형 테이블 데이터 삽입
+					fileNoteMapper.insert(file.getFileNo(), note.getNoteNo()); // 엔티티로 변환 & 데이터 삽입
+				}
 			}
-			// 관계형 테이블 데이터 삽입 - note+category 관계테이블
-			noteDTO = noteService.convertToDTO(note);
-			categoryDTO = categoryService.convertToDTO(category);
-			NoteCategoryDTO noteCategoryDTO = new NoteCategoryDTO(noteDTO, categoryDTO);
-			noteCategoryMapper.insert(noteCategoryService.convertToEntity(noteCategoryDTO));
-
-			// 관계형 테이블 데이터 삽입 - note+user 관계테이블 
-			NoteUserDTO noteUserDTO = new NoteUserDTO(noteDTO, userDTO);
-			noteUserMapper.insert(noteUserService.convertToEntity(noteUserDTO));
+			
+			if(!relationIgnore) {
+				// 관계형 테이블 데이터 삽입 - note+category 관계테이블
+				noteDTO = noteService.convertToDTO(note);
+				categoryDTO = categoryService.convertToDTO(category);
+				NoteCategoryDTO noteCategoryDTO = new NoteCategoryDTO(noteDTO, categoryDTO);
+				noteCategoryMapper.insert(noteCategoryService.convertToEntity(noteCategoryDTO));
+				
+				// 관계형 테이블 데이터 삽입 - note+user 관계테이블 
+				NoteUserDTO noteUserDTO = new NoteUserDTO(noteDTO, userDTO);
+				noteUserMapper.insert(noteUserService.convertToEntity(noteUserDTO));
+			}
 
 			// QuestionVO 빌더 패턴으로 생성 후 반환 (원래는 DTO 세팅하고 VO로 변환)
 			questionVO = new QuestionVO.Builder()
 					.noteVO(noteService.convertToVO(noteService.convertToDTO(note)))
 					.categoryVO(categoryService.convertToVO(categoryService.convertToDTO(category)))
-					.fileVO((fileDTO.getUploadName() != null && !fileDTO.getUploadName().isEmpty()) ? fileService.convertToVO(fileService.convertToDTO(file)) : new FileVO.Builder().build()).build();
+					.filelist(fileService.convertToVOList(filelist)).build();
 		} catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error while writing question", e); // 예외를 다시 던져 트랜잭션 롤백을 유도
@@ -191,13 +204,15 @@ public class QuestionService {
 		NoteDTO noteDTO = noteService.convertToDTO(noteRepository.findById(noteNo).orElse(null));
 	 
 		//문제 첨부파일 데이터 로딩
-		FileDTO fileDTO = fileService.convertToDTO(fileNoteMapper.getFileByNoteNo(noteNo));
+		List<FileDTO> fileDTO = fileService.convertToDTOList(fileNoteMapper.getFileByNoteNo(noteNo));
 		
 		// 해당 카테고리에서 사용자가 오늘 본 목록 가져오기
 		Integer todayNoteViewInCategory = noteViewService.GetTodayHistoryCount(categoryDTO.getCategoryNo(), userVO.getUserNo())+1;
 		
 		// 조회 이력 확인 및 등록
-		if(!clientInfoService.getSessionClientViewHistory(noteNo, session, request)) {
+		if(!clientInfoService.getSessionClientViewHistory(noteNo, session, request) || 
+				(session.getAttribute("no_view_increase") == null || 
+				!(Boolean) session.getAttribute("no_view_increase"))) {
 			// 세션에 조회 이력 등
 			System.out.println("session 체크 통과? "+clientInfoService.getSessionClientViewHistory(noteNo, session, request));
 			clientInfoService.saveClientInfoInSession(noteNo, request, session);
@@ -213,8 +228,10 @@ public class QuestionService {
 			}
 		};
 		
+		session.removeAttribute("no_view_increase");
+		
 		//문제 댓글 목록 로딩 
-		List<ReplyUserDTO> replyList = replyUserService.getRepliesByNoteNo(noteNo);
+		List<Map<String, Object>> replyList = replyUserService.getRepliesByNoteNo(noteNo, userVO.getUserNo());
 		
 		//해당 게시글 조회 수 로딩 
 		int viewCount = questionMapper.getViewCountByNoteNo(noteNo);
@@ -230,12 +247,10 @@ public class QuestionService {
 		
 		//QuestionDTO에 모든 정보 담고 VO 반환
 		QuestionDTO questionDTO = new QuestionDTO(); 
-		System.out.println("글쓴이" + writerDTO.getNickname());
 		questionDTO.setWriterDTO(writerDTO); 
-		System.out.println("글쓴이세팅 완료" +questionDTO.getWriterDTO().getNickname());
 		questionDTO.setCategoryDTO(categoryDTO);
 		questionDTO.setNoteDTO(noteDTO); 
-		questionDTO.setFileDTO(fileDTO);
+		questionDTO.setFileList(fileDTO);
 		questionDTO.setReplies(replyList); 
 		questionDTO.setViewCount(viewCount);
 		questionDTO.setFavoriteCount(favoriteCount);

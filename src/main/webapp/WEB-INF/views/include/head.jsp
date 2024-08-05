@@ -64,6 +64,10 @@ body {
 	cursor:pointer;
 }
 
+.side_button:hover {
+	color:#000000;
+	background-color:#ffffff;
+}
 .logo {
 	min-width: 10rem;
 	width: 10rem;
@@ -89,6 +93,7 @@ body {
 	padding: 0.6rem 4rem 0.6rem 2rem;
 	gap: 2rem;
 	overflow: hidden;
+	min-width:100wh;
 }
 
 .ad-container {
@@ -120,14 +125,14 @@ body {
 }
 
 .main-content {
-	width: calc(100% - 14rem);
+	width: 1570px;
 	background-color: #474747;
 	padding: 1.5rem 2rem 2rem 2rem;
 	border-radius: 2rem;
 	height: calc(90vh - 8.8rem);
 	min-height: calc(90vh - 8.8rem);
 	max-height: calc(90vh - 8.8rem);
-	min-width:800px;
+	min-width:1570px;
 }
   /* 팝업스타일  */
         .popup_wrap {
@@ -235,13 +240,16 @@ body {
 		            <div class="side_button" onclick="location.href='/mylittletest/index'">
 		                나의 학습
 		            </div>        
-		            <div class="side_button" onclick="location.href='/mylittletest/category/allcategory'">
+		            <div class="side_button" onclick="location.href='/mylittletest/allcategory'">
 		                문제 둘러보기
-		            </div>        
+		            </div>
+		            <div class="side_button" onclick="location.href='/mylittletest/notelist'">
+		                문제 목록보기
+		            </div>    		         
 		             <div class="side_button manager_contact_button" id="logout_btn" name="logout_btn">
 		                로그아웃
 		            </div>
-		            <script>
+<script>
    var csrfToken = $("meta[name='_csrf']").attr("content");
    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
    
@@ -265,17 +273,11 @@ body {
 	    });
 	});
 </script>
-		            <hr style="width:100%; opacity:0.6; margin-top:auto">
-		            <div class="side_button">
-		                웹사이트 운영 정책
-		            </div>
 				</c:when>
 				<c:otherwise>
 					<div class="side_button" onclick="location.href='/mylittletest/login'">로그인</div>
 					<div class="side_button" id="mystudy_btn">나의 학습</div>
-					<div class="side_button" onclick="location.href='/mylittletest/category/allcategory'">문제 둘러보기</div>
-					<hr style="width: 100%; opacity: 0.6; margin-top: auto">
-					<div class="side_button">웹사이트 운영 정책</div>
+					<div class="side_button" onclick="location.href='/mylittletest/allcategory'">문제 둘러보기</div>
 				</c:otherwise>
 			</c:choose>
 		</aside>
@@ -304,14 +306,14 @@ document.addEventListener("DOMContentLoaded", function() {
            }
        }
        
-       document.getElementById("admin_btn").addEventListener("click", function() {
+/*        document.getElementById("admin_btn").addEventListener("click", function() {
            togglePopup('popup_admin', 'toggle');
        });
-
-       // 관리자 팝업 닫기 버튼에 클릭 이벤트 추가
+ */
+/*        // 관리자 팝업 닫기 버튼에 클릭 이벤트 추가
        document.getElementById("btn_close").addEventListener("click", function() {
            togglePopup('popup_admin', 'hide');
-       });
+       }); */
 
        // 로그인 팝업 열기 버튼에 클릭 이벤트 추가
        document.getElementById("mystudy_btn").addEventListener("click", function() {

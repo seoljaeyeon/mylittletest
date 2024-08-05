@@ -6,13 +6,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.ksw.exception.MailSendException;
-
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import com.ksw.exception.MailSendException;
 
 @Service
 public class MailService {
@@ -48,13 +47,16 @@ public class MailService {
     		
     		System.out.print("메일 세팅");
     		
-    		mailSender.send(message);
-    		
-    		System.out.print("메일 전송");
+            try {
+                mailSender.send(message);
+                System.out.println("메일 전송");
+                result = "success";
+            } catch (MailException e) {
+                throw new MailSendException("메일 전송 중 오류가 발생했습니다: " + e.getMessage());
+            }
     		
     		result = "success";
     		return result;
-    		
     }
 	
     // 랜덤코드 생성 메소드

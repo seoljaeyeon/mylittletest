@@ -27,69 +27,28 @@ public class FavoriteReplyService {
 	public Integer updateFavorite(
 			Integer replyNo,
 			Integer userNo,
-			Integer requestType) {
-		
-		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteReplyMapper.checkRecentFavoriteRequest(replyNo, userNo);
-		
-		// 있으면 등록안하고, 에러코드 발행
-		if(favoriteNo!=null) {
-			System.out.println("5초 내 기록 있음");
-			return 100;
-		};
-		
-		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
-		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteReplyMapper.insert(replyNo, userNo, favoriteNo);
-		
-		// 등록 후 변경된 타입 반환
-		return favorite.getFavoriteType();
-	}
-	
-	public Integer updateLessLook(
-			Integer replyNo,
-			Integer userNo,
 			Integer requestType,
 			Integer targetType) {
 		
 		// DB로 최근 해당 요청이 있는 지 먼저 확인
 		Integer favoriteNo = favoriteReplyMapper.checkRecentFavoriteRequest(replyNo, userNo);
-		
 		// 있으면 등록안하고, 에러코드 발행
 		if(favoriteNo!=null) {
 			System.out.println("5초 내 기록 있음");
 			return 100;
 		};
 		
-		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
-		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteReplyMapper.insert(replyNo, userNo, favoriteNo);
+		favoriteNo = favoriteReplyMapper.getFavoriteNo(replyNo, userNo);
+		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등록
+		Integer newFavoriteNo = favoriteService.insert(favoriteNo, requestType);
+		if (newFavoriteNo != null) {
+			favoriteReplyMapper.insert(replyNo, userNo, newFavoriteNo);
+		} else {
+			favoriteReplyMapper.update(replyNo, userNo, favoriteNo);
+		}
 		
 		// 등록 후 변경된 타입 반환
-		return favorite.getFavoriteType();
-	}
-	
-	public Integer updateBlock(
-			Integer replyNo,
-			Integer userNo,
-			Integer requestType,
-			Integer targetType) {
-		
-		// DB로 최근 해당 요청이 있는 지 먼저 확인
-		Integer favoriteNo = favoriteReplyMapper.checkRecentFavoriteRequest(replyNo, userNo);
-		
-		// 있으면 등록안하고, 에러코드 발행
-		if(favoriteNo!=null) {
-			System.out.println("5초 내 기록 있음");
-			return 100;
-		};
-		
-		// 없으면 해당 기록 찾아서 새로 업데이트 하고, 관계 테이블 등
-		Favorite favorite = favoriteService.insert(favoriteNo, requestType);
-		favoriteReplyMapper.insert(replyNo, userNo, favoriteNo);
-		
-		// 등록 후 변경된 타입 반환
-		return favorite.getFavoriteType();
+		return requestType;
 	}
 
 	

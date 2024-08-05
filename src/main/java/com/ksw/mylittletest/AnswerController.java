@@ -8,9 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ksw.dto.forObject.entity.AnswerDTO;
@@ -33,16 +32,17 @@ public class AnswerController {
     @ResponseBody
     @Transactional
 	public Map<String, String> answerInsert(
-	        @RequestParam("answerType") Integer answerType, // 2 - 정답으로 체크한 것 / 1 - 오답으로 체크한 것 
-			@RequestParam("noteNo") Integer noteNo,
+	        @RequestBody Map<String, Object> payload, // JSON 데이터 받기
 			Model model
 			) {
 		Map<String, String> response = new HashMap<>();
 		
 		UserVO userVO = authService.getUserVO();
-		
-	    System.out.println("Received noteNo: " + noteNo + ", answerType: " + answerType);
 
+	    Integer answerType = (Integer) payload.get("answerType");
+	    System.out.println(payload.get("answerType"));
+	    Integer noteNo = (Integer) payload.get("noteNo");
+	    System.out.println(payload.get("noteNo"));
 		
 		if (userVO == null || userVO.getUserNo() == null) {
 			response.put("status", "loing_needed");
@@ -54,6 +54,7 @@ public class AnswerController {
 			response.put("status", "input_null");
 			return response;
 		}
+	    
 		// 사용자 정보model에 추가
 		model.addAttribute("userVO", userVO);
 		
@@ -66,8 +67,9 @@ public class AnswerController {
 	        answerDTO.setAnswerType(answerType);
 	        AnswerDTO answer = answerService.save(answerService.convertToEntity(answerDTO));
 	        Integer result = (answerNo == null)
-	                ? answerHistoryService.insertHistory(noteNo, answer.getAnswerNo(), userVO.getUserNo())
+	                ? answerHistoryService.insertHistory(noteNo, answer.getAnswerNo(), userVO.getUserNo(), answer.getCreatedAt())
 	                : answerHistoryService.updateHistory(noteNo, answer.getAnswerNo(), userVO.getUserNo());
+	        System.out.println("문제없음");
 	        response.put("status", "success");
 	    } catch (Exception e) {
 	        response.put("status", "failed");

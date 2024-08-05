@@ -23,9 +23,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.CategoryViewService;
+import com.ksw.service.forObject.relation.FavoriteNoteService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
+import com.ksw.service.function.SearchService;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
 
@@ -43,6 +45,10 @@ public class CorrectMyTestController {
 	private CategoryService categoryService;
 	@Autowired
 	private CategoryViewService categoryViewService;
+	@Autowired
+	private SearchService searchService;
+	@Autowired
+	private FavoriteNoteService favoriteNoteService;
 	
 	@GetMapping
 	public String toCategory(
@@ -61,6 +67,14 @@ public class CorrectMyTestController {
 	    
 	    Integer menuType = (Integer) model.asMap().get("menuType");
 	    String  menuName = "correctmytest";
+	    
+	    Boolean search = (Boolean) model.asMap().get("search");
+	    String searchInput = (String) model.asMap().get("searchInput");
+	    
+		if (search != null || searchInput != null) {
+			redirectAttributes.addFlashAttribute("search", search);
+			redirectAttributes.addFlashAttribute("searchInput", searchInput);
+		}
 	    // menuType이 null인 경우 처리
 	    if (menuType == null) {
 	        menuType = 3;
@@ -72,15 +86,24 @@ public class CorrectMyTestController {
 		if (userVO == null) {
 			return "redirect:/login";
 		}
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
 		
 		//최근 조회한 카테고리 목록 (오늘)
 		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
 		model.addAttribute("recent_categories", recent_category);
 		
-		List<List<Map<String, Object>>> list = new ArrayList<>();
-		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
-	    model.addAttribute("list", list);
-	    model.addAttribute("menuName", menuName);
+	    List<Map<String, Object>> list = new ArrayList<>();
+	    if((search != null) ? (Boolean) search : false) {
+	    	searchInput = (String) model.asMap().get("searchInput");
+	    	list = searchService.search(userVO.getUserNo(), menuType, page, searchInput);
+	    	model.addAttribute("list", list);
+	    	model.addAttribute("menuName", menuName);
+	    } else {
+	    	list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
+	    	model.addAttribute("list", list);
+	    	model.addAttribute("menuName", menuName);
+	    };
 		return "questionlist";
 	}
 	
@@ -125,6 +148,7 @@ public class CorrectMyTestController {
 			@PathVariable("categoryTitle") String categoryTitle,
 			Model model,
 			HttpServletRequest request,
+			RedirectAttributes redirectAttributes,
 			HttpSession session) { 
 		
         Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
@@ -144,6 +168,14 @@ public class CorrectMyTestController {
 		// 모델에 문제 정보 세팅
 		model.addAttribute("questionVO", questionVO);
 		model.addAttribute("menuName", menuName);
+		
+		boolean isBlocked = favoriteNoteService.isBlocked(userVO.getUserNo(), noteNo);
+		if (isBlocked) {
+	        // 차단된 상태일 때 처리	
+	        redirectAttributes.addFlashAttribute("isBlocked", true);
+	        redirectAttributes.addFlashAttribute("message", "비활성화된 문제입니다");
+	        return "redirect:/index";
+	    }
 		
 		return "questionsolve"; 
 	}

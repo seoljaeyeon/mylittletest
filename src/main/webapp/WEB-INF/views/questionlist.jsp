@@ -2,174 +2,152 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>	
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <jsp:include page="./include/head.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
-		 
-		 // URL 쿼리 파라미터에서 'message' 값을 가져옵니다.
-        var params = new URLSearchParams(window.location.search);
-        var message = params.get('message');
-        
-        if (message) {
-            var alertMessage = "";
-            if (message === "NoSolvedQuestions") {
-                alertMessage = "푼 적이 없습니다.";
-            }
-            alert(alertMessage); // 브라우저 기본 알림 표시
-        }
-		
-		// 팝업요소를 가져온다
-	    var popup = document.getElementById("popup_report");
+		var correctRatioStr = '${category.correctRatio}';
+		console.log('Raw correctRatio value:', correctRatioStr);
 
-	    // 버튼들을 가져온다
-	    var reportButtons = document.querySelectorAll(".question_report");
+		// 문자열을 숫자로 변환
+		var correctRatio = parseFloat(correctRatioStr);
+		console.log('Parsed correctRatio value:', correctRatio);
 
-	    // 모든 버튼에 클릭 이벤트 추가
-	    reportButtons.forEach(function(button) {
-	        button.addEventListener("click", function() {
-	            // 팝업 표시 여부를 전환
-	            popup.classList.toggle("show");
-	        });
-	    });
+		// 올바른 값이 아닌 경우, 'N/A'로 처리
+		if (!isNaN(correctRatio)) {
+			var correctRatioDisplay = (correctRatio * 100).toFixed(2) + '%';
+			document.getElementById('correctRatioDisplay').textContent = correctRatioDisplay;
+		} else {
+			document.getElementById('correctRatioDisplay').textContent = 'N/A';
+		}
 
-	    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-	    var popupCloseButton = document.getElementById("reportdelete");
-	    popupCloseButton.addEventListener("click", function() {
-	        popup.classList.remove("show");
-	    });
-        
-        // 모든 문제 드롭다운 기능
-        var questionDropdown = document.querySelector('.order_question .order_main');
-        var questionList = document.querySelector('.order_question .list_order');
-        var questionDisplay = document.getElementById('questionDisplay');
+		// 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
+		function setupListSlider() {
+			var listItems = document.querySelector('.list_items');
+			if (!listItems) return; // 요소가 없으면 함수 종료
 
-        questionDropdown.addEventListener('click', function() {
-            questionList.classList.toggle('show');
-        });
+			var isMouseDown = false;
+			var startX, scrollLeft;
 
-        questionList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('order_option')) {
-                questionDisplay.textContent = event.target.textContent;
-                questionList.classList.remove('show');
-            }
-        });
+			listItems.addEventListener('mousedown', function(e) {
+				isMouseDown = true;
+				startX = e.pageX - listItems.offsetLeft;
+				scrollLeft = listItems.scrollLeft;
+			});
 
-        // 정렬 기준 드롭다운 기능
-        var orderDropdown = document.querySelector('.order_dropdown .order_main');
-        var orderList = document.querySelector('.order_dropdown .list_order');
-        var orderDisplay = document.getElementById('orderDisplay');
+			listItems.addEventListener('mouseleave', function() {
+				isMouseDown = false;
+			});
 
-        orderDropdown.addEventListener('click', function() {
-            orderList.classList.toggle('show');
-        });
+			listItems.addEventListener('mouseup', function() {
+				isMouseDown = false;
+			});
 
-        orderList.addEventListener('click', function(event) {
-            if (event.target.classList.contains('order_option')) {
-                orderDisplay.textContent = event.target.textContent;
-                orderList.classList.remove('show');
-            }
-        });
-        
-        // 동적으로 리스트가 추가될 경우에 대비하여 슬라이더 기능을 설정하는 함수
-        function setupListSlider() {
-            var listItems = document.querySelector('.list_items');
-            if (!listItems) return; // 요소가 없으면 함수 종료
+			listItems.addEventListener('mousemove', function(e) {
+				if (!isMouseDown) return;
+				e.preventDefault();
+				var x = e.pageX - listItems.offsetLeft;
+				var walk = (x - startX) * 1.2; // 스크롤 속도 조절
+				listItems.scrollLeft = scrollLeft - walk;
+			});
+		}
 
-            var isMouseDown = false;
-            var startX, scrollLeft;
+		// 문서가 로드되면 슬라이더 기능 설정
+		setupListSlider();
 
-            listItems.addEventListener('mousedown', function(e) {
-                isMouseDown = true;
-                startX = e.pageX - listItems.offsetLeft;
-                scrollLeft = listItems.scrollLeft;
-            });
+		// 북마크 버튼 애니메이션
+		var bookmarks = document.querySelectorAll('.bookmark');
 
-            listItems.addEventListener('mouseleave', function() {
-                isMouseDown = false;
-            });
+		bookmarks.forEach(function(bookmark) {
+			bookmark.addEventListener('click', function() {
+				bookmark.classList.toggle('liked');
+			});
+		});
+		// 좋아요 버튼 애니메이션
+		const likeBtns = document.querySelectorAll('.question_like');
 
-            listItems.addEventListener('mouseup', function() {
-                isMouseDown = false;
-            });
+		likeBtns.forEach(function(Btn) {
+			Btn.addEventListener('click', function() {
+				this.classList.toggle('liked');
+			});
+		});
+		// 화살표 슬라이더
+		var swiper = new Swiper(".swiper-container", {
+			slidesPerView: 1,
+			spaceBetween: 0, // 슬라이드 간의 간격 설정
+			initialSlide: 0,
+			observer: true, // 변경된 슬라이드 감지
+			observeParents: true, // 변경된 슬라이드 감지
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+			breakpoints: {
+				640: {
+					slidesPerView: 1,
+					spaceBetween: 20
+				},
+				768: {
+					slidesPerView: 2,
+					spaceBetween: 40
+				},
+				1024: {
+					slidesPerView: 4,
+					spaceBetween: 50
+				}
+			}
+		});
 
-            listItems.addEventListener('mousemove', function(e) {
-                if (!isMouseDown) return;
-                e.preventDefault();
-                var x = e.pageX - listItems.offsetLeft;
-                var walk = (x - startX) * 1.2; // 스크롤 속도 조절
-                listItems.scrollLeft = scrollLeft - walk;
-            });
-        }
+		var goToFirstButton = document.querySelector('.goto');
+		goToFirstButton.addEventListener('click', function () {
+			swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
+		});
 
-        // 문서가 로드되면 슬라이더 기능 설정
-        setupListSlider();
-        
-        // 북마크 버튼 애니메이션
-        var bookmarks = document.querySelectorAll('.bookmark');
-
-        bookmarks.forEach(function(bookmark) {
-            bookmark.addEventListener('click', function() {
-                bookmark.classList.toggle('liked');
-            });
-        });
-        // 좋아요 버튼 애니메이션
-        const likeBtns = document.querySelectorAll('.question_like');
-
-        likeBtns.forEach(function(Btn) {
-        	Btn.addEventListener('click', function() {
-                this.classList.toggle('liked');
-            });
-        });
-        // 화살표 슬라이더
-        var swiper = new Swiper(".swiper-container", {
-		      slidesPerView: 1,
-		      spaceBetween: 0, // 슬라이드 간의 간격 설정
-		      //centeredSlides: true,
-		      //loop: true, // 무한 루프 설정
-		      initialSlide: 0,
-		      observer: true, // 변경된 슬라이드 감지
-		      observeParents: true, // 변경된 슬라이드 감지
-		      pagination: {
-		        el: ".swiper-pagination",
-		        clickable: true,
-		      },
-		      navigation: {
-		        nextEl: ".swiper-button-next",
-		        prevEl: ".swiper-button-prev",
-		      },
-		      breakpoints: {
-		          640: {
-		              slidesPerView: 1,
-		              spaceBetween: 20
-		          },
-		          768: {
-		              slidesPerView: 2,
-		              spaceBetween: 40
-		          },
-		          1024: {
-		              slidesPerView: 4,
-		              spaceBetween: 50
-		          }
-		      }
-		    });
-        
-        var goToFirstButton = document.querySelector('.goto');
-        goToFirstButton.addEventListener('click', function () {
-        	swiper.slideTo(0);  // 첫 번째 슬라이드로 이동
-        });
-        
-		swiper.slideNext();
-		
-		
-    
 	});
+	function goBack() {
+		window.history.back();
+	}
+    function handleCategoryClick(categoryTitle) {
+        const data = {
+            menuPath: "allcategory",
+            categoryTitle: categoryTitle,
+        };
+
+        fetch('/mylittletest/notelist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken 
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            if (data.status === 'login_needed') {
+                window.location.href = data.url;
+            } else {
+                // Handle successful response
+                window.location.href = data.url;
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 </script>
 <style>
 		.maincontainer{
-			width: calc(100% - 14rem);
+			width: 1600px;
 			background-color: #474747;
 			border-radius: 2rem;
 			height: 800px;
@@ -190,7 +168,10 @@
 		}
 		.list_container{
 			display:flex;
+			gap:150px;		
+			width:fit-content;	
 		}
+	
 		.search_box{
 			margin-left: 32px;
 		}
@@ -394,7 +375,17 @@
 		    border-radius: 5px 5px 5px 5px;
 		    cursor: pointer;
 		}
-		
+		.back{
+			display: inline-flex;
+		    align-items: center;
+		    justify-content: center;
+		    width:7rem;
+		    background-color: #333333;
+		    padding: 0.5rem 0.5rem;
+		    border-radius: 5px 5px 5px 5px;
+		    cursor: pointer;
+		    height:20px;
+		}
 		.question_box{
             width:45%;
 			height:fit-content;
@@ -519,194 +510,83 @@
 		 .question_question{
 		 	cursor:pointer;
 		 }
-		  /* 팝업 창 스타일  */
-		 .popup_wrap {
-		    display: none; 
-		    position: fixed;
-		    top: 0;
-		    left: 0;
-		    width: 100%;
-		 	height: 100%;
-		   	background-color: rgba(0, 0, 0, 0.5); 
-		   	z-index: 1000; 
-		    overflow: auto; 
-		}
-		.report_area {
-			background-color: #ffffff;
-			width: 300px;
-			max-width: 40rem;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			padding: 2rem;
-			border-radius: 1rem;
-			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-		}
-		.report_title{
-			color:black;
-		}
-		.report_list{
-			display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		.report_note{
-		 	display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		
-	
-		.report_btn,.delete_btn{
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-			box-shadow: 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #dedede;
-			background-color: #000000;
-			color: #ffffff;
-			border-radius: 1rem;
-			height: 3rem;
-			width: 100px;
-			padding: auto;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-size: 1rem;
-			text-align:center;
-			margin-left:1rem;
-			font-weight:bold;
-			cursor:pointer;
-		}		
-		#reportnote{
-			width:220px;
-			resize:vertical;
-			height:122px;
-			font-size: 15px;
-			border-radius:5px;
-		    background-color:#ffffff;
-		    color:#000000;
-		}  
-		.show{
-			display: block;
-		} 	
 	</style>
-	<!--팝업 영역  -->
-		<div class="popup_wrap" id="popup_report">
-			<div class="report_area">
-				<h1 class="report_title">신고하기</h1>
-				<div class="report_list">
-					<span style="font-weight:bold; color:black;">신고분류</span>
-					<div class=report_choice style="margin-left:8px;">
-						<select id="reportlist" class="reportlist">
-								<option value="1">욕설/반말/부적절한 언어</option>
-								<option value="2">저작권 침해</option>
-								<option value="3">도배성 게시글</option>
-								<option value="4">광고성 게시물</option>
-								<option value="5">회원 비방</option>
-							</select>
-					</div>
+
+	
+<!-- 컨텐츠 영역  -->
+<div class="maincontainer">
+	<div class="container">
+		<div class="search_box">
+			<div class="list_container">
+				<div class="search_area">
+					<form class="search_items" method="post" action="/mylittletest/search">
+						<sec:csrfInput/>
+						<input class="search_input" type="text" name="searchInput" placeholder="Search" spellcheck="false">
+						<input type="hidden" name="urlPath" id="urlPath">
+						<button class="search_button" type="submit">🔍</button>
+					</form>
+					<script>
+						var urlPathInput = document.getElementById("urlPath");
+						var currentUrl = window.location.pathname;
+						urlPathInput.value = currentUrl;
+					</script>
 				</div>
-				<div class="report_note">
-					<span style="font-weight:bold; font-size:15px; color:black;">신고내용</span>
-					<div class=report_box style="margin-left:0.8rem"><textarea id="reportnote"></textarea></div>
-				</div>
-				<div class="reportbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-		            <div class="report_btn" id="reportok">신고</div>
-		            <div class="delete_btn" id="reportdelete" style="background-color:#ffffff;color:black; ">취소</div>
-		        </div>
+				<div class="back" onclick="goBack();" style="align-items:flex-end">돌아가기</div>
+			</div>
+			<div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
+				<ul class="list_items">
+					<c:forEach var="category" items="${recent_categories}">
+						<li class="list1">
+							        <div class="list" onclick="handleCategoryClick('${category.categoryTitle}')">
+									${category.categoryTitle}
+									</div>
+						</li>
+					</c:forEach>
+				</ul>
 			</div>
 		</div>
-		<!--팝업 영역  -->
-	
-	<!-- 컨텐츠 영역  -->
-	<div class = maincontainer>
-		<div class="container">
-			<div class="search_box">
-				<div class="list_container">
-					<div class="search_area">
-	            		<form class="search_items">
-	               		 	<input class="search_input" type="text" placeholder="Search" spellcheck="false">
-	               		 	<button class="search_button">🔍</button>
-	            		</form>
-	       			</div>
-	       			<div class="order_box">
-			       		<div class="order_question">
-			            	<div class="order_main">
-			                	<span style="font-weight:bold" id="questionDisplay">모든 문제</span>
-			            	</div>
-							<div class="list_order">   
-			                	<div class="order_option"  onclick="location.href='questionlist?type=all'">모든문제</div>
-			                	<div class="order_option"  onclick="location.href='questionlist?type=my'">내문제</div>
-			                	<div class="order_option"  onclick="location.href='questionlist?type=other'">다른유저문제</div>
-			            	</div>
-			            </div>
-			            <div class="order_dropdown">
-			            	<div class="order_main">
-			                	<span style="font-weight:bold" id="orderDisplay">정렬기준</span>
-			            	</div>
-							<div class="list_order">   
-			                	<div class="order_option" onclick="location.href='questionlist?sort=latest'">최신순</div>
-			                	<div class="order_option" onclick="location.href='questionlist?sort=likes'">좋아요순</div>
-			                	<div class="order_option" onclick="location.href='questionlist?sort=views'">조회순</div>
-			            	</div>
-			         	</div>
-		         	</div>
-		         </div>
-		          <div class="list_shadow" style="width: 67%; max-width:67%; position:relative;">
-			            <ul class="list_items">
-			              <c:forEach  var="categorylists" items="${recent_categories}">
-				                	<li class="list1">
-				                    	<div class="list" onclick="location.href='/mylittletest/category/${categorylist.categoryNo}">${categorylists.categoryTitle}</div>
-				                	</li>
-			             </c:forEach>
-			            </ul>
-			      </div>
-			  </div>
-			  <!-- 슬라이드 할 요소 -->
-				<div class="swiper-container">
-				    <div class="swiper-wrapper">
-				        <!-- 카테고리 리스트를 4개씩 나누어 슬라이드를 생성합니다. -->
-				        <c:forEach items="${list}" var="categoryList" varStatus="outerStatus">
-				            <c:if test="${outerStatus.index % 4 == 0}">
-				                <div class="swiper-slide">
-				            </c:if>
-				            <!-- 카테고리 항목을 슬라이드에 추가합니다. -->
-				            <c:forEach items="${categoryList}" var="category">
-				                <div class="question_box">
-				                    <div class="question_item">
-				                        <div class="bookmark">★</div>
-				                        <div class="question_title" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">${category.categoryTitle}</div>
-				                    </div>
-				                    <div class="question_mini">
-				                        <div class="question_mbox">
-				                            <div class="question_mtitle" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">${category.categoryTitle}</div>
-				                            <div class="question_answer">나의 정답률 ${category.correctRatio}%</div>
-				                        </div>
-				                    </div>
-				                    <div class="question_count">
-				                        <div class="count_box">
-				                            <div class="likebox">
-				                                <div class="question_like">❤</div>
-				                                <div style="margin-left:10px;">${category.favoriteCount}</div>
-				                            </div>
-				                            <div class="question_question" onclick="location.href='/mylittletest/${ menuName }/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
-				                            <div class="question_person">🧑 ${category.authorCount}출제자</div>
-				                        </div>
-				                        <div class="question_report" id="report_btn">🚨</div>
-				                    </div>
-				                </div>
-				            </c:forEach>
-				            <c:if test="${(outerStatus.index + 1) % 4 == 0 || outerStatus.index == fn:length(list) - 1}">
-				                </div>
-				            </c:if>
-				        </c:forEach>
-				    </div>
-				    <!-- 네비게이션 버튼 -->
-				    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-				    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
-				</div>
-				<div class="goto">처음으로</div>
-
+		<!-- 슬라이드 할 요소 -->
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<c:forEach items="${list}" var="category" varStatus="status">
+					<c:if test="${status.index % 4 == 0}">
+						<div class="swiper-slide">
+					</c:if>
+					<!-- 카테고리 항목을 슬라이드에 추가합니다. -->
+					<div class="question_box">
+						<div class="question_item">
+							<div class="bookmark">★</div>
+							<div class="question_title" onclick="location.href='/mylittletest/${menuName}/category/${category.categoryTitle}'">${category.categoryTitle}</div>
+						</div>
+						<div class="question_mini">
+							<div class="question_mbox">
+								<div class="question_mtitle" onclick="location.href='/mylittletest/${menuName}/category/${category.categoryTitle}'">${category.categoryTitle}</div>
+								<div class="question_answer">나의 정답률 <span id="correctRatioDisplay">${category.correctRatio * 100}%</span></div>
+							</div>
+						</div>
+						<div class="question_count">
+							<div class="count_box">
+								<div class="likebox">
+									<div class="question_like" id="like" style="color:red;">❤</div>
+									<div style="margin-left:10px;">${category.favoriteCount}</div>
+								</div>
+								<div class="question_question" onclick="location.href='/mylittletest/${menuName}/category/${category.categoryTitle}'">📚 ${category.noteCount}문제</div>
+								<div class="question_person">🧑 ${category.authorCount}출제자</div>
+							</div>
+						</div>
+					</div>
+					<c:if test="${(status.index + 1) % 4 == 0 || status.index == fn:length(list) - 1}">
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+			<!-- 네비게이션 버튼 -->
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+		</div>
+		<div style="gap:30px; display:flex;">
+			<div class="goto">처음으로</div>
 		</div>
 	</div>
-<!-- 컨텐츠 영역  -->
+</div>
 <jsp:include page="./include/tail.jsp"></jsp:include>

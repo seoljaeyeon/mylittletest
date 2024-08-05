@@ -6,127 +6,20 @@
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <jsp:include page="./include/head.jsp"></jsp:include>
+<meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function() {
 	// CSRF token 설정
     var csrfToken = $("meta[name='_csrf']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
-    const solveAllBtn = document.querySelector(".solve_all");
-    const categoryTitleElement = document.getElementById("categoryTitleName");
-
-    solveAllBtn.addEventListener("click", function() {
-        const noteType = 4; // category에 포함되는 notelist 페이지 코
-        const categoryTitle = categoryTitleElement.innerText;
-
-        fetch('/mylittletest/notelist/'+noteType, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                [csrfHeader]: csrfToken
-            },
-            body: JSON.stringify({
-                noteType: noteType,
-                categoryTitle: categoryTitle,
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                // 리다이렉트
-                window.location.href = data.url;
-            } else if (data.status === "login_needed") {
-                window.location.href = data.url;
-            } else {
-                console.error("Failed to get notes.");
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching notes:", error);
-        });
-    });
     
     const btnO = document.getElementById("btnO");
     const btnX = document.getElementById("btnX");
     const noteNo = document.getElementById("noteNo").value; // 숨겨진 필드에서 값 가져오기
 
-    btnO.addEventListener("click", () => {
-        btnO.classList.add("clicked");
-        btnX.classList.remove("clicked2");
-        sendAnswer(2);
-    });
-
-    btnX.addEventListener("click", () => {
-        btnX.classList.add("clicked2");
-        btnO.classList.remove("clicked");
-        sendAnswer(1);
-    });
-
-    function sendAnswer(answerType) {
-        $.ajax({
-            type: "POST",
-            url: "/mylittletest/answer",
-            data: {
-                noteNo: noteNo,
-                answerType: answerType
-            },
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
-            success: function(response) {
-                if (response.status === "success") {
-                    console.log("Answer recorded successfully.");
-                } else if (response.status === "login_needed") {
-                    window.location.href = response.url;
-                } else {
-                    console.error("Failed to record answer.");
-                }
-            },
-            error: function(e) {
-                console.error("Error recording answer: ", e);
-            }
-        });
-        
-    }
-   
-    // 팝업요소를 가져온다
-    var popup = document.getElementById("popup_report");
-
-    // 팝업 오픈버튼을 가져옴
-    var popupOpenButton = document.getElementById("reportbtn");
-
-    // 버튼에 클릭이벤트 추가
-    popupOpenButton.addEventListener("click", function() {
-        // 팝업 표시 여부를 전환
-        popup.classList.toggle("show");
-    });
-    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-    var popupCloseButton = document.getElementById("delete");
-    popupCloseButton.addEventListener("click", function() {
-        popup.classList.remove("show");
-    });
-
-    // 댓글 신고 팝업요소를 가져온다
-    var popupReply = document.getElementById("popup_reply");
-
-    // 댓글 신고 팝업 오픈버튼을 가져옴
-    var popupOpenButtonsReply = document.querySelectorAll(".reply_date");
-
-    // 모든 버튼에 클릭 이벤트 추가
-    popupOpenButtonsReply.forEach(function(btn) {
-        btn.addEventListener("click", function() {
-            // 팝업 표시 여부를 전환
-            popupReply.classList.toggle("show");
-        });
-    });
-
-    // 선택사항: 닫기 버튼 클릭 시 팝업을 닫는 기능 추가
-    var popupCloseButtonReply = document.getElementById("reply_delete");
-    popupCloseButtonReply.addEventListener("click", function() {
-        popupReply.classList.remove("show");
-    });
-
+    
+    
     // 북마크 버튼 애니메이션
     const bookmarkBtns = document.querySelectorAll('.bookmark_btn');
 
@@ -136,14 +29,54 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // 좋아요 버튼 애니메이션
-    const likeBtns = document.querySelectorAll('.like');
+    document.getElementById('modify_btn').addEventListener('click', function() {
+        const noteNo = parseInt(${questionVO.noteVO.noteNo}, 10);
+        const menuName = '${menuName}'; // menuName 인코딩
 
-    likeBtns.forEach(function(Btn) {
-        Btn.addEventListener('click', function() {
-            this.classList.toggle('liked');
-        });
+        const requestData = {
+            noteNo: noteNo,
+            menuName: menuName
+        };
+
+        fetch('/mylittletest/modify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.text())
+        .then(url => {
+            if (url) {
+                window.location.href = url; // 응답 받은 URL로 이동
+            } else {
+                console.error('Invalid response from server');
+            }
+        })
+        .catch(error => console.error('Error:', error));
     });
+    
+    // 5초마다 updateLikeCount 함수 호출
+    setInterval(updateLikeCount, 5000);
+    
+    function updateLikeCount() {
+        const likeCountSpan = document.querySelector('.like_count span');
+        const noteNo = document.querySelector('.like').dataset.noteNo;
+        fetch(`/mylittletest/getLikeCount?noteNo=${noteNo}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+        	if (data.success) {
+    	        likeCountSpan.textContent = data.count;
+        	} 
+        })
+        .catch(error => console.error('Error fetching like count:', error));
+    }
 
     // 공유하기 버튼 기능 추가
     const shareBtn = document.getElementById('sharebtn');
@@ -179,26 +112,128 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("showanswer").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
         }, 500);
     });
-
-    // 오디오 재생
-    const audioPlayer = document.getElementById('audioPlayer');
-
-    // 오디오 요소 클릭 이벤트 핸들러
-    audioPlayer.addEventListener('click', function (event) {
-        const rect = audioPlayer.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-        const playerWidth = rect.width;
-        const duration = audioPlayer.duration;
-        const newTime = (clickX / playerWidth) * duration;
-
-        // currentTime 설정 전 확인
-        if (!isNaN(newTime) && newTime >= 0 && newTime <= duration) {
-            audioPlayer.currentTime = newTime;
-        }
+    // 정답박스보기
+    document.getElementById("commentary").addEventListener("click", function() {
+        this.classList.add("clicked"); // answer 클릭 시 opacity 0으로 변환
+        setTimeout(() => {
+            document.getElementById("showcommentary").classList.add("clicked"); // 0.5초 후 showanswer가 나타나도록 변환
+        }, 500);
     });
+    
+    function deleteclick(event) {
+        const button = event.target;
+        const noteNo = button.getAttribute('data-note-no');
+
+        fetch('/mylittletest/favorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                [csrfHeader]: csrfToken 
+            },
+            body: JSON.stringify({
+                noteNo: parseInt(noteNo),
+                requestType: -2, // 차단 요청
+                targetType: 1   
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Server response:', data); 
+            if (data.status === 'insert_success') {
+                alert('차단 처리 성공');
+                button.textContent = '비활성화됨';
+                button.classList.add('disabled'); 
+                button.disabled = true; 
+               	window.location.href = "/mylittletest/index"
+            } else if (data.status === 'insert_failed') {
+                alert('차단 처리 실패');
+            } else if (data.status === 'parameter_null') {
+                alert('파라미터가 누락되었습니다');
+            } else if (data.status === 'wrong_request') {
+                alert('잘못된 요청입니다');
+            } else if (data.status === 'login_needed') { 
+                window.location.href = data.url;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); 
+            alert('서버 오류가 발생했습니다');
+        });
+    }
+    
+    function showLessClick(event) {
+        const button = event.target;
+        const noteNo = button.getAttribute('data-note-no');
+
+        fetch('/mylittletest/favorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify({
+                noteNo: parseInt(noteNo, 10), // 문자열을 정수로 변환
+                requestType: -1, // 덜보기 요청
+                targetType: 1   // 문제
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Server response:', data);
+            if (data.status === 'insert_success') {
+                alert('덜보기 처리 성공');
+                button.textContent = '덜보기됨'; // 버튼 텍스트 변경
+                button.classList.add('disabled'); // 'disabled' 클래스 추가
+                button.disabled = true; // 버튼 비활성화
+            } else if (data.status === 'insert_failed') {
+                alert('덜보기 처리 실패');
+            } else if (data.status === 'parameter_null') {
+                alert('파라미터가 누락되었습니다');
+            } else if (data.status === 'wrong_request') {
+                alert('잘못된 요청입니다');
+            } else if (data.status === 'login_needed') {
+                window.location.href = data.url;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            alert('서버 오류가 발생했습니다');
+        });
+    }
+
+    const deleteButtons = document.querySelectorAll('.delete_btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', deleteclick);
+    });
+    
+    const showLessButtons = document.querySelectorAll('.showless_btn');
+    showLessButtons.forEach(button => {
+        button.addEventListener('click', showLessClick);
+    }); 
 });
+function goBack() {
+    window.history.back();
+}
 </script>
 <style>
+.delete_btn.disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 	.solve_container{
 		display: inline-flex;
     	flex-direction:column;
@@ -240,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		text-align:center;
 		margin-top:10px;
 	}
-	.modify_btn{
+	.modify_btn,.delete_btn,.showless_btn{
 		background-position: center;
 		appearance: none;
 		background-color: #333333;
@@ -410,10 +445,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		gap:10px;
 		height:40px;		
 	}
-	.audioPlayer{
-		width:250px;
-		height:40px;
-	}
 	.success_btn{
 		background-color: #333333;
 		color: #ffffff;
@@ -444,11 +475,56 @@ document.addEventListener("DOMContentLoaded", function() {
 	    transform: scale(1.1);
 	}
 		
+	.media{
+		align-content:flex-end;
+	}
 	.answer-container {
     position: relative;
     width: 542px;
     height: 175px;
     margin: 0 auto;
+	}
+	.commentary-container {
+    position: relative;
+    width: 542px;
+    height: 175px;
+    margin: 0 auto;
+	}
+	
+	.commentary, .showcommentary {
+	    background-color: #333333;
+	    color: #ffffff;
+	    border-radius: 10px;
+	    height: 175px;
+	    width: 271px;
+	    padding: auto;
+	    justify-content: center;
+	    align-items: center;
+	    font-size: 25px;
+	    text-align: center;
+	    display: flex;
+	    cursor: pointer;
+	    border: none;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    transition: opacity 0.5s ease;
+	}
+	.commentary {
+	    z-index: 1;
+	}
+	
+	.showcommentary {
+	    z-index: 0;
+	    opacity: 0;
+	}
+	
+	.commentary.clicked {
+	    opacity: 0;
+	}
+	
+	.showcommentary.clicked {
+	    opacity: 1;
 	}
 	
 	.answer, .showanswer {
@@ -456,7 +532,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	    color: #ffffff;
 	    border-radius: 10px;
 	    height: 175px;
-	    width: 542px;
+	    width: 271px;
 	    padding: auto;
 	    justify-content: center;
 	    align-items: center;
@@ -584,141 +660,22 @@ document.addEventListener("DOMContentLoaded", function() {
     	float:right;
     	cursor:pointer;
     }
-    /*************************** 팝업 스타일  **************************************/
-    .popup_wrap {
-		    display: none; 
-		    position: fixed;
-		    top: 0;
-		    left: 0;
-		    width: 100%;
-		 	height: 100%;
-		   	background-color: rgba(0, 0, 0, 0.5); 
-		   	z-index: 1000; 
-		    overflow: auto; 
-		}
-		.report_area {
-			background-color: #ffffff;
-			width: 300px;
-			max-width: 40rem;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			padding: 1rem;
-			border-radius: 1rem;
-			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-		}
-		.report_list{
-			display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		.report_note{
-		 	display:inline-flex;
-			margin-bottom:0.5rem;
-		}
-		
-
-	.report_btn{
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
-		box-shadow: 0.3rem 0.3rem 0.7rem #cccccc, -0.3rem -0.3rem 0.7rem #dedede;
-		background-color: #000000;
-		color: #ffffff;
-		border-radius: 1rem;
-		height: 3rem;
-		width: 100px;
-		padding: auto;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 1rem;
-		text-align:center;
-		margin-left:1rem;
-		font-weight:bold;
-	}		
-	#reportnote{
-		width:220px;
-		resize:vertical;
-		height:122px;
-		font-size: 15px;
-		border-radius:5px;
-	    background-color:#ffffff;
-	    color:#000000;
-	}   
-	.show{
-		display:block;
-	}
-			    
 </style>
-<!-- 팝업영역  -->
-<div class="popup_wrap" id="popup_report">
-		<div class="report_area">
-			<h1 class="report_title" style="color:black;">신고하기</h1>
-			<div class="report_list">
-				<span style="font-weight:bold; color:black;">신고분류</span>
-				<div class=report_choice style="margin-left:8px;">
-					<select id="reportlist" class="reportlist">
-							<option value="1">욕설/반말/부적절한 언어</option>
-							<option value="2">저작권 침해</option>
-							<option value="3">도배성 게시글</option>
-							<option value="4">광고성 게시물</option>
-							<option value="5">회원 비방</option>
-						</select>
-				</div>
-			</div>
-			<div class="report_note">
-				<span style="font-weight:bold; font-size:15px; color:black;">신고내용</span>
-				<div class=report_box style="margin-left:0.8rem"><textarea id="reportnote"></textarea></div>
-			</div>
-			<div class="reportbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-	            <div class="report_btn" id="report">신고</div>
-	            <div class="report_btn" id="delete" style="background-color:#ffffff;color:black; ">취소</div>
-	        </div>
-		</div>
-	</div>
-	<!-- 댓글 신고 팝업 -->
-	<div class="popup_wrap" id="popup_reply">
-		<div class="report_area">
-			<h1 class="report_title" style="color:black;">신고하기</h1>
-			<div class="report_list">
-				<span style="font-weight:bold; color:black;">신고분류</span>
-				<div class=report_choice style="margin-left:8px;">
-					<select id="reportlist" class="reportlist">
-							<option value="1">욕설/반말/부적절한 언어</option>
-							<option value="2">저작권 침해</option>
-							<option value="3">도배성 게시글</option>
-							<option value="4">광고성 게시물</option>
-							<option value="5">회원 비방</option>
-						</select>
-				</div>
-			</div>
-			<div class="report_note">
-				<span style="font-weight:bold; font-size:15px; color:black;">신고내용</span>
-				<div class=report_box style="margin-left:0.8rem"><textarea id="reportnote"></textarea></div>
-			</div>
-			<div class="reportbtn" style="display:inline-flex; flex-direction:row; gap:2rem; ">
-	            <div class="report_btn" id="report">신고</div>
-	            <div class="report_btn" id="reply_delete" style="background-color:#ffffff;color:black; ">취소</div>
-	        </div>
-		</div>
-	</div>
-<!-- 팝업영역 -->
 <div class="solve_container">
 	<div class="solve_header">
 		<div class="solve_title">▷<span name="categoryTitleName" id="categoryTitleName">${questionVO.categoryVO.categoryTitle}</span></div>
 		<div class="solve_list">
-			<div class="solve_question" style="margin-top:5px;"><span>내 문제 풀기</span></div>
-			<div class="solve_all" style="margin-top:15px;"><span style="font-size:12px;">문제 전체 보기</span></div>
+			<div class="solve_question" style="margin-top:5px; cursor:pointer;"onclick="location.href='/mylittletest/mytest'"><span>내 문제 풀기</span></div>
+			<div class="solve_all" style="margin-top:15px; cursor:pointer;" onclick="location.href='/mylittletest/allcategory'"><span style="font-size:12px;">문제 전체 보기</span></div>
 		</div>
 		<div class="today_box">
 			<div class="today_question"><span>오늘 본 문제수 </span></div>
     <div class="today_count"><span style="font-size:20px;">${questionVO.todayNoteViewInCategory}</span></div>
 		</div>
-		<div class="modify_btn" onclick="location.href='/mylittletest/modify'">수정 </div>
-		<div class="modify_btn" onclick="location.href='questiondelete.jsp'">비활성화</div>
-		<div class="modify_btn">덜보기</div>
-		<div class="reportbtn" id="reportbtn">🚨</div>
+		<div class="modify_btn" id="modify_btn">수정 </div>
+		<div class="delete_btn" data-note-no="${questionVO.noteVO.noteNo}" >비활성화</div>
+		<div class="showless_btn" data-note-no="${questionVO.noteVO.noteNo}">덜보기</div>
+		<div class="modify_btn" onclick="goBack();" >돌아가기</div>
 		<div class="bookmark_btn">★</div>
 	</div>
 	<div class="solve_main">
@@ -741,20 +698,56 @@ document.addEventListener("DOMContentLoaded", function() {
 					<div class="next" onclick="location.href='/mylittletest/${menuName}/category/${questionVO.categoryVO.categoryTitle}'">▷다음문제</div>
 					<div class="mini_box">
 						<div class="like_box">
-							<div class="like">❤ </div>
-							<div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
+						    <div class="like ${questionVO.isFavorite? 'liked':'' }" id="like" data-note-no="${questionVO.noteVO.noteNo}" onclick="toggleLike(this)">❤</div>
+						    <div class="like_count" style="margin-left:10px; height:fit-content;"><span>${questionVO.favoriteCount }</span></div>
 						</div>
+						<script>
+						function toggleLike(btn) {
+						    const noteNo = btn.dataset.noteNo; // noteNo를 버튼의 data-note-no 속성에서 가져옴
+						    const likeCountSpan = btn.nextElementSibling.querySelector('span');
+						    let requestType = btn.classList.contains('liked') ? 0 : 1;
+
+						    fetch('/mylittletest/favorite', {
+						        method: 'POST',
+						        headers: {
+						            'Content-Type': 'application/json',
+						            [csrfHeader]: csrfToken
+						        },
+						        body: JSON.stringify({
+						            noteNo: noteNo,
+						            requestType: requestType,
+						            targetType: 1
+						        })
+						    })
+						    .then(response => response.json())
+						    .then(data => {
+						        if (data.status === 'insert_success') {
+						            if (requestType === 1) {
+						                likeCountSpan.textContent = parseInt(likeCountSpan.textContent) + 1;
+						                btn.classList.add('liked');
+						            } else {
+						                likeCountSpan.textContent = parseInt(likeCountSpan.textContent) - 1;
+						                btn.classList.remove('liked');
+						            }
+						        } else if (data.status === 'login_needed') {
+						            window.location.href = data.url;
+						        } else {
+						            console.error('Request failed:', data);
+						        }
+						    })
+						    .catch(error => {
+						        console.error('Error:', error);
+						    });
+						}
+						</script>
 						<div class="share" id="sharebtn">📤공유하기</div>
 					</div>
 					<div class="media">
-						<audio id="audioPlayer" class="audioPlayer" controls="controls" loop="loop">
-						  <source src="https://t1.daumcdn.net/cfile/tistory/9945CE425CE45B920A"  type="audio/mpeg"/>
-						</audio>					    
 						<div>
 						    <!-- Your existing HTML content here... -->
 						    <div class="check">
-						        <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO">O</div>
-						        <div class="success_btn ${questionVO.answerType == 1 ? 'clicked2' : ''}" id="btnX">X</div>
+					            <div class="success_btn ${questionVO.answerType == 2 ? 'clicked' : ''}" id="btnO" onclick="handleClick(2)">O</div>
+					            <div class="success_btn ${questionVO.answerType == 1 ? 'clicked2' : ''}" id="btnX" onclick="handleClick(1)">X</div>
 						    </div>
 						    <!-- More of your existing HTML content... -->
 						</div>
@@ -762,7 +755,10 @@ document.addEventListener("DOMContentLoaded", function() {
 				</div>	
 			</div>
 			<div class="answer-container">
-				<div class="answer" id="answer">🔒정답 & 해설보기</div><div class="showanswer" id="showanswer">${questionVO.noteVO.noteAnswer}</div>
+				<div class="answer" id="answer">🔒정답보기</div><div class="showanswer" id="showanswer">${questionVO.noteVO.noteAnswer}</div>
+			</div>
+			<div class="commentary-container">
+				<div class="commentary" id="commentary">🔒해설보기</div><div class="showcommentary" id="showcommentary">${questionVO.noteVO.noteCommentary}</div>
 			</div>
 		</div>
 	</div>
@@ -772,30 +768,158 @@ document.addEventListener("DOMContentLoaded", function() {
 	    	<sec:csrfInput/>
 	    	<input type="hidden" name="noteNo" id="noteNo" value="${questionVO.noteVO.noteNo}">
 	    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
+	    	<input type="hidden" name="menuPath" id="menuPath" value="${menuName}">
 			<div class="reply_box">
 				<div class="reply_profile" style="font-size:30px; margin-top:5px;">😃</div>
-				<div class="replyinput"><input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요"></div>
-				<div class="replybtn"><button type="submit" class="reply_btn">작성</button></div>
+				<div class="replyinput">
+					<input type="text" class="reply_input" id="replyContent" name="replyContent" placeholder="댓글을 입력해주세요">
+				</div>
+				<div class="replybtn">
+					<button type="submit" class="reply_btn">작성</button>
+				</div>
 			</div>
 		</form>
 		</c:if>
 		<div class="reply">
-		<c:forEach var="reply" items="${ questionVO.replies }">
-			<div class="reply_show">
-				<div class="reply_profiles" style="font-size:30px;">${ questionVO.replies[0].userVO.nickname }</div>
-				<div class="replynote">
-					${questionVO.replies[0].replyVO.replyContent}
-					<div class="reply_date" id="reply_report">🚨신고 <span>${questionVO.replies[0].replyVO.createdAt}</span></div>
-				</div>
-				<c:if test="${ login != null and login.userno ==  reply.ruserno }">
-					<div class="replycheck">
-						<div class="reply_modify_btn">수정</div>
-						<div class="reply_modify_btn">삭제</div>
-					</div>
-				</c:if>
-			</div>
-		</c:forEach>
+			<c:forEach var="reply" items="${ questionVO.replies }">
+			    <c:choose>
+			        <c:when test="${ userVO != null and userVO.userNo == reply.userNo }">
+			            <div class="reply_show" id="reply_show_${reply.replyNo}">
+			                <div class="reply_profiles" style="font-size:30px;">${ reply.nickname}</div>
+			                <div class="replynote">
+			                    ${reply.replyContent}
+			                    <div class="reply_date" id="reply_report">
+			                        <span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span>
+			                    </div>
+			                </div>
+			                <div class="replycheck">
+			                    <div class="reply_modify_btn" onclick="toggleEditForm(${reply.replyNo})">수정</div>
+			                    <div class="reply_modify_btn">삭제</div>
+			                </div>
+			            </div>
+			            <form id="editReplyForm_${reply.replyNo}" class="editReplyForm" style="display:none;" method="post" action="/mylittletest/replyModify">
+			                <input type="hidden" name="noteNo" value="${questionVO.noteVO.noteNo}">
+			                <input type="hidden" name="replyNo" value="${reply.replyNo}">
+		                	    	<input type="hidden" name="menuPath" id="menuPath" value="${menuName}">
+                	    		    	<input type="hidden" name="categoryTitle" id="categoryTitle" value="${questionVO.categoryVO.categoryTitle}">
+			                <sec:csrfInput />
+			                <input type="text" class="reply_input" name="replyContent" value="${reply.replyContent}">
+			                <div class="modifycheck"style="display:flex;">
+			                    <button type="submit" class="reply_btn" style="font-size:0.5rem">수정 완료</button>
+			                    <button type="button" class="reply_cancel_btn" onclick="toggleEditForm(${reply.replyNo})">취소</button>
+			                </div>
+			            </form>
+			        </c:when>
+			        <c:otherwise>
+			            <div class="reply_show">
+			                <div class="reply_profiles" style="font-size:30px;">${ reply.nickname}</div>
+			                <div class="replynote">
+			                    ${reply.replyContent}
+			                    <div class="reply_date" id="reply_date">
+			                        <span>${(reply.updatedAt == null) ? reply.createdAt : reply.updatedAt }</span>
+			                    </div>
+			                </div>
+			                <div id="reply_report" onclick="reportReply(${reply.replyNo})">
+			                		 🚨
+			                </div>
+			            </div>
+			        </c:otherwise>
+			    </c:choose>
+			</c:forEach>
 		</div>
+		<script type="text/javascript">
+		function toggleEditForm(replyNo) {
+		    var replyShow = document.getElementById('reply_show_' + replyNo);
+		    var editForm = document.getElementById('editReplyForm_' + replyNo);
+		    if (replyShow.style.display === 'none') {
+		        replyShow.style.display = 'block';
+		        editForm.style.display = 'none';
+		    } else {
+		        replyShow.style.display = 'none';
+		        editForm.style.display = 'block';
+		    }
+		}
+		
+		function reportReply(replyNo) {
+		    const targetType = 3;
+		    const requestType = -2;
+
+		    const data = {
+		        replyNo: replyNo,
+		        requestType: requestType,
+		        targetType: targetType
+		    };
+
+		    // Send the POST request
+		    fetch('/mylittletest/replyBlock', {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/json',
+	                [csrfHeader]: csrfToken
+		        },
+		        body: JSON.stringify(data)
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+		        if (data.status === 'insert_success') {
+		            alert('댓글이 성공적으로 차단되었습니다.');
+		            window.location.reload();
+		        } else if (data.status === 'login_needed') {
+		            alert('로그인이 필요합니다.');
+		            window.location.href = data.url;
+		        } else {
+		            alert('요청 처리 중 오류가 발생했습니다.');
+		        }
+		    })
+		    .catch(error => {
+		        console.error('Error:', error);
+		        alert('요청 처리 중 오류가 발생했습니다.');
+		    });
+		}
+		
+        function handleClick(answerType) {
+            const noteNo = document.getElementById("noteNo").value; // 숨겨진 필드에서 값 가져오기
+            const data = {
+                    noteNo: parseInt(noteNo, 10),
+                    answerType: parseInt(answerType, 10)
+                };
+        	
+            fetch('/mylittletest/answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+	                [csrfHeader]: csrfToken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateButtonStyles(answerType);
+                } else if (data.status === 'login_needed') {
+                    window.location.href = data.url;
+                } else {
+                    console.error('Failed to submit answer:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function updateButtonStyles(answerType) {
+            const btnO = document.getElementById('btnO');
+            const btnX = document.getElementById('btnX');
+
+            if (answerType === 2) {
+                btnO.classList.add('clicked');
+                btnX.classList.remove('clicked2');
+            } else if (answerType === 1) {
+                btnX.classList.add('clicked2');
+                btnO.classList.remove('clicked');
+            }
+        }
+		</script>
 	</div>
 </div>
 

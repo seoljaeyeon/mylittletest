@@ -1,5 +1,6 @@
 package com.ksw.mylittletest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.ksw.service.forObject.relation.AlarmRelationService;
 import com.ksw.service.forObject.relation.FileUserService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.NoteListService;
+import com.ksw.service.function.SearchService;
 import com.ksw.vo.forObject.entity.UserVO;
 
 @Controller
@@ -32,6 +34,8 @@ public class MypageController {
 	private NoteListService noteListService;
 	@Autowired
 	private FileUserService fileUserService;
+	@Autowired
+	private SearchService searchService;
 	
 	@GetMapping
 	public String myPageMain() {
@@ -84,7 +88,7 @@ public class MypageController {
 		// 분류, 내용, 시간
 		Integer limit = 10;
 		Integer offset = (page-1)*limit;
-		List<List<Map<String,Object>>> result = alarmRelationService.getAlarmSummary(userVO.getUserNo(), limit, offset);
+		List<Map<String,Object>> result = alarmRelationService.getAlarmSummary(userVO.getUserNo(), limit, offset);
 		
 		model.addAttribute("userVO", userVO);
 		model.addAttribute("AlarmList", result);
@@ -103,17 +107,35 @@ public class MypageController {
 			return "redirect:/login";
 		}
 		
+		// 파일 정보를 가져오는 로직
+	    FileDTO fileDTO = fileUserService.getFileByUserNo(userVO.getUserNo());
+	    String profilePictureUrl = null;
+	    if (fileDTO != null && fileDTO.getSavedName() != null) {
+	        profilePictureUrl = "/mylittletest/uploads/" + fileDTO.getSavedName();
+	    } else {
+	        profilePictureUrl = "https://www.rollingstone.com/wp-content/uploads/2020/07/Screen-Shot-2020-07-15-at-11.24.37-AM.jpg"; // 기본 프로필 이미지
+	    }
+	    model.addAttribute("profileURL", profilePictureUrl);
+		
+	    Boolean search = (Boolean) model.asMap().get("search");
+	    String searchInput = (String) model.asMap().get("searchInput");
+		
 		Integer limit = 10;
 		Integer offset = (page-1)*limit;
-		List<Map<String,Object>> result = noteListService.getFavoriteList(userVO, limit, offset);
 		
-		
-		model.addAttribute("list", result);
+		List<Map<String,Object>> list = new ArrayList<>();
+		if((search != null) ? (Boolean) search : false) {
+			System.out.println("검색결과 출력 성공");
+	    	list = searchService.searchMypage(userVO.getUserNo(), limit, offset, searchInput);
+	    	model.addAttribute("list", list);
+		} else {
+			list = noteListService.getFavoriteList(userVO, limit, offset);
+			model.addAttribute("list", list);
+		}
 		model.addAttribute("userVO", userVO);
-
 		return "mypage_bookmark";
 	}
 	
-//	@PostMapping("/bookmark/search")
+	
 	
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.object.entity.Goal;
 import com.ksw.service.forObject.entity.GoalService;
@@ -57,7 +58,7 @@ public class HomeController {
     	
     	UserVO userVO = authService.getUserVO();
     	
-    	// 최근 달성률 / 오늘달성률 / 오늘의 목표
+    // 최근 달성률 / 오늘달성률 / 오늘의 목표
     	
         if (userVO != null) {
             System.out.println("Authenticated user: " + userVO);
@@ -67,10 +68,23 @@ public class HomeController {
             return "redirect:/login";
         }
         
+	
         List<Map<String, Object>> userTarget = new ArrayList<>();
         userTarget = userGoalService.getRecentGoalsWithAnswerCounts(userVO.getUserNo());
         
         model.addAttribute("GoalDetails", userTarget);
+    	
+        Boolean isBlocked = (Boolean) model.asMap().get("isBlocked");
+	    String message = (String) model.asMap().get("message");
+	    
+	    	if ( isBlocked != null && isBlocked) {   		
+	    		model.addAttribute("isBlocked", true);
+	    		model.addAttribute("message", "비활성화된 문제입니다");
+	    		return "index";
+	    	}else {
+	            model.addAttribute("isBlocked", false);
+	            model.addAttribute("message", "");
+	        }
         
         return "index";    	
     }

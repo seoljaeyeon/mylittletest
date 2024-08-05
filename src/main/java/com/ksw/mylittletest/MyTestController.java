@@ -23,9 +23,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ksw.service.forObject.entity.CategoryService;
 import com.ksw.service.forObject.relation.CategoryViewService;
+import com.ksw.service.forObject.relation.FavoriteNoteService;
 import com.ksw.service.forObject.relation.NoteCategoryService;
 import com.ksw.service.function.AuthService;
 import com.ksw.service.function.QuestionService;
+import com.ksw.service.function.SearchService;
 import com.ksw.vo.forObject.entity.UserVO;
 import com.ksw.vo.function.QuestionVO;
 
@@ -43,6 +45,10 @@ public class MyTestController {
 	private CategoryService categoryService;
 	@Autowired
 	private CategoryViewService categoryViewService;
+	@Autowired
+	private SearchService searchService;
+	@Autowired
+	private FavoriteNoteService favoriteNoteService;
 	
 	
 	@GetMapping
@@ -61,30 +67,50 @@ public class MyTestController {
             Model model
 			){
 	    
-	    Integer menuType = (Integer) model.asMap().get("menuType");
-	    String  menuName = "mytest";
-
-	    // menuType이 null인 경우 처리
-	    if (menuType == null) {
-	        menuType = 1;
-	        redirectAttributes.addFlashAttribute("menuType", menuType);
-	        return "redirect:/category";
-	    }
-
+		Integer menuType = (Integer) model.asMap().get("menuType");
+		String  menuName = "mytest";
+		
+	    Boolean search = (Boolean) model.asMap().get("search");
+	    String searchInput = (String) model.asMap().get("searchInput");
+	    
+		if (search != null || searchInput != null) {
+			redirectAttributes.addFlashAttribute("search", search);
+			redirectAttributes.addFlashAttribute("searchInput", searchInput);
+		}
+		
+		// menuType이 null인 경우 처리			
+		if (menuType == null) {
+			menuType = 1;
+			redirectAttributes.addFlashAttribute("menuType", menuType);
+			
+			return "redirect:/category";
+		}
+		
 		UserVO userVO = authService.getUserVO();
 		if (userVO == null) {
 			return "redirect:/login";
 		}
-				
+		
+		// 사용자 정보 저장
+		model.addAttribute("userVO", userVO);
+		
 		//최근 조회한 카테고리 목록 (오늘)
 		List<Map<String,Object>> recent_category = categoryViewService.getTodayCategoryView(userVO.getUserNo(), menuType);
 		model.addAttribute("recent_categories", recent_category);
 		
-		
-		List<List<Map<String, Object>>> list = new ArrayList<>();
-		list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
-	    model.addAttribute("list", list);
-	    model.addAttribute("menuName", menuName);
+	    System.out.println("from Search? " + search );
+	    
+	    List<Map<String, Object>> list = new ArrayList<>();
+	    if((search != null) ? (Boolean) search : false) {
+	    	list = searchService.search(userVO.getUserNo(), menuType, page, searchInput);
+	    	model.addAttribute("list", list);
+	    	model.addAttribute("menuName", menuName);
+	    } else {
+	    	list = categoryService.getListByViewOrder(userVO.getUserNo(), menuType, page);
+	    	model.addAttribute("list", list);
+	    	model.addAttribute("menuName", menuName);
+	    };
+				
 		return "questionlist";
 	}
 	
@@ -133,6 +159,7 @@ public class MyTestController {
 			@PathVariable("categoryTitle") String categoryTitle,
 			Model model,
 			HttpServletRequest request,
+			RedirectAttributes redirectAttributes,
 			HttpSession session) { 
 		
         Optional<UserVO> auth = Optional.ofNullable(authService.getUserVO());
@@ -140,11 +167,19 @@ public class MyTestController {
             return "redirect:/login";
         }
 		
+      
 		UserVO userVO = auth.get();
 		String menuName = "mytest";
 		
 		// 사용자 정보 저장
 		model.addAttribute("userVO", userVO);
+		boolean isBlocked = favoriteNoteService.isBlocked(userVO.getUserNo(), noteNo);
+		if (isBlocked) {
+			// 차단된 상태일 때 처리	
+			redirectAttributes.addFlashAttribute("isBlocked", true);
+			redirectAttributes.addFlashAttribute("message", "비활성화된 문제입니다");
+			return "redirect:/index";
+		}
 				
 		// DB에서 문제 정보 가져오기 
 		QuestionVO questionVO = questionService.Read(noteNo, userVO, request, session);

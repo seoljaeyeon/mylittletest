@@ -27,38 +27,10 @@ public class AlarmRelationService {
 	@Autowired
 	private AlarmRelationMapper alarmRelationMapper;
 	
-	public List<List<Map<String, Object>>> getAlarmSummary(Integer userNo, Integer limit, Integer offset) {
+	public List<Map<String, Object>> getAlarmSummary(Integer userNo, Integer limit, Integer offset) {
 		
-		List<List<Map<String, Object>>> result = new ArrayList<>();
-		List<Integer> AlarmLists = new ArrayList<>();
-		
-		AlarmLists = alarmRelationMapper.getAlarmListOrderByCreatedAt(userNo);
-		
-	    for (Integer alarmNo : AlarmLists) {
-	        List<Map<String, Object>> alarmDetail = alarmRelationMapper.getAlarmDetail(alarmNo, limit, offset);
- 
-	        if (alarmDetail.isEmpty()) {
-	        	return null;
-	        }
-	        
-	        Integer alarmType = (Integer) alarmDetail.get(0).get("alarmType");
-	        Map<String, Object> alarmNote = new HashMap<>();
-	        
-	        
-	        if (alarmType != null && alarmType == 1) {
-	            User user = userService.getUser((Integer) alarmDetail.get(0).get("makerNo"));
-	            String makerName = user.getNickname();
-	            alarmNote.put("alarmNote", makerName + "님이 내 문제에 좋아요를 눌렀습니다.");
-	        } else if (alarmType != null && alarmType == 2) {
-	            User user = userService.getUser((Integer) alarmDetail.get(0).get("makerNo"));
-	            String makerName = user.getNickname();
-	            alarmNote.put("alarmNote", makerName + "님이 내 문제에 댓글을 남겼습니다.");
-	        }
-	        
-	        alarmDetail.add(alarmNote);
-	        result.add(alarmDetail);
-	    }
-	    return result;
+		List<Map<String, Object>> result = alarmRelationMapper.getAlarmDetail(userNo, limit, offset);
+		return result;
 	}
 	
 	public Integer insert(Integer alarmNo, Integer receiverNo, Integer makerNo, Integer noteNo, Integer replyNo) {

@@ -6,25 +6,64 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <script>
-	function increase() {
-	    let numberInput = document.getElementById('Total');
-	    numberInput.value = parseInt(numberInput.value) + 1;
-	    document.querySelector('.arrow_btn:nth-child(1)').classList.add('active');
-	    setTimeout(() => {
-	        document.querySelector('.arrow_btn:nth-child(1)').classList.remove('active');
-	    }, 500);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+	var isBlocked = ${isBlocked}; // 서버에서 이 값을 동적으로 삽입할 수 있습니다
+	var message = "${message}"; // 문자열을 삽입할 때는 템플릿 리터럴을 사용할 수 있습니다
+
+	console.log(`isBlocked: ${isBlocked}`); // 콘솔에서 값 확인
+	console.log(`message: ${message}`); // 콘솔에서 값 확인
+
+	// isBlocked가 true일 경우 alert을 통해 메시지 표시
+	if (isBlocked) {
+	    alert(message);
 	}
 	
-	function decrease() {
-	    let numberInput = document.getElementById('Total');
-	    if (parseInt(numberInput.value) > 0) {
-	        numberInput.value = parseInt(numberInput.value) - 1;
-	        document.querySelector('.arrow_btn:nth-child(2)').classList.add('active');
-	        setTimeout(() => {
-	            document.querySelector('.arrow_btn:nth-child(2)').classList.remove('active');
-	        }, 500);
-	    }
-	}
+    function formatPercentage(value) {
+        return value.toFixed(1);
+    }
+
+    function updateGoalAchivement() {
+        const todayGoalElement = document.getElementById('todayGoal');
+        const goalAchivementElements = document.querySelectorAll('#goalAchivement');
+
+        goalAchivementElements.forEach(el => {
+            const percentage = parseFloat(el.getAttribute('data-value'));
+            if (!isNaN(percentage)) {
+                el.textContent = '(' + formatPercentage(percentage) + '%)';
+            }
+        });
+    }
+
+    updateGoalAchivement(); // 이 함수가 호출되기 전에 DOM이 준비되어야 함
+
+    function increase() {
+        let numberInput = document.getElementById('Total');
+        if (numberInput) {
+            numberInput.value = parseInt(numberInput.value) + 1;
+            document.querySelector('.arrow_btn:nth-child(1)').classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.arrow_btn:nth-child(1)').classList.remove('active');
+            }, 500);
+        }
+    }
+
+    function decrease() {
+        let numberInput = document.getElementById('Total');
+        if (numberInput && parseInt(numberInput.value) > 0) {
+            numberInput.value = parseInt(numberInput.value) - 1;
+            document.querySelector('.arrow_btn:nth-child(2)').classList.add('active');
+            setTimeout(() => {
+                document.querySelector('.arrow_btn:nth-child(2)').classList.remove('active');
+            }, 500);
+        }
+    }
+
+    // 이벤트 리스너가 DOM 요소를 찾을 수 있도록 보장
+    document.querySelector('.arrow_btn:nth-child(1)').addEventListener('click', increase);
+    document.querySelector('.arrow_btn:nth-child(2)').addEventListener('click', decrease);
+});
 </script>
 <style>
 .main_container {
@@ -159,7 +198,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	flex-wrap: wrap;
 	font-size: 40px;
 	margin-left: 30px;
-	margin-top: 10px;
+	margin-top: 40px;
 }
 
 .sub_menu {
@@ -173,6 +212,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	background-color: #333333;
 	border-radius: 10px;
 	cursor: pointer;
+	font-size:2.3rem;
 }
 
 .sub_menu:hover {
@@ -189,124 +229,117 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	transform: scale(1.3); /* 활성화 상태일 때 크기를 좀 더 크게 스케일링 */
 	color: #000000;
 }
+
 </style>
 <!-- 비회원은 안보이게함   -->
 <div class="main_container">
 	<div class="head_box">
 		<div class="goal_box">
-			<div class="goal_title">😀 오늘의 목표</div>
+			<div class="goal_title">💯​ 오늘의 목표</div>
 			<div class="count_setting" style="margin-top: 30px">
 				<div class="goal_btn" onclick="saveSetting()">목표 설정</div>
 								<div class="goal_set">
 					<div
 						style="width: 20px; height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-						<span class="arrow_btn" style="font-size: 20px;"
+						<span class="arrow_btn" style="font-size: 1.2rem;"
 							onclick="increase()">&#x25B2;</span> <span class="arrow_btn"
-							style="font-size: 20px;" onclick="decrease()">&#x25BC;</span>
+							style="font-size: 1.2rem;" onclick="decrease()">&#x25BC;</span>
 					</div>
 					<input type="number" id="Total" name="Total" value="100" min="0">
 					<span
-						style="font-size: 13px; margin-top: 25px; height: fit-content;">(문제)</span>
+						style="font-size: 0.8rem; margin-top: 25px; height: fit-content;">(문제)</span>
 				</div>
 			</div>
 		</div>
 		<div class="goal_box">
 			<div class="goal_title">🎯 오늘 달성률</div>
 			<div class="setting">
-				<div class="goal_achieve" style="font-size: 35px; margin-top: 20px">
-					<span style="font-size: 15px;"> <!-- 오늘푼 문제수 -->
-						${(GoalDetails[0].answerCount > 0) ?  GoalDetails[0].answerCount : "문제를 풀어주세요" }</span>
-						/ <!-- 사용자가 설정한 목표 문제수 --> <span id="todayGoal">${(GoalDetails[0].goalCount > 0) ?  GoalDetails[0].goalCount : "목표를 설정해주세요" }</span>
+				<div class="goal_achieve" style="font-size: 1.8rem; margin-top: 20px; display:flex;">
+					<div><span style="font-size: 1.8rem;"> <!-- 오늘푼 문제수 -->
+						${(GoalDetails[0].answerCount > 0) ?  GoalDetails[0].answerCount : 0 }</span>
+						/ <!-- 사용자가 설정한 목표 문제수 --> <span id="todayGoal" style="font-size:1.8rem;">${(GoalDetails[0].goalCount > 0) ?  GoalDetails[0].goalCount : 0 }</span>
+					</div>
 					<%-- 오늘푼 문제수 / 사용자가 설정한 목표 문제수 * 100을 계산한값 --%>
-					(${(GoalDetails[0].goalCount > 0) ? GoalDetails[0].answerCount * 100 / GoalDetails[0].goalCount : 0}%)
+					<div id="goalAchivement" data-value="${(GoalDetails[0].goalCount > 0) ? GoalDetails[0].answerCount * 100 / GoalDetails[0].goalCount : 0}"></div>
 				</div>
 			</div>
 		</div>
-    <div class="goal_box">
-        <div class="goal_title">🏆 최근 달성률</div>
-        <div class="setting">    
-            <div class="goal_success">
-                <c:forEach var="goal" items="${GoalDetails}" varStatus="status">
-                    <div class="success_count">
-                        <span>${7 - status.index}일전</span> 
-                        <span>
-                            ${(goal.answerCount>0)?goal.answerCount:0}/${(goal.goalCount>0)?goal.goalCount:0} (${goal.goalCount > 0 ? goal.answerCount * 100 / goal.goalCount : "목표 미설정"})%
-                        </span>
-                    </div>
-                </c:forEach>
-            </div>    
-            <div class="goal_set" style="margin-top:20px; font-size:35px;">
-                <!-- 평균 달성률 표시 -->
-                <c:set var="totalAnswerCount" value="0" />
-                <c:set var="totalGoalCount" value="0" />
-                <c:forEach var="goal" items="${GoalDetails}">
-                    <c:if test="${goal.goalCount > 0}">
-                        <c:set var="totalAnswerCount" value="${totalAnswerCount + goal.answerCount}" />
-                        <c:set var="totalGoalCount" value="${totalGoalCount + goal.goalCount}" />
-                    </c:if>
-                </c:forEach>
-                <c:set var="avgPercent" value="${totalGoalCount > 0 ? (totalAnswerCount * 100) / totalGoalCount : 0}" />
-                ${avgPercent}%
-            </div>
+	    <div class="goal_box">
+	        <div class="goal_title">🏆 최근 달성률</div>
+	        <div class="setting">    
+		            <div class="goal_success" ">
+		                <c:forEach var="goal" items="${GoalDetails}" varStatus="status">
+		                    <div class="success_count" style="display:inline-flex; gap:0.5rem; font-size:0.7rem;">
+		                        ${status.index }일전  
+		                      <c:choose>
+		                        <c:when test="${goal.goalCount > 0}">
+		                             <div id="goalAchivement" data-value="${goal.answerCount * 100 / goal.goalCount}"></div>
+		            			</c:when>
+		                        <c:otherwise>
+		                            <div>미설정</div>
+		                        </c:otherwise>
+		                    </c:choose>    
+		                    </div>
+		                </c:forEach>
+		            </div>    
+		            <div class="goal_set" style="margin-top:20px; font-size:25px;">
+		                <!-- 평균 달성률 표시 -->
+		                <c:set var="totalAnswerCount" value="0" />
+		                <c:set var="totalGoalCount" value="0" />
+		                <c:forEach var="goal" items="${GoalDetails}">
+		                    <c:if test="${goal.goalCount > 0}">
+		                        <c:set var="totalAnswerCount" value="${totalAnswerCount + goal.answerCount}" />
+		                        <c:set var="totalGoalCount" value="${totalGoalCount + goal.goalCount}" />
+		                    </c:if>
+		                </c:forEach>
+		                <c:set var="avgPercent" value="${totalGoalCount > 0 ? (totalAnswerCount * 100) / totalGoalCount : 0}" />
+		              <div id="goalAchivement" style="font-size:25px;" data-value="${avgPercent}"></div>
+		            </div>
+				</div>
 			</div>
 		</div>
+		<div class="sub_box">
+			<div class="sub_menu" onclick="location.href='/mylittletest/write'">🤓문제쓰기</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📚내문제 풀기</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/reviewmytest'">📘맞춘 문제 복습</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/correctmytest'">📕틀린 문제 복습</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/todayquestions'">📖오늘 본 문제 복습</div>
+			<div class="sub_menu" onclick="location.href='/mylittletest/bookmarkquestions'"><span style="color:red;">❤</span>좋아요 & 북마크 문제 복습</div>
+		</div>
 	</div>
-	<div class="list_box">
-		<div class="list_set"
-			onclick="location.href='/mylittletest/questionlist'">⏳문제 목록 관리</div>
-		<div class="list_set" onclick="location.href=''">⏳오늘 본 문제 목록</div>
-	</div>
-	<div class="sub_box">
-		<div class="sub_menu" onclick="location.href='/mylittletest/write'">🤓문제
-			쓰기</div>
-		<div class="sub_menu" onclick="location.href='/mylittletest/mytest'">📚내
-			문제 풀기</div>
-		<div class="sub_menu"
-			onclick="location.href='/mylittletest/reviewmytest'">📘맞춘 문제 복습</div>
-		<div class="sub_menu"
-			onclick="location.href='/mylittletest/correctmytest'">📕틀린 문제
-			복습</div>
-		<div class="sub_menu"
-			onclick="location.href='/mylittletest/todayquestions'">📖오늘 본
-			문제 복습</div>
-		<div class="sub_menu"
-			onclick="location.href='/mylittletest/bookmarkquestions'">❤북마크
-			문제 복습</div>
-	</div>
-</div>
-					<script>
-			    function saveSetting() {
-			        let numberInput = document.getElementById('Total').value;
-					let todayGoal = document.getElementById('todayGoal');
-			        let csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-			        let csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+<script>
+    function saveSetting() {
+        let numberInput = document.getElementById('Total').value;
+		let todayGoal = document.getElementById('todayGoal');
+        let csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        let csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-			        fetch('/mylittletest/goalsetting', {
-			            method: 'POST',
-			            headers: {
-			                'Content-Type': 'application/json',
-			                [csrfHeader]: csrfToken
-			            },
-			            body: JSON.stringify({ target: numberInput })
-			        })
-			        .then(response => response.json())
-			        .then(data => {
-			            if (data.status === 'success') {
-			                document.querySelector('.goal_btn').innerText = "설정 완료";
-			                todayGoal.innerText = numberInput;
-			            } else if (data.status === 'exist') {
-			                alert(data.result);
-			            } else if (data.status === 'login_needed') {
-			                alert("로그인이 필요합니다.");
-			                window.location.href = data.url;
-			            } else {
-			                alert("목표 설정에 실패했습니다.");
-			            }
-			        })
-			        .catch(error => {
-			            console.error('Error:', error);
-			            alert("목표 설정 중 오류가 발생했습니다.");
-			        });
-			    }
-				</script>
+        fetch('/mylittletest/goalsetting', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify({ target: numberInput })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.querySelector('.goal_btn').innerText = "설정 완료";
+                todayGoal.innerText = numberInput;
+            } else if (data.status === 'exist') {
+                alert(data.result);
+            } else if (data.status === 'login_needed') {
+                alert("로그인이 필요합니다.");
+                window.location.href = data.url;
+            } else {
+                alert("목표 설정에 실패했습니다.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("목표 설정 중 오류가 발생했습니다.");
+        });
+    }
+</script>
 <jsp:include page="./include/tail.jsp"></jsp:include>

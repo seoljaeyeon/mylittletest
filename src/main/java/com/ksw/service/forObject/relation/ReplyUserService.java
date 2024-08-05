@@ -3,6 +3,7 @@ package com.ksw.service.forObject.relation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ksw.dao.forObject.relation.ReplyUserMapper;
-import com.ksw.dto.forObject.entity.ReplyDTO;
-import com.ksw.dto.forObject.entity.UserDTO;
 import com.ksw.dto.forObject.relation.ReplyUserDTO;
 import com.ksw.object.entity.Reply;
 import com.ksw.object.entity.User;
@@ -37,27 +36,20 @@ public class ReplyUserService {
 		return replyUserMapper.insertReply(reply); 
 	}
 	
-	public List<ReplyUserDTO> getRepliesByNoteNo(Integer noteNo) {
-		List<ReplyUserDTO> dto = new ArrayList<ReplyUserDTO>();
+	public List<Map<String, Object>> getRepliesByNoteNo(Integer noteNo, Integer userNo) {
+		List<Map<String, Object>> result = new ArrayList<>();
 		if(noteNo == null) {
-			System.out.println("noteNo is null. Failed to load ReplyUserDTO. empty DTO");
-			return dto;
+			return result;
 		}
-		dto = replyUserMapper.getRepliesAndWriterByNoteNo(noteNo);
-	    if (dto == null || dto.isEmpty()) {
-	        System.out.println("No data found for noteNo: " + noteNo);
-	    } else {
-	        System.out.println("Successfully retrieved data. First reply content: " + dto.get(0).getReplyDTO().getReplyContent());
-	    }
-	    return dto; 
+		result = replyUserMapper.getRepliesAndWriterByNoteNo(noteNo, userNo);
+	    return result; 
 	}
 	
-	@Transactional
+	public void updateReplyRelation(Integer replyNo, Integer userNo) {
+	  replyUserMapper.update(replyNo, userNo);
+	}
+	
 	public void writeReplyRelation(Integer replyNo, Integer userNo) {
-		ReplyUserDTO replyUserDTO = new ReplyUserDTO();
-		if (replyNo == null || userNo == null) {
-    		System.out.println("Writting ReplyRelation failed. One of parameters is empty. Empty ReplyUserDTO returned");   	
-		}
 		replyUserMapper.insert(replyNo, userNo);
 		System.out.println("replyUser insert  성공 결과값 확인 ");
 	}
@@ -100,21 +92,6 @@ public class ReplyUserService {
                 .userVO(userService.convertToVO(replyUserDTO.getUserDTO()))
                 .replyVO(replyService.convertToVO(replyUserDTO.getReplyDTO()))
                 .build();
-    }
-    
-    // List<ReplyUserDTO> -> List<ReplyUserVO> 변환 메소드
-    public List<ReplyUserVO> convertToVOList(List<ReplyUserDTO> replyUserDTOs) {
-    	if (replyUserDTOs == null) {
-    		System.out.println("List<ReplyUserDTO>  to List<ReplyUserVO> failed. Empty List<ReplyUserVO> created. List<ReplyUserDTO> is null");   	
-    		return Collections.singletonList(new ReplyUserVO.Builder().build());
-    	}
-    	
-    	// replyUserDTOs의 각 요소들을 순환하면
-        return replyUserDTOs.stream()
-        		// 각 요소들에 대해 convertToVO 메소드를 사용한다.
-                .map(this::convertToVO)
-                // 결과들을 Collectors 클래스를 활용해 하나로 모아서 반환한다.
-                .collect(Collectors.toList());
     }
 }
 
