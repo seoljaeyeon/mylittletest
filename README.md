@@ -45,18 +45,8 @@
 - Figma를 이용한 화면 디자인
 링크 : [Figma](https://www.figma.com/design/hHgcvYznhh1CB3CqHJRmtk/mylittletest?node-id=0-1&m=dev&t=KozgoXWVUL2zTBFF-1)
 
-### 애플리케이션 화면
-<div>
-  <kbd><img border="1px" width=200, src="">
-  <img width="200" src="">
-  <img width="200" src="">
-  <img width="200" src="">
-</div>
-  <br><br>
-<div>
-  <kbd><img width="200" src="">
-  <img width="200" src="">
-</div>
+### 프로젝트 페이지
+[mylittleTEST](https://jjezen.cafe24.com/mylittletest/)
 <br><br>
   
   
