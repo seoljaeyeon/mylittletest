@@ -45,8 +45,8 @@
 - Figma를 이용한 화면 디자인
 링크 : [Figma](https://www.figma.com/design/hHgcvYznhh1CB3CqHJRmtk/mylittletest?node-id=0-1&m=dev&t=KozgoXWVUL2zTBFF-1)
 
-### 프로젝트 페이지
-[mylittleTEST](https://jjezen.cafe24.com/mylittletest/)
+### 프로젝트 사이트
+[mylittleTEST](https://jjezen.cafe24.com/mylittletest)
 <br><br>
   
   
