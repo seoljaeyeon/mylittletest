@@ -12,6 +12,7 @@
   - [사용 기술](#-사용-기술)
   - [프로젝트 전체 구조](#️-프로젝트-전체-구조)
   - [화면](#-화면)
+  - [프로젝트 사이트링크](#-프로젝트-사이트링크)
 <br><br>
 
 ## 📜 프로젝트 개요
@@ -45,7 +46,7 @@
 - Figma를 이용한 화면 디자인
 링크 : [Figma](https://www.figma.com/design/hHgcvYznhh1CB3CqHJRmtk/mylittletest?node-id=0-1&m=dev&t=KozgoXWVUL2zTBFF-1)
 
-### 프로젝트 사이트
+### 프로젝트 사이트링크
 [mylittleTEST](http://jjezen.cafe24.com/mylittletest/login)
 <br><br>
   
